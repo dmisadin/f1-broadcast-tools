@@ -1,0 +1,15 @@
+<div *ngIf="timingTower" class="timing-tower">
+    <div class="race-status">
+        <div class="laps">
+            {{timingTower.currentLap}} / {{timingTower.totalLaps}}
+        </div>
+        <div class="fia-flag">
+            FIA Flags
+        </div>
+    </div>
+    <div class="driver-timing-details-container">
+        @for (driver of timingTower.driverTimingDetails; track driver.vehicleIdx) {
+            <driver-timing-details [driver]="driver"></driver-timing-details>
+        }
+    </div>
+</div>

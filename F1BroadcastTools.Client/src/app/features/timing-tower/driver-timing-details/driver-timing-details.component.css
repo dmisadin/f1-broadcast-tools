@@ -1,0 +1,14 @@
+.driver {
+    display: grid;
+    grid-template-columns: 3rem 2rem 2rem 10rem 2rem 2rem 5rem 2rem 2rem 2rem;
+
+    text-align: center;
+}
+
+.name {
+    text-align: left;
+}
+
+.gap {
+    text-align: right;
+}
