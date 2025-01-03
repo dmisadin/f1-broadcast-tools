@@ -22,7 +22,7 @@ namespace F1GameDataParser.Packets.CarStatus
         public TyreCompoundActual actualTyreCompound;
         public TyreCompoundVisual visualTyreCompound;
         public byte tyresAgeLaps;
-        public VehicleFIAFlag vehicleFiaFlags;
+        public FIAFlag vehicleFiaFlags;
         public float enginePowerICE; // Engine power output of ICE (W)
         public float enginePowerMGUK; // Engine power output of MGU-K (W)
         public float ersStoreEnergy; // ERS energy store in Joules

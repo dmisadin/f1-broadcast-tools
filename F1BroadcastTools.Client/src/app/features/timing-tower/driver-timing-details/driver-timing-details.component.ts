@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { DriverTimingDetails } from "../../../shared/models/TimingTower";
+import { ResultStatus, SafetyCarStatus } from "../../../shared/models/Enumerations";
 
 @Component({
     standalone: false,
@@ -9,6 +10,9 @@ import { DriverTimingDetails } from "../../../shared/models/TimingTower";
 })
 export class DriverTimingDetailsComponent implements OnChanges {
     @Input() driver!: DriverTimingDetails;
+    @Input() isSpectated: boolean = false;
+
+    resultStatus = ResultStatus;
     
     ngOnChanges(changes: SimpleChanges): void {
         /* Implement change tracking and trigger 1sec timer to show red/green

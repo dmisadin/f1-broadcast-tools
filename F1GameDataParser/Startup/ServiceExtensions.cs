@@ -1,5 +1,4 @@
-﻿using F1GameDataParser.Mapping.ViewModelBuilders;
-using F1GameDataParser.ViewModels.TimingTower;
+﻿using F1GameDataParser.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace F1GameDataParser.Startup
@@ -8,7 +7,8 @@ namespace F1GameDataParser.Startup
     {
         public static IServiceCollection AddSharedServices(this IServiceCollection services)
         {
-            services.AddTransient<IViewModelBuilder<TimingTower> ,TimingTowerBuilder>();
+            services.AddTransient<ITimingTowerService, TimingTowerService>();
+
             return services;
         }
     }

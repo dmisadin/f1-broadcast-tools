@@ -4,12 +4,32 @@
             {{timingTower.currentLap}} / {{timingTower.totalLaps}}
         </div>
         <div class="fia-flag">
-            FIA Flags
+            @if (timingTower.safetyCarStatus == safetyCarStatus.Full)
+            {
+                <div class="safety-car">
+                    Safety Car
+                </div>
+            }
+            @else if (timingTower.safetyCarStatus == safetyCarStatus.Virtual) {
+                <div class="safety-car">
+                    Virtual Safety Car
+                </div>
+            }
+            @else if (timingTower.sectorYellowFlags.includes(true)) 
+            {
+                <div class="yellow-flags">
+                    {{timingTower.sectorYellowFlags | sectorsYellowFlags}}
+                </div>
+            }
         </div>
     </div>
     <div class="driver-timing-details-container">
-        @for (driver of timingTower.driverTimingDetails; track driver.vehicleIdx) {
-            <driver-timing-details [driver]="driver"></driver-timing-details>
+        @for (driver of timingTower.driverTimingDetails; track driver.vehicleIdx)
+        {
+            <driver-timing-details 
+                [driver]="driver" 
+                [isSpectated]="driver.vehicleIdx === timingTower.spectatorCarIdx">
+            </driver-timing-details>
         }
     </div>
 </div>

@@ -9,7 +9,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "Interval",
+        "gap": "Interval",
         "penalties": 0,
         "warnings": 1,
         "hasFastestLap": false
@@ -21,7 +21,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B1.674",
+        "gap": "\u002B1.674",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -33,7 +33,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B7.113",
+        "gap": "\u002B7.113",
         "penalties": 4,
         "warnings": 0,
         "hasFastestLap": false
@@ -45,7 +45,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B0.937",
+        "gap": "\u002B0.937",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -57,7 +57,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B2.109",
+        "gap": "\u002B2.109",
         "penalties": 0,
         "warnings": 2,
         "hasFastestLap": true
@@ -69,7 +69,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B4.860",
+        "gap": "\u002B4.860",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -81,7 +81,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B2.313",
+        "gap": "\u002B2.313",
         "penalties": 2,
         "warnings": 1,
         "hasFastestLap": false
@@ -93,7 +93,7 @@
         "name": "Player",
         "tyreAge": 1,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B14.148",
+        "gap": "\u002B14.148",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -105,7 +105,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B14.751",
+        "gap": "\u002B14.751",
         "penalties": 4,
         "warnings": 0,
         "hasFastestLap": false
@@ -117,7 +117,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "\u002B1.574",
+        "gap": "\u002B1.574",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -129,7 +129,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DNF",
+        "gap": "DNF",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -141,7 +141,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DNF",
+        "gap": "DNF",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -153,7 +153,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DNF",
+        "gap": "DNF",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -165,7 +165,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DNF",
+        "gap": "DNF",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -177,7 +177,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DNF",
+        "gap": "DNF",
         "penalties": 2,
         "warnings": 0,
         "hasFastestLap": false
@@ -189,7 +189,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DNF",
+        "gap": "DNF",
         "penalties": 2,
         "warnings": 0,
         "hasFastestLap": false
@@ -201,7 +201,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DNF",
+        "gap": "DNF",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false
@@ -213,7 +213,7 @@
         "name": "Player",
         "tyreAge": 0,
         "visualTyreCompound": "Wet",
-        "gapOrResultStatus": "DSQ",
+        "gap": "DSQ",
         "penalties": 0,
         "warnings": 0,
         "hasFastestLap": false

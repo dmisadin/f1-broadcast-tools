@@ -4,6 +4,7 @@ import { DriverTimingDetailsComponent } from "./driver-timing-details/driver-tim
 import { CommonModule } from "@angular/common";
 import { TimingTowerRoutingModule } from "./timing-tower-routing.module";
 import { SharedModule } from "../../shared/shared.module";
+import { SectorsYellowFlagsPipe } from './pipes/sectors-yellow-flags.pipe';
 
 @NgModule({
     imports: [
@@ -13,7 +14,8 @@ import { SharedModule } from "../../shared/shared.module";
     ],
     declarations: [
         TimingTowerComponent,
-        DriverTimingDetailsComponent
+        DriverTimingDetailsComponent,
+        SectorsYellowFlagsPipe
     ]
 })
 export class TimingTowerModule { }

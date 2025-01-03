@@ -1,6 +1,6 @@
 ﻿namespace F1GameDataParser.Enums
 {
-    public enum VehicleFIAFlag : sbyte
+    public enum FIAFlag : sbyte
     {
         InvalidOrUnknown = -1,
         None = 0,

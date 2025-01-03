@@ -1,85 +1,81 @@
 ﻿using F1GameDataParser.Handlers;
+using F1GameDataParser.Mapping.ViewModelBuilders;
 using F1GameDataParser.Startup;
 using F1GameDataParser.State;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using System.Text.Json;
 
-class Program
+var builder = WebApplication.CreateBuilder(args);
+
+// Configure services
+//builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => 
+    {
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    });
+
+builder.Services.AddSingleton<TelemetryClient>(provider => new TelemetryClient(20777));
+builder.Services.AddSingleton<ParticipantsHandler>();
+builder.Services.AddSingleton<ParticipantsState>();
+
+builder.Services.AddSingleton<SessionHandler>();
+builder.Services.AddSingleton<SessionState>();
+
+builder.Services.AddSingleton<CarTelemetryHandler>();
+builder.Services.AddSingleton<CarTelemetryState>();
+
+builder.Services.AddSingleton<EventsHandler>();
+
+builder.Services.AddSingleton<CarStatusHandler>();
+builder.Services.AddSingleton<CarStatusState>();
+
+builder.Services.AddSingleton<FinalClassificationHandler>();
+
+builder.Services.AddSingleton<LapHandler>();
+builder.Services.AddSingleton<LapState>();
+
+builder.Services.AddSingleton<SessionHistoryHandler>();
+builder.Services.AddSingleton<SessionHistoryState>();
+
+builder.Services.AddSingleton<CarDamageHandler>();
+builder.Services.AddSingleton<CarDamageState>();
+
+builder.Services.AddTransient<TimingTowerBuilder>();
+
+builder.Services.AddSharedServices();
+
+var app = builder.Build();
+
+// Configure WebSocket options
+app.UseWebSockets();
+
+using (var scope = app.Services.CreateScope())
 {
-    static void Main(string[] args)
-    {
-        var host = Host.CreateDefaultBuilder(args)
-            .ConfigureServices(services =>
-            {
-                services.AddSingleton<TelemetryClient>(provider => new TelemetryClient(20777));
-                services.AddSingleton<ParticipantsHandler>();
-                services.AddSingleton<ParticipantsState>();
+    var services = scope.ServiceProvider;
+    var telemetryClient = services.GetRequiredService<TelemetryClient>();
 
-                services.AddSingleton<SessionHandler>();
-                services.AddSingleton<SessionState>();
+    var participantsState = services.GetRequiredService<ParticipantsState>();
+    var sessionState = services.GetRequiredService<SessionState>();
+    var carTelemetryState = services.GetRequiredService<CarTelemetryState>();
+    var lapState = services.GetRequiredService<LapState>();
+    var sessionHistoryState = services.GetRequiredService<SessionHistoryState>();
+    var carDamageState = services.GetRequiredService<CarDamageState>();
+    var carStatusState = services.GetRequiredService<CarStatusState>();
 
-                services.AddSingleton<CarTelemetryHandler>();
-                services.AddSingleton<CarTelemetryState>();
-
-                services.AddSingleton<EventsHandler>();
-
-                services.AddSingleton<CarStatusHandler>();
-                services.AddSingleton<CarStatusState>();
-
-                services.AddSingleton<FinalClassificationHandler>();
-
-                services.AddSingleton<LapHandler>();
-                services.AddSingleton<LapState>();
-
-                services.AddSingleton<SessionHistoryHandler>();
-                services.AddSingleton<SessionHistoryState>();
-
-                services.AddSingleton<CarDamageHandler>();
-                services.AddSingleton<CarDamageState>();
-
-                services.AddSharedServices();
-            })
-            .Build();
-
-        var telemetryClient = host.Services.GetRequiredService<TelemetryClient>();
-        var participantsHandler = host.Services.GetRequiredService<ParticipantsHandler>();
-        var participantsState = host.Services.GetRequiredService<ParticipantsState>();
-        var sessionHandler = host.Services.GetRequiredService<SessionHandler>();
-        var sessionState = host.Services.GetRequiredService<SessionState>();
-        var carTelemetryHandler = host.Services.GetRequiredService<CarTelemetryHandler>();
-        var carTelemetryState = host.Services.GetRequiredService<CarTelemetryState>();
-        var eventsHandler = host.Services.GetRequiredService<EventsHandler>();
-        var carStatusHandler = host.Services.GetRequiredService<CarStatusHandler>();
-        var carStatusState = host.Services.GetRequiredService<CarStatusState>();
-        var finalClassificationHandler = host.Services.GetRequiredService<FinalClassificationHandler>();
-        var lapHandler = host.Services.GetRequiredService<LapHandler>();
-        var lapState = host.Services.GetRequiredService<LapState>();
-        var sessionHistoryHandler = host.Services.GetRequiredService<SessionHistoryHandler>();
-        var sessionHistoryState = host.Services.GetRequiredService<SessionHistoryState>();
-        var carDamageHandler = host.Services.GetRequiredService<CarDamageHandler>();
-        var carDamageState = host.Services.GetRequiredService<CarDamageState>();
-        //client.OnCarDamageDataReceive += Client_OnCarDamageDataReceive;
-        Console.Read();
-
-    }
-    /*
-    private static void Client_OnCarDamageDataReceive(CarDamagePacket packet)
-    {
-        int index = 0;
-        Console.Clear();
-        foreach (CarDamageData data in packet.carDamageData)
-        {
-            Console.WriteLine($"INDEX: {index}");
-            Console.WriteLine($"{data}");
-            Console.WriteLine("----");
-            index++;
-            if (index == 5)
-            {
-                break;
-            }
-        }
-
-        Console.WriteLine($"{packet.carDamageData[packet.header.playerCarIndex]}");
-    }
-    */
+    var participantsHandler = services.GetRequiredService<ParticipantsHandler>();
+    var sessionHandler = services.GetRequiredService<SessionHandler>();
+    var carTelemetryHandler = services.GetRequiredService<CarTelemetryHandler>();
+    var eventsHandler = services.GetRequiredService<EventsHandler>();
+    var carStatusHandler = services.GetRequiredService<CarStatusHandler>();
+    var finalClassificationHandler = services.GetRequiredService<FinalClassificationHandler>();
+    var lapHandler = services.GetRequiredService<LapHandler>();
+    var sessionHistoryHandler = services.GetRequiredService<SessionHistoryHandler>();
+    var carDamageHandler = services.GetRequiredService<CarDamageHandler>();
 }
+
+app.UseRouting();
+app.MapControllers();
+
+// Run the application
+await app.RunAsync();

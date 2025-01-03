@@ -20,7 +20,7 @@ namespace F1GameDataParser.Models.CarStatus
         public TyreCompoundActual ActualTyreCompound { get; set; }
         public TyreCompoundVisual VisualTyreCompound { get; set; }
         public byte TyresAgeLaps { get; set; }
-        public VehicleFIAFlag VehicleFiaFlags { get; set; }
+        public FIAFlag VehicleFiaFlags { get; set; }
         public float EnginePowerICE { get; set; } // Engine power output of ICE (W)
         public float EnginePowerMGUK { get; set; } // Engine power output of MGU-K (W)
         public float ErsStoreEnergy { get; set; } // ERS energy store in Joules
