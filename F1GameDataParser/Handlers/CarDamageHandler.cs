@@ -11,7 +11,7 @@ namespace F1GameDataParser.Handlers
         private readonly CarDamageState _carDamageState;
 
         public CarDamageHandler(TelemetryClient telemetryClient,
-                                   CarDamageState carDamageState)
+                                CarDamageState carDamageState)
         {
             _telemetryClient = telemetryClient;
             _carDamageState = carDamageState;

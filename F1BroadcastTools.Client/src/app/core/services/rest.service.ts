@@ -7,11 +7,7 @@ import { environment } from '../../../environments/environment';
 })
 export class RestService {
 
-    private httpClient: HttpClient;
-
-    constructor(httpClient: HttpClient) {
-        this.httpClient = httpClient;
-    }
+    constructor(private httpClient: HttpClient) { }
 
     get<T>(path: string) {
         return this.httpClient.get<T>(environment.apiUrl + path);

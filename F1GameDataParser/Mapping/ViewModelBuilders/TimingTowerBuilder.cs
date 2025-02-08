@@ -6,7 +6,7 @@ using F1GameDataParser.ViewModels.TimingTower;
 
 namespace F1GameDataParser.Mapping.ViewModelBuilders
 {
-    public class TimingTowerBuilder : GenericBuilder<TimingTower>
+    public class TimingTowerBuilder : ViewModelBuilderBase<TimingTower>
     {
         private readonly LapState lapState;
         private readonly SessionState sessionState;

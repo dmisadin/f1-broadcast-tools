@@ -1,0 +1,9 @@
+.main-content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
+    padding: 2rem;
+}
+
+.sidebar.collapsed+.main-content {
+    margin-left: 60px;
+}

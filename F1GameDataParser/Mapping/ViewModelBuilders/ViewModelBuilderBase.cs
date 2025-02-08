@@ -3,6 +3,13 @@
     public abstract class ViewModelBuilderBase<TViewModel> : IViewModelBuilder<TViewModel>
         where TViewModel : class
     {
-        public abstract TViewModel? Generate();
+        public virtual TViewModel? Generate()
+        {
+            return null;
+        }
+        public virtual IList<TViewModel>? GenerateList()
+        {
+            return null;
+        }
     }
 }

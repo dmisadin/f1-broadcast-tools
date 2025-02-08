@@ -41,6 +41,9 @@ builder.Services.AddSingleton<SessionHistoryState>();
 builder.Services.AddSingleton<CarDamageHandler>();
 builder.Services.AddSingleton<CarDamageState>();
 
+builder.Services.AddSingleton<LobbyInfoHandler>();
+builder.Services.AddSingleton<LobbyInfoState>();
+
 builder.Services.AddTransient<TimingTowerBuilder>();
 
 builder.Services.AddSharedServices();
@@ -62,6 +65,7 @@ using (var scope = app.Services.CreateScope())
     var sessionHistoryState = services.GetRequiredService<SessionHistoryState>();
     var carDamageState = services.GetRequiredService<CarDamageState>();
     var carStatusState = services.GetRequiredService<CarStatusState>();
+    var lobbyInfoState = services.GetRequiredService<LobbyInfoState>();
 
     var participantsHandler = services.GetRequiredService<ParticipantsHandler>();
     var sessionHandler = services.GetRequiredService<SessionHandler>();
@@ -72,6 +76,7 @@ using (var scope = app.Services.CreateScope())
     var lapHandler = services.GetRequiredService<LapHandler>();
     var sessionHistoryHandler = services.GetRequiredService<SessionHistoryHandler>();
     var carDamageHandler = services.GetRequiredService<CarDamageHandler>();
+    var lobbyInfoHandler = services.GetRequiredService<LobbyInfoHandler>();
 }
 
 app.UseRouting();
