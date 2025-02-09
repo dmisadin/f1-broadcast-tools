@@ -1,15 +1,15 @@
 ﻿using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using F1GameDataParser.Mapping.ViewModelBuilders;
+using F1GameDataParser.Mapping.DtoFactories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1GameDataParser.Controllers;
 public class WebSocketController : ControllerBase
 {
-    private readonly TimingTowerBuilder timingTowerBuilder;
-    public WebSocketController(TimingTowerBuilder timingTowerBuilder)
+    private readonly TimingTowerFactory timingTowerBuilder;
+    public WebSocketController(TimingTowerFactory timingTowerBuilder)
     {
         this.timingTowerBuilder = timingTowerBuilder;
     }

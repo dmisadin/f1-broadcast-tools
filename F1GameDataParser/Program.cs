@@ -1,5 +1,7 @@
-﻿using F1GameDataParser.Handlers;
-using F1GameDataParser.Mapping.ViewModelBuilders;
+﻿using F1GameDataParser.Database.Repositories;
+using F1GameDataParser.Handlers;
+using F1GameDataParser.Mapping.DtoFactories;
+using F1GameDataParser.Services;
 using F1GameDataParser.Startup;
 using F1GameDataParser.State;
 using Microsoft.AspNetCore.Builder;
@@ -44,7 +46,13 @@ builder.Services.AddSingleton<CarDamageState>();
 builder.Services.AddSingleton<LobbyInfoHandler>();
 builder.Services.AddSingleton<LobbyInfoState>();
 
-builder.Services.AddTransient<TimingTowerBuilder>();
+builder.Services.AddTransient<TimingTowerFactory>();
+
+// Register repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+
+// Register services
+builder.Services.AddScoped(typeof(PlayerService));
 
 builder.Services.AddSharedServices();
 

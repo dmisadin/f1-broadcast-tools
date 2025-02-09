@@ -1,14 +1,14 @@
 ﻿using F1GameDataParser.State;
-using F1GameDataParser.ViewModels.PlayerOverride;
+using F1GameDataParser.Dtos.PlayerOverride;
 
-namespace F1GameDataParser.Mapping.ViewModelBuilders
+namespace F1GameDataParser.Mapping.DtoFactories
 {
-    public class PlayerOverrideBuilder : ViewModelBuilderBase<PlayerOverride>
+    public class PlayerOverrideFactory : DtoFactoryBase<PlayerOverride>
     {
         private readonly ParticipantsState participantsState;
         private readonly LobbyInfoState lobbyInfoState;
         private readonly LapState lapState;
-        public PlayerOverrideBuilder(ParticipantsState participantsState,
+        public PlayerOverrideFactory(ParticipantsState participantsState,
                                     LobbyInfoState lobbyInfoState,
                                     LapState lapState)
         {

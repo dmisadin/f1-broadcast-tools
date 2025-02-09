@@ -1,4 +1,4 @@
-﻿using F1GameDataParser.ViewModels.TimingTower;
+﻿using F1GameDataParser.Dtos.TimingTower;
 
 namespace F1GameDataParser.Services
 {

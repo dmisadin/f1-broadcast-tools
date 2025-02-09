@@ -1,6 +1,6 @@
 ﻿using F1GameDataParser.Enums;
 
-namespace F1GameDataParser.ViewModels.PlayerOverride
+namespace F1GameDataParser.Dtos.PlayerOverride
 {
     public class PlayerOverride
     {
