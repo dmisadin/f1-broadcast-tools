@@ -1,6 +1,6 @@
 ﻿using F1GameDataParser.Enums;
 
-namespace F1GameDataParser.Dtos.TimingTower
+namespace F1GameDataParser.ViewModels.TimingTower
 {
     public class TimingTower
     {

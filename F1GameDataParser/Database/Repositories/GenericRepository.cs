@@ -18,7 +18,6 @@ namespace F1GameDataParser.Database.Repositories
             this.table = this.context.Set<TEntity>();
         }
 
-
         public IQueryable<TEntity> Query()
         {
             return this.table;

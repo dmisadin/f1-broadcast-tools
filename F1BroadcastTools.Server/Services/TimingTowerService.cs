@@ -1,5 +1,5 @@
-﻿using F1GameDataParser.Mapping.DtoFactories;
-using F1GameDataParser.Dtos.TimingTower;
+﻿using F1GameDataParser.Mapping.ViewModelFactories;
+using F1GameDataParser.ViewModels.TimingTower;
 
 namespace F1BroadcastTools.Server.Services
 {

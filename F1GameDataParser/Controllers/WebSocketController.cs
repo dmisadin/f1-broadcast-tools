@@ -1,7 +1,7 @@
 ﻿using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
-using F1GameDataParser.Mapping.DtoFactories;
+using F1GameDataParser.Mapping.ViewModelFactories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

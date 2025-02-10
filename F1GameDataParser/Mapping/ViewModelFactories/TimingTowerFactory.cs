@@ -2,11 +2,11 @@
 using F1GameDataParser.Models;
 using F1GameDataParser.State;
 using F1GameDataParser.Utility;
-using F1GameDataParser.Dtos.TimingTower;
+using F1GameDataParser.ViewModels.TimingTower;
 
-namespace F1GameDataParser.Mapping.DtoFactories
+namespace F1GameDataParser.Mapping.ViewModelFactories
 {
-    public class TimingTowerFactory : DtoFactoryBase<TimingTower>
+    public class TimingTowerFactory : ViewModelFactoryBase<TimingTower>
     {
         private readonly LapState lapState;
         private readonly SessionState sessionState;

@@ -5,7 +5,12 @@ namespace F1GameDataParser.Database
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<Player> Players { get; set; }
+        public AppDbContext(DbContextOptions<AppDbContext> options) 
+            : base(options)
+        {
+            
+        }
+        public DbSet<PlayerDto> Players { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

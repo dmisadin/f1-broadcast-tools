@@ -1,11 +1,14 @@
-﻿using F1GameDataParser.Database.Repositories;
+﻿using F1GameDataParser.Database;
+using F1GameDataParser.Database.Repositories;
 using F1GameDataParser.Handlers;
-using F1GameDataParser.Mapping.DtoFactories;
+using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.Services;
 using F1GameDataParser.Startup;
 using F1GameDataParser.State;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,6 +58,14 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(PlayerService));
 
 builder.Services.AddSharedServices();
+
+await DataAccess.InitializeDatabase();
+
+// Register DbContext
+
+string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "F1BroadcastTools");
+string dbpath = Path.Combine(folderPath, "f1BroadcastTools.db");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(dbpath)); // Use SQLite
 
 var app = builder.Build();
 
