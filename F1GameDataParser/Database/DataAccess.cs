@@ -1,32 +1,13 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace F1GameDataParser.Database
 {
     public static class DataAccess
     {
-        public static async Task InitializeDatabase()
+        public static async Task InitializeAndMigrateDatabase()
         {
-            // Get a suitable path for the database
-            string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "F1BroadcastTools");
-            Directory.CreateDirectory(folderPath); // Ensure the folder exists
-            string dbpath = Path.Combine(folderPath, "f1BroadcastTools.db");
-
-            using (var db = new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
-
-                string tableCommand = "CREATE TABLE IF NOT EXISTS Players (" +
-                                      "Id INTEGER PRIMARY KEY, " +
-                                      "Name NVARCHAR(2048) NOT NULL, " +
-                                      "Nationality INTEGER NULL)";
-
-                using (var createTable = new SqliteCommand(tableCommand, db))
-                {
-                    createTable.ExecuteNonQuery();
-                }
-            }
-
-            Console.WriteLine("Database initialized at: " + dbpath);
+            using var db = new AppDbContext();
+            await db.Database.MigrateAsync();
         }
     }
 }

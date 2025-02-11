@@ -7,6 +7,6 @@ namespace F1GameDataParser.Database.Entities
     {
         [Required]
         public string Name { get; set; }
-        public Nationality Nationality { get; set; }
+        public Nationality? Nationality { get; set; }
     }
 }

@@ -8,7 +8,6 @@ using F1GameDataParser.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Win32;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,7 +58,7 @@ builder.Services.AddScoped(typeof(PlayerService));
 
 builder.Services.AddSharedServices();
 
-await DataAccess.InitializeDatabase();
+await DataAccess.InitializeAndMigrateDatabase();
 
 // Register DbContext
 
