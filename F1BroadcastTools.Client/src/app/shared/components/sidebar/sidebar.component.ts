@@ -16,6 +16,7 @@ export class SidebarComponent {
     menuItems = [
         { icon: '🏠', label: 'Home', route: '/' },
         { icon: '⚙️', label: 'Settings', route: '/settings' },
+        { icon: '⛹️‍♂️', label: 'Players', route: '/players'},
         { icon: '🏎️', label: 'Timing Tower', route: '/timing-tower' },
     ];
     

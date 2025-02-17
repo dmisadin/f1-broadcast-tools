@@ -9,6 +9,10 @@ const routes: Routes = [
     {
         path: 'timing-tower',
         loadChildren: () => import('./features/timing-tower/timing-tower.module').then(m => m.TimingTowerModule)
+    },
+    {
+        path: 'players',
+        loadChildren: () => import('./features/players/players.module').then(m => m.PlayersModule)
     }
 ];
 
