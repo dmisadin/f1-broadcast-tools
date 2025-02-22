@@ -8,6 +8,7 @@ using F1GameDataParser.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -99,6 +100,10 @@ using (var scope = app.Services.CreateScope())
 
 app.UseRouting();
 app.MapControllers();
+app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
 // Run the application
 await app.RunAsync();
