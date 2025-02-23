@@ -1,10 +1,10 @@
-export class colDef {
+export class GridColumn {
     isUnique?: boolean;
     field: string;
     title?: string;
     value?: any;
     condition?: any;
-    type?: string; // string|date|number|bool
+    type?: ColumnType; // string|date|number|bool
     width?: string | undefined;
     minWidth?: string | undefined;
     maxWidth?: string | undefined;
@@ -27,4 +27,21 @@ export class Pager {
     public endPage: number;
     public stringFormat: string;
     public pages: any;
+}
+
+export type ColumnType = "string" | "date" | "number" | "bool";
+
+export type ChangeType = "reset" | "page" | "pagesize" | "sort" | "filter" | "search";
+
+export type SortDirection = "asc" | "desc";
+
+export interface ChangeForServer {
+    currentPage: number;
+    pageSize: number;
+    offset: number;
+    sortColumn: string;
+    sortDirection: SortDirection;
+    search: string;
+    columnFilters: GridColumn[];
+    changeType: ChangeType;
 }

@@ -11,7 +11,7 @@ import {
     ViewChild,
     ViewEncapsulation,
 } from '@angular/core';
-import { Pager, colDef } from './modals';
+import { Pager, GridColumn, ColumnType, ChangeType, SortDirection, ChangeForServer } from './modals';
 import { SlotDirective } from './slot.directive';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -30,7 +30,7 @@ export class NgDataTableComponent {
     @Input() skin: string = 'bh-table-striped bh-table-hover';
     @Input() totalRows: number = 0;
     @Input() rows: Array<any> = [];
-    @Input() columns: Array<colDef> = [];
+    @Input() columns: Array<GridColumn> = [];
     @Input() hasCheckbox: boolean = false;
     @Input() search: string = '';
     @Input() page: number = 1;
@@ -41,7 +41,7 @@ export class NgDataTableComponent {
     @Input() cellClass: string | Function = '';
     @Input() sortable: boolean = false;
     @Input() sortColumn: string = 'id';
-    @Input() sortDirection: string = 'asc';
+    @Input() sortDirection: SortDirection = 'asc';
     @Input() columnFilter: boolean = false;
     @Input() pagination: boolean = true;
     @Input() showNumbers: boolean = true;
@@ -85,7 +85,7 @@ export class NgDataTableComponent {
     selectedAll: any = null;
     currentLoader = this.loading;
     currentSearch = this.search;
-    oldColumns: colDef[] = [];
+    oldColumns: GridColumn[] = [];
     uniqueKey: string = '';
 
     constructor(private sanitizer: DomSanitizer) {}
@@ -159,7 +159,7 @@ export class NgDataTableComponent {
         // set default columns values
         for (const item of this.columns || []) {
             const type = item.type?.toLowerCase() || 'string';
-            item.type = type;
+            item.type = type as ColumnType;
             item.isUnique = item.isUnique !== undefined ? item.isUnique : false;
             item.hide = item.hide !== undefined ? item.hide : false;
             item.filter = item.filter !== undefined ? item.filter : true;
@@ -168,7 +168,7 @@ export class NgDataTableComponent {
             item.html = item.html !== undefined ? item.html : false;
             item.condition = !type || type === 'string' ? 'contain' : 'equal';
         }
-
+        
         this.oldColumns = this.noReact(this.columns);
 
         this.setUniqueKey();
@@ -489,7 +489,7 @@ export class NgDataTableComponent {
     }
 
     // sorting
-    sortChangeMethod(field: string, dir = '') {
+    sortChangeMethod(field: string, dir: SortDirection = 'asc') {
         let direction = dir || 'asc';
         if (field === this.currentSortColumn) {
             if (this.currentSortDirection === 'asc') {
@@ -610,7 +610,7 @@ export class NgDataTableComponent {
     }
 
     // emit change event for server side pagination
-    changeForServer(changeType: string, isResetPage = false) {
+    changeForServer(changeType: ChangeType, isResetPage = false) {
         if (this.isServerMode) {
             if (changeType === 'page') {
                 this.setPager();
@@ -618,15 +618,15 @@ export class NgDataTableComponent {
 
             this.setDefaultCondition();
 
-            const res = {
-                current_page: Number(isResetPage ? 1 : this.currentPage),
-                pagesize: Number(this.currentPageSize),
+            const res: ChangeForServer = {
+                currentPage: Number(isResetPage ? 1 : this.currentPage),
+                pageSize: Number(this.currentPageSize),
                 offset: Number((this.currentPage - 1) * <number>this.currentPageSize),
-                sort_column: this.currentSortColumn,
-                sort_direction: this.currentSortDirection,
+                sortColumn: this.currentSortColumn,
+                sortDirection: this.currentSortDirection,
                 search: this.currentSearch,
-                column_filters: this.columns,
-                change_type: changeType,
+                columnFilters: this.columns,
+                changeType: changeType,
             };
             this.changeServer.emit(res);
         }

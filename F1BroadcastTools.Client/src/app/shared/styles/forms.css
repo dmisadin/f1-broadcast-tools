@@ -1,0 +1,50 @@
+form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem; 
+    font-weight: 500;
+    color: #111827;
+}
+
+form input, 
+form select {
+    background-color: #F9FAFB;
+    border: 1px solid #D1D5DB;
+    color: #111827;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    padding: 0.625rem;
+    outline: none;  
+}
+
+form input:focus,
+form select:focus {
+    border: 1;
+    border-color: #3B82F6;
+}
+
+form button {
+    color: white;
+    background-color: #1D4ED8; 
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+form button:hover {
+    background-color: #1E40AF;
+}
+
+form button:focus {
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+}
+
+form button:disabled {
+    background-color: #989898;
+    cursor: not-allowed;
+}

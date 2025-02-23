@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ViewContainerRef } from '@angular/core';
-import { colDef } from './modals';
+import { GridColumn } from './modals';
 
 @Component({
     standalone: false,
@@ -113,7 +113,7 @@ export class ColumnHeaderComponent {
         }
     }
 
-    toggleFilterMenu(col?: colDef) {
+    toggleFilterMenu(col?: GridColumn) {
         if (col) {
             if (this.isOpenFilter === col.field) {
                 this.isOpenFilter = null;

@@ -1,4 +1,4 @@
-import { Team } from "./Enumerations";
+import { Nationality, Team } from "./Enumerations";
 
 export interface PlayerOverride {
     id: number;
@@ -7,4 +7,10 @@ export interface PlayerOverride {
     nameOverride?: string;
     position?: number;
     team?: Team;
+}
+
+export interface Player {
+    id?: number;
+    name: string;
+    nationality: Nationality
 }

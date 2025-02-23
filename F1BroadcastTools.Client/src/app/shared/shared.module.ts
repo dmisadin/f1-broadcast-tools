@@ -4,9 +4,11 @@ import { SidebarComponent } from "./components/sidebar/sidebar.component";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { DataTableModule } from "../thirdparty/ng-datatable/ng-datatable.module";
+import { GridComponent } from "./components/grid/grid/grid.component";
 
 const components = [
-    SidebarComponent
+    SidebarComponent,
+    GridComponent
 ];
 
 const pipes = [

@@ -1,4 +1,36 @@
-<p>players works!</p>
+<h1>Players</h1>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="add-player-form">
+    <!-- Name Field -->
+    <div class="field">
+        <label for="name">Name:</label>
+        <input id="name" formControlName="name" type="text" />
+        <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+            <small *ngIf="form.get('name')?.errors?.['required']">Name is required.</small>
+            <small *ngIf="form.get('name')?.errors?.['minlength']">Minimum 3 characters required.</small>
+        </div>
+    </div>
+  
+    <div class="field">
+        <!-- Nationality Dropdown -->
+        <label for="nationality">Nationality:</label>
+        <select id="nationality" formControlName="nationality">
+            <option value="" disabled>Select nationality</option>
+            <option *ngFor="let nat of nationalities" [value]="nat.value">{{ nat.key }}</option>
+        </select>
+        <div *ngIf="form.get('nationality')?.invalid && form.get('nationality')?.touched">
+            <small>Nationality is required.</small>
+        </div>
+    </div>
+  
+    <button type="submit" [disabled]="form.invalid">Add Player</button>
+</form>
+  
+
+<grid [endpoints]="playerEndpoints">
+
+</grid>
+<!-- 
 <ng-datatable
     [loading]="loading"
     [columns]="cols"
@@ -15,3 +47,4 @@
     [search]="params.search"
     (changeServer)="changeServer($event)">
 </ng-datatable>
+ -->
