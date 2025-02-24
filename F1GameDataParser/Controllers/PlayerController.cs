@@ -1,8 +1,10 @@
-﻿using F1GameDataParser.Database.Entities;
+﻿using F1GameDataParser.Database.Dtos;
+using F1GameDataParser.Database.Entities;
 using F1GameDataParser.Database.Repositories;
 using F1GameDataParser.Mapping.DtoFactories;
 using F1GameDataParser.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace F1GameDataParser.Controllers
 {
@@ -21,12 +23,12 @@ namespace F1GameDataParser.Controllers
         protected override IDtoFactory<Player, PlayerDto> DtoFactory => new PlayerDtoFactory();
 
         [HttpGet("search")]
-        public async Task<List<PlayerDto>>? SearchPlayers([FromQuery] string searchTerm)
+        public async Task<List<LookupDto>> SearchPlayers([FromQuery] string query, [FromQuery] string field = "name", [FromQuery] int limit = 20)
         {
-            if (string.IsNullOrEmpty(searchTerm))
-                return null;
-            return null;
-           //return await playerService.SearchPlayers(searchTerm);
+            if (string.IsNullOrEmpty(query))
+                return new List<LookupDto>();
+
+            return await playerService.SearchPlayers(query, limit);
         }
     }
 }

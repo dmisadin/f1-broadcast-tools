@@ -5,10 +5,14 @@ import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { DataTableModule } from "../thirdparty/ng-datatable/ng-datatable.module";
 import { GridComponent } from "./components/grid/grid/grid.component";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { PlayerSearchComponent } from "./components/player-search/player-search.component";
+import { FormsModule } from "@angular/forms";
 
 const components = [
     SidebarComponent,
-    GridComponent
+    GridComponent,
+    PlayerSearchComponent
 ];
 
 const pipes = [
@@ -24,7 +28,9 @@ const allDeclarations = [
     imports: [
         CommonModule,
         RouterModule,
-        DataTableModule
+        DataTableModule,
+        NgSelectModule,
+        FormsModule
     ],
     declarations: allDeclarations,
     exports: allDeclarations

@@ -1,0 +1,11 @@
+<ng-select 
+    [items]="players$ | async"
+    bindLabel="label"
+    bindValue="id"
+    placeholder="Search Players..."
+    [(ngModel)]="selectedId"
+    [typeahead]="searchSubject"
+    [clearable]="true"
+    (ngModelChange)="onPlayerSelected($event)"
+    [clearSearchOnAdd]="true">
+</ng-select>

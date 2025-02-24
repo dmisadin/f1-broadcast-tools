@@ -8,5 +8,11 @@ export interface Endpoints {
     add: string;
     getGridStructure: string;
     getGridData: string;
+    search: string;
     customEndpoint: (endpoint: string) => string;
+}
+
+export interface LookupDto {
+    id: number;
+    label: string;
 }

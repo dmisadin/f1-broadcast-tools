@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 
@@ -9,8 +9,8 @@ export class RestService {
 
     constructor(private httpClient: HttpClient) { }
 
-    get<T>(path: string) {
-        return this.httpClient.get<T>(environment.apiUrl + path);
+    get<T>(path: string, queryParams?: HttpParams) {
+        return this.httpClient.get<T>(environment.apiUrl + path, { params: queryParams });
     }
 
     getFile<T>(path: string) {

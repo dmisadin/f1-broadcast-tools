@@ -26,7 +26,8 @@
                     <input type="text" [(ngModel)]="driver.name">
                 </td>
                 <td>
-                    <input type="text" [(ngModel)]="driver.nameOverride">
+                    <player-search (onSelected)="onSelectedPlayer(driver.id, $event)">
+                    </player-search>
                 </td>
             </tr>
             }

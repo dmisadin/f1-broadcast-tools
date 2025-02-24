@@ -46,8 +46,8 @@ export class PlayersComponent {
     gridRequest: GridRequest;
 
     constructor(private fb: FormBuilder,
-                private restService: RestService
-    ) {
+                private restService: RestService)
+    {
         this.form = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(3)]],
             nationality: [0, Validators.required]

@@ -1,4 +1,5 @@
-﻿using F1GameDataParser.Database.Entities;
+﻿using F1GameDataParser.Database.Dtos;
+using F1GameDataParser.Database.Entities;
 using F1GameDataParser.Database.Repositories;
 using F1GameDataParser.Models.Participants;
 using F1GameDataParser.State;
@@ -27,11 +28,18 @@ namespace F1GameDataParser.Services
             return this.playerRepository.GetAllAsync().Result;
         }
 
-        public async Task<List<Player>> SearchPlayers(string name)
+        public async Task<List<LookupDto>> SearchPlayers(string name, int limit)
         {
-            return await playerRepository.Query()
-                                        .Where(p => p.Name.Contains(name))
-                                        .ToListAsync();
+            var playersQuery = playerRepository.Query();
+
+            var lookupQuery = playersQuery.Where(p => p.Name.ToLower().Contains(name.ToLower()))
+                                        .Select(p => new LookupDto
+                                        {
+                                            Id = p.Id,
+                                            Label = p.Name
+                                        });
+
+            return await lookupQuery.Take(limit).ToListAsync();
         }
     }
 }

@@ -4,7 +4,7 @@ export interface PlayerOverride {
     id: number;
     racingNumber: number;
     name: string;
-    nameOverride?: string;
+    playerId?: number;
     position?: number;
     team?: Team;
 }
