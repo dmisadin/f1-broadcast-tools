@@ -9,7 +9,7 @@
                 <th>Team</th>
                 <th>Racing Number</th>
                 <th>Name</th>
-                <th>Name Override</th>
+                <th>Player Override</th>
             </tr>
         </thead>
         <tbody>
@@ -22,12 +22,9 @@
                     <img src="images/teams/{{driver.team}}.png" alt="" class="team-logo">
                 </td>
                 <td>{{ driver.racingNumber }}</td>
+                <td>{{ driver.name }}</td>
                 <td>
-                    <input type="text" [(ngModel)]="driver.name">
-                </td>
-                <td>
-                    <player-search (onSelected)="onSelectedPlayer(driver.id, $event)">
-                    </player-search>
+                    <player-search (onSelected)="onPlayerSelected(driver.id, $event)"></player-search>
                 </td>
             </tr>
             }

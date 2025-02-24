@@ -6,7 +6,6 @@ function BuildGenericEndpoints(controllerName: string): Endpoints {
         add: `/${controllerName}/add`,
         getGridStructure: `/${controllerName}/get-grid-structure`,
         getGridData: `/${controllerName}/get-grid-data`,
-        search: `/${controllerName}/search`,
         customEndpoint: (endpoint) => `/${controllerName}/${endpoint}`
     }
 }

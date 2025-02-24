@@ -8,7 +8,6 @@ export interface Endpoints {
     add: string;
     getGridStructure: string;
     getGridData: string;
-    search: string;
     customEndpoint: (endpoint: string) => string;
 }
 

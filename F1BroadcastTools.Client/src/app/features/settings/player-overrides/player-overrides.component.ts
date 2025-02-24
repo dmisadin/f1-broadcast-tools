@@ -45,7 +45,7 @@ export class PlayerOverrides implements OnInit {
         // API call for drivers in lobby
     }
 
-    onSelectedPlayer(driverId: number, playerId: number) {
+    onPlayerSelected(driverId: number, playerId: number) {
         const driver = this.drivers.find(d => d.id === driverId);
 
         if(driver)

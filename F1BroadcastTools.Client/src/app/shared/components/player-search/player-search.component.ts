@@ -26,7 +26,6 @@ export class PlayerSearchComponent implements OnInit {
     }
 
     onPlayerSelected(selectedId: number) {
-        console.log(selectedId)
         this.onSelected.emit(selectedId);
     }
 }

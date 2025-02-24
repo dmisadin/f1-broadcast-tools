@@ -24,6 +24,6 @@ export class PlayerService {
             .set('field', field)
             .set('limit', '20'); // Top 20 results
 
-        return this.restService.get<LookupDto[]>(PlayerEndpoints.search, params);
+        return this.restService.get<LookupDto[]>(PlayerEndpoints.customEndpoint("search"), params);
     }
 }
