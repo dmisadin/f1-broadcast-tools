@@ -2,9 +2,9 @@
 
 namespace F1GameDataParser.Controllers
 {
-    [Route("api/player-override")]
+    [Route("api/driver-override")]
     [ApiController]
-    public class PlayerOverrideController : ControllerBase
+    public class DriverOverrideController : ControllerBase
     {
         [HttpGet("get-all")]
         public IActionResult GetAll()
