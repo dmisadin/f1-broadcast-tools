@@ -1,14 +1,14 @@
 ﻿using F1GameDataParser.State;
-using F1GameDataParser.ViewModels.PlayerOverride;
+using F1GameDataParser.ViewModels.DriverOverride;
 
 namespace F1GameDataParser.Mapping.ViewModelFactories
 {
-    public class PlayerOverrideFactory : ViewModelFactoryBase<PlayerOverride>
+    public class DriverOverrideFactory : ViewModelFactoryBase<DriverOverride>
     {
         private readonly ParticipantsState participantsState;
         private readonly LobbyInfoState lobbyInfoState;
         private readonly LapState lapState;
-        public PlayerOverrideFactory(ParticipantsState participantsState,
+        public DriverOverrideFactory(ParticipantsState participantsState,
                                     LobbyInfoState lobbyInfoState,
                                     LapState lapState)
         {
@@ -16,7 +16,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             this.lobbyInfoState = lobbyInfoState;
             this.lapState = lapState;
         }
-        public override List<PlayerOverride>? GenerateList()
+        public override List<DriverOverride>? GenerateList()
         {
             if (this.participantsState.State == null 
                 || this.lapState.State == null)
@@ -25,7 +25,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             // TO DO: Join participants and laps
             var participants = this.participantsState.State.ParticipantList;
             var laps = this.lapState.State.LapDetails;
-            var merged = participants.Zip(laps, (participants, laps) => new PlayerOverride
+            var merged = participants.Zip(laps, (participants, laps) => new DriverOverride
             {
                 RacingNumber = participants.RaceNumber,
                 Name = participants.Name,
@@ -35,7 +35,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
 
 
-            return participants.Select((p, index) => new PlayerOverride
+            return participants.Select((p, index) => new DriverOverride
             {
                 Id = index,
                 RacingNumber = p.RaceNumber,

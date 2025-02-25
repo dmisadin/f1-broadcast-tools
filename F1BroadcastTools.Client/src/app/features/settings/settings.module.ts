@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { SettingsRoutingModule } from "./settings-routing.module";
 import { CommonModule } from "@angular/common";
-import { PlayerOverrides } from "./player-overrides/player-overrides.component";
+import { DriverOverrides } from "./driver-overrides/driver-overrides.component";
 import { FormsModule } from "@angular/forms";
 import { SharedModule } from "../../shared/shared.module";
 
@@ -13,7 +13,7 @@ import { SharedModule } from "../../shared/shared.module";
     SharedModule
 ],
     declarations: [
-        PlayerOverrides
+        DriverOverrides
     ]
 })
 export class SettingsModule { }

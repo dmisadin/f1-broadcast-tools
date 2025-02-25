@@ -1,6 +1,6 @@
 import { Nationality, Team } from "./Enumerations";
 
-export interface PlayerOverride {
+export interface DriverOverride {
     id: number;
     racingNumber: number;
     name: string;

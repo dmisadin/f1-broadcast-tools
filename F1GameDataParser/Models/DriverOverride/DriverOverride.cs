@@ -1,8 +1,8 @@
 ﻿using F1GameDataParser.Enums;
 
-namespace F1GameDataParser.Models.PlayerOverride
+namespace F1GameDataParser.Models.DriverOverride
 {
-    public class PlayerOverride
+    public class DriverOverride
     {
         public int Id { get; set; }
         public byte RacingNumber { get; set; }

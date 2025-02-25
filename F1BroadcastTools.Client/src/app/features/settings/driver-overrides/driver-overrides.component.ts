@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
-import { PlayerOverride } from "../../../shared/models/Player";
+import { DriverOverride } from "../../../shared/models/Player";
 import { Team } from "../../../shared/models/Enumerations";
 import { RestService } from "../../../core/services/rest.service";
 
 @Component({
     standalone: false,
-    selector: 'player-overrides',
-    templateUrl: 'player-overrides.component.html',
-    styleUrl: 'player-overrides.component.css'
+    selector: 'driver-overrides',
+    templateUrl: 'driver-overrides.component.html',
+    styleUrl: 'driver-overrides.component.css'
 })
-export class PlayerOverrides implements OnInit {
-    drivers: PlayerOverride[] = [
+export class DriverOverrides implements OnInit {
+    drivers: DriverOverride[] = [
         {
             id: 1,
             name: "Dominik",
