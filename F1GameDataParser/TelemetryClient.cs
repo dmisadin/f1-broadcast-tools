@@ -6,6 +6,7 @@ using F1GameDataParser.Packets.CarTelemetry;
 using F1GameDataParser.Packets.Event;
 using F1GameDataParser.Packets.FinalClassification;
 using F1GameDataParser.Packets.Lap;
+using F1GameDataParser.Packets.LobbyInfo;
 using F1GameDataParser.Packets.Participants;
 using F1GameDataParser.Packets.Session;
 using F1GameDataParser.Packets.SessionHistory;
@@ -25,7 +26,8 @@ public class TelemetryClient
     private PacketType[] _defaultPackets = new PacketType[] {
         PacketType.LAP_DATA, PacketType.EVENT, PacketType.SESSION,
         PacketType.PARTICIPANTS, PacketType.CAR_TELEMETRY, PacketType.CAR_STATUS,
-        PacketType.FINAL_CLASSIFICATION, PacketType.CAR_DAMAGE, PacketType.SESSION_HISTORY
+        PacketType.FINAL_CLASSIFICATION, PacketType.CAR_DAMAGE, PacketType.SESSION_HISTORY,
+        PacketType.LOBBY_INFO
         };
 
     public bool Connected { get; private set; }
@@ -43,6 +45,7 @@ public class TelemetryClient
     public event Action<FinalClassificationPacket>? OnFinalClassificationReceive;
     public event Action<CarDamagePacket>? OnCarDamageReceive;
     public event Action<SessionHistoryPacket>? OnSessionHistoryReceive;
+    public event Action<LobbyInfoPacket>? OnLobbyInfoReceive;
 
     public TelemetryClient(int port, PacketType[]? enabledPackets = null)
     {
@@ -124,12 +127,10 @@ public class TelemetryClient
                         FinalClassificationPacket finalClassificationPacket = (FinalClassificationPacket)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(FinalClassificationPacket));
                         OnFinalClassificationReceive?.Invoke(finalClassificationPacket);
                         break;
-                    /*
                     case PacketType.LOBBY_INFO:
                         LobbyInfoPacket lobbyInfoPacket = (LobbyInfoPacket)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(LobbyInfoPacket));
-                        OnLobbyInfoDataReceive?.Invoke(lobbyInfoPacket);
+                        OnLobbyInfoReceive?.Invoke(lobbyInfoPacket);
                         break;
-                    */
                     case PacketType.CAR_DAMAGE:
                         CarDamagePacket carDamagePacket = (CarDamagePacket)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(CarDamagePacket));
                         OnCarDamageReceive?.Invoke(carDamagePacket);

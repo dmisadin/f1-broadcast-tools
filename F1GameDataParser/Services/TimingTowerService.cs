@@ -1,12 +1,12 @@
-﻿using F1GameDataParser.Mapping.ViewModelBuilders;
+﻿using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.ViewModels.TimingTower;
 
 namespace F1GameDataParser.Services
 {
     public class TimingTowerService : ITimingTowerService
     {
-        private readonly TimingTowerBuilder timingTowerBuilder;
-        public TimingTowerService(TimingTowerBuilder timingTowerBuilder)
+        private readonly TimingTowerFactory timingTowerBuilder;
+        public TimingTowerService(TimingTowerFactory timingTowerBuilder)
         {
             this.timingTowerBuilder = timingTowerBuilder;
         }

@@ -1,0 +1,61 @@
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #1e1e2f;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: width 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    padding-top: 1rem;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    transition: background 0.3s;
+}
+
+a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.icon {
+    font-size: 1.5rem;
+    width: 30px;
+    text-align: center;
+}
+
+.label {
+    margin-left: 10px;
+    white-space: nowrap;
+}

@@ -1,0 +1,12 @@
+@if(columns) {
+    <ng-datatable 
+        [columns]="columns"
+        [rows]="rows"
+        [totalRows]="totalRows"
+        [isServerMode]="true"
+        
+        (changeServer)="changeServer($event)"
+        [sortable]="true"
+        [columnFilter]="true">
+    </ng-datatable>
+}

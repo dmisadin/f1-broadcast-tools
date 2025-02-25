@@ -4,9 +4,9 @@ using F1GameDataParser.State;
 using F1GameDataParser.Utility;
 using F1GameDataParser.ViewModels.TimingTower;
 
-namespace F1GameDataParser.Mapping.ViewModelBuilders
+namespace F1GameDataParser.Mapping.ViewModelFactories
 {
-    public class TimingTowerBuilder : GenericBuilder<TimingTower>
+    public class TimingTowerFactory : ViewModelFactoryBase<TimingTower>
     {
         private readonly LapState lapState;
         private readonly SessionState sessionState;
@@ -14,7 +14,7 @@ namespace F1GameDataParser.Mapping.ViewModelBuilders
         private readonly CarStatusState carStatusState;
         private readonly SessionHistoryState sessionHistoryState;
 
-        public TimingTowerBuilder(LapState lapState,
+        public TimingTowerFactory(LapState lapState,
             SessionState sessionState,
             ParticipantsState participantsState,
             CarStatusState carStatusState,

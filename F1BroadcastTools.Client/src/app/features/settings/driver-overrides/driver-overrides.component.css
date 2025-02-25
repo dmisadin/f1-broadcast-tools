@@ -1,0 +1,19 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 1rem;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: .5rem;
+}
+
+img {
+    width: 2rem;
+}
