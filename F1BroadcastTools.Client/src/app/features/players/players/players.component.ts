@@ -10,7 +10,7 @@ import { GridRequest } from '../../../shared/models/grid';
 
 @Component({
     standalone: false,
-    selector: 'app-players',
+    selector: 'players',
     templateUrl: './players.component.html',
     styleUrl: './players.component.css'
 })

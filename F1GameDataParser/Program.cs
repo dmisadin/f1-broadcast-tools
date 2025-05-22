@@ -8,7 +8,6 @@ using F1GameDataParser.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -49,7 +48,10 @@ builder.Services.AddSingleton<CarDamageState>();
 builder.Services.AddSingleton<LobbyInfoHandler>();
 builder.Services.AddSingleton<LobbyInfoState>();
 
+builder.Services.AddSingleton<DriverOverrideState>();
+
 builder.Services.AddTransient<TimingTowerFactory>();
+builder.Services.AddTransient<DriverOverrideService>();
 
 // Register repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -85,6 +87,7 @@ using (var scope = app.Services.CreateScope())
     var carDamageState = services.GetRequiredService<CarDamageState>();
     var carStatusState = services.GetRequiredService<CarStatusState>();
     var lobbyInfoState = services.GetRequiredService<LobbyInfoState>();
+    var driverOverrideState = services.GetRequiredService<DriverOverrideService>();
 
     var participantsHandler = services.GetRequiredService<ParticipantsHandler>();
     var sessionHandler = services.GetRequiredService<SessionHandler>();

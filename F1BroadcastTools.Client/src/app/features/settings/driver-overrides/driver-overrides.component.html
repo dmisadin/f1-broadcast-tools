@@ -1,33 +1,42 @@
 <h1>Driver overrides</h1>
 
-<div class="driver-overrides">
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Position</th>
-                <th>Team</th>
-                <th>Racing Number</th>
-                <th>Name</th>
-                <th>Player Override</th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (driver of drivers; track driver.id)
-            {
-            <tr>
-                <td>{{ driver.id }}</td>
-                <td>{{ driver.position ?? "Unknown" }}</td>
-                <td>
-                    <img src="images/teams/{{driver.team}}.png" alt="" class="team-logo">
-                </td>
-                <td>{{ driver.racingNumber }}</td>
-                <td>{{ driver.name }}</td>
-                <td>
-                    <player-search (onSelected)="onPlayerSelected(driver.id, $event)"></player-search>
-                </td>
-            </tr>
-            }
-        </tbody>
-    </table>
-</div>
+@if(drivers && drivers.length)
+{
+    <div class="driver-overrides">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th>Racing Number</th>
+                    <th>Name</th>
+                    <th>Player Override</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (driver of drivers; track driver.id)
+                {
+                <tr>
+                    <td>{{ driver.id }}</td>
+                    <td>{{ driver.position ?? "Unknown" }}</td>
+                    <td>
+                        <img src="images/teams/{{driver.team}}.png" alt="" class="team-logo">
+                    </td>
+                    <td>{{ driver.racingNumber }}</td>
+                    <td>{{ driver.name }}</td>
+                    <td>
+                    <player-search (selectedIdChange)="onPlayerChange(driver.id, $event)"></player-search>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <button (click)="update()">Update</button>
+}
+@else {
+    <h3>Waiting for a session to begin...</h3>
+}
+
+<button (click)="refresh()">Refresh</button>

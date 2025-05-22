@@ -1,14 +1,11 @@
-﻿using F1GameDataParser.Enums;
+﻿using F1GameDataParser.Database.Entities;
 
 namespace F1GameDataParser.Models.DriverOverride
 {
     public class DriverOverride
     {
         public int Id { get; set; }
-        public byte RacingNumber { get; set; }
-        public string Name { get; set; }
-        public string NameOverride { get; set; }
-        public byte Position { get; set; }
-        public Team Team { get; set; }
+        public int PlayerId { get; set; }
+        public Player Player { get; set; }
     }
 }

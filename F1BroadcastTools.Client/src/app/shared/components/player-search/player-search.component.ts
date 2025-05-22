@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { PlayerService } from '../../services/player.service';
 import { LookupDto } from '../../models/common';
 
@@ -12,8 +12,9 @@ import { LookupDto } from '../../models/common';
 export class PlayerSearchComponent implements OnInit {
     players$: Observable<LookupDto[]>;
     searchSubject = new Subject<string>();
-    selectedId: number;
-    @Output() onSelected = new EventEmitter<number>();
+    @Input() selectedId?: number;
+    @Output() selectedIdChange = new EventEmitter<number>();
+    @Output() onClear = new EventEmitter();
 
     constructor(private playerService: PlayerService) { }
 
@@ -25,7 +26,7 @@ export class PlayerSearchComponent implements OnInit {
         );
     }
 
-    onPlayerSelected(selectedId: number) {
-        this.onSelected.emit(selectedId);
+    onPlayerChange(selectedId: number) {
+        this.selectedIdChange.emit(selectedId);
     }
 }

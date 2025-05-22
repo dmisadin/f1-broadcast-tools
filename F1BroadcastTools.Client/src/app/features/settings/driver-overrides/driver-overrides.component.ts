@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
-import { DriverOverride } from "../../../shared/models/Player";
+import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { Team } from "../../../shared/models/Enumerations";
 import { RestService } from "../../../core/services/rest.service";
+import { DriverOverrideDto } from "../../../shared/models/dtos";
+import { DriverOverrideEndpoints, PlayerEndpoints } from "../../../shared/constants/apiUrls";
 
 @Component({
     standalone: false,
@@ -9,8 +10,9 @@ import { RestService } from "../../../core/services/rest.service";
     templateUrl: 'driver-overrides.component.html',
     styleUrl: 'driver-overrides.component.css'
 })
-export class DriverOverrides implements OnInit {
-    drivers: DriverOverride[] = [
+export class DriverOverrides implements OnInit, OnChanges {
+    drivers: DriverOverrideDto[]
+    /*   = [
         {
             id: 1,
             name: "Dominik",
@@ -37,18 +39,33 @@ export class DriverOverrides implements OnInit {
             racingNumber: 6,
             team: Team.AstonMartin
         },
-    ];
+    ]; */
 
     constructor(private restService: RestService) { }
-
-    ngOnInit(): void {
-        // API call for drivers in lobby
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(changes)
     }
 
-    onPlayerSelected(driverId: number, playerId: number) {
-        const driver = this.drivers.find(d => d.id === driverId);
+    ngOnInit(): void {
+        this.refresh();
+    }
 
+    onPlayerChange(driverId: number, playerId?: number) {
+        const driver = this.drivers.find(d => d.id === driverId);
+        console.log(driverId, playerId)
         if(driver)
             driver.playerId = playerId;
+
+        console.log(driver)
+    }
+
+    refresh() {
+        this.restService.get<DriverOverrideDto[]>(DriverOverrideEndpoints.getAll).subscribe(result => {
+            this.drivers = result;
+        });
+    }
+    
+    update() { // TODO: zapravo napraviti filtriranje promjenjenih drivera prije slanja ili imati .push()
+        this.restService.post<DriverOverrideDto[]>(PlayerEndpoints.customEndpoint("update"), this.drivers).subscribe();
     }
 }

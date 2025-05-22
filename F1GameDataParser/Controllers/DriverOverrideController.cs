@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using F1GameDataParser.Database.Dtos;
+using F1GameDataParser.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace F1GameDataParser.Controllers
 {
@@ -6,12 +8,17 @@ namespace F1GameDataParser.Controllers
     [ApiController]
     public class DriverOverrideController : ControllerBase
     {
-        [HttpGet("get-all")]
-        public IActionResult GetAll()
+        private readonly DriverOverrideService driverOverrideService;
+
+        public DriverOverrideController(DriverOverrideService driverOverrideService)
         {
+            this.driverOverrideService = driverOverrideService;   
+        }
 
-
-            return NotFound();
+        [HttpGet("get-all")]
+        public List<DriverOverrideDto> GetAll()
+        {
+            return this.driverOverrideService.GetAll();
         }
     }
 }

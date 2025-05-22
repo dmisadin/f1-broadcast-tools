@@ -13,18 +13,21 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         private readonly ParticipantsState participantsState;
         private readonly CarStatusState carStatusState;
         private readonly SessionHistoryState sessionHistoryState;
+        private readonly DriverOverrideState driverOverrideState;
 
         public TimingTowerFactory(LapState lapState,
             SessionState sessionState,
             ParticipantsState participantsState,
             CarStatusState carStatusState,
-            SessionHistoryState sessionHistoryState)
+            SessionHistoryState sessionHistoryState,
+            DriverOverrideState driverOverrideState)
         {
             this.lapState = lapState;
             this.sessionState = sessionState;
             this.participantsState = participantsState;
             this.carStatusState = carStatusState;
             this.sessionHistoryState = sessionHistoryState;
+            this.driverOverrideState = driverOverrideState;
         }
 
         public override TimingTower? Generate()
@@ -49,13 +52,14 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 var lapDetails = lapState.State.LapDetails[i];
                 var participantDetails = participantsState.State.ParticipantList[i];
                 var carStatusDetails = carStatusState.State.Details[i];
+                var driverOverride = driverOverrideState.GetModel(i);
 
                 driverTimingDetails[i] = new DriverTimingDetails
                 {
                     VehicleIdx = i,
                     Position = lapDetails.CarPosition,
                     TeamId = participantDetails.TeamId, //ToString()
-                    Name = participantDetails.Name,
+                    Name = driverOverride?.Player.Name ??  participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
                     Gap = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),

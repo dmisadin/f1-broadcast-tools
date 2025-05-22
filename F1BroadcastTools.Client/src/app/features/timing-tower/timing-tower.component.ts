@@ -22,7 +22,7 @@ export class TimingTowerComponent implements OnInit {
         this.webSocketService.connect('ws://localhost:5000/ws');
 
         this.webSocketService.onMessage().subscribe((data: TimingTower) => {
-            console.log("onMessage", data);
+            //console.log("onMessage", data);
             this.timingTower = data;
         })
     }

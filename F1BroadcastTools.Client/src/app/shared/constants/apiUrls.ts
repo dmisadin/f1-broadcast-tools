@@ -11,3 +11,7 @@ function BuildGenericEndpoints(controllerName: string): Endpoints {
 }
 
 export const PlayerEndpoints: Endpoints = BuildGenericEndpoints("player");
+
+export const DriverOverrideEndpoints = {
+    getAll: "/driver-override/get-all"
+}
