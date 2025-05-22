@@ -9,5 +9,11 @@ export interface DriverOverrideDto {
     team?: Team;
 
     playerId?: number;
-    player?: LookupDto;
+    player?: DriverPlayerDto;
+}
+
+export interface DriverPlayerDto {
+    driverId: number;
+    playerId: number;
+    playerName: string;
 }

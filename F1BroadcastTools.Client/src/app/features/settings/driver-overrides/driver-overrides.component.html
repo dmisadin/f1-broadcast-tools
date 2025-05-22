@@ -26,7 +26,10 @@
                     <td>{{ driver.racingNumber }}</td>
                     <td>{{ driver.name }}</td>
                     <td>
-                    <player-search (selectedIdChange)="onPlayerChange(driver.id, $event)"></player-search>
+                    <player-search (selectedIdChange)="onPlayerChange(driver.id, $event)" 
+                        [selectedId]="driver.playerId"
+                        [selectedLabel]="driver.player?.playerName">
+                    </player-search>
                     </td>
                 </tr>
                 }

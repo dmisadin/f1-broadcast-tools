@@ -13,6 +13,7 @@ export class PlayerSearchComponent implements OnInit {
     players$: Observable<LookupDto[]>;
     searchSubject = new Subject<string>();
     @Input() selectedId?: number;
+    @Input() selectedLabel?: string;
     @Output() selectedIdChange = new EventEmitter<number>();
     @Output() onClear = new EventEmitter();
 
@@ -20,6 +21,7 @@ export class PlayerSearchComponent implements OnInit {
 
     ngOnInit(): void {
         this.players$ = this.searchSubject.pipe(
+            startWith(this.selectedLabel ?? ""),
             debounceTime(300),
             distinctUntilChanged(),
             switchMap(query => this.playerService.searchPlayers(query))
