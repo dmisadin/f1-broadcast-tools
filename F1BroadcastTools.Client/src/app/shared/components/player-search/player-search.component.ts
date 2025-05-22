@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { PlayerService } from '../../services/player.service';
 import { LookupDto } from '../../models/common';
@@ -10,8 +10,10 @@ import { LookupDto } from '../../models/common';
     templateUrl: './player-search.component.html',
 })
 export class PlayerSearchComponent implements OnInit {
-    players$: Observable<LookupDto[]>;
+    players$ = new BehaviorSubject<LookupDto[]>([]);
     searchSubject = new Subject<string>();
+    selectedPlayer?: LookupDto;
+    allPlayers: LookupDto[] = [];
     @Input() selectedId?: number;
     @Input() selectedLabel?: string;
     @Output() selectedIdChange = new EventEmitter<number>();
@@ -20,12 +22,27 @@ export class PlayerSearchComponent implements OnInit {
     constructor(private playerService: PlayerService) { }
 
     ngOnInit(): void {
-        this.players$ = this.searchSubject.pipe(
-            startWith(this.selectedLabel ?? ""),
+        const initialSelected: LookupDto | undefined = this.selectedId && this.selectedLabel
+            ? { id: this.selectedId, label: this.selectedLabel }
+            : undefined;
+
+        if (initialSelected) {
+            this.players$.next([initialSelected]); // preload it into the list
+        }
+
+        this.searchSubject.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            switchMap(query => this.playerService.searchPlayers(query))
-        );
+            switchMap(query => this.playerService.searchPlayers(query)),
+            tap(searchResults => {
+                const merged = [...new Map([
+                    ...(initialSelected ? [initialSelected] : []),
+                    ...searchResults
+                ].map(p => [p.id, p])).values()];
+
+                this.players$.next(merged);
+            })
+        ).subscribe();
     }
 
     onPlayerChange(selectedId: number) {
