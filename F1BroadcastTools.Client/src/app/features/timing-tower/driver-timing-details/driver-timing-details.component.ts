@@ -10,7 +10,9 @@ import { ResultStatus, SafetyCarStatus } from "../../../shared/models/Enumeratio
 })
 export class DriverTimingDetailsComponent implements OnChanges {
     @Input() driver!: DriverTimingDetails;
+
     @Input() isSpectated: boolean = false;
+    @Input() showAdditionalInfo: number = 0;
 
     resultStatus = ResultStatus;
     

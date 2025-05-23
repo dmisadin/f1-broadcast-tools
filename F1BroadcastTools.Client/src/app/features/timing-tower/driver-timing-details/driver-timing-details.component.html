@@ -1,26 +1,39 @@
-<div class="driver" [ngClass]="{'spectated': isSpectated}">
-    <div>{{driver.vehicleIdx}}</div>
-    <div>{{driver.position}}</div>
+<div class="driver"
+    [ngClass]="{'spectated': isSpectated, 'out-of-session': driver.resultStatus !== resultStatus.Active}">
+    <div class="position">{{driver.position}}</div>
     <div class="team">
         <img src="images/teams/{{driver.teamId}}.png" alt="" class="team-logo">
     </div>
-    <div class="name">{{driver.name}}</div>
-    <div>{{driver.tyreAge}}</div>
-    <div class="tyre">
-        <img src="images/icons/tyres/{{driver.visualTyreCompound.toLowerCase()}}.svg" alt="{{driver.visualTyreCompound}}" class="team-logo">
+    <div class="name">
+        {{driver.name}}
+    </div>
+    <div class="tyre" [ngStyle]="{
+            'background-image': 'url(images/icons/tyres/' + driver.visualTyreCompound.toLowerCase() + '_empty.svg)'
+        }">
+        {{driver.tyreAge}}
+    </div>
+
+    <div class="additional-info">
+        @if (driver.warnings)
+        {
+        <div class="warning">
+            <img src="images/icons/common/warning.svg" alt="">
+            {{driver.warnings}}
+        </div>
+        }
     </div>
     <div class="gap">
         @if (driver.isInPits && driver.resultStatus == resultStatus.Active) {
-            In Pit
-        } 
-        @else {
-            {{driver.gap}}
+        In Pit
         }
+        @else {
+        {{driver.gap}}
+        }
+
     </div>
-    <div>{{resultStatus[driver.resultStatus]}}</div>
-    <div>{{driver.penalties}}</div>
+    <!-- <div>{{driver.penalties}}</div>
     <div>{{driver.warnings}}</div>
     <div>{{driver.hasFastestLap}}</div>
     <div>{{driver.numPitStops}}</div>
-    <div>{{driver.positionsGained}}</div>
+    <div>{{driver.positionsGained}}</div> -->
 </div>

@@ -119,3 +119,10 @@ export enum Nationality {
     GB_WLS = 86,
     VN = 87
 }
+
+export enum AdditionalInfo {
+    Warnings = 1 << 0,
+    Penalites = 1 << 1,
+    NumPitStops = 1 << 2,
+    PositionsGained = 1 << 3
+}
