@@ -4,27 +4,30 @@ using F1GameDataParser.State;
 using F1GameDataParser.Utility;
 using F1GameDataParser.ViewModels.TimingTower;
 
-namespace F1GameDataParser.Mapping.ViewModelBuilders
+namespace F1GameDataParser.Mapping.ViewModelFactories
 {
-    public class TimingTowerBuilder : GenericBuilder<TimingTower>
+    public class TimingTowerFactory : ViewModelFactoryBase<TimingTower>
     {
         private readonly LapState lapState;
         private readonly SessionState sessionState;
         private readonly ParticipantsState participantsState;
         private readonly CarStatusState carStatusState;
         private readonly SessionHistoryState sessionHistoryState;
+        private readonly DriverOverrideState driverOverrideState;
 
-        public TimingTowerBuilder(LapState lapState,
+        public TimingTowerFactory(LapState lapState,
             SessionState sessionState,
             ParticipantsState participantsState,
             CarStatusState carStatusState,
-            SessionHistoryState sessionHistoryState)
+            SessionHistoryState sessionHistoryState,
+            DriverOverrideState driverOverrideState)
         {
             this.lapState = lapState;
             this.sessionState = sessionState;
             this.participantsState = participantsState;
             this.carStatusState = carStatusState;
             this.sessionHistoryState = sessionHistoryState;
+            this.driverOverrideState = driverOverrideState;
         }
 
         public override TimingTower? Generate()
@@ -49,13 +52,14 @@ namespace F1GameDataParser.Mapping.ViewModelBuilders
                 var lapDetails = lapState.State.LapDetails[i];
                 var participantDetails = participantsState.State.ParticipantList[i];
                 var carStatusDetails = carStatusState.State.Details[i];
+                var driverOverride = driverOverrideState.GetModel(i);
 
                 driverTimingDetails[i] = new DriverTimingDetails
                 {
                     VehicleIdx = i,
                     Position = lapDetails.CarPosition,
                     TeamId = participantDetails.TeamId, //ToString()
-                    Name = participantDetails.Name,
+                    Name = driverOverride?.Player.Name ??  participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
                     Gap = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
@@ -74,6 +78,7 @@ namespace F1GameDataParser.Mapping.ViewModelBuilders
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
                 SectorYellowFlags = GetFIAFlags(),
+                ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap),
                 DriverTimingDetails = driverTimingDetails.Where(x => x.Position > 0).OrderBy(x => x.Position).ToArray(),
                 SpectatorCarIdx = sessionState.State.SpectatorCarIndex
             };
@@ -131,6 +136,33 @@ namespace F1GameDataParser.Mapping.ViewModelBuilders
             bool isSector3Yellow = marshalZones.Any(zone => zone.ZoneStart >= sector3Start && zone.ZoneFlag == ZoneFlag.Yellow);
 
             return [isSector1Yellow, isSector2Yellow, isSector3Yellow];
+        }
+
+        private AdditionalInfoType ShouldShowAdditionalInfo(byte currentLap)
+        {
+            AdditionalInfoType showAdditionalInfo = AdditionalInfoType.None;
+
+            if (currentLap % 2 == 0)
+                showAdditionalInfo |= AdditionalInfoType.Warnings;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.Warnings;
+
+            if (currentLap % 3 == 0)
+                showAdditionalInfo |= AdditionalInfoType.Penalties;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.Penalties;
+
+            if (currentLap % 5 == 0)
+                showAdditionalInfo |= AdditionalInfoType.NumPitStops;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.NumPitStops;
+
+            if (currentLap == 2 || (currentLap % 10 == 0))
+                showAdditionalInfo |= AdditionalInfoType.PositionsGained;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.PositionsGained;
+
+            return showAdditionalInfo;
         }
     }
 }

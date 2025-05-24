@@ -1,8 +1,12 @@
-﻿using F1GameDataParser.Handlers;
-using F1GameDataParser.Mapping.ViewModelBuilders;
+﻿using F1GameDataParser.Database;
+using F1GameDataParser.Database.Repositories;
+using F1GameDataParser.Handlers;
+using F1GameDataParser.Mapping.ViewModelFactories;
+using F1GameDataParser.Services;
 using F1GameDataParser.Startup;
 using F1GameDataParser.State;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
@@ -41,9 +45,29 @@ builder.Services.AddSingleton<SessionHistoryState>();
 builder.Services.AddSingleton<CarDamageHandler>();
 builder.Services.AddSingleton<CarDamageState>();
 
-builder.Services.AddTransient<TimingTowerBuilder>();
+builder.Services.AddSingleton<LobbyInfoHandler>();
+builder.Services.AddSingleton<LobbyInfoState>();
+
+builder.Services.AddSingleton<DriverOverrideState>();
+
+builder.Services.AddTransient<TimingTowerFactory>();
+builder.Services.AddTransient<DriverOverrideService>();
+
+// Register repositories
+builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
+
+// Register services
+builder.Services.AddScoped(typeof(PlayerService));
 
 builder.Services.AddSharedServices();
+
+await DataAccess.InitializeAndMigrateDatabase();
+
+// Register DbContext
+
+string folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "F1BroadcastTools");
+string dbpath = Path.Combine(folderPath, "f1BroadcastTools.db");
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(dbpath)); // Use SQLite
 
 var app = builder.Build();
 
@@ -62,6 +86,8 @@ using (var scope = app.Services.CreateScope())
     var sessionHistoryState = services.GetRequiredService<SessionHistoryState>();
     var carDamageState = services.GetRequiredService<CarDamageState>();
     var carStatusState = services.GetRequiredService<CarStatusState>();
+    var lobbyInfoState = services.GetRequiredService<LobbyInfoState>();
+    var driverOverrideState = services.GetRequiredService<DriverOverrideService>();
 
     var participantsHandler = services.GetRequiredService<ParticipantsHandler>();
     var sessionHandler = services.GetRequiredService<SessionHandler>();
@@ -72,10 +98,15 @@ using (var scope = app.Services.CreateScope())
     var lapHandler = services.GetRequiredService<LapHandler>();
     var sessionHistoryHandler = services.GetRequiredService<SessionHistoryHandler>();
     var carDamageHandler = services.GetRequiredService<CarDamageHandler>();
+    var lobbyInfoHandler = services.GetRequiredService<LobbyInfoHandler>();
 }
 
 app.UseRouting();
 app.MapControllers();
+app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
 // Run the application
 await app.RunAsync();

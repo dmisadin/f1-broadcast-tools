@@ -3,7 +3,7 @@ import { TimingTower } from "../../shared/models/TimingTower";
 
 import testData from "./test-data/3.json";
 import { WebSocketService } from "../../core/services/websocket.service";
-import { SafetyCarStatus } from "../../shared/models/Enumerations";
+import { ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations";
 
 @Component({
     standalone: false,
@@ -14,6 +14,8 @@ import { SafetyCarStatus } from "../../shared/models/Enumerations";
 export class TimingTowerComponent implements OnInit {
     timingTower?: TimingTower;
     safetyCarStatus = SafetyCarStatus;
+    resultStatus = ResultStatus;
+    showAdditionalInfo: number = 0;
     constructor(private webSocketService: WebSocketService<TimingTower>) { }
 
     ngOnInit(): void {
@@ -22,7 +24,8 @@ export class TimingTowerComponent implements OnInit {
         this.webSocketService.connect('ws://localhost:5000/ws');
 
         this.webSocketService.onMessage().subscribe((data: TimingTower) => {
-            console.log("onMessage", data);
+            //console.log("onMessage", data);
+            //TODO: we could use the % of lap done by each car, or at least the leader.
             this.timingTower = data;
         })
     }

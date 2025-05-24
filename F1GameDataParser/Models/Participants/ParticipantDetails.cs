@@ -1,4 +1,5 @@
-﻿using F1GameDataParser.Enums;
+﻿using F1GameDataParser.Database.Entities;
+using F1GameDataParser.Enums;
 
 namespace F1GameDataParser.Models.Participants
 {

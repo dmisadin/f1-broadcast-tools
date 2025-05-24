@@ -1,0 +1,10 @@
+<ng-select
+    [items]="players$ | async"
+    bindLabel="label"
+    bindValue="id"
+    placeholder="Search Players..."
+    [typeahead]="searchSubject"
+    [clearable]="true"
+    [(ngModel)]="selectedId"
+    (ngModelChange)="onPlayerChange($event)">
+</ng-select>

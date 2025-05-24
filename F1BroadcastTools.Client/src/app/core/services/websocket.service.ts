@@ -31,7 +31,7 @@ export class WebSocketService<T> {
             console.log('WebSocket connection closed');
         };
     }
-    /* 
+    /* DISABLED:
     sendMessage(message: string): void {
         if (this.isConnected && this.socket?.readyState === WebSocket.OPEN) {
             this.socket.send(message);
@@ -40,6 +40,7 @@ export class WebSocketService<T> {
         }
     }
      */
+    
     onMessage(): Observable<T> {
         return this.messageSubject.asObservable();
     }

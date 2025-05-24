@@ -71,6 +71,8 @@ namespace F1GameDataParser.Enums
         Dams22,
         Campos22,
         VanAmersfoortRacing22,
-        Trident22
+        Trident22,
+
+        Undefined = 255
     }
 }

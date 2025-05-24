@@ -6,30 +6,63 @@
         <div class="fia-flag">
             @if (timingTower.safetyCarStatus == safetyCarStatus.Full)
             {
-                <div class="safety-car">
-                    Safety Car
-                </div>
+            <div class="safety-car">
+                Safety Car
+            </div>
             }
             @else if (timingTower.safetyCarStatus == safetyCarStatus.Virtual) {
-                <div class="safety-car">
-                    Virtual Safety Car
-                </div>
+            <div class="safety-car">
+                Virtual Safety Car
+            </div>
             }
-            @else if (timingTower.sectorYellowFlags.includes(true)) 
+            @else if (timingTower.sectorYellowFlags.includes(true))
             {
-                <div class="yellow-flags">
-                    {{timingTower.sectorYellowFlags | sectorsYellowFlags}}
-                </div>
+            <div class="yellow-flags">
+                {{timingTower.sectorYellowFlags | sectorsYellowFlags}}
+            </div>
             }
         </div>
     </div>
     <div class="driver-timing-details-container">
         @for (driver of timingTower.driverTimingDetails; track driver.vehicleIdx)
         {
-            <driver-timing-details 
-                [driver]="driver" 
-                [isSpectated]="driver.vehicleIdx === timingTower.spectatorCarIdx">
-            </driver-timing-details>
+        <driver-timing-details [driver]="driver" 
+            [isSpectated]="driver.vehicleIdx === timingTower.spectatorCarIdx"
+            [showAdditionalInfo]="this.timingTower.showAdditionalInfo">
+        </driver-timing-details>
+        }
+    </div>
+    <div>OLD:</div>
+    <div class="driver-timing-details-container">
+        @for (driver of timingTower.driverTimingDetails; track driver.vehicleIdx)
+        {
+        <div class="driver" [ngClass]="{'spectated': driver.vehicleIdx === timingTower.spectatorCarIdx}">
+            <div>{{driver.vehicleIdx}}</div>
+            <div>{{driver.position}}</div>
+            <div class="team">
+                <img src="images/teams/{{driver.teamId}}.png" alt="" class="team-logo">
+            </div>
+            <div class="name">{{driver.name}}</div>
+            <div>{{driver.tyreAge}}</div>
+            <div class="tyre">
+                <img src="images/icons/tyres/{{driver.visualTyreCompound.toLowerCase()}}.svg"
+                    alt="{{driver.visualTyreCompound}}" class="team-logo">
+            </div>
+            <div class="gap">
+                @if (driver.isInPits && driver.resultStatus == resultStatus.Active) {
+                In Pit
+                }
+                @else {
+                {{driver.gap}}
+                }
+            </div>
+            <div>{{resultStatus[driver.resultStatus]}}</div>
+            <div>{{driver.penalties}}</div>
+            <div>{{driver.warnings}}</div>
+            <div>{{driver.hasFastestLap}}</div>
+            <div>{{driver.numPitStops}}</div>
+            <div>{{driver.positionsGained}}</div>
+        </div>
         }
     </div>
 </div>

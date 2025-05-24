@@ -5,7 +5,8 @@ export interface TimingTower {
     totalLaps: number;
 
     safetyCarStatus: SafetyCarStatus;
-    sectorYellowFlags : boolean[];
+    sectorYellowFlags: boolean[];
+    showAdditionalInfo: number;
 
     driverTimingDetails: DriverTimingDetails[];
     spectatorCarIdx: number;
