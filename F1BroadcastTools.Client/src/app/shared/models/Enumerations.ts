@@ -122,7 +122,7 @@ export enum Nationality {
 
 export enum AdditionalInfo {
     Warnings = 1 << 0,
-    Penalites = 1 << 1,
+    Penalties = 1 << 1,
     NumPitStops = 1 << 2,
     PositionsGained = 1 << 3
 }

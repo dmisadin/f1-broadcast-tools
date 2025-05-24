@@ -3,7 +3,7 @@ import { TimingTower } from "../../shared/models/TimingTower";
 
 import testData from "./test-data/3.json";
 import { WebSocketService } from "../../core/services/websocket.service";
-import { AdditionalInfo, ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations";
+import { ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations";
 
 @Component({
     standalone: false,
@@ -28,26 +28,5 @@ export class TimingTowerComponent implements OnInit {
             //TODO: we could use the % of lap done by each car, or at least the leader.
             this.timingTower = data;
         })
-    }
-
-    shouldShowAdditionalInfo() {
-        //penalties, numPitStops, positionsGained
-        const currentLap = this.timingTower?.currentLap || 1;
-        if (currentLap % 2)
-            this.showAdditionalInfo = this.showAdditionalInfo | AdditionalInfo.Warnings;
-        else 
-            this.showAdditionalInfo = this.showAdditionalInfo & ~AdditionalInfo.Warnings;
-        if (currentLap % 3)
-            this.showAdditionalInfo = this.showAdditionalInfo | AdditionalInfo.Penalites;
-        else
-            this.showAdditionalInfo = this.showAdditionalInfo & ~AdditionalInfo.Penalites;
-        if (currentLap % 5)
-            this.showAdditionalInfo = this.showAdditionalInfo | AdditionalInfo.NumPitStops;
-        else
-            this.showAdditionalInfo = this.showAdditionalInfo & ~AdditionalInfo.NumPitStops;
-        if (currentLap === 2 || currentLap % 10)
-            this.showAdditionalInfo = this.showAdditionalInfo | AdditionalInfo.PositionsGained;
-        else
-            this.showAdditionalInfo = this.showAdditionalInfo & ~AdditionalInfo.PositionsGained;
     }
 }

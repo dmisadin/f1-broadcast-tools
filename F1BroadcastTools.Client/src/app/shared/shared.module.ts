@@ -8,6 +8,7 @@ import { GridComponent } from "./components/grid/grid/grid.component";
 import { NgSelectModule } from "@ng-select/ng-select";
 import { PlayerSearchComponent } from "./components/player-search/player-search.component";
 import { FormsModule } from "@angular/forms";
+import { HasFlagPipe } from "./pipes/has-flag.pipe";
 
 const components = [
     SidebarComponent,
@@ -16,7 +17,8 @@ const components = [
 ];
 
 const pipes = [
-    MilisecondsToGapPipe
+    MilisecondsToGapPipe,
+    HasFlagPipe
 ];
 
 const allDeclarations = [

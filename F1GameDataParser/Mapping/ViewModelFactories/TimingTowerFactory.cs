@@ -78,6 +78,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
                 SectorYellowFlags = GetFIAFlags(),
+                ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap),
                 DriverTimingDetails = driverTimingDetails.Where(x => x.Position > 0).OrderBy(x => x.Position).ToArray(),
                 SpectatorCarIdx = sessionState.State.SpectatorCarIndex
             };
@@ -135,6 +136,33 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             bool isSector3Yellow = marshalZones.Any(zone => zone.ZoneStart >= sector3Start && zone.ZoneFlag == ZoneFlag.Yellow);
 
             return [isSector1Yellow, isSector2Yellow, isSector3Yellow];
+        }
+
+        private AdditionalInfoType ShouldShowAdditionalInfo(byte currentLap)
+        {
+            AdditionalInfoType showAdditionalInfo = AdditionalInfoType.None;
+
+            if (currentLap % 2 == 0)
+                showAdditionalInfo |= AdditionalInfoType.Warnings;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.Warnings;
+
+            if (currentLap % 3 == 0)
+                showAdditionalInfo |= AdditionalInfoType.Penalties;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.Penalties;
+
+            if (currentLap % 5 == 0)
+                showAdditionalInfo |= AdditionalInfoType.NumPitStops;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.NumPitStops;
+
+            if (currentLap == 2 || (currentLap % 10 == 0))
+                showAdditionalInfo |= AdditionalInfoType.PositionsGained;
+            else
+                showAdditionalInfo &= ~AdditionalInfoType.PositionsGained;
+
+            return showAdditionalInfo;
         }
     }
 }
