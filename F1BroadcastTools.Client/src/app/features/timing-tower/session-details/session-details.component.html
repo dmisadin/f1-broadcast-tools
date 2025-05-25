@@ -1,0 +1,24 @@
+<div class="session-details show-fia-flag">
+    <div class="laps">
+        LAP {{currentLap}} / {{totalLaps}}
+    </div>
+    <div class="fia-flag">
+        @if (safetyCarStatus == SafetyCarStatus.Full)
+        {
+        <div class="safety-car yellow-flag">
+            Safety Car
+        </div>
+        }
+        @else if (safetyCarStatus == SafetyCarStatus.Virtual) {
+        <div class="safety-car yellow-flag">
+            Virtual Safety Car
+        </div>
+        }
+        @else if (sectorYellowFlags.includes(true))
+        {
+        <div class="yellow-flag">
+            {{sectorYellowFlags | sectorsYellowFlags}}
+        </div>
+        }
+    </div>
+</div>

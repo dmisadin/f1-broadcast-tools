@@ -1,0 +1,45 @@
+.session-details {
+    display: grid;
+    grid-template-rows: 3rem 0;
+
+    background-color: black;
+    width: 17rem;
+    height: fit-content;
+
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    
+    transition: grid-template-rows 1s;
+}
+
+.session-details div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+}
+
+.session-details.show-fia-flag {
+    grid-template-rows: 3rem 3rem;
+}
+
+.session-details:not(.show-fia-flag) .fia-flag {
+    opacity: 0;
+}
+
+.fia-flag {
+    opacity: 1;
+    transition: opacity .5s;
+}
+
+.safety-car {
+
+}
+
+.yellow-flag {
+    color: black;
+    background-color: #EEC40E;
+}
