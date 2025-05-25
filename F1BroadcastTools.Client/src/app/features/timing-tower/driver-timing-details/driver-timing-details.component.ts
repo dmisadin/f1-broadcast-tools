@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
 import { DriverTimingDetails } from "../../../shared/models/TimingTower";
-import { AdditionalInfo, ResultStatus, SafetyCarStatus } from "../../../shared/models/Enumerations";
+import { AdditionalInfo, ResultStatus } from "../../../shared/models/Enumerations";
 
 @Component({
     standalone: false,

@@ -96,7 +96,7 @@
     }
 }
 
-.additional-info  .positions-gained {
+.additional-info .positions-gained {
     font-size: 1.1rem;
 }
 
@@ -112,4 +112,12 @@
 
 .warning {
     color: yellow;
+}
+
+.spectated .warning {
+    color: black;
+}
+
+.has-fastest-lap {
+    background: linear-gradient(to right, #963F9D 0%, #963F9D00 100%);
 }
