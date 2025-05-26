@@ -38,6 +38,7 @@
     background: linear-gradient(to right, white 85%, transparent 100%);
     color: transparent;
     background-clip: text;
+    -webkit-background-clip: text; /* needed of OBS */
     white-space: nowrap;
     overflow: hidden;
 }
@@ -45,6 +46,7 @@
 .spectated .name {
     background: linear-gradient(to right, black 85%, transparent 100%);
     background-clip: text;
+    -webkit-background-clip: text; /* needed of OBS */
 }
 
 .gap {
