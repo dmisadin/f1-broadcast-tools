@@ -11,7 +11,7 @@ import { ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations"
     templateUrl: 'timing-tower.component.html',
     styleUrl: 'timing-tower.component.css'
 })
-export class TimingTowerComponent implements OnInit {
+export class TimingTowerComponent implements OnInit, OnDestroy {
     timingTower?: TimingTower;
     safetyCarStatus = SafetyCarStatus;
     resultStatus = ResultStatus;
@@ -26,5 +26,9 @@ export class TimingTowerComponent implements OnInit {
             //TODO: we could use the % of lap done by each car, or at least the leader.
             this.timingTower = data;
         });
+    }
+
+    ngOnDestroy(): void {
+        this.webSocketService.disconnect();
     }
 }
