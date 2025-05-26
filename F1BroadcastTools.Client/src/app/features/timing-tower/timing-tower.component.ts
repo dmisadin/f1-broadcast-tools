@@ -11,7 +11,7 @@ import { ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations"
     templateUrl: 'timing-tower.component.html',
     styleUrl: 'timing-tower.component.css'
 })
-export class TimingTowerComponent implements OnInit {
+export class TimingTowerComponent implements OnInit, OnDestroy {
     timingTower?: TimingTower;
     safetyCarStatus = SafetyCarStatus;
     resultStatus = ResultStatus;
@@ -19,14 +19,16 @@ export class TimingTowerComponent implements OnInit {
     constructor(private webSocketService: WebSocketService<TimingTower>) { }
 
     ngOnInit(): void {
-        console.log(this.timingTower);
-
         this.webSocketService.connect('ws://localhost:5000/ws');
 
         this.webSocketService.onMessage().subscribe((data: TimingTower) => {
             //console.log("onMessage", data);
             //TODO: we could use the % of lap done by each car, or at least the leader.
             this.timingTower = data;
-        })
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.webSocketService.disconnect();
     }
 }

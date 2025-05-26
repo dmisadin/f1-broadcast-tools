@@ -46,18 +46,21 @@ namespace F1GameDataParser.Controllers
                 Records = new List<TDto>()
             };
 
-            //if (gridRequest == null)
-            //    return gridResponse;
-
-            var recordsQuery = this.repository.Query()
-                                        .Select(DtoFactory.ToDtoExpression());
+            var recordsQuery = this.repository.Query().Select(DtoFactory.ToDtoExpression());
 
             var totalRecords = recordsQuery.Count();
-            var records = recordsQuery.ToList();    
+
+            int page = gridRequest.Page < 1 ? 1 : gridRequest.Page;
+            int pageSize = gridRequest.PageSize < 1 ? 10 : gridRequest.PageSize;
+            int skip = (page - 1) * pageSize;
+
+            var pagedRecords = recordsQuery
+                .Skip(skip)
+                .Take(pageSize)
+                .ToList();
 
             gridResponse.TotalRecords = totalRecords;
-            gridResponse.Records = records;
-
+            gridResponse.Records = pagedRecords;
 
             return gridResponse;
         }

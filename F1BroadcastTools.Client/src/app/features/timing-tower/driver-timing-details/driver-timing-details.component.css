@@ -35,6 +35,18 @@
 .name {
     text-align: left;
     padding-left: 0.5rem;
+    background: linear-gradient(to right, white 85%, transparent 100%);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text; /* needed of OBS */
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.spectated .name {
+    background: linear-gradient(to right, black 85%, transparent 100%);
+    background-clip: text;
+    -webkit-background-clip: text; /* needed of OBS */
 }
 
 .gap {
@@ -44,7 +56,8 @@
     padding-right: .5rem;
 }
 
-.team, .tyre {
+.team,
+.tyre {
     height: 100%;
 
     img {
@@ -66,6 +79,7 @@
 
     justify-content: center;
 }
+
 .out-of-session .tyre {
     opacity: 0;
 }
@@ -89,14 +103,15 @@
     font-size: .8rem;
     margin-left: 0.1rem;
 
-    img, svg {
+    img,
+    svg {
         position: absolute;
         width: 100%;
         height: auto;
     }
 }
 
-.additional-info  .positions-gained {
+.additional-info .positions-gained {
     font-size: 1.1rem;
 }
 
@@ -112,4 +127,12 @@
 
 .warning {
     color: yellow;
+}
+
+.spectated .warning {
+    color: black;
+}
+
+.has-fastest-lap {
+    background: linear-gradient(to right, #963F9D 0%, #963F9D00 100%);
 }
