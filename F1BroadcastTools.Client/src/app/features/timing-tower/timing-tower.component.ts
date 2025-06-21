@@ -25,10 +25,20 @@ export class TimingTowerComponent implements OnInit, OnDestroy {
             //console.log("onMessage", data);
             //TODO: we could use the % of lap done by each car, or at least the leader.
             this.timingTower = data;
+            this.showAdditionalInfo = this.setAdditionalInfo(this.timingTower.showAdditionalInfo)
         });
     }
 
     ngOnDestroy(): void {
         this.webSocketService.disconnect();
+    }
+
+    setAdditionalInfo(additionalInfoFlags: number): AdditionalInfo {
+        if (additionalInfoFlags & AdditionalInfo.PositionsGained) return AdditionalInfo.PositionsGained;
+        else if (additionalInfoFlags & AdditionalInfo.NumPitStops) return AdditionalInfo.NumPitStops;
+        else if (additionalInfoFlags & AdditionalInfo.Penalties) return AdditionalInfo.Penalties;
+        else if (additionalInfoFlags & AdditionalInfo.Warnings) return AdditionalInfo.Warnings;
+
+        return AdditionalInfo.None;
     }
 }

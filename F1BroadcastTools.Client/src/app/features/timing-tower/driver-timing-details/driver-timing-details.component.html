@@ -16,7 +16,7 @@
         {{driver.tyreAge}}
     </div>
     <div class="additional-info">
-        @if (showAdditionalInfo | hasFlag: additionalInfo.PositionsGained)
+        @if (showAdditionalInfo === AdditionalInfo.PositionsGained)
         {
         <div class="positions-gained" @fadeInOut>
             <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,7 @@
             <span>{{driver.positionsGained > 0 ? driver.positionsGained : driver.positionsGained*(-1)}}</span>
         </div>
         }
-        @else if (showAdditionalInfo | hasFlag: additionalInfo.NumPitStops)
+        @else if (showAdditionalInfo === AdditionalInfo.NumPitStops)
         {
         <div class="num-pit-stops" @fadeInOut>
             <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,13 +61,13 @@
             {{driver.numPitStops}}
         </div>
         }
-        @else if ((showAdditionalInfo | hasFlag: additionalInfo.Penalties) && driver.penalties)
+        @else if ((showAdditionalInfo === AdditionalInfo.Penalties) && driver.penalties)
         {
         <div class="penalties" @fadeInOut>
             +{{driver.penalties}}s
         </div>
         }
-        @else if ((showAdditionalInfo | hasFlag: additionalInfo.Warnings) && driver.warnings)
+        @else if ((showAdditionalInfo === AdditionalInfo.Warnings) && driver.warnings)
         {
         <div class="warning" @fadeInOut>
             <svg width="83" height="75" viewBox="0 0 83 75" fill="none" xmlns="http://www.w3.org/2000/svg">

@@ -27,7 +27,7 @@ export class DriverTimingDetailsComponent implements OnChanges {
     @Input() showAdditionalInfo: number = 0;
 
     resultStatus = ResultStatus;
-    additionalInfo = AdditionalInfo;
+    AdditionalInfo = AdditionalInfo;
 
     ngOnChanges(changes: SimpleChanges): void {
         /* Implement change tracking and trigger 1sec timer to show red/green
