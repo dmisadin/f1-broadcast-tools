@@ -42,6 +42,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             var firstPlaceDriver = lapState.State.LapDetails.Where(detail => detail.CarPosition == 1).FirstOrDefault();
             var currentLap = firstPlaceDriver?.CurrentLapNum ?? 0;
             var totalLaps = sessionState.State.TotalLaps;
+            var currentLapDistance = this.CurrentLapDistanceDonePercentage(firstPlaceDriver?.LapDistance ?? -1, sessionState.State.TrackLength);
 
             var driverTimingDetails = new DriverTimingDetails[22];
             var fastestLapVehicleIdx = GetFastestLapVehicleIndex();
@@ -78,7 +79,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
                 SectorYellowFlags = GetFIAFlags(),
-                ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap),
+                ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap, totalLaps, currentLapDistance),
                 DriverTimingDetails = driverTimingDetails.Where(x => x.Position > 0).OrderBy(x => x.Position).ToArray(),
                 SpectatorCarIdx = sessionState.State.SpectatorCarIndex
             };
@@ -138,9 +139,13 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             return [isSector1Yellow, isSector2Yellow, isSector3Yellow];
         }
 
-        private AdditionalInfoType ShouldShowAdditionalInfo(byte currentLap)
+        private AdditionalInfoType ShouldShowAdditionalInfo(byte currentLap, byte totalLaps, float currentLapDistancePercentage)
         {
             AdditionalInfoType showAdditionalInfo = AdditionalInfoType.None;
+            bool hasLeaderCrossedHalfOfLap = currentLapDistancePercentage > 0.5;
+
+            if (hasLeaderCrossedHalfOfLap)
+                return showAdditionalInfo;
 
             if (currentLap % 2 == 0)
                 showAdditionalInfo |= AdditionalInfoType.Warnings;
@@ -152,17 +157,24 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             else
                 showAdditionalInfo &= ~AdditionalInfoType.Penalties;
 
-            if (currentLap % 5 == 0)
+            if (currentLap % 5 == 0 && currentLap > totalLaps / 3)
                 showAdditionalInfo |= AdditionalInfoType.NumPitStops;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.NumPitStops;
 
-            if (currentLap == 2 || (currentLap % 10 == 0))
+            if (currentLap == 2 || currentLap % 10 == 0)
                 showAdditionalInfo |= AdditionalInfoType.PositionsGained;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.PositionsGained;
 
             return showAdditionalInfo;
+        }
+        
+        private float CurrentLapDistanceDonePercentage(float lapDistance, float trackLength)
+        {
+            if (lapDistance < 0)
+                return 0;
+            return lapDistance / trackLength;
         }
     }
 }

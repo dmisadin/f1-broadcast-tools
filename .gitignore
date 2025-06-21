@@ -51,3 +51,5 @@ obj/
 *.pdf
 *.doc
 *.docx
+
+test-data/
