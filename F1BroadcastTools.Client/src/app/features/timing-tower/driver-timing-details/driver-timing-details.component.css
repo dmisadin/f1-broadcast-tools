@@ -1,7 +1,6 @@
 .driver {
     position: relative;
-    display: grid;
-    grid-template-columns: 2rem 2rem 10rem 2rem 0 6rem;
+    display: flex;
 
     width: fit-content;
     height: 2.5rem;
@@ -11,12 +10,6 @@
 
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
-
-    transition: grid-template-columns 1s;
-}
-
-.driver.show-additional-info {
-    grid-template-columns: 2rem 2rem 10rem 2rem 2rem 6rem;
 }
 
 .driver div {
@@ -29,16 +22,20 @@
 }
 
 .position {
+    width: 2rem;
     justify-content: center;
 }
 
 .name {
+    width: 10rem;
     text-align: left;
+    font-weight: 600;
     padding-left: 0.5rem;
     background: linear-gradient(to right, white 85%, transparent 100%);
     color: transparent;
     background-clip: text;
-    -webkit-background-clip: text; /* needed of OBS */
+    /* needed for OBS */
+    -webkit-background-clip: text;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -46,10 +43,12 @@
 .spectated .name {
     background: linear-gradient(to right, black 85%, transparent 100%);
     background-clip: text;
-    -webkit-background-clip: text; /* needed of OBS */
+    /* needed for OBS */
+    -webkit-background-clip: text;
 }
 
 .gap {
+    width: 6rem;
     position: relative;
     text-align: right;
     justify-content: end;
@@ -58,6 +57,7 @@
 
 .team,
 .tyre {
+    width: 2rem;
     height: 100%;
 
     img {
@@ -89,27 +89,39 @@
     background-color: rgba(255, 255, 255, 0.9);
 }
 
-.additional-info {
-    justify-content: center;
-    overflow: hidden;
-}
-
-.additional-info div {
-    position: relative;
-    height: 100%;
-    width: 1.25rem;
-    text-align: center;
-    justify-content: center;
-    font-size: .8rem;
-    margin-left: 0.1rem;
-
-    img,
-    svg {
-        position: absolute;
-        width: 100%;
-        height: auto;
+.driver.show-additional-info .additional-info {
+    width: 2rem;
+    div {
+        opacity: 1;
     }
 }
+
+.additional-info {
+    width: 0;
+    justify-content: center;
+    overflow: hidden;
+    transition: width 1s;
+
+    div {
+        position: relative;
+        height: 100%;
+        width: 1.25rem;
+        text-align: center;
+        justify-content: center;
+        font-size: .8rem;
+        margin-left: 0.1rem;
+        transition: opacity .5s;
+        opacity: 0;
+
+        img,
+        svg {
+            position: absolute;
+            width: 100%;
+            height: auto;
+        }
+    }
+}
+
 
 .additional-info .positions-gained {
     font-size: 1.1rem;
