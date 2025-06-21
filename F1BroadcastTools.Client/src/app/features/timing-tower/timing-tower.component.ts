@@ -1,9 +1,7 @@
-import { Component, OnInit } from "@angular/core";
-import { TimingTower } from "../../shared/models/TimingTower";
-
-import testData from "./test-data/3.json";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { TimingTower } from "../../shared/models/TimingTower"
 import { WebSocketService } from "../../core/services/websocket.service";
-import { ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations";
+import { AdditionalInfo, ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations";
 
 @Component({
     standalone: false,
