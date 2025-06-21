@@ -79,7 +79,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
                 SectorYellowFlags = GetFIAFlags(),
-                ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap, currentLapDistance),
+                ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap, totalLaps, currentLapDistance),
                 DriverTimingDetails = driverTimingDetails.Where(x => x.Position > 0).OrderBy(x => x.Position).ToArray(),
                 SpectatorCarIdx = sessionState.State.SpectatorCarIndex
             };
@@ -139,27 +139,30 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             return [isSector1Yellow, isSector2Yellow, isSector3Yellow];
         }
 
-        private AdditionalInfoType ShouldShowAdditionalInfo(byte currentLap, float currentLapDistancePercentage)
+        private AdditionalInfoType ShouldShowAdditionalInfo(byte currentLap, byte totalLaps, float currentLapDistancePercentage)
         {
             AdditionalInfoType showAdditionalInfo = AdditionalInfoType.None;
             bool hasLeaderCrossedHalfOfLap = currentLapDistancePercentage > 0.5;
 
-            if (currentLap % 2 == 0 && !hasLeaderCrossedHalfOfLap)
+            if (hasLeaderCrossedHalfOfLap)
+                return showAdditionalInfo;
+
+            if (currentLap % 2 == 0)
                 showAdditionalInfo |= AdditionalInfoType.Warnings;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.Warnings;
 
-            if (currentLap % 3 == 0 && !hasLeaderCrossedHalfOfLap)
+            if (currentLap % 3 == 0)
                 showAdditionalInfo |= AdditionalInfoType.Penalties;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.Penalties;
 
-            if (currentLap % 5 == 0 && !hasLeaderCrossedHalfOfLap)
+            if (currentLap % 5 == 0 && currentLap > totalLaps / 3)
                 showAdditionalInfo |= AdditionalInfoType.NumPitStops;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.NumPitStops;
 
-            if ((currentLap == 2 || (currentLap % 10 == 0)) && !hasLeaderCrossedHalfOfLap)
+            if (currentLap == 2 || currentLap % 10 == 0)
                 showAdditionalInfo |= AdditionalInfoType.PositionsGained;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.PositionsGained;
