@@ -147,12 +147,12 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             if (hasLeaderCrossedHalfOfLap)
                 return showAdditionalInfo;
 
-            if (currentLap % 2 == 0)
+            if (currentLap % 2 == 0 && this.DoesAnyDriverHaveWarnings())
                 showAdditionalInfo |= AdditionalInfoType.Warnings;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.Warnings;
 
-            if (currentLap % 3 == 0)
+            if (currentLap % 3 == 0 && this.DoesAnyDriverHavePenalties())
                 showAdditionalInfo |= AdditionalInfoType.Penalties;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.Penalties;
@@ -162,7 +162,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             else
                 showAdditionalInfo &= ~AdditionalInfoType.NumPitStops;
 
-            if (currentLap == 2 || currentLap % 10 == 0)
+            if (currentLap == 2 || currentLap % 7 == 0)
                 showAdditionalInfo |= AdditionalInfoType.PositionsGained;
             else
                 showAdditionalInfo &= ~AdditionalInfoType.PositionsGained;
@@ -175,6 +175,16 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             if (lapDistance < 0)
                 return 0;
             return lapDistance / trackLength;
+        }
+
+        private bool DoesAnyDriverHavePenalties ()
+        {
+            return this.lapState.State?.LapDetails.Any(l => l.Penalties > 0) ?? false;
+        }
+
+        private bool DoesAnyDriverHaveWarnings()
+        {
+            return this.lapState.State?.LapDetails.Any(l => l.CornerCuttingWarnings > 0) ?? false;
         }
     }
 }

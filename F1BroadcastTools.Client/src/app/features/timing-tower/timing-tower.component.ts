@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit, signal } from "@angular/core";
 import { TimingTower } from "../../shared/models/TimingTower"
 import { WebSocketService } from "../../core/services/websocket.service";
 import { AdditionalInfo, ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations";
@@ -13,7 +13,7 @@ export class TimingTowerComponent implements OnInit, OnDestroy {
     timingTower?: TimingTower;
     safetyCarStatus = SafetyCarStatus;
     resultStatus = ResultStatus;
-    showAdditionalInfo: number = 0;
+    showAdditionalInfo = signal<number>(AdditionalInfo.None);
     constructor(private webSocketService: WebSocketService<TimingTower>) { }
 
     ngOnInit(): void {
@@ -23,12 +23,7 @@ export class TimingTowerComponent implements OnInit, OnDestroy {
             //console.log("onMessage", data);
             //TODO: we could use the % of lap done by each car, or at least the leader.
             this.timingTower = data;
-            this.showAdditionalInfo = this.setAdditionalInfo(this.timingTower.showAdditionalInfo)
-            console.log(this.showAdditionalInfo, AdditionalInfo[this.showAdditionalInfo])
-            /* if(this.showAdditionalInfo == AdditionalInfo.PositionsGained)
-                console.log("AdditionalInfo.PositionsGained")
-            else if(this.showAdditionalInfo == AdditionalInfo.Penalties)
-                console.log("AdditionalInfo.Penalties") */
+            this.showAdditionalInfo.set(this.setAdditionalInfo(this.timingTower.showAdditionalInfo));
         });
     }
 

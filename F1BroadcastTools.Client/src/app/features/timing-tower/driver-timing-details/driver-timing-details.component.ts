@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, computed, effect, input, signal } from "@angular/core";
 import { DriverTimingDetails } from "../../../shared/models/TimingTower";
 import { AdditionalInfo, ResultStatus } from "../../../shared/models/Enumerations";
 import { trigger, transition, style, animate } from "@angular/animations";
@@ -20,22 +20,43 @@ import { trigger, transition, style, animate } from "@angular/animations";
         ])
     ],
 })
-export class DriverTimingDetailsComponent implements OnChanges {
-    @Input() driver!: DriverTimingDetails;
-
-    @Input() isSpectated: boolean = false;
-    @Input() showAdditionalInfo: number = 0;
+export class DriverTimingDetailsComponent {
+    isSpectated = input(false);
+    showAdditionalInfo = input(AdditionalInfo.None);
+    driver = input<DriverTimingDetails>({} as DriverTimingDetails);
 
     resultStatus = ResultStatus;
     AdditionalInfo = AdditionalInfo;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        /* Implement change tracking and trigger 1sec timer to show red/green
-            if position is lost or gained
-            changes['position'].previousValue;
-            changes['position'].currentValue;
+    private previousPosition = signal<number>(0);
+    positionChange = signal<number>(0);
+    readonly isOutOfSession = computed(() => {
+        const status = this.driver().resultStatus;
+        return status !== this.resultStatus.Active && status !== this.resultStatus.Finished;
+    });
 
-            Note: sorting on backend might be an issue in tracking
-        */
+    private timeoutHandle: any;
+
+    constructor() {
+        effect(() => {
+            const driver = this.driver();
+            const newPosition = driver?.position ?? 0;
+            const prevPosition = this.previousPosition();
+
+            if (newPosition == prevPosition)
+                return;
+
+            const delta = prevPosition - newPosition;
+
+            if (delta !== 0) {
+                this.positionChange.set(delta);
+                clearTimeout(this.timeoutHandle);
+
+                this.timeoutHandle = setTimeout(() => {
+                    this.positionChange.set(0);
+                }, 3000);
+            }
+            this.previousPosition.set(newPosition);
+        });
     }
 }

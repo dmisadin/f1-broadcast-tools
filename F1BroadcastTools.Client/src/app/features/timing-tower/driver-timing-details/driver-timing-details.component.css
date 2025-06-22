@@ -22,8 +22,24 @@
 }
 
 .position {
+    position: relative;
     width: 2rem;
     justify-content: center;
+
+    text-align: center;
+
+    img,
+    svg {
+        position: absolute;
+        width: auto;
+        max-height: 100%;
+        z-index: 0;
+    }
+
+    span {
+        position: relative;
+        z-index: 1;
+    }
 }
 
 .name {
@@ -91,6 +107,7 @@
 
 .driver.show-additional-info .additional-info {
     width: 2rem;
+
     div {
         opacity: 1;
     }
@@ -118,6 +135,12 @@
             position: absolute;
             width: 100%;
             height: auto;
+            z-index: 0;
+        }
+
+        span {
+            position: relative;
+            z-index: 1;
         }
     }
 }
