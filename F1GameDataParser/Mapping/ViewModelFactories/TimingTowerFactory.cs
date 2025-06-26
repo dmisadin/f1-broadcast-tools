@@ -78,6 +78,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             {
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
+                SafetyCarStatus = sessionState.State.SafetyCarStatus,
                 SectorYellowFlags = GetFIAFlags(),
                 ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap, totalLaps, currentLapDistance),
                 DriverTimingDetails = driverTimingDetails.Where(x => x.Position > 0).OrderBy(x => x.Position).ToArray(),
