@@ -36,8 +36,9 @@
 .fia-flag {
     justify-content: left;
     opacity: 1;
-    transition: opacity .5s;
+    transition: all 1s;
     gap: 1rem;
+    text-align: center;
 
     img {
         height: 100%;
@@ -45,11 +46,20 @@
     }
 }
 
-.safety-car {}
+.safety-car {
+    flex-grow: 1;
+}
 
 .yellow-flag {
     color: black;
     background-color: #EEC40E;
+}
+
+.green-flag {
+    flex-grow: 1;
+    justify-content: center;
+    color: white;
+    background-color: #2AAC1C;
 }
 
 .laps {
