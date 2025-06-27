@@ -6,18 +6,18 @@ namespace F1GameDataParser.GameProfiles.F123
 
     public static class Teams
     {
-        public static readonly TeamDetails[] AllTeams = new[]
+        public static readonly Dictionary<Team, TeamDetails> AllTeams = new Dictionary<Team, TeamDetails>
         {
-            new TeamDetails(Team.RedBullRacing, "Red Bull Racing",  "#0600EF", "#F7F600"),
-            new TeamDetails(Team.Ferrari,       "Ferrari",          "#DC0000", "#FAF100"),
-            new TeamDetails(Team.Mercedes,      "Mercedes",         "#00D2BE", "#000000", "#000000"),
-            new TeamDetails(Team.Alpine,        "Alpine",           "#0090FF", "#FFFFFF"),
-            new TeamDetails(Team.McLaren,       "McLaren",          "#FF8700", "#2D2D2D", "#2D2D2D"),
-            new TeamDetails(Team.AlfaRomeo,     "Alfa Romeo",       "#720600", "#FFFFFF"),
-            new TeamDetails(Team.AstonMartin,   "Aston Martin",     "#006F62", "#CEDC00"),
-            new TeamDetails(Team.Haas,          "Haas",             "#D2D3D5", "#C50D17"),
-            new TeamDetails(Team.AlphaTauri,    "AlphaTauri",       "#2B4562", "#FFFFFF"),
-            new TeamDetails(Team.Williams,      "Williams",         "#1256DA", "#FFFFFF")
+            { Team.RedBullRacing, new TeamDetails(Team.RedBullRacing, "Red Bull Racing",  "#0600EF", "#F7F600") },
+            { Team.Ferrari,       new TeamDetails(Team.Ferrari,       "Ferrari",          "#DC0000", "#FAF100") },
+            { Team.Mercedes,      new TeamDetails(Team.Mercedes,      "Mercedes",         "#00D2BE", "#000000", "#000000") },
+            { Team.Alpine,        new TeamDetails(Team.Alpine,        "Alpine",           "#0090FF", "#FFFFFF") },
+            { Team.McLaren,       new TeamDetails(Team.McLaren,       "McLaren",          "#FF8700", "#2D2D2D", "#2D2D2D") },
+            { Team.AlfaRomeo,     new TeamDetails(Team.AlfaRomeo,     "Alfa Romeo",       "#720600", "#FFFFFF") },
+            { Team.AstonMartin,   new TeamDetails(Team.AstonMartin,   "Aston Martin",     "#006F62", "#CEDC00") },
+            { Team.Haas,          new TeamDetails(Team.Haas,          "Haas",             "#D2D3D5", "#C50D17") },
+            { Team.AlphaTauri,    new TeamDetails(Team.AlphaTauri,    "AlphaTauri",       "#2B4562", "#FFFFFF") },
+            { Team.Williams,      new TeamDetails(Team.Williams,      "Williams",         "#1256DA", "#FFFFFF") }
         };
     }
 }

@@ -55,13 +55,14 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 var participantDetails = participantsState.State.ParticipantList[i];
                 var carStatusDetails = carStatusState.State.Details[i];
                 var driverOverride = driverOverrideState.GetModel(i);
+                TeamDetails teamDetails;
 
                 driverTimingDetails[i] = new DriverTimingDetails
                 {
                     VehicleIdx = i,
                     Position = lapDetails.CarPosition,
                     TeamId = participantDetails.TeamId, //ToString()
-                    TeamDetails = Teams.AllTeams.FirstOrDefault(t => t.Id == participantDetails.TeamId),
+                    TeamDetails = Teams.AllTeams.TryGetValue(participantDetails.TeamId, out teamDetails) ? teamDetails : null,
                     Name = driverOverride?.Player.Name ?? participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
@@ -113,7 +114,8 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             {
                 if (position == 1)
                     return "Interval"; // TO DO: Implement Leader Gap
-
+                else if (gap == 0)
+                    return "-";
                 return  $"+{TimeUtility.MillisecondsToGap(gap)}";
             }
 
