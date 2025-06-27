@@ -28,8 +28,9 @@
         </svg>
         <span>{{driver().position}}</span>
     </div>
-    <div class="team">
-        <img src="images/teams/{{driver().teamId}}.png" alt="" class="team-logo">
+    <div class="team"
+        [ngStyle]="{'background-color': isSpectated() ? driver().teamDetails?.primaryColor : ''}">
+        <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)"></team-logo>
     </div>
     <div class="name">
         {{driver().name}}
@@ -119,7 +120,7 @@
 
     <div class="gap">
         @if (driver().isInPits && driver().resultStatus == resultStatus.Active) {
-        In Pit
+        <span [ngStyle]="{'color': driver().teamDetails?.primaryColor}">In Pit</span>
         }
         @else {
         {{driver().gap}}

@@ -7,8 +7,9 @@
         [ngClass]="hasAnyYellow() ? 'yellow-flag' : greenFlagVisible() ? 'green-flag' : ''">
         @if (safetyCarStatus == SafetyCarStatus.Full)
         {
-        <img src="images/icons/common/safety-car.svg" alt="">
+        <img src="images/icons/common/double-flags.svg" alt="">
         <div class="safety-car"> Safety Car </div>
+        <img src="images/icons/common/safety-car.svg" alt="">
         }
         @else if (safetyCarStatus == SafetyCarStatus.Virtual) {
         <img src="images/icons/common/vsc.svg" alt="">

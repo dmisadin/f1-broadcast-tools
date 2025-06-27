@@ -47,7 +47,7 @@
 }
 
 .safety-car {
-    flex-grow: 1;
+    /* flex-grow: 1; */
 }
 
 .yellow-flag {

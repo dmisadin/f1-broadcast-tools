@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.Enums;
+using F1GameDataParser.GameProfiles.F123;
 using F1GameDataParser.Models;
 using F1GameDataParser.State;
 using F1GameDataParser.Utility;
@@ -60,7 +61,8 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     VehicleIdx = i,
                     Position = lapDetails.CarPosition,
                     TeamId = participantDetails.TeamId, //ToString()
-                    Name = driverOverride?.Player.Name ??  participantDetails.Name,
+                    TeamDetails = Teams.AllTeams.FirstOrDefault(t => t.Id == participantDetails.TeamId),
+                    Name = driverOverride?.Player.Name ?? participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
                     Gap = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
@@ -180,12 +182,12 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
         private bool DoesAnyDriverHavePenalties ()
         {
-            return this.lapState.State?.LapDetails.Any(l => l.Penalties > 0) ?? false;
+            return this.lapState.State?.LapDetails.Any(l => l.ResultStatus == ResultStatus.Active && l.Penalties > 0) ?? false;
         }
 
         private bool DoesAnyDriverHaveWarnings()
         {
-            return this.lapState.State?.LapDetails.Any(l => l.CornerCuttingWarnings > 0) ?? false;
+            return this.lapState.State?.LapDetails.Any(l => l.ResultStatus == ResultStatus.Active && l.CornerCuttingWarnings > 0) ?? false;
         }
     }
 }

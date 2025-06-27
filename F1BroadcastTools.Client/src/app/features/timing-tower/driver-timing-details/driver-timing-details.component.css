@@ -71,6 +71,11 @@
     padding-right: .5rem;
 }
 
+.team {
+    padding: 0 .5rem;
+    justify-content: center;
+}
+
 .team,
 .tyre {
     width: 2rem;

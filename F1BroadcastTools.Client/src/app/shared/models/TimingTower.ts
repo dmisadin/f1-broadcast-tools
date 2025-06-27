@@ -1,4 +1,5 @@
 import { ResultStatus, SafetyCarStatus, Team } from "./Enumerations";
+import { TeamDetails } from "./team.model";
 
 export interface TimingTower {
     currentLap: number;
@@ -16,6 +17,7 @@ export interface DriverTimingDetails {
     vehicleIdx: number;
     position: number;
     teamId: Team;
+    teamDetails?: TeamDetails;
     name: string;
     tyreAge: number;
     visualTyreCompound: string;
