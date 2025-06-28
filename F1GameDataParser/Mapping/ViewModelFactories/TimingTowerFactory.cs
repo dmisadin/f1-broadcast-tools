@@ -149,7 +149,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             AdditionalInfoType showAdditionalInfo = AdditionalInfoType.None;
             bool hasLeaderCrossedHalfOfLap = currentLapDistancePercentage > 0.5;
 
-            if (hasLeaderCrossedHalfOfLap)
+            if (hasLeaderCrossedHalfOfLap || currentLap >= totalLaps)
                 return showAdditionalInfo;
 
             if (currentLap % 2 == 0 && this.DoesAnyDriverHaveWarnings())
