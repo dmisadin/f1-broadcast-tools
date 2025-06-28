@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.Models.Session
 {
-    public class Session
+    public class Session : MergeableBase<Session>
     {
         public Header Header { get; set; }
         public Weather Weather { get; set; }

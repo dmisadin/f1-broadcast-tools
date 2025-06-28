@@ -1,19 +1,23 @@
 ﻿using F1GameDataParser.Mapping.ModelFactories;
 using F1GameDataParser.Models.Event;
 using F1GameDataParser.Packets.Event;
+using F1GameDataParser.Services;
 
 namespace F1GameDataParser.Handlers
 {
     // This should be a stateless handler, just send data to client
     public class EventsHandler : GenericHandler<EventPacket, Event>
     {
-        private readonly TelemetryClient _telemetryClient;
+        private readonly TelemetryClient telemetryClient;
+        private readonly EventService eventService;
 
-        public EventsHandler(TelemetryClient telemetryClient) 
+        public EventsHandler(TelemetryClient telemetryClient,
+                            EventService eventService) 
         { 
-            _telemetryClient = telemetryClient;
+            this.telemetryClient = telemetryClient;
+            this.eventService = eventService;
 
-            _telemetryClient.OnEventReceive += OnRecieved;
+            this.telemetryClient.OnEventReceive += OnRecieved;
         }
 
         protected override IModelFactory<EventPacket, Event> ModelFactory => new EventModelFactory();
@@ -21,9 +25,16 @@ namespace F1GameDataParser.Handlers
         protected override void OnRecieved(EventPacket packet)
         {
             var eventModel = ModelFactory.ToModel(packet);
-            if (EventCodes.EnabledEvents.Contains(eventModel.EventStringCode))
+            if (!EventCodes.EnabledEvents.Contains(eventModel.EventStringCode))
+                return;
+
+            switch (eventModel.EventDetails.Details)
             {
-                Console.WriteLine(eventModel.EventStringCode);
+                case Models.Event.Penalty penalty:
+                    this.eventService.HandlePenalty(penalty);
+                    break;
+                default:
+                    break;
             }
         }
     }

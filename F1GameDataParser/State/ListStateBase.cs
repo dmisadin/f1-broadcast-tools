@@ -1,9 +1,10 @@
-﻿using F1GameDataParser.Utility;
+﻿using F1GameDataParser.Models;
+using F1GameDataParser.Utility;
 
 namespace F1GameDataParser.State
 {
     public abstract class ListStateBase<TModel>
-        where TModel : class
+        where TModel : class, IMergeable<TModel>
     {
         private readonly object _lock = new();
         public Dictionary<int, TModel> State { get; private set; } = new();
@@ -14,12 +15,20 @@ namespace F1GameDataParser.State
 
             lock (_lock)
             {
-                foreach (var kvp in modelDict)
+                foreach (var (key, newModel) in modelDict)
                 {
-                    State[kvp.Key] = kvp.Value;
+                    if (State.TryGetValue(key, out var existingModel))
+                    {
+                        existingModel.MergeFrom(newModel);
+                    }
+                    else
+                    {
+                        State[key] = newModel;
+                    }
                 }
             }
         }
+
 
         public virtual TModel? GetModel(int id)
         {

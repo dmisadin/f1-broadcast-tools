@@ -25,6 +25,8 @@ namespace F1GameDataParser.Models.Lap
         public Sector Sector { get; set; }
         public LapValidity CurrentLapInvalid { get; set; }
         public byte Penalties { get; set; } // Accumulated time penalties in seconds to be added
+        public Queue<byte> UnservedPenalties { get; set; } = new Queue<byte>(); // Unserved (but servable) time penalties in seconds
+        public bool IsServingPenalty { get; set; }
         public byte TotalWarnings { get; set; } // Accumulated number of warnings issued
         public byte CornerCuttingWarnings { get; set; } // Accumulated number of corner cutting warnings issued
         public byte NumUnservedDriveThroughPens { get; set; }
