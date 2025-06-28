@@ -1,33 +1,17 @@
 <div class="driver" [ngClass]="{
-        'spectated': isSpectated, 
-        'out-of-session': driver.resultStatus !== resultStatus.Active,
-        'show-additional-info': showAdditionalInfo
+        'spectated': isSpectated(), 
+        'out-of-session': isOutOfSession(),
+        'show-additional-info': showAdditionalInfo()
         }">
-    <div class="position">{{driver.position}}</div>
-    <div class="team">
-        <img src="images/teams/{{driver.teamId}}.png" alt="" class="team-logo">
-    </div>
-    <div class="name">
-        {{driver.name}}
-    </div>
-    <div class="tyre" [ngStyle]="{
-            'background-image': 'url(images/icons/tyres/' + driver.visualTyreCompound.toLowerCase() + '_empty.svg)'
-        }">
-        {{driver.tyreAge}}
-    </div>
-    <div class="additional-info">
-        @if (showAdditionalInfo | hasFlag: additionalInfo.PositionsGained)
-        {
-        <div class="positions-gained">
+    <div class="driver-info">
+        <div class="position" [ngClass]="{'has-fastest-lap': driver().hasFastestLap}">
             <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                @if(driver.positionsGained > 0)
+                @if(positionChange() > 0)
                 {
                 <path d="M9.99998 5L0 8V37H20V8L9.99998 5Z" fill="url(#paint0_linear_1106_474)" />
                 <path d="M0 8L9.99998 5L20 8" stroke="#51FF00" stroke-width="4" />
                 }
-                @else if (driver.positionsGained < 0) 
-                { 
-                <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
+                @else if (positionChange() < 0) { <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
                 <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
                 }
                 <defs>
@@ -43,55 +27,104 @@
                     </linearGradient>
                 </defs>
             </svg>
-
-            <span>{{driver.positionsGained > 0 ? driver.positionsGained : driver.positionsGained*(-1)}}</span>
+            <span>{{driver().position}}</span>
         </div>
-        }
-
-
-        @else if (showAdditionalInfo | hasFlag: additionalInfo.NumPitStops)
-        {
-        <div class="num-pit-stops">
-            <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M51.6793 60.6565C57.9221 56.5209 62.5162 50.3247 64.6606 43.1481C66.805 35.9715 66.3638 28.2696 63.4139 21.385C60.464 
-                    14.5005 55.1925 8.86984 48.5182 5.47468C41.844 2.07952 34.1904 1.13516 26.8915 2.8062M51.6793 60.6565V48.2171M51.6793 
-                    60.6565H64.1958M16.2332 7.40167C10.0119 11.5525 5.44171 17.7535 3.31736 24.9261C1.193 32.0987 1.64886 39.7893 4.60567 
-                    46.6605C7.56247 53.5318 12.8332 59.1489 19.5012 62.5352C26.1692 65.9215 33.8128 66.8627 41.1027 65.1951M16.2332 
-                    7.40167V19.7842M16.2332 7.40167H3.79841" stroke="currentColor" stroke-width="4"
-                    stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            {{driver.numPitStops}}
+        <div class="team" [ngStyle]="{'background-color': isSpectated() ? driver().teamDetails?.primaryColor : ''}">
+            <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)"></team-logo>
         </div>
-        }
-
-        @else if ((showAdditionalInfo | hasFlag: additionalInfo.Penalties) && driver.penalties)
-        {
-        <div class="penalties">
-            +{{driver.penalties}}s
+        <div class="name">
+            {{driver().name}}
         </div>
-        }
-
-        @else if ((showAdditionalInfo | hasFlag: additionalInfo.Warnings) && driver.warnings)
-        {
-        <div class="warning">
-            <img src="images/icons/common/warning.svg" alt="">
-            {{driver.warnings}}
+        <div class="tyre" [ngStyle]="{
+                'background-image': 'url(images/icons/tyres/' + driver().visualTyreCompound.toLowerCase() + '_empty.svg)'
+            }">
+            {{driver().tyreAge}}
         </div>
-        }
+        <div class="additional-info">
+            @switch (showAdditionalInfo())
+            {
+            @case (AdditionalInfo.PositionsGained)
+            {
+            <div class="positions-gained">
+                <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    @if(driver().positionsGained > 0)
+                    {
+                    <path d="M9.99998 5L0 8V37H20V8L9.99998 5Z" fill="url(#paint0_linear_1106_474)" />
+                    <path d="M0 8L9.99998 5L20 8" stroke="#51FF00" stroke-width="4" />
+                    }
+                    @else if (driver().positionsGained
+                    < 0) { <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
+                    <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
+                    }
+                    <defs>
+                        <linearGradient id="paint0_linear_1106_474" x1="10" y1="3" x2="10" y2="37"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#51FF00" stop-opacity="0.5" />
+                            <stop offset="1" stop-color="#51FF00" stop-opacity="0" />
+                        </linearGradient>
+                        <linearGradient id="paint1_linear_1106_474" x1="10" y1="37" x2="10" y2="3"
+                            gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#FF0000" stop-opacity="0.5" />
+                            <stop offset="1" stop-color="#FF0000" stop-opacity="0" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+
+                <span>{{driver().positionsGained > 0 ? driver().positionsGained : driver().positionsGained*(-1)}}</span>
+            </div>
+            }
+            @case (AdditionalInfo.NumPitStops)
+            {
+            @if(driver().numPitStops)
+            {
+            <div class="num-pit-stops">
+                <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M51.6793 60.6565C57.9221 56.5209 62.5162 50.3247 64.6606 43.1481C66.805 35.9715 66.3638 28.2696 63.4139 21.385C60.464 
+                            14.5005 55.1925 8.86984 48.5182 5.47468C41.844 2.07952 34.1904 1.13516 26.8915 2.8062M51.6793 60.6565V48.2171M51.6793 
+                            60.6565H64.1958M16.2332 7.40167C10.0119 11.5525 5.44171 17.7535 3.31736 24.9261C1.193 32.0987 1.64886 39.7893 4.60567 
+                            46.6605C7.56247 53.5318 12.8332 59.1489 19.5012 62.5352C26.1692 65.9215 33.8128 66.8627 41.1027 65.1951M16.2332 
+                            7.40167V19.7842M16.2332 7.40167H3.79841" stroke="currentColor" stroke-width="4"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                {{driver().numPitStops}}
+            </div>
+            }
+            }
+            @case (AdditionalInfo.Penalties)
+            {
+            @if(driver().penalties)
+            {
+            <div class="penalties">
+                +{{driver().penalties}}s
+            </div>
+            }
+            }
+            @case (AdditionalInfo.Warnings)
+            {
+            @if (driver().warnings)
+            {
+            <div class="warning">
+                <svg width="83" height="75" viewBox="0 0 83 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M33.0386 7C36.8274 0.437557 46.2106 0.335007 50.1743 6.69238L50.3589 7L79.5747 57.6025C83.4235 64.2691 78.6123 
+                            72.6022 70.9146 72.6025H12.4829C4.78521 72.6022 -0.0260353 64.2691 3.82275 57.6025L33.0386 7Z"
+                        stroke="currentColor" stroke-width="4" />
+                </svg>
+
+                {{driver().warnings}}
+            </div>
+            }
+            }
+            @default { }
+            }
+        </div>
     </div>
 
     <div class="gap">
-        @if (driver.isInPits && driver.resultStatus == resultStatus.Active) {
-        In Pit
+        @if (driver().isInPits && driver().resultStatus == resultStatus.Active) {
+        <span [ngStyle]="{'color': driver().teamDetails?.primaryColor}">In Pit</span>
         }
         @else {
-        {{driver.gap}}
+        {{driver().gap}}
         }
-
     </div>
-    <!-- <div>{{driver.penalties}}</div>
-    <div>{{driver.warnings}}</div>
-    <div>{{driver.hasFastestLap}}</div>
-    <div>{{driver.numPitStops}}</div>
-    <div>{{driver.positionsGained}}</div> -->
 </div>

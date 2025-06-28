@@ -121,8 +121,14 @@ export enum Nationality {
 }
 
 export enum AdditionalInfo {
+    None = 0,
     Warnings = 1 << 0,
     Penalties = 1 << 1,
     NumPitStops = 1 << 2,
     PositionsGained = 1 << 3
+}
+
+export enum Game {
+    F123 = 23,
+    F125 = 25
 }

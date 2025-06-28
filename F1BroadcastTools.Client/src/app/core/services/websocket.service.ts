@@ -41,6 +41,10 @@ export class WebSocketService<T> {
     }
      */
     
+    disconnect(): void{
+        this.socket.close();
+    }
+    
     onMessage(): Observable<T> {
         return this.messageSubject.asObservable();
     }

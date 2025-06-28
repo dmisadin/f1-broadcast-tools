@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.Enums;
+using F1GameDataParser.GameProfiles.F123;
 
 namespace F1GameDataParser.ViewModels.TimingTower
 {
@@ -7,6 +8,7 @@ namespace F1GameDataParser.ViewModels.TimingTower
         public int VehicleIdx { get; set; }
         public byte Position { get; set; }
         public Team TeamId { get; set; }
+        public TeamDetails? TeamDetails { get; set; }
         public string Name { get; set; }
         public byte TyreAge { get; set; }
         public string VisualTyreCompound { get; set; }

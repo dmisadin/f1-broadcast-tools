@@ -1,0 +1,76 @@
+.session-details {
+    display: grid;
+    grid-template-rows: 3rem 0;
+
+    background-color: black;
+    min-width: 16rem;
+    width: fit-content;
+    height: fit-content;
+
+    font-family: 'Roboto Condensed';
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+
+    transition: grid-template-rows 1s;
+}
+
+.session-details .laps,
+.session-details .fia-flag {
+    display: flex;
+    align-items: center;
+
+    padding: 0 .5rem;
+
+    height: 100%;
+}
+
+.session-details.show-fia-flag {
+    grid-template-rows: 3rem 3rem;
+}
+
+.session-details:not(.show-fia-flag) .fia-flag {
+    opacity: 0;
+}
+
+.fia-flag {
+    justify-content: left;
+    opacity: 1;
+    transition: all 1s;
+    gap: 1rem;
+    text-align: center;
+
+    img {
+        height: 100%;
+        width: 3rem;
+    }
+}
+
+.safety-car {
+    /* flex-grow: 1; */
+}
+
+.yellow-flag {
+    color: black;
+    background-color: #EEC40E;
+}
+
+.green-flag {
+    flex-grow: 1;
+    justify-content: center;
+    color: white;
+    background-color: #2AAC1C;
+}
+
+.laps {
+    gap: .5rem;
+    background-color: black;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    span {
+        font-size: 2rem;
+        font-weight: 700;
+    }
+}

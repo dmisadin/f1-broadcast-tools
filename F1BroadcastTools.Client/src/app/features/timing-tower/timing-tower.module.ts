@@ -5,17 +5,21 @@ import { CommonModule } from "@angular/common";
 import { TimingTowerRoutingModule } from "./timing-tower-routing.module";
 import { SharedModule } from "../../shared/shared.module";
 import { SectorsYellowFlagsPipe } from './pipes/sectors-yellow-flags.pipe';
+import { SessionDetailsComponent } from "./session-details/session-details.component";
+import { TeamLogoComponent } from "../../shared/components/game/team-logo/team-logo.component";
 
 @NgModule({
     imports: [
-        CommonModule,
-        TimingTowerRoutingModule,
-        SharedModule
-    ],
+    CommonModule,
+    TimingTowerRoutingModule,
+    SharedModule,
+    TeamLogoComponent
+],
     declarations: [
         TimingTowerComponent,
         DriverTimingDetailsComponent,
-        SectorsYellowFlagsPipe
+        SectorsYellowFlagsPipe,
+        SessionDetailsComponent
     ]
 })
 export class TimingTowerModule { }

@@ -1,0 +1,10 @@
+.team-logo {
+    width: 2rem;
+    height: 2rem;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
