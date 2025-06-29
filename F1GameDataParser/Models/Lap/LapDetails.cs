@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.Models.Lap
 {
-    public class LapDetails
+    public class LapDetails : MergeableBase<LapDetails>
     {
         public uint LastLapTimeInMS { get; set; }
         public uint CurrentLapTimeInMS { get; set; }

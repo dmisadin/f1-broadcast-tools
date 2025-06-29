@@ -23,7 +23,8 @@ export class TimingTowerComponent implements OnInit, OnDestroy {
             //console.log("onMessage", data);
             //TODO: we could use the % of lap done by each car, or at least the leader.
             this.timingTower = data;
-            this.showAdditionalInfo.set(this.setAdditionalInfo(this.timingTower.showAdditionalInfo));
+            if (this.timingTower)
+                this.showAdditionalInfo.set(this.setAdditionalInfo(this.timingTower.showAdditionalInfo));
         });
     }
 

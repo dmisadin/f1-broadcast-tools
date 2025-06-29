@@ -33,14 +33,15 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
         public override TimingTower? Generate()
         {
-            if (lapState.State == null 
+            if (lapState.State == null
+                || lapState.State.Count() == 0
                 || sessionState.State == null 
                 || participantsState.State == null
                 || carStatusState.State == null 
                 || sessionHistoryState.State == null)
                 return null;
 
-            var firstPlaceDriver = lapState.State.LapDetails.Where(detail => detail.CarPosition == 1).FirstOrDefault();
+            var firstPlaceDriver = lapState.State.Where(detail => detail.Value.CarPosition == 1).FirstOrDefault().Value;
             var currentLap = firstPlaceDriver?.CurrentLapNum ?? 0;
             var totalLaps = sessionState.State.TotalLaps;
             var currentLapDistance = this.CurrentLapDistanceDonePercentage(firstPlaceDriver?.LapDistance ?? -1, sessionState.State.TrackLength);
@@ -51,7 +52,8 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             for (int i = 0; i < Sizes.MaxPlayers; i++)
             {
                 // TO DO: Find a way to skip some, maybe not maxplayers
-                var lapDetails = lapState.State.LapDetails[i];
+                if (!lapState.State.TryGetValue(i, out var lapDetails))
+                    continue;
                 var participantDetails = participantsState.State.ParticipantList[i];
                 var carStatusDetails = carStatusState.State.Details[i];
                 var driverOverride = driverOverrideState.GetModel(i);
@@ -184,12 +186,12 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
         private bool DoesAnyDriverHavePenalties ()
         {
-            return this.lapState.State?.LapDetails.Any(l => l.ResultStatus == ResultStatus.Active && l.Penalties > 0) ?? false;
+            return this.lapState.State?.Any(l => l.Value.ResultStatus == ResultStatus.Active && l.Value.Penalties > 0) ?? false;
         }
 
         private bool DoesAnyDriverHaveWarnings()
         {
-            return this.lapState.State?.LapDetails.Any(l => l.ResultStatus == ResultStatus.Active && l.CornerCuttingWarnings > 0) ?? false;
+            return this.lapState.State?.Any(l => l.Value.ResultStatus == ResultStatus.Active && l.Value.CornerCuttingWarnings > 0) ?? false;
         }
     }
 }

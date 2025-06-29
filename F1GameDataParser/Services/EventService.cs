@@ -17,11 +17,11 @@ namespace F1GameDataParser.Services
             if (penalty.PenaltyType != PenaltyType.TimePenalty && penalty.Time <= 3)
                 return;
 
-            var driverLapData = this.lapState.State?.LapDetails.ElementAtOrDefault(penalty.VehicleIdx);
-            if (driverLapData == null)
+            
+            if (this.lapState.State.TryGetValue(penalty.VehicleIdx, out var driverLapData))
                 return;
 
-            driverLapData.UnservedPenalties.Enqueue(penalty.Time);
+            driverLapData?.UnservedPenalties.Enqueue(penalty.Time);
         }
     }
 }
