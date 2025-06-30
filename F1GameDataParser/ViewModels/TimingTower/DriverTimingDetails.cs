@@ -14,7 +14,7 @@ namespace F1GameDataParser.ViewModels.TimingTower
         public string VisualTyreCompound { get; set; }
         public string Gap { get; set; }
         public ResultStatus ResultStatus { get; set; }
-        public byte Penalties { get; set; }
+        public int Penalties { get; set; }
         public byte Warnings { get; set; }
         public bool HasFastestLap { get; set; }
         public bool IsInPits { get; set; }

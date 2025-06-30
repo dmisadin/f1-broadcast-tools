@@ -30,6 +30,10 @@
 
 .out-of-session {
     background-color: rgba(0, 0, 0, 0.5);
+
+    .driver-info {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
 }
 
 .position {

@@ -1,17 +1,22 @@
-﻿namespace F1GameDataParser.State
+﻿using F1GameDataParser.Models;
+
+namespace F1GameDataParser.State
 {
     public abstract class StateBase<TModel> 
-        where TModel : class
+        where TModel : class, IMergeable<TModel>
     {
-        private readonly object _lock = new();
+        protected readonly object _lock = new();
 
-        public TModel? State { get; private set; }
+        public TModel? State { get; protected set; }
 
         public virtual void Update(TModel newState) 
         {
             lock (_lock)
             {
-                State = newState;
+                if (State != null)
+                    State.MergeFrom(newState);
+                else
+                    State = newState;
             }
         }
     }

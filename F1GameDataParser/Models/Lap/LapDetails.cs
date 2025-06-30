@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.Models.Lap
 {
-    public class LapDetails
+    public class LapDetails : MergeableBase<LapDetails>
     {
         public uint LastLapTimeInMS { get; set; }
         public uint CurrentLapTimeInMS { get; set; }
@@ -25,6 +25,8 @@ namespace F1GameDataParser.Models.Lap
         public Sector Sector { get; set; }
         public LapValidity CurrentLapInvalid { get; set; }
         public byte Penalties { get; set; } // Accumulated time penalties in seconds to be added
+        public Queue<byte> UnservedPenalties { get; set; } = new Queue<byte>(); // Unserved (but servable) time penalties in seconds
+        public bool IsServingPenalty { get; set; }
         public byte TotalWarnings { get; set; } // Accumulated number of warnings issued
         public byte CornerCuttingWarnings { get; set; } // Accumulated number of corner cutting warnings issued
         public byte NumUnservedDriveThroughPens { get; set; }
@@ -36,6 +38,42 @@ namespace F1GameDataParser.Models.Lap
         public ushort PitLaneTimeInLaneInMS { get; set; } // If active, the current time spent in the pit lane in ms
         public ushort PitStopTimerInMS { get; set; } // Time of the actual pit stop in ms
         public byte PitStopShouldServePen { get; set; } // Whether the car should serve a penalty at this stop
-    }
 
+        public override void MergeFrom(LapDetails source)
+        {
+            LastLapTimeInMS = source.LastLapTimeInMS;
+            CurrentLapTimeInMS = source.CurrentLapTimeInMS;
+            Sector1TimeInMS = source.Sector1TimeInMS;
+            Sector1TimeMinutes = source.Sector1TimeMinutes;
+            Sector2TimeInMS = source.Sector2TimeInMS;
+            Sector2TimeMinutes = source.Sector2TimeMinutes;
+
+            DeltaToCarInFrontInMS = source.DeltaToCarInFrontInMS;
+            DeltaToRaceLeaderInMS = source.DeltaToRaceLeaderInMS;
+
+            LapDistance = source.LapDistance;
+            TotalDistance = source.TotalDistance;
+            SafetyCarDelta = source.SafetyCarDelta;
+
+            CarPosition = source.CarPosition;
+            CurrentLapNum = source.CurrentLapNum;
+            PitStatus = source.PitStatus;
+            NumPitStops = source.NumPitStops;
+            Sector = source.Sector;
+            CurrentLapInvalid = source.CurrentLapInvalid;
+            Penalties = source.Penalties;
+            IsServingPenalty = source.IsServingPenalty;
+            TotalWarnings = source.TotalWarnings;
+            CornerCuttingWarnings = source.CornerCuttingWarnings;
+            NumUnservedDriveThroughPens = source.NumUnservedDriveThroughPens;
+            NumUnservedStopGoPens = source.NumUnservedStopGoPens;
+            GridPosition = source.GridPosition;
+            DriverStatus = source.DriverStatus;
+            ResultStatus = source.ResultStatus;
+            PitLaneTimerActive = source.PitLaneTimerActive;
+            PitLaneTimeInLaneInMS = source.PitLaneTimeInLaneInMS;
+            PitStopTimerInMS = source.PitStopTimerInMS;
+            PitStopShouldServePen = source.PitStopShouldServePen;
+        }
+    }
 }

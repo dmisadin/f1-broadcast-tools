@@ -5,7 +5,7 @@ using F1GameDataParser.State;
 
 namespace F1GameDataParser.Handlers
 {
-    public class LapHandler : GenericHandler<LapPacket, Lap>
+    public class LapHandler : GenericHandler<LapPacket, IEnumerable<LapDetails>>
     {
         private readonly TelemetryClient _telemetryClient;
         private readonly LapState _state;
@@ -19,7 +19,7 @@ namespace F1GameDataParser.Handlers
             _telemetryClient.OnLapReceive += OnRecieved;
         }
 
-        protected override IModelFactory<LapPacket, Lap> ModelFactory => new LapModelFactory();
+        protected override IModelFactory<LapPacket, IEnumerable<LapDetails>> ModelFactory => new LapModelFactory();
 
         protected override void OnRecieved(LapPacket packet)
         {

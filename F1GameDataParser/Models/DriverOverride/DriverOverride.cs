@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.Models.DriverOverride
 {
-    public class DriverOverride
+    public class DriverOverride : MergeableBase<DriverOverride>
     {
         public int Id { get; set; }
         public int PlayerId { get; set; }

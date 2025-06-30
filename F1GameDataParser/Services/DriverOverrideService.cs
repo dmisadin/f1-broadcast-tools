@@ -32,7 +32,7 @@ namespace F1GameDataParser.Services
                 return new List<DriverOverrideDto>();
 
             var participants = participantsState.State.ParticipantList;
-            var laps = lapState.State.LapDetails;
+            var laps = lapState.State?.Select(kvp => kvp.Value).ToList();
 
             // Generate initial drivers list
             var drivers = participants.Zip(laps, (participant, lap) => new DriverOverrideDto

@@ -1,25 +1,38 @@
-﻿using F1GameDataParser.Utility;
+﻿using F1GameDataParser.Models;
 
 namespace F1GameDataParser.State
 {
     public abstract class ListStateBase<TModel>
-        where TModel : class
+        where TModel : class, IMergeable<TModel>
     {
-        private readonly object _lock = new();
+        protected readonly object _lock = new();
         public Dictionary<int, TModel> State { get; private set; } = new();
 
         public virtual void Update(IEnumerable<TModel> newState)
         {
-            var modelDict = DictionaryUtility.FromModelToDictionary(newState);
-
             lock (_lock)
             {
-                foreach (var kvp in modelDict)
+                int index = 0;
+                foreach (var newModel in newState)
                 {
-                    State[kvp.Key] = kvp.Value;
+                    if (State.TryGetValue(index, out var existingModel))
+                    {
+                        existingModel.MergeFrom(newModel);
+                        OnModelMerged(index, existingModel, newModel);
+                    }
+                    else
+                    {
+                        State[index] = newModel;
+                        OnModelAdded(index, newModel);
+                    }
+
+                    index++;
                 }
             }
         }
+
+        protected virtual void OnModelMerged(int key, TModel existingModel, TModel newModel) { }
+        protected virtual void OnModelAdded(int key, TModel newModel) { }
 
         public virtual TModel? GetModel(int id)
         {

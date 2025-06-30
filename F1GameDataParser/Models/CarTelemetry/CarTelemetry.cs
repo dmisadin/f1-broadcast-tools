@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.Models.CarTelemetry
 {
-    public class CarTelemetry
+    public class CarTelemetry : MergeableBase<CarTelemetry>
     {
         public Header Header { get; set; }
         public CarTelemetryDetails[] CarTelemetryDetails { get; set; } = new CarTelemetryDetails[Sizes.MaxPlayers]; // Array of car telemetry details
