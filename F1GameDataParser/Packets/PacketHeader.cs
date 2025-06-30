@@ -7,7 +7,7 @@ namespace F1GameDataParser.Packets
     public struct PacketHeader
     {
         public ushort packetFormat;
-        public byte gameYear;
+        public GameYear gameYear;
         public byte gameMajorVersion;
         public byte gameMinorVersion;
         public byte packetVersion;
