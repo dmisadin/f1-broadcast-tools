@@ -1,5 +1,4 @@
-﻿using F1GameDataParser.Enums;
-using F1GameDataParser.Models.Event;
+﻿using F1GameDataParser.Models.Event;
 using F1GameDataParser.State;
 
 namespace F1GameDataParser.Services
@@ -13,15 +12,18 @@ namespace F1GameDataParser.Services
         }
 
         public void HandlePenalty(Penalty penalty)
-        {
-            if (penalty.PenaltyType != PenaltyType.TimePenalty && penalty.Time <= 3)
+        { 
+            // penalty.PenaltyType != PenaltyType.TimePenalty
+            if (penalty.Time != 5)
                 return;
 
-            
-            if (this.lapState.State.TryGetValue(penalty.VehicleIdx, out var driverLapData))
-                return;
+            lock (lapState.Lock)
+            {
+                if (!lapState.State.TryGetValue(penalty.VehicleIdx, out var driverLapData))
+                    return;
 
-            driverLapData?.UnservedPenalties.Enqueue(penalty.Time);
+                driverLapData?.UnservedPenalties.Enqueue(penalty.Time);
+            }
         }
     }
 }

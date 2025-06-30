@@ -70,7 +70,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
                     Gap = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
                     ResultStatus = lapDetails.ResultStatus,
-                    Penalties = lapDetails.Penalties,
+                    Penalties = lapDetails.Penalties + (lapDetails.UnservedPenalties?.Sum(p => p) ?? 0),
                     Warnings = (byte)(lapDetails.CornerCuttingWarnings % 3),
                     HasFastestLap = i == fastestLapVehicleIdx,
                     IsInPits = lapDetails.PitStatus != PitStatus.None,

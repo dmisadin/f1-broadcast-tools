@@ -1,6 +1,6 @@
 ﻿namespace F1GameDataParser.Models.Lap
 {
-    public class Lap : MergeableBase<Lap>
+    public class Lap
     {
         public Header Header { get; set; }
 

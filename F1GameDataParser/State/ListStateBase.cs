@@ -1,5 +1,4 @@
 ﻿using F1GameDataParser.Models;
-using F1GameDataParser.Utility;
 
 namespace F1GameDataParser.State
 {
@@ -33,7 +32,6 @@ namespace F1GameDataParser.State
         }
 
         protected virtual void OnModelMerged(int key, TModel existingModel, TModel newModel) { }
-
         protected virtual void OnModelAdded(int key, TModel newModel) { }
 
         public virtual TModel? GetModel(int id)
