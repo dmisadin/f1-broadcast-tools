@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace F1GameDataParser.Controllers;
 public class WebSocketController : ControllerBase
 {
-    private readonly TimingTowerFactory timingTowerBuilder;
-    public WebSocketController(TimingTowerFactory timingTowerBuilder)
+    private readonly TimingTowerFactory timingTowerFactory;
+    public WebSocketController(TimingTowerFactory timingTowerFactory)
     {
-        this.timingTowerBuilder = timingTowerBuilder;
+        this.timingTowerFactory = timingTowerFactory;
     }
 
     [HttpGet("/ws")]
@@ -35,7 +35,7 @@ public class WebSocketController : ControllerBase
             while (!webSocket.CloseStatus.HasValue)
             {
                 // Create the object to send
-                var data = this.timingTowerBuilder.Generate();
+                var data = this.timingTowerFactory.Generate();
 
                 // Serialize the object to JSON
                 var options = new JsonSerializerOptions

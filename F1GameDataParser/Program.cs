@@ -1,6 +1,7 @@
 ﻿using F1GameDataParser.Database;
 using F1GameDataParser.Database.Repositories;
-using F1GameDataParser.Handlers;
+using F1GameDataParser.GameProfiles.F123;
+using F1GameDataParser.GameProfiles.F123.Handlers;
 using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.Services;
 using F1GameDataParser.Startup;
