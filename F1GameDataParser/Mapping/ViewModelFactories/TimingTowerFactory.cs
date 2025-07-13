@@ -96,18 +96,18 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             if (sessionHistoryState.State == null)
                 return 255;
 
-            var fastestDriverSessionHistory = sessionHistoryState.State
-                                                .Where(driver => driver != null
-                                                    && driver.LapHistoryDetails != null
-                                                    && driver.BestLapTimeLapNum < driver.LapHistoryDetails.Count()
-                                                    && driver.LapHistoryDetails.ElementAt(driver.BestLapTimeLapNum).LapTimeInMS > 0)
-                                                .OrderBy(driver => driver.LapHistoryDetails.ElementAt(driver.BestLapTimeLapNum).LapTimeInMS)
-                                                .FirstOrDefault(); // Kinda unsafe to use ElementAt...
+            var fastestLaps = sessionHistoryState.State
+                                .Where(driver => driver != null
+                                        && driver.LapHistoryDetails != null)
+                                .Select(driver => new
+                                {
+                                    VehicleIdx = driver.CarIdx,
+                                    FastestLap = driver.LapHistoryDetails.Where(l => l.LapValidBitFlags.HasFlag(LapSectorsValidity.LapValid)
+                                                                                  && l.LapTimeInMS > 0)
+                                                                            .MinBy(l => l.LapTimeInMS)?.LapTimeInMS
+                                });
 
-            if (fastestDriverSessionHistory == null)
-                return 255;
-
-            return fastestDriverSessionHistory.CarIdx;
+            return fastestLaps.MinBy(fl => fl.FastestLap)?.VehicleIdx ?? 255;
         }
 
         private string GetGapOrResultStatus(long gap, int position, ResultStatus resultStatus = ResultStatus.Active)

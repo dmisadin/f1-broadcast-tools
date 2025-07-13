@@ -9,7 +9,9 @@ namespace F1GameDataParser.GameProfiles.F123.Packets.SessionHistory
         public PacketHeader header;
 
         public byte carIdx;
+        public byte numLaps;
         public byte numTyreStings;
+
         public byte bestLapTimeLapNum;
         public byte bestSector1LapNum;
         public byte bestSector2LapNum;
