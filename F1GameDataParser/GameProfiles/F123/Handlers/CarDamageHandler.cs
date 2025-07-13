@@ -7,10 +7,10 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class CarDamageHandler : GenericHandler<CarDamagePacket, CarDamage>
     {
-        private readonly TelemetryClient _telemetryClient;
+        private readonly F123TelemetryClient _telemetryClient;
         private readonly CarDamageState _carDamageState;
 
-        public CarDamageHandler(TelemetryClient telemetryClient,
+        public CarDamageHandler(F123TelemetryClient telemetryClient,
                                 CarDamageState carDamageState)
         {
             _telemetryClient = telemetryClient;

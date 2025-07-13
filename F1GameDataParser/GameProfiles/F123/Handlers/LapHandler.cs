@@ -7,10 +7,10 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class LapHandler : GenericHandler<LapPacket, IEnumerable<LapDetails>>
     {
-        private readonly TelemetryClient _telemetryClient;
+        private readonly F123TelemetryClient _telemetryClient;
         private readonly LapState _state;
 
-        public LapHandler(TelemetryClient telemetryClient,
+        public LapHandler(F123TelemetryClient telemetryClient,
                           LapState lapState)
         {
             _telemetryClient = telemetryClient;

@@ -7,10 +7,10 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class SessionHistoryHandler : GenericHandler<SessionHistoryPacket, SessionHistory>
     {
-        private readonly TelemetryClient _telemetryClient;
+        private readonly F123TelemetryClient _telemetryClient;
         private readonly SessionHistoryState _sessionHistoryState;
 
-        public SessionHistoryHandler(TelemetryClient telemetryClient,
+        public SessionHistoryHandler(F123TelemetryClient telemetryClient,
                                      SessionHistoryState sessionHistoryState)
         {
             _telemetryClient = telemetryClient;

@@ -1,7 +1,7 @@
 ﻿using F1GameDataParser.Enums;
 using System.Runtime.InteropServices;
 
-namespace F1GameDataParser.GameProfiles.F123.Packets
+namespace F1GameDataParser.GameProfiles.F1Common.Packets
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct PacketHeader

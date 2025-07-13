@@ -6,9 +6,9 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class FinalClassificationHandler : GenericHandler<FinalClassificationPacket, FinalClassification>
     {
-        private readonly TelemetryClient _telemetryClient;
+        private readonly F123TelemetryClient _telemetryClient;
 
-        public FinalClassificationHandler(TelemetryClient telemetryClient) 
+        public FinalClassificationHandler(F123TelemetryClient telemetryClient) 
         {
             _telemetryClient = telemetryClient;
 

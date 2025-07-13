@@ -20,7 +20,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
-builder.Services.AddSingleton<TelemetryClient>(provider => new TelemetryClient(20777));
+builder.Services.AddSingleton<F123TelemetryClient>(provider => new F123TelemetryClient(20777));
 builder.Services.AddSingleton<ParticipantsHandler>();
 builder.Services.AddSingleton<ParticipantsState>();
 
@@ -78,7 +78,7 @@ app.UseWebSockets();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var telemetryClient = services.GetRequiredService<TelemetryClient>();
+    var telemetryClient = services.GetRequiredService<F123TelemetryClient>();
 
     var participantsState = services.GetRequiredService<ParticipantsState>();
     var sessionState = services.GetRequiredService<SessionState>();

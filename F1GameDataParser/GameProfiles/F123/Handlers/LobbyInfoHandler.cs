@@ -7,9 +7,9 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class LobbyInfoHandler : GenericHandler<LobbyInfoPacket, LobbyInfo>
     {
-        private readonly TelemetryClient _telemetryClient;
+        private readonly F123TelemetryClient _telemetryClient;
         private readonly LobbyInfoState _state;
-        public LobbyInfoHandler(TelemetryClient telemetryClient,
+        public LobbyInfoHandler(F123TelemetryClient telemetryClient,
                                 LobbyInfoState state)
         {
             _telemetryClient = telemetryClient;

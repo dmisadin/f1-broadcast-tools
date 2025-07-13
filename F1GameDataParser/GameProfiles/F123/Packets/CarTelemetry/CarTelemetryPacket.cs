@@ -1,5 +1,5 @@
 ﻿using F1GameDataParser.Enums;
-using F1GameDataParser.GameProfiles.F123.Packets;
+using F1GameDataParser.GameProfiles.F1Common.Packets;
 using F1GameDataParser.Models;
 using System.Runtime.InteropServices;
 

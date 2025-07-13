@@ -8,9 +8,9 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
     public class SessionHandler : GenericHandler<SessionPacket, Session>
     {
 
-        private readonly TelemetryClient _telemetryClient;
+        private readonly F123TelemetryClient _telemetryClient;
         private readonly SessionState _sessionState;
-        public SessionHandler(TelemetryClient telemetryClient,
+        public SessionHandler(F123TelemetryClient telemetryClient,
                                    SessionState sessionState)
         {
             _telemetryClient = telemetryClient;

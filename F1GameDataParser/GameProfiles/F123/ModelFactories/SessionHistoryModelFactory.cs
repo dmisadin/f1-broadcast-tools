@@ -13,12 +13,13 @@ namespace F1GameDataParser.GameProfiles.F123.ModelFactories
             {
                 Header = HeaderExpressionCompiled.Invoke(packet.header),
                 CarIdx = packet.carIdx,
+                NumLaps = packet.numLaps,
                 NumTyreStints = packet.numTyreStings,
                 BestLapTimeLapNum = packet.bestLapTimeLapNum,
                 BestSector1LapNum = packet.bestSector1LapNum,
                 BestSector2LapNum = packet.bestSector2LapNum,
                 BestSector3LapNum = packet.bestSector3LapNum,
-                LapHistoryDetails = packet.lapHistoryData.Where(lap => lap.lapTimeInMS > 0)
+                LapHistoryDetails = packet.lapHistoryData.Take(packet.numLaps)
                                             .Select(lap => new LapHistoryDetails
                                             {
                                                 LapTimeInMS = lap.lapTimeInMS,

@@ -7,9 +7,9 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class ParticipantsHandler : GenericHandler<ParticipantsPacket, Participants>
     {
-        private readonly TelemetryClient _telemetryClient;
+        private readonly F123TelemetryClient _telemetryClient;
         private readonly ParticipantsState _participantsState;
-        public ParticipantsHandler(TelemetryClient telemetryClient,
+        public ParticipantsHandler(F123TelemetryClient telemetryClient,
                                    ParticipantsState participantsState)
         {
             _telemetryClient = telemetryClient;
