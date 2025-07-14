@@ -1,4 +1,4 @@
-﻿namespace F1GameDataParser.Enums
+﻿namespace F1GameDataParser.GameProfiles.F123.Enums
 {
     public enum SessionType : byte
     {
@@ -12,14 +12,6 @@
         Q3,
         ShortQualifying,
         OneShotQualifying,
-
-        // Added in F1 24
-        SprintShootout1,
-        SprintShootout2,
-        SprintShootout3,
-        ShortSprintShootout,
-        OneShotSprintShootout,
-
         Race,
         Race2,
         Race3,

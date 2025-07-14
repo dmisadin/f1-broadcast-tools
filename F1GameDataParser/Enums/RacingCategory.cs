@@ -9,6 +9,8 @@
         Beta,
         SuperCars,
         Esports,
-        F22021
+        F22021,
+        F1World,        // Added in F1 24
+        F1Elimination   // Added in F1 24
     }
 }

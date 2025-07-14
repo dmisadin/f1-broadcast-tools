@@ -1,4 +1,6 @@
-﻿using F1GameDataParser.GameProfiles.F123.Packets.Session;
+﻿using F1GameDataParser.Enums;
+using F123Enum = F1GameDataParser.GameProfiles.F123.Enums;
+using F1GameDataParser.GameProfiles.F123.Packets.Session;
 using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.Models.Session;
 using System.Linq.Expressions;
@@ -17,7 +19,7 @@ namespace F1GameDataParser.GameProfiles.F123.ModelFactories
                 AirTemperature = packet.airTemperature,
                 TotalLaps = packet.totalLaps,
                 TrackLength = packet.trackLength,
-                SessionType = packet.sessionType,
+                SessionType = ConvertSessionType(packet.sessionType),
                 TrackId = packet.trackId,
                 Formula = packet.formula,
                 SessionTimeLeft = packet.sessionTimeLeft,
@@ -38,7 +40,7 @@ namespace F1GameDataParser.GameProfiles.F123.ModelFactories
                 NumWeatherForecastSamples = packet.numWeatherForecastSamples,
                 WeatherForecastSamples = packet.weatherForecastSamples.Select(sample => new WeatherForecastSample
                 {
-                    SessionType = sample.sessionType,
+                    SessionType = ConvertSessionType(sample.sessionType),
                     TimeOffset = sample.timeOffset,
                     Weather = sample.weather,
                     TrackTemperature = sample.trackTemperature,
@@ -74,6 +76,28 @@ namespace F1GameDataParser.GameProfiles.F123.ModelFactories
                 NumSafetyCarPeriods = packet.numSafetyCarPeriods,
                 NumVirtualSafetyCarPeriods = packet.numVirutalSafetyCarPeriods,
                 Tbc = packet.tbc
+            };
+        }
+
+        public static SessionType ConvertSessionType(F123Enum.SessionType sessionType)
+        {
+            return sessionType switch
+            {
+                F123Enum.SessionType.Unknown => SessionType.Unknown,
+                F123Enum.SessionType.Practice1 => SessionType.Practice1,
+                F123Enum.SessionType.Practice2 => SessionType.Practice2,
+                F123Enum.SessionType.Practice3 => SessionType.Practice3,
+                F123Enum.SessionType.ShortPractice => SessionType.ShortPractice,
+                F123Enum.SessionType.Q1 => SessionType.Q1,
+                F123Enum.SessionType.Q2 => SessionType.Q2,
+                F123Enum.SessionType.Q3 => SessionType.Q3,
+                F123Enum.SessionType.ShortQualifying => SessionType.ShortQualifying,
+                F123Enum.SessionType.OneShotQualifying => SessionType.OneShotQualifying,
+                F123Enum.SessionType.Race => SessionType.Race,
+                F123Enum.SessionType.Race2 => SessionType.Race2,
+                F123Enum.SessionType.Race3 => SessionType.Race3,
+                F123Enum.SessionType.TimeTrial => SessionType.TimeTrial,
+                _ => SessionType.Unknown
             };
         }
     }
