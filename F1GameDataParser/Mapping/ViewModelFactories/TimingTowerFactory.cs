@@ -47,7 +47,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             var currentLapDistance = this.CurrentLapDistanceDonePercentage(firstPlaceDriver?.LapDistance ?? -1, sessionState.State.TrackLength);
 
             var driverTimingDetails = new DriverTimingDetails[22];
-            var fastestLapVehicleIdx = GetFastestLapVehicleIndex();
+            var fastestLapVehicleIdx = currentLap > 1 ? GetFastestLapVehicleIndex() : 255;
 
             for (int i = 0; i < Sizes.MaxPlayers; i++)
             {
