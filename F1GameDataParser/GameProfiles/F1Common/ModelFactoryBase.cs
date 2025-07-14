@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Net.Sockets;
 using System.Text;
 
-namespace F1GameDataParser.GameProfiles.F123.ModelFactories
+namespace F1GameDataParser.GameProfiles.F1Common
 {
     public abstract class ModelFactoryBase<TPacket, TModel> : IModelFactory<TPacket, TModel>
         where TPacket : struct

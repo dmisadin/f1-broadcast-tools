@@ -1,5 +1,6 @@
 ﻿using F1GameDataParser.GameProfiles.F123.ModelFactories;
 using F1GameDataParser.GameProfiles.F123.Packets.CarDamage;
+using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.Models.CarDamage;
 using F1GameDataParser.State;
 

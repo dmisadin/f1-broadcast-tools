@@ -1,5 +1,6 @@
 ﻿using F1GameDataParser.GameProfiles.F123.ModelFactories;
 using F1GameDataParser.GameProfiles.F123.Packets.SessionHistory;
+using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.Models.SessionHistory;
 using F1GameDataParser.State;
 

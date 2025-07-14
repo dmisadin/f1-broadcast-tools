@@ -1,5 +1,6 @@
 ﻿using F1GameDataParser.Enums;
 using F1GameDataParser.GameProfiles.F123.Packets.LobbyInfo;
+using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.Models.LobbyInfo;
 using System.Linq.Expressions;
 using System.Text;

@@ -1,6 +1,4 @@
-﻿using F1GameDataParser.GameProfiles.F123.ModelFactories;
-
-namespace F1GameDataParser.GameProfiles.F123.Handlers
+﻿namespace F1GameDataParser.GameProfiles.F1Common
 {
     public abstract class GenericHandler<TPacket, TModel>
         where TPacket : struct

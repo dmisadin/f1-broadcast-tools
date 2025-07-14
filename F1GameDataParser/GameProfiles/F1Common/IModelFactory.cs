@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace F1GameDataParser.GameProfiles.F123.ModelFactories
+namespace F1GameDataParser.GameProfiles.F1Common
 {
     public interface IModelFactory<TPacket, TModel>
         where TPacket : struct
