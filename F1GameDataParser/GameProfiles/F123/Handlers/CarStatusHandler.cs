@@ -7,21 +7,16 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class CarStatusHandler : GenericHandler<CarStatusPacket, CarStatus>
     {
-        private readonly F123TelemetryClient _telemetryClient;
         private readonly CarStatusState _carStatusState;
 
-        public CarStatusHandler(F123TelemetryClient telemetryClient,
-                                CarStatusState carStatusState) 
+        public CarStatusHandler(CarStatusState carStatusState) 
         {
-            _telemetryClient = telemetryClient;
             _carStatusState = carStatusState;
-
-            _telemetryClient.OnCarStatusReceive += OnRecieved;
         }
 
         protected override IModelFactory<CarStatusPacket, CarStatus> ModelFactory => new CarStatusModelFactory();
 
-        protected override void OnRecieved(CarStatusPacket packet)
+        public override void OnReceived(CarStatusPacket packet)
         {
             var carStatusModel = ModelFactory.ToModel(packet);
             _carStatusState.Update(carStatusModel);

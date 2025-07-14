@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.Enums;
+using F1GameDataParser.GameProfiles.F123.Handlers;
 using F1GameDataParser.GameProfiles.F123.Packets.CarDamage;
 using F1GameDataParser.GameProfiles.F123.Packets.CarStatus;
 using F1GameDataParser.GameProfiles.F123.Packets.CarTelemetry;
@@ -16,20 +17,40 @@ namespace F1GameDataParser.GameProfiles.F123
 {
     public class F123TelemetryClient : TelemetryClientBase<PacketHeader, PacketType>
     {
-        public event Action<SessionPacket>? OnSessionReceive;
-        public event Action<LapPacket>? OnLapReceive;
-        public event Action<EventPacket>? OnEventReceive;
-        public event Action<ParticipantsPacket>? OnParticipantsReceive;
-        public event Action<CarTelemetryPacket>? OnCarTelemetryReceive;
-        public event Action<CarStatusPacket>? OnCarStatusReceive;
-        public event Action<FinalClassificationPacket>? OnFinalClassificationReceive;
-        public event Action<CarDamagePacket>? OnCarDamageReceive;
-        public event Action<LobbyInfoPacket>? OnLobbyInfoReceive;
-        public event Action<SessionHistoryPacket>? OnSessionHistoryReceive;
+        private readonly SessionHandler _sessionHandler;
+        private readonly LapHandler _lapHandler;
+        private readonly EventsHandler _eventsHandler;
+        private readonly ParticipantsHandler _participantsHandler;
+        private readonly CarTelemetryHandler _carTelemetryHandler;
+        private readonly CarStatusHandler _carStatusHandler;
+        private readonly FinalClassificationHandler _finalClassificationHandler;
+        private readonly CarDamageHandler _carDamageHandler;
+        private readonly LobbyInfoHandler _lobbyInfoHandler;
+        private readonly SessionHistoryHandler _sessionHistoryHandler;
 
-        public F123TelemetryClient(int port = 20777)
-            : base(port)
+        public F123TelemetryClient(SessionHandler sessionHandler, 
+                                    LapHandler lapHandler,
+                                    EventsHandler eventsHandler,
+                                    ParticipantsHandler participantsHandler,
+                                    CarTelemetryHandler carTelemetryHandler,
+                                    CarStatusHandler carStatusHandler,
+                                    FinalClassificationHandler finalClassificationHandler,
+                                    CarDamageHandler carDamageHandler,
+                                    LobbyInfoHandler lobbyInfoHandler,
+                                    SessionHistoryHandler sessionHistoryHandler)
+            : base(20777)
         {
+            _sessionHandler = sessionHandler;
+            _lapHandler = lapHandler;
+            _eventsHandler = eventsHandler;
+            _participantsHandler = participantsHandler;
+            _carTelemetryHandler = carTelemetryHandler;
+            _carStatusHandler = carStatusHandler;
+            _finalClassificationHandler = finalClassificationHandler;
+            _carDamageHandler = carDamageHandler;
+            _lobbyInfoHandler = lobbyInfoHandler;
+            _sessionHistoryHandler = sessionHistoryHandler;
+
             Console.WriteLine("Listening for F1 23...");
         }
 
@@ -45,43 +66,43 @@ namespace F1GameDataParser.GameProfiles.F123
             {
                 case PacketType.SESSION:
                     var session = ByteArrayToStruct<SessionPacket>(data);
-                    OnSessionReceive?.Invoke(session);
+                    _sessionHandler.OnReceived(session);
                     break;
                 case PacketType.LAP_DATA:
                     var lapData = ByteArrayToStruct<LapPacket>(data);
-                    OnLapReceive?.Invoke(lapData);
+                    _lapHandler.OnReceived(lapData);
                     break;
                 case PacketType.EVENT:
                     var evt = ByteArrayToStruct<EventPacket>(data);
-                    OnEventReceive?.Invoke(evt);
+                    _eventsHandler.OnReceived(evt);
                     break;
                 case PacketType.PARTICIPANTS:
                     var participants = ByteArrayToStruct<ParticipantsPacket>(data);
-                    OnParticipantsReceive?.Invoke(participants);
+                    _participantsHandler.OnReceived(participants);
                     break;
                 case PacketType.CAR_TELEMETRY:
                     var carTelemetry = ByteArrayToStruct<CarTelemetryPacket>(data);
-                    OnCarTelemetryReceive?.Invoke(carTelemetry);
+                    _carTelemetryHandler.OnReceived(carTelemetry);
                     break;
                 case PacketType.CAR_STATUS:
                     var carStatus = ByteArrayToStruct<CarStatusPacket>(data);
-                    OnCarStatusReceive?.Invoke(carStatus);
+                    _carStatusHandler.OnReceived(carStatus);
                     break;
                 case PacketType.FINAL_CLASSIFICATION:
                     var finalClassification = ByteArrayToStruct<FinalClassificationPacket>(data);
-                    OnFinalClassificationReceive?.Invoke(finalClassification);
+                    _finalClassificationHandler.OnReceived(finalClassification);
                     break;
                 case PacketType.CAR_DAMAGE:
                     var carDamage = ByteArrayToStruct<CarDamagePacket>(data);
-                    OnCarDamageReceive?.Invoke(carDamage);
+                    _carDamageHandler.OnReceived(carDamage);
                     break;
                 case PacketType.LOBBY_INFO:
                     var lobbyInfo = ByteArrayToStruct<LobbyInfoPacket>(data);
-                    OnLobbyInfoReceive?.Invoke(lobbyInfo);
+                    _lobbyInfoHandler.OnReceived(lobbyInfo);
                     break;
                 case PacketType.SESSION_HISTORY:
                     var sessionHistory = ByteArrayToStruct<SessionHistoryPacket>(data);
-                    OnSessionHistoryReceive?.Invoke(sessionHistory);
+                    _sessionHistoryHandler.OnReceived(sessionHistory);
                     break;
             }
         }

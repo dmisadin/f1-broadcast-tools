@@ -8,6 +8,6 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
     {
         // TO DO: Dependency Injection for inherited classes (TelemetryClient)
         protected abstract IModelFactory<TPacket, TModel> ModelFactory { get; }
-        protected abstract void OnRecieved(TPacket packet);
+        public abstract void OnReceived(TPacket packet);
     }
 }

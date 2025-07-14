@@ -1,5 +1,6 @@
 ﻿using F1GameDataParser.Database;
 using F1GameDataParser.Database.Repositories;
+using F1GameDataParser.GameProfiles;
 using F1GameDataParser.GameProfiles.F123;
 using F1GameDataParser.GameProfiles.F123.Handlers;
 using F1GameDataParser.Mapping.ViewModelFactories;
@@ -20,7 +21,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
-builder.Services.AddSingleton<F123TelemetryClient>(provider => new F123TelemetryClient(20777));
+builder.Services.AddSingleton<GameManager>();
+builder.Services.AddSingleton<F123TelemetryClient>();
 builder.Services.AddSingleton<ParticipantsHandler>();
 builder.Services.AddSingleton<ParticipantsState>();
 
@@ -78,7 +80,6 @@ app.UseWebSockets();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    var telemetryClient = services.GetRequiredService<F123TelemetryClient>();
 
     var participantsState = services.GetRequiredService<ParticipantsState>();
     var sessionState = services.GetRequiredService<SessionState>();
@@ -90,16 +91,11 @@ using (var scope = app.Services.CreateScope())
     var lobbyInfoState = services.GetRequiredService<LobbyInfoState>();
     var driverOverrideState = services.GetRequiredService<DriverOverrideService>();
 
-    var participantsHandler = services.GetRequiredService<ParticipantsHandler>();
-    var sessionHandler = services.GetRequiredService<SessionHandler>();
-    var carTelemetryHandler = services.GetRequiredService<CarTelemetryHandler>();
-    var eventsHandler = services.GetRequiredService<EventsHandler>();
-    var carStatusHandler = services.GetRequiredService<CarStatusHandler>();
-    var finalClassificationHandler = services.GetRequiredService<FinalClassificationHandler>();
-    var lapHandler = services.GetRequiredService<LapHandler>();
-    var sessionHistoryHandler = services.GetRequiredService<SessionHistoryHandler>();
-    var carDamageHandler = services.GetRequiredService<CarDamageHandler>();
-    var lobbyInfoHandler = services.GetRequiredService<LobbyInfoHandler>();
+
+    var gameManager = services.GetRequiredService<GameManager>();
+
+    var selectedGame = GameManager.PromptUserForGame();
+    gameManager.SwitchGame(selectedGame, services);
 }
 
 app.UseRouting();

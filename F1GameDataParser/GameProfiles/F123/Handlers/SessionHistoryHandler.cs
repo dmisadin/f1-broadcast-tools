@@ -7,21 +7,16 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class SessionHistoryHandler : GenericHandler<SessionHistoryPacket, SessionHistory>
     {
-        private readonly F123TelemetryClient _telemetryClient;
         private readonly SessionHistoryState _sessionHistoryState;
 
-        public SessionHistoryHandler(F123TelemetryClient telemetryClient,
-                                     SessionHistoryState sessionHistoryState)
+        public SessionHistoryHandler(SessionHistoryState sessionHistoryState)
         {
-            _telemetryClient = telemetryClient;
             _sessionHistoryState = sessionHistoryState;
-
-            _telemetryClient.OnSessionHistoryReceive += OnRecieved;
         }
 
         protected override IModelFactory<SessionHistoryPacket, SessionHistory> ModelFactory => new SessionHistoryModelFactory();
 
-        protected override void OnRecieved(SessionHistoryPacket packet)
+        public override void OnReceived(SessionHistoryPacket packet)
         {
             var sessionHistoryModel = ModelFactory.ToModel(packet);
 

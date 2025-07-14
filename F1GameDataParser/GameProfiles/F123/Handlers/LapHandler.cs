@@ -7,21 +7,16 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class LapHandler : GenericHandler<LapPacket, IEnumerable<LapDetails>>
     {
-        private readonly F123TelemetryClient _telemetryClient;
         private readonly LapState _state;
 
-        public LapHandler(F123TelemetryClient telemetryClient,
-                          LapState lapState)
+        public LapHandler(LapState lapState)
         {
-            _telemetryClient = telemetryClient;
             _state = lapState;
-
-            _telemetryClient.OnLapReceive += OnRecieved;
         }
 
         protected override IModelFactory<LapPacket, IEnumerable<LapDetails>> ModelFactory => new LapModelFactory();
 
-        protected override void OnRecieved(LapPacket packet)
+        public override void OnReceived(LapPacket packet)
         {
             var lapModel = ModelFactory.ToModel(packet);
             _state.Update(lapModel);

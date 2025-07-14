@@ -6,18 +6,14 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
 {
     public class FinalClassificationHandler : GenericHandler<FinalClassificationPacket, FinalClassification>
     {
-        private readonly F123TelemetryClient _telemetryClient;
 
-        public FinalClassificationHandler(F123TelemetryClient telemetryClient) 
+        public FinalClassificationHandler() 
         {
-            _telemetryClient = telemetryClient;
-
-            _telemetryClient.OnFinalClassificationReceive += OnRecieved;
         }
 
         protected override IModelFactory<FinalClassificationPacket, FinalClassification> ModelFactory => new FinalClassificationModelFactory();
 
-        protected override void OnRecieved(FinalClassificationPacket packet)
+        public override void OnReceived(FinalClassificationPacket packet)
         {
             var finalClassificationModel = ModelFactory.ToModel(packet);
         }

@@ -8,21 +8,16 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
     // This should be a stateless handler, just send data to client
     public class EventsHandler : GenericHandler<EventPacket, Event>
     {
-        private readonly F123TelemetryClient telemetryClient;
         private readonly EventService eventService;
 
-        public EventsHandler(F123TelemetryClient telemetryClient,
-                            EventService eventService) 
+        public EventsHandler(EventService eventService) 
         { 
-            this.telemetryClient = telemetryClient;
             this.eventService = eventService;
-
-            this.telemetryClient.OnEventReceive += OnRecieved;
         }
 
         protected override IModelFactory<EventPacket, Event> ModelFactory => new EventModelFactory();
 
-        protected override void OnRecieved(EventPacket packet)
+        public override void OnReceived(EventPacket packet)
         {
             var eventModel = ModelFactory.ToModel(packet);
             if (!EventCodes.EnabledEvents.Contains(eventModel.EventStringCode))

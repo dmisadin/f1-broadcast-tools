@@ -6,7 +6,7 @@ using Timer = System.Timers.Timer;
 
 namespace F1GameDataParser.GameProfiles.F1Common
 {
-    public abstract class TelemetryClientBase<THeader, TPacketId>
+    public abstract class TelemetryClientBase<THeader, TPacketId> : ITelemetryClient
         where THeader : struct
         where TPacketId : Enum
     {
@@ -14,7 +14,6 @@ namespace F1GameDataParser.GameProfiles.F1Common
         private readonly UdpClient _client;
         private IPEndPoint _peerEndPoint;
         private readonly Timer _timeoutTimer;
-        private GCHandle _handle;
 
         public bool Connected { get; private set; }
 
@@ -31,7 +30,7 @@ namespace F1GameDataParser.GameProfiles.F1Common
             Connected = true;
             OnConnectedStatusChange?.Invoke(true);
 
-            _client.BeginReceive(ReceiveCallback, null);
+            //_client.BeginReceive(ReceiveCallback, null);
         }
 
         private void TimeoutEvent(object? sender, ElapsedEventArgs e)
@@ -42,26 +41,28 @@ namespace F1GameDataParser.GameProfiles.F1Common
 
         private void ReceiveCallback(IAsyncResult result)
         {
+            GCHandle handle = default;
+
             try
             {
                 byte[] data = _client.EndReceive(result, ref _peerEndPoint);
-                _handle = GCHandle.Alloc(data, GCHandleType.Pinned);
+                handle = GCHandle.Alloc(data, GCHandleType.Pinned);
 
-                var header = (THeader)Marshal.PtrToStructure(_handle.AddrOfPinnedObject(), typeof(THeader))!;
+                var header = (THeader)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(THeader))!;
 
                 if (ShouldProcessPacket(header, out var packetId))
                 {
                     ParseAndDispatchPacket(data, packetId);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                // optionally log
+                Console.WriteLine($"[ReceiveCallback] Error: {ex.Message}");
             }
             finally
             {
-                if (_handle.IsAllocated)
-                    _handle.Free();
+                if (handle.IsAllocated)
+                    handle.Free();
 
                 _client.BeginReceive(ReceiveCallback, null);
             }
@@ -89,6 +90,16 @@ namespace F1GameDataParser.GameProfiles.F1Common
                 handle.Free();
             }
         }
+        public virtual void Start()
+        {
+            _client.BeginReceive(ReceiveCallback, null);
+            _timeoutTimer.Start();
+        }
 
+        public virtual void Stop()
+        {
+            _timeoutTimer.Stop();
+            _client.Close();
+        }
     }
 }
