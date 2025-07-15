@@ -31,11 +31,11 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.Event
         /// Index of the car retiring
         /// </summary>
         public byte vehicleIdx;
-        public RetirementReason reason; // Added in F1 25
+        public ResultReason reason;     // Added in F1 25
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct DRSDisabled            // Added in F1 25
+    public struct DRSDisabled           // Added in F1 25
     {
         public DRSDisabledReason reason;
     }

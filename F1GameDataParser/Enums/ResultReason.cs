@@ -1,6 +1,6 @@
-﻿namespace F1GameDataParser.Enums.Event
+﻿namespace F1GameDataParser.Enums
 {
-    public enum RetirementReason : byte
+    public enum ResultReason : byte
     {
         Invalid = 0,
         Retired,

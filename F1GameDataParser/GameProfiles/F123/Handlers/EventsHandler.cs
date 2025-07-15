@@ -27,7 +27,7 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
             switch (eventModel.EventDetails.Details)
             {
                 case Models.Event.Penalty penalty:
-                    eventService.HandlePenalty(penalty);
+                    eventService.HandlePenalty(penalty, eventModel.Header.GameYear);
                     break;
                 default:
                     break;

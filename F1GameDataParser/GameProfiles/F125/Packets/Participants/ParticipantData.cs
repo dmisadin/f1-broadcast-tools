@@ -14,12 +14,16 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.Participants
         public byte raceNumber;         // Race number of the car
         public Nationality nationality; // Nationality of the driver
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 48)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
         public char[] name; // Name of participant in UTF-8 format – null terminated. Will be truncated with … (U+2026) if too long
 
         public Toggle yourTelemetry;    // The player's UDP setting, 0 = restricted, 1 = public
         public Toggle showOnlineNames;  // The player's show online names setting, 0 = off, 1 = on
         public ushort techLevel;        // F1 World tech level; F1 24
         public Platform platform;       // 1 = Steam, 3 = PlayStation, 4 = Xbox, 6 = Origin, 255 = unknown
+
+        public byte numColours;         // Added in F1 25; Number of colours valid for this car
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public LiveryColour[] liveryColours;    // Added in F1 25
     }
 }

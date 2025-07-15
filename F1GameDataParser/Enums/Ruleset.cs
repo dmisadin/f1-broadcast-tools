@@ -10,6 +10,7 @@
         Autocross = 8,
         Drift = 9,
         AverageSpeedZone = 10,
-        RivalDuel = 11
+        RivalDuel = 11,
+        Elimination = 12    // Added in F1 25
     }
 }

@@ -12,6 +12,8 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.CarDamage
         public byte[] tyresDamage;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
         public byte[] brakesDamage;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        public byte[] tyreBlisters;
 
         public byte frontLeftWingDamage;
         public byte frontRightWingDamage;

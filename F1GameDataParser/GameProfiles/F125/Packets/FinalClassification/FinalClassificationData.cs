@@ -12,6 +12,7 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.FinalClassification
         public byte points;
         public byte numPitStops;
         public ResultStatus resultStatus;
+        public ResultReason resultReason;
         public uint bestLapTimeInMS;
         public double totalRaceTime; // Total race time in seconds without penalties
         public byte penaltiesTime; // Total penalties accumulated in seconds
