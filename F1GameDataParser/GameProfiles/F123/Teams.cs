@@ -1,9 +1,8 @@
 ﻿using F1GameDataParser.Enums;
+using F1GameDataParser.GameProfiles.F1Common.Utility;
 
 namespace F1GameDataParser.GameProfiles.F123
 {
-    public record TeamDetails(Team Id, string Name, string PrimaryColor, string SecondaryColor, string TextColor = "#FFFFFF");
-
     public static class Teams
     {
         public static readonly Dictionary<Team, TeamDetails> AllTeams = new Dictionary<Team, TeamDetails>

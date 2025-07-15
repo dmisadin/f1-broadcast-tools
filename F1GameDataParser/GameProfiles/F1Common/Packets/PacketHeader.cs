@@ -6,7 +6,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Packets
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct PacketHeader
     {
-        public ushort packetFormat;
+        public PacketFormat packetFormat;
         public GameYear gameYear;
         public byte gameMajorVersion;
         public byte gameMinorVersion;

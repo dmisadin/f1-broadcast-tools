@@ -1,5 +1,5 @@
 ﻿using F1GameDataParser.Enums;
-using F1GameDataParser.GameProfiles.F123;
+using F1GameDataParser.GameProfiles.F1Common.Utility;
 using F1GameDataParser.Models;
 using F1GameDataParser.State;
 using F1GameDataParser.Utility;
@@ -57,14 +57,13 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 var participantDetails = participantsState.State.ParticipantList[i];
                 var carStatusDetails = carStatusState.State.Details[i];
                 var driverOverride = driverOverrideState.GetModel(i);
-                TeamDetails teamDetails;
 
                 driverTimingDetails[i] = new DriverTimingDetails
                 {
                     VehicleIdx = i,
                     Position = lapDetails.CarPosition,
                     TeamId = participantDetails.TeamId, //ToString()
-                    TeamDetails = Teams.AllTeams.TryGetValue(participantDetails.TeamId, out teamDetails) ? teamDetails : null,
+                    TeamDetails = GameSpecifics.GetTeamDetails(sessionState.State.Header.GameYear, participantDetails.TeamId),
                     Name = driverOverride?.Player.Name ?? participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
@@ -97,15 +96,18 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 return 255;
 
             var fastestLaps = sessionHistoryState.State
-                                .Where(driver => driver != null
-                                        && driver.LapHistoryDetails != null)
-                                .Select(driver => new
-                                {
-                                    VehicleIdx = driver.CarIdx,
-                                    FastestLap = driver.LapHistoryDetails.Where(l => l.LapValidBitFlags.HasFlag(LapSectorsValidity.LapValid)
-                                                                                  && l.LapTimeInMS > 0)
-                                                                            .MinBy(l => l.LapTimeInMS)?.LapTimeInMS
-                                });
+                .Where(driver =>
+                    driver != null
+                    && driver.LapHistoryDetails != null
+                    && lapState.State.TryGetValue(driver.CarIdx, out var lapDetails)
+                    && lapDetails.ResultStatus != ResultStatus.Invalid)
+                .Select(driver => new
+                {
+                    VehicleIdx = driver.CarIdx,
+                    FastestLap = driver.LapHistoryDetails
+                        .Where(l => l.LapValidBitFlags.HasFlag(LapSectorsValidity.LapValid) && l.LapTimeInMS > 0)
+                        .MinBy(l => l.LapTimeInMS)?.LapTimeInMS
+                });
 
             return fastestLaps.MinBy(fl => fl.FastestLap)?.VehicleIdx ?? 255;
         }
