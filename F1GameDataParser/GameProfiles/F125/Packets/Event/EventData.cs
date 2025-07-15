@@ -34,6 +34,12 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.Event
         public RetirementReason reason; // Added in F1 25
     }
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct DRSDisabled            // Added in F1 25
+    {
+        public DRSDisabledReason reason;
+    }
+
     /// <summary>
     /// Team mate in pits event
     /// </summary>
@@ -250,6 +256,9 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.Event
 
         [FieldOffset(0)]
         public Retirement retirement;
+
+        [FieldOffset(0)]
+        public DRSDisabled drsDisabled;
 
         [FieldOffset(0)]
         public TeamMateInPits teamMateInPits;
