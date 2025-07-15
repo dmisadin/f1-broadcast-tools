@@ -9,6 +9,10 @@
         Gravel,
         Mud,
         Sand,
-        Grass
+        Grass,
+        Water,
+        Cobblestone,
+        Metal,
+        Ridged
     }
 }
