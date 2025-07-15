@@ -74,8 +74,7 @@ namespace F1GameDataParser.GameProfiles.F123.ModelFactories
                 SpeedUnitsSecondaryPlayer = packet.speedUnitsSecondaryPlayer,
                 TemperatureUnitsSecondaryPlayer = packet.temperatureUnitsSecondaryPlayer,
                 NumSafetyCarPeriods = packet.numSafetyCarPeriods,
-                NumVirtualSafetyCarPeriods = packet.numVirutalSafetyCarPeriods,
-                Tbc = packet.tbc
+                NumVirtualSafetyCarPeriods = packet.numVirutalSafetyCarPeriods
             };
         }
 

@@ -54,6 +54,5 @@ namespace F1GameDataParser.Models.Session
         public TemperatureUnit TemperatureUnitsSecondaryPlayer { get; set; }
         public byte NumSafetyCarPeriods { get; set; }
         public byte NumVirtualSafetyCarPeriods { get; set; }
-        public byte Tbc { get; set; } // tbc - wtf?
     }
 }

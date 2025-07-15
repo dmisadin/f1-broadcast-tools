@@ -1,5 +1,6 @@
 ﻿using F1GameDataParser.Enums;
 using F1GameDataParser.GameProfiles.F123;
+using F1GameDataParser.GameProfiles.F125;
 using F1GameDataParser.GameProfiles.F1Common;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -43,6 +44,9 @@ namespace F1GameDataParser.GameProfiles
             {
                 case GameYear.F123:
                     _activeClient = provider.GetRequiredService<F123TelemetryClient>();
+                    break;
+                case GameYear.F125:
+                    _activeClient = provider.GetRequiredService<F125TelemetryClient>();
                     break;
                 default:
                     Console.WriteLine("Unknown game selection.");

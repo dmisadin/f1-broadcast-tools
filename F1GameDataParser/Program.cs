@@ -3,6 +3,8 @@ using F1GameDataParser.Database.Repositories;
 using F1GameDataParser.GameProfiles;
 using F1GameDataParser.GameProfiles.F123;
 using F1GameDataParser.GameProfiles.F123.Handlers;
+using F125 = F1GameDataParser.GameProfiles.F125;
+using F1GameDataParser.GameProfiles.F125;
 using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.Services;
 using F1GameDataParser.Startup;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
+using F1GameDataParser.GameProfiles.F125.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,33 +26,42 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddSingleton<GameManager>();
 builder.Services.AddSingleton<F123TelemetryClient>();
-builder.Services.AddSingleton<ParticipantsHandler>();
+builder.Services.AddSingleton<F125.F125TelemetryClient>();
 builder.Services.AddSingleton<ParticipantsState>();
-
-builder.Services.AddSingleton<SessionHandler>();
 builder.Services.AddSingleton<SessionState>();
-
-builder.Services.AddSingleton<CarTelemetryHandler>();
 builder.Services.AddSingleton<CarTelemetryState>();
-
-builder.Services.AddSingleton<EventsHandler>();
-
-builder.Services.AddSingleton<CarStatusHandler>();
 builder.Services.AddSingleton<CarStatusState>();
-
-builder.Services.AddSingleton<FinalClassificationHandler>();
-
-builder.Services.AddSingleton<LapHandler>();
 builder.Services.AddSingleton<LapState>();
-
-builder.Services.AddSingleton<SessionHistoryHandler>();
 builder.Services.AddSingleton<SessionHistoryState>();
-
-builder.Services.AddSingleton<CarDamageHandler>();
 builder.Services.AddSingleton<CarDamageState>();
-
-builder.Services.AddSingleton<LobbyInfoHandler>();
 builder.Services.AddSingleton<LobbyInfoState>();
+
+/*
+builder.Services.AddSingleton<ParticipantsHandler>();
+builder.Services.AddSingleton<SessionHandler>();
+builder.Services.AddSingleton<CarTelemetryHandler>();
+builder.Services.AddSingleton<EventsHandler>();
+builder.Services.AddSingleton<CarStatusHandler>();
+builder.Services.AddSingleton<FinalClassificationHandler>();
+builder.Services.AddSingleton<LapHandler>();
+builder.Services.AddSingleton<SessionHistoryHandler>();
+builder.Services.AddSingleton<CarDamageHandler>();
+builder.Services.AddSingleton<LobbyInfoHandler>();
+
+builder.Services.AddSingleton<F125.Handlers.ParticipantsHandler>();
+builder.Services.AddSingleton<F125.Handlers.SessionHandler>();
+builder.Services.AddSingleton<F125.Handlers.CarTelemetryHandler>();
+builder.Services.AddSingleton<F125.Handlers.EventsHandler>();
+builder.Services.AddSingleton<F125.Handlers.CarStatusHandler>();
+builder.Services.AddSingleton<F125.Handlers.FinalClassificationHandler>();
+builder.Services.AddSingleton<F125.Handlers.LapHandler>();
+builder.Services.AddSingleton<F125.Handlers.SessionHistoryHandler>();
+builder.Services.AddSingleton<F125.Handlers.CarDamageHandler>();
+builder.Services.AddSingleton<F125.Handlers.LobbyInfoHandler>();
+*/
+builder.Services.AddF123Handlers();
+builder.Services.AddF125Handlers();
+
 
 builder.Services.AddSingleton<DriverOverrideState>();
 
