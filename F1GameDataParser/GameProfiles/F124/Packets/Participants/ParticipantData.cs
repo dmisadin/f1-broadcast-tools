@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace F1GameDataParser.GameProfiles.F124.Packets.Participants
 {
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ParticipantData
     {
         public Toggle aiControlled;     // Whether the vehicle is AI (1) or Human (0) controlled
