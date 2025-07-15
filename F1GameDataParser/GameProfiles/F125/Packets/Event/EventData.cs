@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.Enums;
+using F1GameDataParser.Enums.Event;
 using System.Runtime.InteropServices;
 
 namespace F1GameDataParser.GameProfiles.F125.Packets.Event
@@ -30,6 +31,7 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.Event
         /// Index of the car retiring
         /// </summary>
         public byte vehicleIdx;
+        public RetirementReason reason; // Added in F1 25
     }
 
     /// <summary>
@@ -171,6 +173,7 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.Event
         /// Index of the car serving the stop &amp; go
         /// </summary>
         public byte vehicleIdx;
+        public float stopTime; // Added in F1 25
     }
 
     /// <summary>
