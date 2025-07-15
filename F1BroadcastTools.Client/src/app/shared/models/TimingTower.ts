@@ -1,7 +1,8 @@
-import { ResultStatus, SafetyCarStatus, Team } from "./Enumerations";
+import { GameYear, ResultStatus, SafetyCarStatus, Team } from "./Enumerations";
 import { TeamDetails } from "./team.model";
 
 export interface TimingTower {
+    gameYear: GameYear;
     currentLap: number;
     totalLaps: number;
 

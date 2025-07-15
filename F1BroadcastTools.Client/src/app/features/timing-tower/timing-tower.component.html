@@ -11,7 +11,8 @@
         {
         <driver-timing-details [driver]="driver" 
             [isSpectated]="driver.vehicleIdx === timingTower.spectatorCarIdx"
-            [showAdditionalInfo]="showAdditionalInfo()">
+            [showAdditionalInfo]="showAdditionalInfo()"
+            [gameYear]="timingTower.gameYear">
         </driver-timing-details>
         }
     </div>

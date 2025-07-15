@@ -1,6 +1,6 @@
 import { Component, computed, effect, input, signal } from "@angular/core";
 import { DriverTimingDetails } from "../../../shared/models/TimingTower";
-import { AdditionalInfo, ResultStatus } from "../../../shared/models/Enumerations";
+import { AdditionalInfo, GameYear, ResultStatus } from "../../../shared/models/Enumerations";
 import { trigger, transition, style, animate } from "@angular/animations";
 
 @Component({
@@ -24,6 +24,7 @@ export class DriverTimingDetailsComponent {
     isSpectated = input(false);
     showAdditionalInfo = input(AdditionalInfo.None);
     driver = input<DriverTimingDetails>({} as DriverTimingDetails);
+    gameYear = input(GameYear.F123);
 
     resultStatus = ResultStatus;
     AdditionalInfo = AdditionalInfo;

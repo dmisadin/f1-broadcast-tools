@@ -41,6 +41,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 || sessionHistoryState.State == null)
                 return null;
 
+            var gameYear = sessionState.State.Header.GameYear;
             var firstPlaceDriver = lapState.State.Where(detail => detail.Value.CarPosition == 1).FirstOrDefault().Value;
             var currentLap = firstPlaceDriver?.CurrentLapNum ?? 0;
             var totalLaps = sessionState.State.TotalLaps;
@@ -80,6 +81,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
             return new TimingTower
             {
+                GameYear = gameYear,
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
                 SafetyCarStatus = sessionState.State.SafetyCarStatus,

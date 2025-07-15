@@ -30,7 +30,7 @@
             <span>{{driver().position}}</span>
         </div>
         <div class="team" [ngStyle]="{'background-color': isSpectated() ? driver().teamDetails?.primaryColor : ''}">
-            <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)"></team-logo>
+            <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)" [game]="25"></team-logo>
         </div>
         <div class="name">
             {{driver().name}}
