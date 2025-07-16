@@ -1,5 +1,5 @@
 ﻿using F1GameDataParser.Enums;
-using F1GameDataParser.GameProfiles.F123;
+using F1GameDataParser.GameProfiles.F1Common.Utility;
 
 namespace F1GameDataParser.ViewModels.TimingTower
 {

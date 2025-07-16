@@ -10,7 +10,7 @@ namespace F1GameDataParser.Models.Session
         public sbyte AirTemperature { get; set; } // Celsius
         public byte TotalLaps { get; set; }
         public ushort TrackLength { get; set; }
-        public SessionType SessionType { get; set; }
+        public SessionType SessionType { get; set; } // WARNING: Changed in F1 24
         public Track TrackId { get; set; }
         public RacingCategory Formula { get; set; }
         public ushort SessionTimeLeft { get; set; } // Seconds
@@ -54,6 +54,5 @@ namespace F1GameDataParser.Models.Session
         public TemperatureUnit TemperatureUnitsSecondaryPlayer { get; set; }
         public byte NumSafetyCarPeriods { get; set; }
         public byte NumVirtualSafetyCarPeriods { get; set; }
-        public byte Tbc { get; set; } // tbc - wtf?
     }
 }

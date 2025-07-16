@@ -89,7 +89,11 @@
         VE = 84,
         BB = 85,
         GB_WLS = 86,
-        VN = 87
+        VN = 87,
+        // Added in F1 24
+        DZ = 88, 
+        BA = 89,
+        PH = 90
     }
 
 }

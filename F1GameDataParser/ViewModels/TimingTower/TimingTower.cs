@@ -4,6 +4,7 @@ namespace F1GameDataParser.ViewModels.TimingTower
 {
     public class TimingTower
     {
+        public GameYear GameYear { get; set; }
         public byte CurrentLap { get; set; }
         public byte TotalLaps { get; set; }
 

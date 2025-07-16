@@ -1,0 +1,43 @@
+@switch (team())
+{
+    @case (Team.Mercedes)
+    {
+        <mercedes-logo class="logo"></mercedes-logo>
+    }
+    @case (Team.Ferrari)
+    {
+        <ferrari-logo class="logo"></ferrari-logo>
+    }
+    @case (Team.RedBullRacing)
+    {
+        <red-bull-racing-logo class="logo"></red-bull-racing-logo>
+    }
+    @case (Team.Williams)
+    {
+        <williams-logo class="logo" [color]="color()"></williams-logo>
+    }
+    @case (Team.AstonMartin)
+    {
+        <aston-martin-logo class="logo"></aston-martin-logo>
+    }
+    @case (Team.Alpine)
+    {
+        <alpine-logo class="logo" [color]="color()"></alpine-logo>
+    }
+    @case (Team.AlphaTauri)
+    {
+        <racing-bulls-logo class="logo"></racing-bulls-logo>
+    }
+    @case (Team.Haas)
+    {
+        <haas-logo class="logo" [color]="color()"></haas-logo>
+    }
+    @case (Team.McLaren)
+    {
+        <mclaren-logo class="logo" [color]="color()"></mclaren-logo>
+    }
+    @case (Team.AlfaRomeo)
+    {
+        <sauber-logo class="logo" class="logo"></sauber-logo>
+    }
+}

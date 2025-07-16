@@ -33,6 +33,13 @@
         Imola,
         Portimao,
         Jeddah,
-        Miami
+        Miami,
+        LasVegas,
+        Losail = 32,
+
+        // Added in F1 25
+        SilverstoneReverse = 39,
+        AustriaReverse = 40,
+        ZandvoortReverse = 41
     }
 }

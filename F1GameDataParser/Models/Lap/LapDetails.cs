@@ -4,6 +4,7 @@ namespace F1GameDataParser.Models.Lap
 {
     public class LapDetails : MergeableBase<LapDetails>
     {
+        public GameYear GameYear { get; set; }
         public uint LastLapTimeInMS { get; set; }
         public uint CurrentLapTimeInMS { get; set; }
         public ushort Sector1TimeInMS { get; set; } // Sector 1 time in milliseconds

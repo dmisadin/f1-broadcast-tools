@@ -4,8 +4,8 @@ namespace F1GameDataParser.Models
 {
     public class Header
     {
-        public ushort PacketFormat { get; set; }
-        public byte GameYear { get; set; }
+        public PacketFormat PacketFormat { get; set; }
+        public GameYear GameYear { get; set; }
         public byte GameMajorVersion { get; set; }
         public byte GameMinorVersion { get; set; }
         public byte PacketVersion { get; set; }

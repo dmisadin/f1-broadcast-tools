@@ -5,6 +5,7 @@
             public Header Header { get; set; }
 
             public byte CarIdx { get; set; }
+            public byte NumLaps { get; set; }
             public byte NumTyreStints { get; set; }
             public byte BestLapTimeLapNum { get; set; }
             public byte BestSector1LapNum { get; set; }

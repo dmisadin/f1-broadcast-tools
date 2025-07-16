@@ -61,6 +61,8 @@
         /// <summary>
         /// Extended motion data for player car
         /// </summary>
-        MOTION_EX = 13
+        MOTION_EX = 13, // Added in F1 24
+        TIME_TRIAL = 14, // Added in F1 24
+        LAP_POSITIONS = 15 // Added in F1 25
     }
 }

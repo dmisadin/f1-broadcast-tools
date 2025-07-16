@@ -7,7 +7,6 @@ namespace F1GameDataParser.Startup
     {
         public static IServiceCollection AddSharedServices(this IServiceCollection services)
         {
-            services.AddTransient<ITimingTowerService, TimingTowerService>();
             services.AddTransient<EventService>();
 
             return services;

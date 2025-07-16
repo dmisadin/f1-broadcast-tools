@@ -128,7 +128,7 @@ export enum AdditionalInfo {
     PositionsGained = 1 << 3
 }
 
-export enum Game {
+export enum GameYear {
     F123 = 23,
     F125 = 25
 }

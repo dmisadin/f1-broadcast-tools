@@ -6,7 +6,7 @@
     <div class="driver-info">
         <div class="position" [ngClass]="{'has-fastest-lap': driver().hasFastestLap}">
             <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                @if(positionChange() > 0)
+                @if (positionChange() > 0)
                 {
                 <path d="M9.99998 5L0 8V37H20V8L9.99998 5Z" fill="url(#paint0_linear_1106_474)" />
                 <path d="M0 8L9.99998 5L20 8" stroke="#51FF00" stroke-width="4" />
@@ -30,7 +30,7 @@
             <span>{{driver().position}}</span>
         </div>
         <div class="team" [ngStyle]="{'background-color': isSpectated() ? driver().teamDetails?.primaryColor : ''}">
-            <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)"></team-logo>
+            <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)" [game]="25"></team-logo>
         </div>
         <div class="name">
             {{driver().name}}
@@ -47,14 +47,14 @@
             {
             <div class="positions-gained">
                 <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    @if(driver().positionsGained > 0)
+                    @if (driver().positionsGained > 0)
                     {
                     <path d="M9.99998 5L0 8V37H20V8L9.99998 5Z" fill="url(#paint0_linear_1106_474)" />
                     <path d="M0 8L9.99998 5L20 8" stroke="#51FF00" stroke-width="4" />
                     }
-                    @else if (driver().positionsGained
-                    < 0) { <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
-                    <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
+                    @else if (driver().positionsGained < 0) { 
+                        <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
+                        <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
                     }
                     <defs>
                         <linearGradient id="paint0_linear_1106_474" x1="10" y1="3" x2="10" y2="37"
@@ -75,7 +75,7 @@
             }
             @case (AdditionalInfo.NumPitStops)
             {
-            @if(driver().numPitStops)
+            @if (driver().numPitStops)
             {
             <div class="num-pit-stops">
                 <svg width="68" height="68" viewBox="0 0 68 68" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,7 +92,7 @@
             }
             @case (AdditionalInfo.Penalties)
             {
-            @if(driver().penalties)
+            @if (driver().penalties)
             {
             <div class="penalties">
                 +{{driver().penalties}}s
