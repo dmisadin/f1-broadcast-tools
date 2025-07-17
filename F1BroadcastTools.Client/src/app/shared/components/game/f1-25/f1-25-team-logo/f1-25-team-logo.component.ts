@@ -21,9 +21,6 @@ import { SauberLogoComponent } from './sauber-logo/sauber-logo.component';
 export class F125TeamLogoComponent {
     team = input<Team>();
     color = input<string>();
-    ngOnChange() {
-        console.log(this.team)
-
-    }
+    
     Team = Team;
 }

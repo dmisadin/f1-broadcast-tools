@@ -102,7 +102,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     driver != null
                     && driver.LapHistoryDetails != null
                     && lapState.State.TryGetValue(driver.CarIdx, out var lapDetails)
-                    && lapDetails.ResultStatus != ResultStatus.Invalid)
+                    && (lapDetails.ResultStatus != ResultStatus.Invalid || lapDetails.ResultStatus != ResultStatus.Inactive))
                 .Select(driver => new
                 {
                     VehicleIdx = driver.CarIdx,
