@@ -18,7 +18,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.Montreal,       new TrackDetails(Track.Montreal, "Circuit", -382, 437, -449, 1476) }, // X(-381.82074, 437.20325), Z(-448.4564, 1476.2909)
             { Track.Silverstone,    new TrackDetails(Track.Silverstone, "Circuit", -617, 413, -752, 990) }, // X(-617.15576, 413.04468), Z(-752.2607, 989.97186)
             { Track.Hungaroring,    new TrackDetails(Track.Hungaroring, "Circuit", -613, 470, -620, 598) }, // X(-613.2486, 470.357), Z(-620.1932, 597.7817)
-            { Track.Spa,            new TrackDetails(Track.Spa, "Circuit", -730, 544, -1073, 981) }, // X(-729.8278, 544.0512), Z(-1073.2139, 980.416)
+            { Track.Spa,            new TrackDetails(Track.Spa, "Circuit", -730, 580, -1073, 1000) }, // X(-729.8278, 544.0512), Z(-1073.2139, 980.416)
             { Track.Monza,          new TrackDetails(Track.Monza, "Circuit", -634, 632, -1089, 1093) }, // X(-634.3492, 632.15155), Z(-1089.3832, 1092.8539)
             { Track.Singapore,      new TrackDetails(Track.Singapore, "Circuit", -720, 735, -436, 487) }, // X(-719.64233, 735.19495), Z(-436.81287, 487.10208)
             { Track.Suzuka,         new TrackDetails(Track.Suzuka, "Circuit", -1004, 999, -501, 501) }, // X(-1003.7501, 999.09875), Z(-500.73993, 500.61777)
