@@ -7,6 +7,7 @@ using F1GameDataParser.GameProfiles.F125.Packets.Event;
 using F1GameDataParser.GameProfiles.F125.Packets.FinalClassification;
 using F1GameDataParser.GameProfiles.F125.Packets.Lap;
 using F1GameDataParser.GameProfiles.F125.Packets.LobbyInfo;
+using F1GameDataParser.GameProfiles.F125.Packets.Motion;
 using F1GameDataParser.GameProfiles.F125.Packets.Participants;
 using F1GameDataParser.GameProfiles.F125.Packets.Session;
 using F1GameDataParser.GameProfiles.F125.Packets.SessionHistory;
@@ -17,6 +18,7 @@ namespace F1GameDataParser.GameProfiles.F125
 {
     public class F125TelemetryClient : TelemetryClientBase<PacketHeader, PacketType>
     {
+        private readonly MotionHandler _motionHandler;
         private readonly SessionHandler _sessionHandler;
         private readonly LapHandler _lapHandler;
         private readonly EventsHandler _eventsHandler;
@@ -28,7 +30,8 @@ namespace F1GameDataParser.GameProfiles.F125
         private readonly LobbyInfoHandler _lobbyInfoHandler;
         private readonly SessionHistoryHandler _sessionHistoryHandler;
 
-        public F125TelemetryClient(SessionHandler sessionHandler, 
+        public F125TelemetryClient(MotionHandler motionHandler,
+                                    SessionHandler sessionHandler, 
                                     LapHandler lapHandler,
                                     EventsHandler eventsHandler,
                                     ParticipantsHandler participantsHandler,
@@ -40,6 +43,7 @@ namespace F1GameDataParser.GameProfiles.F125
                                     SessionHistoryHandler sessionHistoryHandler)
             : base(20777)
         {
+            _motionHandler = motionHandler;
             _sessionHandler = sessionHandler;
             _lapHandler = lapHandler;
             _eventsHandler = eventsHandler;
@@ -64,6 +68,10 @@ namespace F1GameDataParser.GameProfiles.F125
         {
             switch (packetId)
             {
+                case PacketType.MOTION:
+                    var motion = ByteArrayToStruct<MotionPacket>(data);
+                    _motionHandler.OnReceived(motion);
+                    break;
                 case PacketType.SESSION:
                     var session = ByteArrayToStruct<SessionPacket>(data);
                     _sessionHandler.OnReceived(session);
