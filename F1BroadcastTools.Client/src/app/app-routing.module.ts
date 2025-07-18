@@ -13,6 +13,10 @@ const routes: Routes = [
     {
         path: 'players',
         loadChildren: () => import('./features/players/players.module').then(m => m.PlayersModule)
+    },
+    {
+        path: 'minimap',
+        loadComponent: () => import('./features/minimap/minimap.component').then(m => m.MinimapComponent)
     }
 ];
 

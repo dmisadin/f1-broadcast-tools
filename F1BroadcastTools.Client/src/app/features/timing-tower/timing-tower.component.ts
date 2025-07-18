@@ -17,7 +17,7 @@ export class TimingTowerComponent implements OnInit, OnDestroy {
     constructor(private webSocketService: WebSocketService<TimingTower>) { }
 
     ngOnInit(): void {
-        this.webSocketService.connect('ws://localhost:5000/ws');
+        this.webSocketService.connect('ws://localhost:5000/ws/timing-tower');
 
         this.webSocketService.onMessage().subscribe((data: TimingTower) => {
             //console.log("onMessage", data);

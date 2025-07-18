@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class WebSocketService<T> {
     private socket!: WebSocket;
     private messageSubject = new Subject<T>();

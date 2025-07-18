@@ -66,6 +66,7 @@ builder.Services.AddF125Handlers();
 builder.Services.AddSingleton<DriverOverrideState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
+builder.Services.AddTransient<MinimapFactory>();
 builder.Services.AddTransient<DriverOverrideService>();
 
 // Register repositories
