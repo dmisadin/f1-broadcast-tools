@@ -11,7 +11,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
         {
             { Track.Melbourne,      new TrackDetails(Track.Melbourne, "Albert Park Circuit", -731, 743, -866, 872) },
             { Track.PaulRicard,     new TrackDetails(Track.PaulRicard, "Circuit Paul Ricard", -1070, 1042, -653, 569) }, // X(-1070,2809, 1041,9323), Z(-652,5916, 568,8919)
-            { Track.Shanghai,       new TrackDetails(Track.Shanghai, "Shanghai International Circuit", -614, 616, -541, 546) },
+            { Track.Shanghai,       new TrackDetails(Track.Shanghai, "Shanghai International Circuit", -614, 616, -541, 546, -123) },
             { Track.SakhirBahrain,  new TrackDetails(Track.SakhirBahrain, "Bahrain International Circuit\r\n", -412, 422, -613, 613, -90) }, // X(-410.82977, 402.56824), Z(-598.0331, 590.3659)
             { Track.Catalunya,      new TrackDetails(Track.Catalunya, "Circuit de Barcelona-Catalunya", -530, 450, -611, 565, -23) },
             { Track.Monaco,         new TrackDetails(Track.Monaco, "Circuit de Monaco", -382, 397, -456, 509) }, // X(-381.82074, 397.54895), Z(-456.55325, 509.31097)
