@@ -14,7 +14,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.Shanghai,       new TrackDetails(Track.Shanghai, "Shanghai International Circuit", -614, 616, -541, 546, -123) },
             { Track.SakhirBahrain,  new TrackDetails(Track.SakhirBahrain, "Bahrain International Circuit", -412, 422, -613, 613, -90) }, // X(-410.82977, 402.56824), Z(-598.0331, 590.3659)
             { Track.Catalunya,      new TrackDetails(Track.Catalunya, "Circuit de Barcelona-Catalunya", -530, 450, -611, 565, -23) },
-            { Track.Monaco,         new TrackDetails(Track.Monaco, "Circuit de Monaco", -365, 396, -456, 509) }, // X(-381.82074, 397.54895), Z(-456.55325, 509.31097)
+            { Track.Monaco,         new TrackDetails(Track.Monaco, "Circuit de Monaco", -365, 396, -456, 509, -19) }, // X(-381.82074, 397.54895), Z(-456.55325, 509.31097)
             { Track.Montreal,       new TrackDetails(Track.Montreal, "Circuit Gilles Villeneuve", -382, 437, -449, 1476) }, // X(-381.82074, 437.20325), Z(-448.4564, 1476.2909)
             { Track.Silverstone,    new TrackDetails(Track.Silverstone, "Silverstone Circuit", -617, 413, -752, 990, 97) }, // X(-617.15576, 413.04468), Z(-752.2607, 989.97186)
             { Track.Hungaroring,    new TrackDetails(Track.Hungaroring, "Hungaroring", -613, 470, -620, 598) }, // X(-613.2486, 470.357), Z(-620.1932, 597.7817)
