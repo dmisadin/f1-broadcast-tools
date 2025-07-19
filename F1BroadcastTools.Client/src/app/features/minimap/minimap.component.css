@@ -1,6 +1,8 @@
 .minimap {
     position: absolute;
-    width: 500px;
+    max-width: 500px;
+    max-height: 500px;
+    width: fit-content;
     height: fit-content;
 
     /*

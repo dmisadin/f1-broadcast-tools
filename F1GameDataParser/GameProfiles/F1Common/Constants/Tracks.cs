@@ -15,7 +15,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.SakhirBahrain,  new TrackDetails(Track.SakhirBahrain, "Bahrain International Circuit", -412, 422, -613, 613, -90) }, // X(-410.82977, 402.56824), Z(-598.0331, 590.3659)
             { Track.Catalunya,      new TrackDetails(Track.Catalunya, "Circuit de Barcelona-Catalunya", -530, 450, -611, 565, -23) },
             { Track.Monaco,         new TrackDetails(Track.Monaco, "Circuit de Monaco", -365, 396, -456, 509, -19) }, // X(-381.82074, 397.54895), Z(-456.55325, 509.31097)
-            { Track.Montreal,       new TrackDetails(Track.Montreal, "Circuit Gilles Villeneuve", -382, 437, -449, 1476) }, // X(-381.82074, 437.20325), Z(-448.4564, 1476.2909)
+            { Track.Montreal,       new TrackDetails(Track.Montreal, "Circuit Gilles Villeneuve", -192, 428, -439, 1473, 135) }, // X(-192,03027, 428,27213), Z(-438,61853, 1472,6755)
             { Track.Silverstone,    new TrackDetails(Track.Silverstone, "Silverstone Circuit", -617, 413, -752, 990, 97) }, // X(-617.15576, 413.04468), Z(-752.2607, 989.97186)
             { Track.Hungaroring,    new TrackDetails(Track.Hungaroring, "Hungaroring", -613, 470, -620, 598) }, // X(-613.2486, 470.357), Z(-620.1932, 597.7817)
             { Track.Spa,            new TrackDetails(Track.Spa, "Circuit de Spa-Francorchamps", -730, 580, -1073, 1000, -63) }, // X(-729.8278, 544.0512), Z(-1073.2139, 980.416)
@@ -29,7 +29,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.Mexico,         new TrackDetails(Track.Mexico, "Autódromo Hermanos Rodríguez", -1025, 516, -1029, 73) }, // X(-1024.8362, 515.6248), Z(-1029.2969, 72.45685)
             { Track.Baku,           new TrackDetails(Track.Baku, "Baku Street Circuit", -1190, 893, -896, 598) }, // X(-1190.0176, 893.4282), Z(-895.45294, 598.36743)
             { Track.Zandvoort,      new TrackDetails(Track.Zandvoort, "Circuit Zandvoort", -473, 505, -417, 426) }, // X(-473.43445, 504.63614), Z(-416.661, 426.07544)
-            { Track.Imola,          new TrackDetails(Track.Imola, "Imola Circuit", -928, 925, -468, 495, -70) }, // X(-928.2163, 925.0127), Z(-467.9021, 495.47055)
+            { Track.Imola,          new TrackDetails(Track.Imola, "Imola Circuit", -928, 925, -468, 495, 70) }, // X(-928.2163, 925.0127), Z(-467.9021, 495.47055)
             { Track.Portimao,       new TrackDetails(Track.Portimao, "Algarve International Circuit", -382, 443, -587, 581) }, // X(-381.82074, 443.02036), Z(-587.08014, 581.29236)
             { Track.Jeddah,         new TrackDetails(Track.Jeddah, "Jeddah Corniche Circuit", -382, 300, -1376, 1377) },
             { Track.Miami,          new TrackDetails(Track.Miami, "Miami International Autodrome", -757, 755, -306, 295) }, // X(-757.0272, 755.5082), Z(-305.623, 294.78555)
