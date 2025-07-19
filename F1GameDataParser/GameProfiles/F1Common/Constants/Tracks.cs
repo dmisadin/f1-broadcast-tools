@@ -23,7 +23,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.Singapore,      new TrackDetails(Track.Singapore, "Circuit", -720, 735, -436, 487) }, // X(-719.64233, 735.19495), Z(-436.81287, 487.10208)
             { Track.Suzuka,         new TrackDetails(Track.Suzuka, "Circuit", -1004, 999, -501, 501) }, // X(-1003.7501, 999.09875), Z(-500.73993, 500.61777)
             { Track.AbuDhabi,       new TrackDetails(Track.AbuDhabi, "Yas Marina Circuit", -726, 805, -322, 651) },
-            { Track.Texas,          new TrackDetails(Track.Texas, "Circuit", -837, 999, -100, 1045) }, // X(-837.20496, 998.7751), Z(-99.69961, 1044.6469)
+            { Track.Texas,          new TrackDetails(Track.Texas, "Circuit", -815, 986, -39, 1027, 5) }, // X(-837.20496, 998.7751), Z(-99.69961, 1044.6469)
             { Track.Brazil,         new TrackDetails(Track.Brazil, "Circuit", -575, 104, -346, 706, -75) }, // X(-574.3106, 104.285194), Z(-346.3198, 705.8594)
             { Track.Austria,        new TrackDetails(Track.Austria, "Circuit", -539, 738, -487, 308) }, // X(-538.9823, 738.35345), Z(-486.83215, 308.53595)
             { Track.Mexico,         new TrackDetails(Track.Mexico, "Circuit", -1025, 516, -1029, 73) }, // X(-1024.8362, 515.6248), Z(-1029.2969, 72.45685)
