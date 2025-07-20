@@ -17,7 +17,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.Monaco,         new TrackDetails(Track.Monaco, "Circuit de Monaco", -365, 396, -456, 509, -19) }, // X(-381.82074, 397.54895), Z(-456.55325, 509.31097)
             { Track.Montreal,       new TrackDetails(Track.Montreal, "Circuit Gilles Villeneuve", -192, 428, -439, 1473, 135) }, // X(-192,03027, 428,27213), Z(-438,61853, 1472,6755)
             { Track.Silverstone,    new TrackDetails(Track.Silverstone, "Silverstone Circuit", -617, 413, -752, 990, 97) }, // X(-617.15576, 413.04468), Z(-752.2607, 989.97186)
-            { Track.Hungaroring,    new TrackDetails(Track.Hungaroring, "Hungaroring", -613, 470, -620, 598) }, // X(-613.2486, 470.357), Z(-620.1932, 597.7817)
+            { Track.Hungaroring,    new TrackDetails(Track.Hungaroring, "Hungaroring", -613, 470, -620, 598, 50) }, // X(-613.2486, 470.357), Z(-620.1932, 597.7817)
             { Track.Spa,            new TrackDetails(Track.Spa, "Circuit de Spa-Francorchamps", -730, 580, -1073, 1000, -63) }, // X(-729.8278, 544.0512), Z(-1073.2139, 980.416)
             { Track.Monza,          new TrackDetails(Track.Monza, "Autodromo Nazionale di Monza", -660, 660, -1120, 1120, -35) }, // X(-634.3492, 632.15155), Z(-1089.3832, 1092.8539)
             { Track.Singapore,      new TrackDetails(Track.Singapore, "Marina Bay Circuit", -720, 735, -436, 487) }, // X(-719.64233, 735.19495), Z(-436.81287, 487.10208)
