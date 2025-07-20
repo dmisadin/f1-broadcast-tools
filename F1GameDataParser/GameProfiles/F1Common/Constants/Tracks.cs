@@ -26,7 +26,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.Texas,          new TrackDetails(Track.Texas, "Circuit of the Americas", -815, 986, -39, 1027, 5) }, // X(-837.20496, 998.7751), Z(-99.69961, 1044.6469)
             { Track.Brazil,         new TrackDetails(Track.Brazil, "Autódromo José Carlos Pace", -575, 104, -346, 706, -75) }, // X(-574.3106, 104.285194), Z(-346.3198, 705.8594)
             { Track.Austria,        new TrackDetails(Track.Austria, "Red Bull Ring", -539, 738, -487, 308) }, // X(-538.9823, 738.35345), Z(-486.83215, 308.53595)
-            { Track.Mexico,         new TrackDetails(Track.Mexico, "Autódromo Hermanos Rodríguez", -1025, 516, -1029, 73) }, // X(-1024.8362, 515.6248), Z(-1029.2969, 72.45685)
+            { Track.Mexico,         new TrackDetails(Track.Mexico, "Autódromo Hermanos Rodríguez", -1025, 516, -1029, -40) }, // X(-1024.8362, 515.6248), Z(-1029.2969, 72.45685)
             { Track.Baku,           new TrackDetails(Track.Baku, "Baku Street Circuit", -1190, 893, -896, 598) }, // X(-1190.0176, 893.4282), Z(-895.45294, 598.36743)
             { Track.Zandvoort,      new TrackDetails(Track.Zandvoort, "Circuit Zandvoort", -473, 505, -417, 426, 170) }, // X(-473.43445, 504.63614), Z(-416.661, 426.07544)
             { Track.Imola,          new TrackDetails(Track.Imola, "Imola Circuit", -928, 925, -468, 495, 70) }, // X(-928.2163, 925.0127), Z(-467.9021, 495.47055)
