@@ -30,7 +30,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
             { Track.Baku,           new TrackDetails(Track.Baku, "Baku Street Circuit", -1190, 893, -896, 598) }, // X(-1190.0176, 893.4282), Z(-895.45294, 598.36743)
             { Track.Zandvoort,      new TrackDetails(Track.Zandvoort, "Circuit Zandvoort", -473, 505, -417, 426, 170) }, // X(-473.43445, 504.63614), Z(-416.661, 426.07544)
             { Track.Imola,          new TrackDetails(Track.Imola, "Imola Circuit", -928, 925, -468, 495, 70) }, // X(-928.2163, 925.0127), Z(-467.9021, 495.47055)
-            { Track.Portimao,       new TrackDetails(Track.Portimao, "Algarve International Circuit", -382, 443, -587, 581) }, // X(-381.82074, 443.02036), Z(-587.08014, 581.29236)
+            { Track.Portimao,       new TrackDetails(Track.Portimao, "Algarve International Circuit", -233, 443, -577, 569) }, // X(-232,67288, 443,5655), Z(-577,2569, 568,7166)
             { Track.Jeddah,         new TrackDetails(Track.Jeddah, "Jeddah Corniche Circuit", -382, 300, -1376, 1377) },
             { Track.Miami,          new TrackDetails(Track.Miami, "Miami International Autodrome", -757, 755, -306, 295) }, // X(-757.0272, 755.5082), Z(-305.623, 294.78555)
             { Track.LasVegas,       new TrackDetails(Track.LasVegas, "Las Vegas Strip Circuit", -593, 591, -1000, 958) }, // X(-592.81903, 591.2689), Z(-1000.3192, 957.9117)
