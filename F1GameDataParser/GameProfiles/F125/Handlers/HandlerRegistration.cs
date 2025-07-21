@@ -6,6 +6,7 @@ namespace F1GameDataParser.GameProfiles.F125.Handlers
     {
         public static IServiceCollection AddF125Handlers(this IServiceCollection services)
         {
+            services.AddSingleton<MotionHandler>();
             services.AddSingleton<ParticipantsHandler>();
             services.AddSingleton<SessionHandler>();
             services.AddSingleton<CarTelemetryHandler>();

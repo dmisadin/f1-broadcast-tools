@@ -1,0 +1,12 @@
+<div class="minimap" [style.transform]="'rotate('+ (minimap?.rotation ?? 0) +'deg)'">
+    @for (car of minimap?.cars; track car.vehicleIdx) {
+        <div class="car"
+            [style.left.%]="car.x"
+            [style.top.%]="car.y"
+            [style.background]="car.teamColor">
+        </div>
+    }
+    <img src="images/tracks/{{minimap?.trackId}}.svg" alt="" class="track-image">
+</div>
+
+<!-- [style.transform]="'translate(-50%, -50%) rotate(' + car.rotation + 'deg)'" -->

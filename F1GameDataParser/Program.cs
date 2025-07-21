@@ -3,8 +3,6 @@ using F1GameDataParser.Database.Repositories;
 using F1GameDataParser.GameProfiles;
 using F1GameDataParser.GameProfiles.F123;
 using F1GameDataParser.GameProfiles.F123.Handlers;
-using F125 = F1GameDataParser.GameProfiles.F125;
-using F1GameDataParser.GameProfiles.F125;
 using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.Services;
 using F1GameDataParser.Startup;
@@ -14,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using F1GameDataParser.GameProfiles.F125.Handlers;
+using F1GameDataParser.GameProfiles.F125;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +25,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 
 builder.Services.AddSingleton<GameManager>();
 builder.Services.AddSingleton<F123TelemetryClient>();
-builder.Services.AddSingleton<F125.F125TelemetryClient>();
+builder.Services.AddSingleton<F125TelemetryClient>();
+builder.Services.AddSingleton<MotionState>();
 builder.Services.AddSingleton<ParticipantsState>();
 builder.Services.AddSingleton<SessionState>();
 builder.Services.AddSingleton<CarTelemetryState>();
@@ -66,6 +66,7 @@ builder.Services.AddF125Handlers();
 builder.Services.AddSingleton<DriverOverrideState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
+builder.Services.AddTransient<MinimapFactory>();
 builder.Services.AddTransient<DriverOverrideService>();
 
 // Register repositories
@@ -93,6 +94,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
+    var motionState = services.GetRequiredService<MotionState>();
     var participantsState = services.GetRequiredService<ParticipantsState>();
     var sessionState = services.GetRequiredService<SessionState>();
     var carTelemetryState = services.GetRequiredService<CarTelemetryState>();

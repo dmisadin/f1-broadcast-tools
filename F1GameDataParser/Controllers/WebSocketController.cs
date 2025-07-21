@@ -6,21 +6,27 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1GameDataParser.Controllers;
+
+[ApiController]
 public class WebSocketController : ControllerBase
 {
     private readonly TimingTowerFactory timingTowerFactory;
-    public WebSocketController(TimingTowerFactory timingTowerFactory)
+    private readonly MinimapFactory minimapFactory;
+
+    public WebSocketController(TimingTowerFactory timingTowerFactory, 
+                                MinimapFactory minimapFactory)
     {
         this.timingTowerFactory = timingTowerFactory;
+        this.minimapFactory = minimapFactory;
     }
 
-    [HttpGet("/ws")]
-    public async Task Get()
+    [HttpGet("/ws/timing-tower")]
+    public async Task GetTimingTower()
     {
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket);
+            await StreamData(webSocket, () => timingTowerFactory.Generate());
         }
         else
         {
@@ -28,31 +34,41 @@ public class WebSocketController : ControllerBase
         }
     }
 
-    private async Task StreamData(WebSocket webSocket)
+    [HttpGet("/ws/minimap")]
+    public async Task GetMinimap()
+    {
+        if (HttpContext.WebSockets.IsWebSocketRequest)
+        {
+            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+            await StreamData(webSocket, () => minimapFactory.Generate());
+        }
+        else
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+    }
+
+    private async Task StreamData(WebSocket webSocket, Func<object> dataGenerator)
     {
         try
         {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            };
+
             while (!webSocket.CloseStatus.HasValue)
             {
-                // Create the object to send
-                var data = this.timingTowerFactory.Generate();
-
-                // Serialize the object to JSON
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                };
+                var data = dataGenerator();
                 var jsonData = JsonSerializer.Serialize(data, options);
                 var buffer = Encoding.UTF8.GetBytes(jsonData);
 
-                // Send the JSON data to the client
                 await webSocket.SendAsync(
                     new ArraySegment<byte>(buffer),
                     WebSocketMessageType.Text,
                     true,
                     CancellationToken.None);
 
-                // Wait for 0.1 seconds
                 await Task.Delay(100);
             }
         }
@@ -62,7 +78,6 @@ public class WebSocketController : ControllerBase
         }
         finally
         {
-            // Ensure the connection is closed
             await webSocket.CloseAsync(
                 WebSocketCloseStatus.NormalClosure,
                 "Connection closed",
