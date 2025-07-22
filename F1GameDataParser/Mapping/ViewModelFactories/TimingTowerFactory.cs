@@ -68,7 +68,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Name = driverOverride?.Player.Name ?? participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
-                    Gap = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
+                    GapInterval = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
                     ResultStatus = lapDetails.ResultStatus,
                     Penalties = lapDetails.Penalties + (lapDetails.UnservedPenalties?.Sum(p => p) ?? 0),
                     Warnings = (byte)(lapDetails.CornerCuttingWarnings % 3),
@@ -99,14 +99,14 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
             var fastestLaps = sessionHistoryState.State
                 .Where(driver =>
-                    driver != null
-                    && driver.LapHistoryDetails != null
-                    && lapState.State.TryGetValue(driver.CarIdx, out var lapDetails)
+                    driver.Value != null
+                    && driver.Value.LapHistoryDetails != null
+                    && lapState.State.TryGetValue(driver.Value.CarIdx, out var lapDetails)
                     && (lapDetails.ResultStatus != ResultStatus.Invalid || lapDetails.ResultStatus != ResultStatus.Inactive))
                 .Select(driver => new
                 {
-                    VehicleIdx = driver.CarIdx,
-                    FastestLap = driver.LapHistoryDetails
+                    VehicleIdx = driver.Value.CarIdx,
+                    FastestLap = driver.Value.LapHistoryDetails
                         .Where(l => l.LapValidBitFlags.HasFlag(LapSectorsValidity.LapValid) && l.LapTimeInMS > 0)
                         .MinBy(l => l.LapTimeInMS)?.LapTimeInMS
                 });

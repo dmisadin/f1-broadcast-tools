@@ -17,5 +17,4 @@ namespace F1GameDataParser.Models.SessionHistory
         // example: enum.HasFlag(LapSectorsValidity.Sector1Valid)
         public LapSectorsValidity LapValidBitFlags { get; set; }
     }
-
 }

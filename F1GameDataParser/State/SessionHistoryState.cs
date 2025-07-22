@@ -3,22 +3,22 @@ using F1GameDataParser.Models.SessionHistory;
 
 namespace F1GameDataParser.State
 {
-    public class SessionHistoryState
+    public class SessionHistoryState : ListStateBase<SessionHistory>
     {
-        private readonly object _lock = new();
-        public SessionHistory[] State { get; private set; }
-
-        public SessionHistoryState()
-        {
-            State = new SessionHistory[Sizes.MaxPlayers];
-        }
-
-        public virtual void Update(SessionHistory newState)
+        public void Update(SessionHistory newState)
         {
             lock (_lock)
             {
-                if (newState.CarIdx < Sizes.MaxPlayers)
+                if (State.TryGetValue(newState.CarIdx, out var existingModel))
+                {
+                    existingModel.MergeFrom(newState);
+                    OnModelMerged(newState.CarIdx, existingModel, newState);
+                }
+                else
+                {
                     State[newState.CarIdx] = newState;
+                    OnModelAdded(newState.CarIdx, newState);
+                }
             }
         }
     }

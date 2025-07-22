@@ -1,6 +1,6 @@
 ﻿namespace F1GameDataParser.Models.SessionHistory
 {
-    public class SessionHistory
+    public class SessionHistory : MergeableBase<SessionHistory>
     {
             public Header Header { get; set; }
 
