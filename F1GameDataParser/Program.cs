@@ -64,6 +64,7 @@ builder.Services.AddF125Handlers();
 
 
 builder.Services.AddSingleton<DriverOverrideState>();
+builder.Services.AddSingleton<PersonalBestLapState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
@@ -99,6 +100,7 @@ using (var scope = app.Services.CreateScope())
     var sessionState = services.GetRequiredService<SessionState>();
     var carTelemetryState = services.GetRequiredService<CarTelemetryState>();
     var lapState = services.GetRequiredService<LapState>();
+    var sessionFastestLapsState = services.GetRequiredService<PersonalBestLapState>();
     var sessionHistoryState = services.GetRequiredService<SessionHistoryState>();
     var carDamageState = services.GetRequiredService<CarDamageState>();
     var carStatusState = services.GetRequiredService<CarStatusState>();

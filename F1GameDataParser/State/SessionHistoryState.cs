@@ -1,25 +1,27 @@
-﻿using F1GameDataParser.Models;
-using F1GameDataParser.Models.SessionHistory;
+﻿using F1GameDataParser.Models.SessionHistory;
+using F1GameDataParser.Services;
 
 namespace F1GameDataParser.State
 {
     public class SessionHistoryState : ListStateBase<SessionHistory>
     {
-        public void Update(SessionHistory newState)
+        private readonly PersonalBestLapService sessionFastestLapService;
+
+        public SessionHistoryState(PersonalBestLapService sessionFastestLapService)
         {
-            lock (_lock)
-            {
-                if (State.TryGetValue(newState.CarIdx, out var existingModel))
-                {
-                    existingModel.MergeFrom(newState);
-                    OnModelMerged(newState.CarIdx, existingModel, newState);
-                }
-                else
-                {
-                    State[newState.CarIdx] = newState;
-                    OnModelAdded(newState.CarIdx, newState);
-                }
-            }
+            this.sessionFastestLapService = sessionFastestLapService;
         }
+
+        protected override int? GetModelKey(SessionHistory sessionHistory) => sessionHistory.CarIdx;
+
+        protected override void OnModelAdded(int key, SessionHistory newModel)
+        {
+            OnModelMerged(key, null, newModel);
+        }
+
+        protected override void OnModelMerged(int key, SessionHistory? existingModel, SessionHistory newModel)
+        {
+            this.sessionFastestLapService.UpdateSessionFastestLaps(newModel);
+        }   
     }
 }

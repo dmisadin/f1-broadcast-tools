@@ -7,6 +7,7 @@ namespace F1GameDataParser.State
     {
         protected readonly object _lock = new();
         public Dictionary<int, TModel> State { get; private set; } = new();
+        protected virtual int? GetModelKey(TModel model) { return null; }
 
         public virtual void Update(IEnumerable<TModel> newState)
         {
@@ -15,20 +16,27 @@ namespace F1GameDataParser.State
                 int index = 0;
                 foreach (var newModel in newState)
                 {
-                    if (State.TryGetValue(index, out var existingModel))
+                    int key = GetModelKey(newModel) ?? index;
+
+                    if (State.TryGetValue(key, out var existingModel))
                     {
                         existingModel.MergeFrom(newModel);
-                        OnModelMerged(index, existingModel, newModel);
+                        OnModelMerged(key, existingModel, newModel);
                     }
                     else
                     {
-                        State[index] = newModel;
-                        OnModelAdded(index, newModel);
+                        State[key] = newModel;
+                        OnModelAdded(key, newModel);
                     }
 
                     index++;
                 }
             }
+        }
+
+        public virtual void Update(TModel newState)
+        {
+            Update([newState]);
         }
 
         protected virtual void OnModelMerged(int key, TModel existingModel, TModel newModel) { }
