@@ -1,0 +1,12 @@
+.stopwatch-list {
+    width: fit-content;
+
+    display: flex;
+    gap: 1rem;
+
+    color: white;
+}
+
+.stopwatch {
+    overflow: hidden;
+}

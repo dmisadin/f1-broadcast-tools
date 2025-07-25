@@ -12,12 +12,15 @@ public class WebSocketController : ControllerBase
 {
     private readonly TimingTowerFactory timingTowerFactory;
     private readonly MinimapFactory minimapFactory;
+    private readonly StopwatchFactory stopwatchFactory;
 
     public WebSocketController(TimingTowerFactory timingTowerFactory, 
-                                MinimapFactory minimapFactory)
+                                MinimapFactory minimapFactory,
+                                StopwatchFactory stopwatchFactory)
     {
         this.timingTowerFactory = timingTowerFactory;
         this.minimapFactory = minimapFactory;
+        this.stopwatchFactory = stopwatchFactory;
     }
 
     [HttpGet("/ws/timing-tower")]
@@ -41,6 +44,20 @@ public class WebSocketController : ControllerBase
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
             await StreamData(webSocket, () => minimapFactory.Generate());
+        }
+        else
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+    }
+
+    [HttpGet("/ws/stopwatch")]
+    public async Task GetStopwatch()
+    {
+        if (HttpContext.WebSockets.IsWebSocketRequest)
+        {
+            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+            await StreamData(webSocket, () => stopwatchFactory.Generate());
         }
         else
         {

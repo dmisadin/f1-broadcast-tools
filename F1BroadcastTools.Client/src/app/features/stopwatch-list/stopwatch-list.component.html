@@ -1,0 +1,5 @@
+<div *ngIf="stopwatch?.cars?.length" class="stopwatch-list">
+    @for (car of stopwatch.cars; track car.driver.vehicleIdx) {
+        <stopwatch [car]="car" [leaderLap]="stopwatch.leaderLap" @gapFade class="stopwatch"></stopwatch>
+    }
+</div>

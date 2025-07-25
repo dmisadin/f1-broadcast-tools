@@ -19,6 +19,6 @@ export class SidebarComponent {
         { icon: '⛹️‍♂️', label: 'Players', route: '/players'},
         { icon: '🏎️', label: 'Timing Tower', route: '/timing-tower' },
         { icon: '🗺️', label: 'Minimap', route: '/minimap' },
+        { icon: '⏱️', label: 'Stopwatch', route: '/stopwatch' },
     ];
-    
 }

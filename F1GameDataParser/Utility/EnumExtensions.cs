@@ -40,4 +40,9 @@ public static class EnumExtensions
 
         return value.ToString();
     }
+
+    public static bool ToBool<TEnum>(this TEnum value) where TEnum : Enum
+    {
+        return Convert.ToInt32(value) != 0;
+    }
 }

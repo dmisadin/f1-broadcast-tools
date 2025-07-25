@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using F1GameDataParser.GameProfiles.F125.Handlers;
 using F1GameDataParser.GameProfiles.F125;
+using F1GameDataParser.State.ComputedStates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -65,9 +66,11 @@ builder.Services.AddF125Handlers();
 
 builder.Services.AddSingleton<DriverOverrideState>();
 builder.Services.AddSingleton<PersonalBestLapState>();
+builder.Services.AddSingleton<LatestLapTimeState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
+builder.Services.AddSingleton<StopwatchFactory>();
 builder.Services.AddTransient<DriverOverrideService>();
 
 // Register repositories
@@ -101,6 +104,7 @@ using (var scope = app.Services.CreateScope())
     var carTelemetryState = services.GetRequiredService<CarTelemetryState>();
     var lapState = services.GetRequiredService<LapState>();
     var sessionFastestLapsState = services.GetRequiredService<PersonalBestLapState>();
+    var latestLapTimeState = services.GetRequiredService<LatestLapTimeState>();
     var sessionHistoryState = services.GetRequiredService<SessionHistoryState>();
     var carDamageState = services.GetRequiredService<CarDamageState>();
     var carStatusState = services.GetRequiredService<CarStatusState>();

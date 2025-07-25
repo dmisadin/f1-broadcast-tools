@@ -9,11 +9,13 @@ namespace F1GameDataParser.State
         public float MinZ { get; private set; } = float.MaxValue;
         public float MaxZ { get; private set; } = float.MinValue;
 
+        /*
         public override void Update(IEnumerable<CarMotionDetails> newState)
         {
             base.Update(newState);
             AnalyzeTrack(newState);
         }
+        */
 
         /// <summary>
         /// Use this when driving on the track to find bounds on map.

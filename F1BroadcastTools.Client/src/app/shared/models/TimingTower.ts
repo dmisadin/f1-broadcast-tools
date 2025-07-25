@@ -22,7 +22,7 @@ export interface DriverTimingDetails {
     name: string;
     tyreAge: number;
     visualTyreCompound: string;
-    gap: string;
+    gapInterval: string;
     resultStatus: ResultStatus;
     penalties: number;
     warnings: number;

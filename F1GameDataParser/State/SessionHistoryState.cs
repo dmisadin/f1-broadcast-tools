@@ -5,9 +5,9 @@ namespace F1GameDataParser.State
 {
     public class SessionHistoryState : ListStateBase<SessionHistory>
     {
-        private readonly PersonalBestLapService sessionFastestLapService;
+        private readonly LapTimeService sessionFastestLapService;
 
-        public SessionHistoryState(PersonalBestLapService sessionFastestLapService)
+        public SessionHistoryState(LapTimeService sessionFastestLapService)
         {
             this.sessionFastestLapService = sessionFastestLapService;
         }
@@ -22,6 +22,7 @@ namespace F1GameDataParser.State
         protected override void OnModelMerged(int key, SessionHistory? existingModel, SessionHistory newModel)
         {
             this.sessionFastestLapService.UpdateSessionFastestLaps(newModel);
+            this.sessionFastestLapService.UpdateLatestLapTimes(newModel);
         }   
     }
 }

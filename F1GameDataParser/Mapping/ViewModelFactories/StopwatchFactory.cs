@@ -1,0 +1,250 @@
+﻿using F1GameDataParser.Enums;
+using F1GameDataParser.GameProfiles.F1Common.Utility;
+using F1GameDataParser.Models.LapTime;
+using F1GameDataParser.State;
+using F1GameDataParser.State.ComputedStates;
+using F1GameDataParser.Utility;
+using F1GameDataParser.ViewModels;
+using F1GameDataParser.ViewModels.Enums;
+using F1GameDataParser.ViewModels.Stopwatch;
+
+namespace F1GameDataParser.Mapping.ViewModelFactories
+{
+    public class StopwatchFactory : ViewModelFactoryBase<Stopwatch>
+    {
+        private readonly LapState lapState;
+        private readonly ParticipantsState participantsState;
+        private readonly SessionState sessionState;
+        private readonly SessionHistoryState sessionHistoryState;
+        private readonly PersonalBestLapState personalBestLapState;
+        private readonly LatestLapTimeState latestLapTimeState;
+        private readonly DriverOverrideState driverOverrideState;
+        private readonly CarStatusState carStatusState;
+
+        private Dictionary<int, LapTimeChange> latestLapTimeChange = new Dictionary<int, LapTimeChange>();
+
+        public StopwatchFactory(LapState lapState,
+                                ParticipantsState participantsState,
+                                SessionState sessionState,
+                                SessionHistoryState sessionHistoryState,
+                                PersonalBestLapState personalBestLapState,
+                                LatestLapTimeState latestLapTimeState,
+                                DriverOverrideState driverOverrideState,
+                                CarStatusState carStatusState)
+        {
+            this.lapState = lapState;
+            this.participantsState = participantsState;
+            this.sessionState = sessionState;
+            this.sessionHistoryState = sessionHistoryState;
+            this.personalBestLapState = personalBestLapState;
+            this.latestLapTimeState = latestLapTimeState;
+            this.driverOverrideState = driverOverrideState;
+            this.carStatusState = carStatusState;
+
+            Console.WriteLine("Stopwatch CTOR\n");
+
+            latestLapTimeState.LapTimeChanged += (sender, e) =>
+            {
+                if (this.latestLapTimeChange.TryGetValue(e.VehicleIdx, out var lapTimeChange))
+                {
+                    e.Sector1Changed = lapTimeChange.Sector1Changed || e.Sector1Changed;
+                    e.Sector2Changed = lapTimeChange.Sector2Changed || e.Sector2Changed;
+                    e.Sector3Changed = lapTimeChange.Sector3Changed || e.Sector3Changed;
+                    e.LapTimeChanged = lapTimeChange.LapTimeChanged || e.LapTimeChanged;
+                }
+
+                if (e.LapTimeChanged)
+                    Task.Run(async () =>
+                    {
+                        await Task.Delay(5000);
+                        latestLapTimeChange.Remove(e.VehicleIdx);
+                    });
+
+                latestLapTimeChange[e.VehicleIdx] = e;
+            };
+        }
+        public override Stopwatch? Generate()
+        {
+            if (lapState?.State == null || participantsState?.State == null || sessionState?.State == null)
+                return null;
+
+            var vehicleIdxOnHotlap = FindDriversOnHotlap();
+            var stopwatchCars = new List<StopwatchCar>();
+
+            var gameYear = participantsState.State.Header.GameYear;
+            var participants = participantsState.State.ParticipantList;
+            var laps = lapState.State;
+
+            foreach (var vehicleIdx in vehicleIdxOnHotlap)
+            {
+                var participant = participants.ElementAtOrDefault(vehicleIdx);
+                var lap = laps.ElementAtOrDefault(vehicleIdx).Value;
+
+                var overrideDriver = driverOverrideState.GetModel(vehicleIdx);
+                var teamDetails = GameSpecifics.GetTeamDetails(gameYear, participant?.TeamId ?? 0);
+
+                // if (currentLap is null) continue; // better handling for session start, no fastestLap or personalBestLap; probably find fastest times from LatestLapTimeState
+                var sectorTimes = GetSectorTimeStatus(vehicleIdx);
+                var carStatus = carStatusState.State?.Details.ElementAtOrDefault(vehicleIdx);
+
+                var stopwatchCar = new StopwatchCar
+                {
+                    Driver = new DriverBasicDetails
+                    {
+                        VehicleIdx = vehicleIdx,
+                        TeamId = participant?.TeamId ?? 0,
+                        TeamDetails = teamDetails,
+                        Name = overrideDriver?.Player?.Name ?? participant?.Name ?? "Unknown"
+                    },
+
+                    Position = lap.CarPosition,
+                    CurrentTime = TimeUtility.MillisecondsToGap(lap.CurrentLapTimeInMS),
+                    IsLapValid = lap.CurrentLapInvalid.ToBool(),
+                    LapProgress = Convert.ToByte(lap.LapDistance / sessionState.State.TrackLength * 100),
+                    TyreCompoundVisual = (carStatus?.VisualTyreCompound ?? TyreCompoundVisual.Soft).ToString(),
+
+                    Sector1TimeStatus = sectorTimes?.Sector1Gap?.SectorTimeStatus,
+                    Sector2TimeStatus = sectorTimes?.Sector2Gap?.SectorTimeStatus,
+                    LapTimeStatus = sectorTimes?.LapGap?.SectorTimeStatus,
+
+                    Sector1GapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.Sector1Gap?.Gap),
+                    Sector2GapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.Sector2Gap?.Gap),
+                    LapGapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.LapGap?.Gap),
+                };
+
+                stopwatchCars.Add(stopwatchCar);
+            }
+
+
+            var fastestLap = personalBestLapState.GetFastestLap();
+            if (fastestLap == null) return null;
+            var flParticipant = participants.ElementAtOrDefault(fastestLap.VehicleIdx);
+            var flOverrideDriver = driverOverrideState.GetModel(fastestLap.VehicleIdx);
+
+            var leaderLap = new FastestQualifyingLap
+            {
+                Driver = new DriverBasicDetails
+                {
+                    VehicleIdx = fastestLap.VehicleIdx,
+                    TeamId = flParticipant.TeamId,
+                    TeamDetails = GameSpecifics.GetTeamDetails(gameYear, flParticipant?.TeamId ?? 0),
+                    Name = flOverrideDriver?.Player?.Name ?? flParticipant?.Name ?? "Unknown"
+                },
+                LapTime = TimeUtility.MillisecondsToGap(fastestLap.LapTimeInMS),
+                Sector1Time = TimeUtility.MillisecondsToGap(fastestLap.Sector1TimeInMS),
+                Sector1And2Time = TimeUtility.MillisecondsToGap(fastestLap.Sector1TimeInMS + fastestLap.Sector2TimeInMS)
+            };
+
+            return new Stopwatch
+            {
+                LeaderLap = leaderLap,
+                Cars = stopwatchCars,
+            };
+        }
+
+
+        private IEnumerable<int> FindDriversOnHotlap()
+        {
+            if (lapState?.State == null || participantsState?.State == null || sessionState?.State == null)
+                return Enumerable.Empty<int>();
+
+            var gameYear = participantsState.State.Header.GameYear;
+            var participants = participantsState.State.ParticipantList;
+
+            return lapState.State
+                .Where(driver => driver.Value.DriverStatus == DriverStatus.FlyingLap ||
+                                 driver.Value.DriverStatus == DriverStatus.OnTrack)
+                .OrderByDescending(driver => driver.Value.LapDistance)
+                .Select(driver => driver.Key)
+                .ToList();
+        }
+
+        private LapTimeComparison? GetSectorTimeStatus(int vehicleIdx)
+        {
+            var fastestLap = personalBestLapState.GetFastestLap();
+            var personalBestLap = personalBestLapState.GetModel(vehicleIdx);
+            var latestLapTimes = latestLapTimeState.GetModel(vehicleIdx);
+
+            if (fastestLap == null
+                || personalBestLap == null
+                || latestLapTimes == null
+                || !latestLapTimeChange.TryGetValue(vehicleIdx, out var lapTimeChange))
+                return null;
+
+            SectorTimeComparison? s1Gap = null;
+            SectorTimeComparison? s2Gap = null;
+            SectorTimeComparison? lapGap = null;
+
+            if (lapTimeChange.Sector1Changed)
+            {
+                s1Gap = new SectorTimeComparison
+                {
+                    Gap = latestLapTimes.Sector1TimeInMS - fastestLap.Sector1TimeInMS,
+                    SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector1TimeInMS, fastestLap.Sector1TimeInMS, personalBestLap.Sector1TimeInMS)
+                };
+            }
+
+            if (lapTimeChange.Sector2Changed)
+            {
+                s2Gap = new SectorTimeComparison
+                {
+                    Gap = latestLapTimes.Sector2TimeInMS - fastestLap.Sector2TimeInMS,
+                    SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector2TimeInMS, fastestLap.Sector2TimeInMS, personalBestLap.Sector2TimeInMS)
+                };
+            }
+
+            if (lapTimeChange.LapTimeChanged)
+            {
+                lapGap = new SectorTimeComparison
+                {
+                    Gap = (int)(latestLapTimes.LapTimeInMS - fastestLap.LapTimeInMS),
+                    SectorTimeStatus = CompareSectorTimes(latestLapTimes.LapTimeInMS, fastestLap.LapTimeInMS, personalBestLap.LapTimeInMS)
+                };
+            }
+
+            return new LapTimeComparison
+            {
+                Sector1Gap = s1Gap,
+                Sector2Gap = s2Gap,
+                LapGap = lapGap
+            };
+
+        }
+
+        private SectorTimeStatus? CompareSectorTimes(uint sectorTime, uint leaderSectorTime, uint personalBestSectorTime)
+        {
+            if (sectorTime <= 0)
+                return null;
+            if (sectorTime <= leaderSectorTime)
+                return SectorTimeStatus.FasterThanLeader;
+            if (sectorTime <= personalBestSectorTime)
+                return SectorTimeStatus.PersonalBest;
+            return SectorTimeStatus.NoImprovement;
+        }
+
+        private void ResetSectorChanges(IEnumerable<int> vehicleIdxOnHotlap)
+        {
+            var keysToRemove = latestLapTimeChange.Keys
+                                .Where(k => !vehicleIdxOnHotlap.Contains(k))
+                                .ToList();
+
+            foreach (var key in keysToRemove)
+            {
+                latestLapTimeChange.Remove(key);
+            }
+        }
+    }
+
+    public class LapTimeComparison
+    {
+        public SectorTimeComparison? Sector1Gap { get; set; }
+        public SectorTimeComparison? Sector2Gap { get; set; }
+        public SectorTimeComparison? LapGap { get; set; }
+    }
+
+    public class SectorTimeComparison
+    {
+        public int Gap { get; set; }
+        public SectorTimeStatus? SectorTimeStatus { get; set; }
+    }
+}

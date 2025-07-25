@@ -17,6 +17,10 @@ const routes: Routes = [
     {
         path: 'minimap',
         loadComponent: () => import('./features/minimap/minimap.component').then(m => m.MinimapComponent)
+    },
+    {
+        path: 'stopwatch',
+        loadComponent: () => import('./features/stopwatch-list/stopwatch-list.component').then(m => m.StopwatchListComponent)
     }
 ];
 

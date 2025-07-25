@@ -1,0 +1,69 @@
+<div class="stopwatch">
+    <div class="stopwatch-header">
+        <div class="position">{{car().position}}</div>
+        <div class="team" [style.background]="car().driver.teamDetails?.primaryColor">
+            <team-logo [team]="car().driver.teamId" 
+                       [color]="car().driver.teamDetails?.secondaryColor"
+                       [game]="23">
+            </team-logo>
+        </div>
+        <div class="name"> {{car().driver.name}} </div>
+        <div class="tyre" [ngStyle]="{
+                'background-image': 'url(images/icons/tyres/' + car().tyreCompoundVisual.toLowerCase() + '_empty.svg)'
+            }">
+            {{car().tyreCompoundVisual[0]}}
+        </div>
+    </div>
+    <div class="stopwatch-body">
+        @if (showSector1Gap()) {
+        <div class="current-time" [ngClass]="{'green-time': car().sector1TimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().sector1TimeStatus === SectorTimeStatus.NoImprovement || car().sector1TimeStatus === SectorTimeStatus.PersonalBest,
+                                                }"> {{ car().sector1GapToLeader }} </div>
+        }
+        @else if (showSector2Gap()) {
+        <div class="current-time" [ngClass]="{'green-time': car().sector2TimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().sector2TimeStatus === SectorTimeStatus.NoImprovement || car().sector2TimeStatus === SectorTimeStatus.PersonalBest,
+                                                }"> {{ car().sector2GapToLeader }} </div>
+        }
+        @else if (showLapGap()) {
+        <div class="current-time" [ngClass]="{'green-time': car().lapTimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().lapTimeStatus === SectorTimeStatus.NoImprovement || car().lapTimeStatus === SectorTimeStatus.PersonalBest,
+                                                }"> {{ car().lapGapToLeader }} </div>
+        }
+        @else {
+        <div class="current-time">{{ car().currentTime }}</div>
+        }
+        <div class="best-session-time">
+            @if (!car().lapGapToLeader)
+            {
+            <div class="best-time">{{leaderLap().lapTime}}</div>
+            }
+            @else if (!car().sector2GapToLeader)
+            {
+            <div class="best-time">{{leaderLap().sector1And2Time}}</div>
+            }
+            @else 
+            {
+            <div class="best-time">{{leaderLap().lapTime}}</div>
+            }
+            <div class="best-time-driver-name">{{leaderLap().driver.name}}</div>
+        </div>
+    </div>
+    <div class="stopwatch-footer">
+        <div class="sectors">
+            <div class="sector-1" [ngClass]="{'purple': car().sector1TimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'green': car().sector1TimeStatus === SectorTimeStatus.PersonalBest,
+                                                'yellow': car().sector1TimeStatus === SectorTimeStatus.NoImprovement,
+                                                }">S1</div>
+            <div class="sector-1" [ngClass]="{'purple': car().sector2TimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'green': car().sector2TimeStatus === SectorTimeStatus.PersonalBest,
+                                                'yellow': car().sector2TimeStatus === SectorTimeStatus.NoImprovement,
+                                                }">S2</div>
+            <div class="sector-1" [ngClass]="{'purple': car().lapTimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'green': car().lapTimeStatus === SectorTimeStatus.PersonalBest,
+                                                'yellow': car().lapTimeStatus === SectorTimeStatus.NoImprovement,
+                                                }">S3</div>
+        </div>
+        <div class="lap-progress" [style.width.%]="car().lapProgress"></div>
+    </div>
+</div>

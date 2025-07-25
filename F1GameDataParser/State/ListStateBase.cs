@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.Models;
+using F1GameDataParser.State.ComputedStates;
 
 namespace F1GameDataParser.State
 {
@@ -20,8 +21,8 @@ namespace F1GameDataParser.State
 
                     if (State.TryGetValue(key, out var existingModel))
                     {
-                        existingModel.MergeFrom(newModel);
                         OnModelMerged(key, existingModel, newModel);
+                        existingModel.MergeFrom(newModel);
                     }
                     else
                     {
@@ -48,6 +49,20 @@ namespace F1GameDataParser.State
                 return model;
 
             return null;
+        }
+
+        public virtual IEnumerable<TModel> GetModels(IEnumerable<int> keys)
+        {
+            var results = new List<TModel>();
+
+            foreach (var key in keys)
+            {
+                if (State.TryGetValue(key, out var value))
+                {
+                    results.Add(value);
+                }
+            }
+            return results;
         }
 
         public virtual List<TModel> GetAll()

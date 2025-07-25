@@ -1,4 +1,3 @@
-import { LookupDto } from "./common";
 import { Team } from "./Enumerations";
 
 export interface DriverOverrideDto {

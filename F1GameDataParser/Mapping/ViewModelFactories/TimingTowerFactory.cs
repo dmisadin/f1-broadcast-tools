@@ -14,16 +14,13 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         private readonly SessionState sessionState;
         private readonly ParticipantsState participantsState;
         private readonly CarStatusState carStatusState;
-        private readonly SessionHistoryState sessionHistoryState;
         private readonly DriverOverrideState driverOverrideState;
-
         private readonly PersonalBestLapState personalBestLapState;
 
         public TimingTowerFactory(LapState lapState,
             SessionState sessionState,
             ParticipantsState participantsState,
             CarStatusState carStatusState,
-            SessionHistoryState sessionHistoryState,
             DriverOverrideState driverOverrideState, 
             PersonalBestLapState personalBestLapState)
         {
@@ -31,7 +28,6 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             this.sessionState = sessionState;
             this.participantsState = participantsState;
             this.carStatusState = carStatusState;
-            this.sessionHistoryState = sessionHistoryState;
             this.driverOverrideState = driverOverrideState;
             this.personalBestLapState = personalBestLapState;
         }
@@ -42,8 +38,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 || lapState.State.Count() == 0
                 || sessionState.State == null 
                 || participantsState.State == null
-                || carStatusState.State == null 
-                || sessionHistoryState.State == null)
+                || carStatusState.State == null)
                 return null;
 
             var gameYear = sessionState.State.Header.GameYear;

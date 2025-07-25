@@ -1,6 +1,8 @@
-﻿namespace F1GameDataParser.Models.PersonalBestLap
+﻿using F1GameDataParser.Enums;
+
+namespace F1GameDataParser.Models.LapTime
 {
-    public class PersonalBestLap : MergeableBase<PersonalBestLap>
+    public class LapTime : MergeableBase<LapTime>
     {
         public byte VehicleIdx { get; set; }
         public uint LapTimeInMS { get; set; }

@@ -8,7 +8,9 @@ namespace F1GameDataParser.Startup
         public static IServiceCollection AddSharedServices(this IServiceCollection services)
         {
             services.AddTransient<EventService>();
-            services.AddTransient<PersonalBestLapService>();
+            services.AddTransient<StopwatchService>();
+            services.AddTransient<LapTimeService>();
+
 
             return services;
         }
