@@ -14,11 +14,11 @@ import { animate, style, transition, trigger } from "@angular/animations";
     animations: [
         trigger('gapFade', [
             transition(':enter', [
-                style({ opacity: 0 }),
+                style({ width: "0rem" }),
                 animate('300ms ease-out', style({ width: "20rem" }))
             ]), 
             transition(':leave', [
-                animate('400ms 4000ms', style({ width: 0 })) // wait 4s, then instant remove
+                animate('500ms 3000ms', style({ width: "0rem" })) // wait 3s, then instant remove
             ])
         ])
     ]
@@ -44,7 +44,7 @@ export class StopwatchListComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        //this.webSocketService.disconnect();
+        this.webSocketService.disconnect();
     }
 
     /**

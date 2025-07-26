@@ -58,7 +58,6 @@ export class StopwatchComponent {
         key: 'sector1' | 'sector2' | 'lap') 
     {
         effect(() => {
-            console.log(this.car().driver.name, this.showSector1Gap(), this.showSector2Gap(), this.showLapGap())
             const newGap = getGap();
             if (newGap && newGap !== this.lastGapValues[key]) {
                 this.lastGapValues[key] = newGap;
