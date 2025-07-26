@@ -3,7 +3,7 @@ using F1GameDataParser.State.ComputedStates;
 
 namespace F1GameDataParser.State
 {
-    public abstract class ListStateBase<TModel>
+    public abstract class DictionaryStateBase<TModel>
         where TModel : class, IMergeable<TModel>
     {
         protected readonly object _lock = new();

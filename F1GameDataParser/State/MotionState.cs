@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.State
 {
-    public class MotionState : ListStateBase<CarMotionDetails>
+    public class MotionState : DictionaryStateBase<CarMotionDetails>
     {
         public float MinX { get; private set; } = float.MaxValue;
         public float MaxX { get; private set; } = float.MinValue;

@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.State.ComputedStates
 {
-    public class LatestLapTimeState : ListStateBase<LapTime>
+    public class LatestLapTimeState : DictionaryStateBase<LapTime>
     {
         protected override int? GetModelKey(LapTime model) => model.VehicleIdx;
 

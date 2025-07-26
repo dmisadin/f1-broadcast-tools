@@ -3,7 +3,7 @@ using F1GameDataParser.Models.Lap;
 
 namespace F1GameDataParser.State
 {
-    public class LapState : ListStateBase<LapDetails>
+    public class LapState : DictionaryStateBase<LapDetails>
     {
         public object Lock => _lock;
 

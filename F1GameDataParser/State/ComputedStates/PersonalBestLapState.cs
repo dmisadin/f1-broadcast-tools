@@ -3,7 +3,7 @@ using F1GameDataParser.Models.LapTime;
 
 namespace F1GameDataParser.State.ComputedStates
 {
-    public class PersonalBestLapState : ListStateBase<LapTime>
+    public class PersonalBestLapState : DictionaryStateBase<LapTime>
     {
         protected override int? GetModelKey(LapTime model) => model.VehicleIdx;
 

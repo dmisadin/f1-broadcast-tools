@@ -3,7 +3,7 @@ using F1GameDataParser.Services;
 
 namespace F1GameDataParser.State
 {
-    public class SessionHistoryState : ListStateBase<SessionHistory>
+    public class SessionHistoryState : DictionaryStateBase<SessionHistory>
     {
         private readonly LapTimeService sessionFastestLapService;
 

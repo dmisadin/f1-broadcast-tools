@@ -3,7 +3,7 @@ using F1GameDataParser.Utility;
 
 namespace F1GameDataParser.State
 {
-    public class DriverOverrideState : ListStateBase<DriverOverride>
+    public class DriverOverrideState : DictionaryStateBase<DriverOverride>
     {
         // UPDATE() is missing logic when override is removed (press X in ng-select)
         public override void Update(IEnumerable<DriverOverride> newState)
