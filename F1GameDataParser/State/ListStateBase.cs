@@ -12,6 +12,7 @@ namespace F1GameDataParser.State
 
         public virtual void Update(IEnumerable<TModel> newState)
         {
+            if (newState.Count() <= 0) return;
             lock (_lock)
             {
                 int index = 0;

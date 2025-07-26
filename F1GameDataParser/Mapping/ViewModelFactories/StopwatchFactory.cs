@@ -1,6 +1,5 @@
 ﻿using F1GameDataParser.Enums;
 using F1GameDataParser.GameProfiles.F1Common.Utility;
-using F1GameDataParser.Models.LapTime;
 using F1GameDataParser.State;
 using F1GameDataParser.State.ComputedStates;
 using F1GameDataParser.Utility;
@@ -21,8 +20,6 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         private readonly DriverOverrideState driverOverrideState;
         private readonly CarStatusState carStatusState;
 
-        private Dictionary<int, LapTimeChange> latestLapTimeChange = new Dictionary<int, LapTimeChange>();
-
         public StopwatchFactory(LapState lapState,
                                 ParticipantsState participantsState,
                                 SessionState sessionState,
@@ -40,28 +37,6 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             this.latestLapTimeState = latestLapTimeState;
             this.driverOverrideState = driverOverrideState;
             this.carStatusState = carStatusState;
-
-            Console.WriteLine("Stopwatch CTOR\n");
-
-            latestLapTimeState.LapTimeChanged += (sender, e) =>
-            {
-                if (this.latestLapTimeChange.TryGetValue(e.VehicleIdx, out var lapTimeChange))
-                {
-                    e.Sector1Changed = lapTimeChange.Sector1Changed || e.Sector1Changed;
-                    e.Sector2Changed = lapTimeChange.Sector2Changed || e.Sector2Changed;
-                    e.Sector3Changed = lapTimeChange.Sector3Changed || e.Sector3Changed;
-                    e.LapTimeChanged = lapTimeChange.LapTimeChanged || e.LapTimeChanged;
-                }
-
-                if (e.LapTimeChanged)
-                    Task.Run(async () =>
-                    {
-                        await Task.Delay(5000);
-                        latestLapTimeChange.Remove(e.VehicleIdx);
-                    });
-
-                latestLapTimeChange[e.VehicleIdx] = e;
-            };
         }
         public override Stopwatch? Generate()
         {
@@ -98,7 +73,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     },
 
                     Position = lap.CarPosition,
-                    CurrentTime = TimeUtility.MillisecondsToGap(lap.CurrentLapTimeInMS),
+                    CurrentTime = TimeUtility.MillisecondsToGap(lap.CurrentLapTimeInMS, 1),
                     IsLapValid = lap.CurrentLapInvalid.ToBool(),
                     LapProgress = Convert.ToByte(lap.LapDistance / sessionState.State.TrackLength * 100),
                     TyreCompoundVisual = (carStatus?.VisualTyreCompound ?? TyreCompoundVisual.Soft).ToString(),
@@ -152,8 +127,8 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             var participants = participantsState.State.ParticipantList;
 
             return lapState.State
-                .Where(driver => driver.Value.DriverStatus == DriverStatus.FlyingLap ||
-                                 driver.Value.DriverStatus == DriverStatus.OnTrack)
+                .Where(driver => driver.Value.DriverStatus == DriverStatus.FlyingLap)
+                                 //|| driver.Value.DriverStatus == DriverStatus.OnTrack)
                 .OrderByDescending(driver => driver.Value.LapDistance)
                 .Select(driver => driver.Key)
                 .ToList();
@@ -167,15 +142,14 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
             if (fastestLap == null
                 || personalBestLap == null
-                || latestLapTimes == null
-                || !latestLapTimeChange.TryGetValue(vehicleIdx, out var lapTimeChange))
+                || latestLapTimes == null)
                 return null;
 
             SectorTimeComparison? s1Gap = null;
             SectorTimeComparison? s2Gap = null;
             SectorTimeComparison? lapGap = null;
 
-            if (lapTimeChange.Sector1Changed)
+            if (latestLapTimes.Sector1Changed.GetValueOrDefault())
             {
                 s1Gap = new SectorTimeComparison
                 {
@@ -184,7 +158,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 };
             }
 
-            if (lapTimeChange.Sector2Changed)
+            if (latestLapTimes.Sector2Changed.GetValueOrDefault())
             {
                 s2Gap = new SectorTimeComparison
                 {
@@ -193,7 +167,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 };
             }
 
-            if (lapTimeChange.LapTimeChanged)
+            if (latestLapTimes.LapTimeChanged.GetValueOrDefault())
             {
                 lapGap = new SectorTimeComparison
                 {
@@ -220,18 +194,6 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             if (sectorTime <= personalBestSectorTime)
                 return SectorTimeStatus.PersonalBest;
             return SectorTimeStatus.NoImprovement;
-        }
-
-        private void ResetSectorChanges(IEnumerable<int> vehicleIdxOnHotlap)
-        {
-            var keysToRemove = latestLapTimeChange.Keys
-                                .Where(k => !vehicleIdxOnHotlap.Contains(k))
-                                .ToList();
-
-            foreach (var key in keysToRemove)
-            {
-                latestLapTimeChange.Remove(key);
-            }
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using F1GameDataParser.Enums;
-using F1GameDataParser.Models.LapTime;
+﻿using F1GameDataParser.Models.LapTime;
 using F1GameDataParser.Models.SessionHistory;
 using F1GameDataParser.State.ComputedStates;
 
@@ -8,12 +7,12 @@ namespace F1GameDataParser.Services
     public class LapTimeService
     {
         private readonly PersonalBestLapState sessionFastestLapsState;
-        private readonly LatestLapTimeState previousLapState;
+        private readonly LatestLapTimeState latestLapTimeState;
 
-        public LapTimeService(PersonalBestLapState sessionFastestLapsState, LatestLapTimeState previousLapState)
+        public LapTimeService(PersonalBestLapState sessionFastestLapsState, LatestLapTimeState latestLapTimeState)
         {
             this.sessionFastestLapsState = sessionFastestLapsState;
-            this.previousLapState = previousLapState;
+            this.latestLapTimeState = latestLapTimeState;
         }
 
         public void UpdateSessionFastestLaps(SessionHistory sessionHistory)
@@ -52,7 +51,7 @@ namespace F1GameDataParser.Services
                     Sector3TimeInMS = currentLap.Sector3TimeInMS
                 };
 
-                previousLapState.Update(currentLapModel);
+                latestLapTimeState.Update(currentLapModel);
                 return;
             }
 
@@ -60,16 +59,22 @@ namespace F1GameDataParser.Services
             ushort sector2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap.Sector2TimeInMS;
             ushort sector3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap.Sector3TimeInMS;
 
+            var currentState = latestLapTimeState.GetModel(sessionHistory.CarIdx);
+
             var lapModel = new LapTime
             {
                 VehicleIdx = sessionHistory.CarIdx,
                 LapTimeInMS = previousLap.LapTimeInMS,
                 Sector1TimeInMS = sector1TimeInMS,
                 Sector2TimeInMS = sector2TimeInMS,
-                Sector3TimeInMS = sector3TimeInMS
+                Sector3TimeInMS = sector3TimeInMS,
+                Sector1Changed = (currentState?.Sector1Changed ?? false) || currentState?.Sector1TimeInMS != sector1TimeInMS,
+                Sector2Changed = (currentState?.Sector2Changed ?? false) || currentState?.Sector2TimeInMS != sector2TimeInMS,
+                Sector3Changed = (currentState?.Sector3Changed ?? false) || currentState?.Sector3TimeInMS != sector3TimeInMS,
+                LapTimeChanged = (currentState?.LapTimeChanged ?? false) || currentState?.LapTimeInMS != previousLap.LapTimeInMS
             };
 
-            previousLapState.Update(lapModel);
+            latestLapTimeState.Update(lapModel);
         }
     }
 }

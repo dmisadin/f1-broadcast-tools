@@ -1,6 +1,4 @@
-﻿using F1GameDataParser.Enums;
-
-namespace F1GameDataParser.Models.LapTime
+﻿namespace F1GameDataParser.Models.LapTime
 {
     public class LapTime : MergeableBase<LapTime>
     {
@@ -9,5 +7,10 @@ namespace F1GameDataParser.Models.LapTime
         public ushort Sector1TimeInMS { get; set; }
         public ushort Sector2TimeInMS { get; set; }
         public ushort Sector3TimeInMS { get; set; }
+
+        public bool? Sector1Changed { get; set; }
+        public bool? Sector2Changed { get; set; }
+        public bool? Sector3Changed { get; set; }
+        public bool? LapTimeChanged { get; set; }
     }
 }

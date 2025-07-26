@@ -70,7 +70,7 @@ builder.Services.AddSingleton<LatestLapTimeState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
-builder.Services.AddSingleton<StopwatchFactory>();
+builder.Services.AddTransient<StopwatchFactory>();
 builder.Services.AddTransient<DriverOverrideService>();
 
 // Register repositories
