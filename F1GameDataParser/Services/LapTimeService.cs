@@ -38,17 +38,29 @@ namespace F1GameDataParser.Services
         {
             var currentLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.NumLaps - 1);
             var previousLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.NumLaps - 2);
+
             if (currentLap == null) return;
 
-            if (previousLap == null) 
-            { 
+            var currentState = latestLapTimeState.GetModel(sessionHistory.CarIdx);
+
+            if (previousLap == null)
+            {
+                ushort? s1TimeInMS = currentLap.Sector1TimeInMS > 0 ? currentLap.Sector1TimeInMS : previousLap?.Sector1TimeInMS;
+                ushort? s2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap?.Sector2TimeInMS;
+                ushort? s3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap?.Sector3TimeInMS;
+                uint? lapTimeInMS = currentLap.LapTimeInMS      > 0 ? currentLap.LapTimeInMS     : previousLap?.LapTimeInMS;
+
                 var currentLapModel = new LapTime
                 {
                     VehicleIdx = sessionHistory.CarIdx,
                     LapTimeInMS = currentLap.LapTimeInMS,
                     Sector1TimeInMS = currentLap.Sector1TimeInMS,
                     Sector2TimeInMS = currentLap.Sector2TimeInMS,
-                    Sector3TimeInMS = currentLap.Sector3TimeInMS
+                    Sector3TimeInMS = currentLap.Sector3TimeInMS,
+                    Sector1Changed = (currentState?.Sector1Changed ?? false) || currentState?.Sector1TimeInMS != s1TimeInMS,
+                    Sector2Changed = (currentState?.Sector2Changed ?? false) || currentState?.Sector2TimeInMS != s2TimeInMS,
+                    Sector3Changed = (currentState?.Sector3Changed ?? false) || currentState?.Sector3TimeInMS != s3TimeInMS,
+                    LapTimeChanged = (currentState?.LapTimeChanged ?? false) || currentState?.LapTimeInMS != lapTimeInMS
                 };
 
                 latestLapTimeState.Update(currentLapModel);
@@ -59,19 +71,17 @@ namespace F1GameDataParser.Services
             ushort sector2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap.Sector2TimeInMS;
             ushort sector3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap.Sector3TimeInMS;
 
-            var currentState = latestLapTimeState.GetModel(sessionHistory.CarIdx);
-
             var lapModel = new LapTime
             {
                 VehicleIdx = sessionHistory.CarIdx,
-                LapTimeInMS = previousLap.LapTimeInMS,
+                LapTimeInMS = currentLap.LapTimeInMS,
                 Sector1TimeInMS = sector1TimeInMS,
                 Sector2TimeInMS = sector2TimeInMS,
                 Sector3TimeInMS = sector3TimeInMS,
                 Sector1Changed = (currentState?.Sector1Changed ?? false) || currentState?.Sector1TimeInMS != sector1TimeInMS,
                 Sector2Changed = (currentState?.Sector2Changed ?? false) || currentState?.Sector2TimeInMS != sector2TimeInMS,
                 Sector3Changed = (currentState?.Sector3Changed ?? false) || currentState?.Sector3TimeInMS != sector3TimeInMS,
-                LapTimeChanged = (currentState?.LapTimeChanged ?? false) || currentState?.LapTimeInMS != previousLap.LapTimeInMS
+                LapTimeChanged = (currentState?.LapTimeChanged ?? false) || currentState?.LapTimeInMS != currentLap.LapTimeInMS
             };
 
             latestLapTimeState.Update(lapModel);

@@ -17,6 +17,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         private readonly SessionHistoryState sessionHistoryState;
         private readonly PersonalBestLapState personalBestLapState;
         private readonly LatestLapTimeState latestLapTimeState;
+        private readonly DriversOnFlyingLapState driversOnFlyingLapState;
         private readonly DriverOverrideState driverOverrideState;
         private readonly CarStatusState carStatusState;
 
@@ -26,6 +27,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                                 SessionHistoryState sessionHistoryState,
                                 PersonalBestLapState personalBestLapState,
                                 LatestLapTimeState latestLapTimeState,
+                                DriversOnFlyingLapState driversOnFlyingLapState,
                                 DriverOverrideState driverOverrideState,
                                 CarStatusState carStatusState)
         {
@@ -35,6 +37,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             this.sessionHistoryState = sessionHistoryState;
             this.personalBestLapState = personalBestLapState;
             this.latestLapTimeState = latestLapTimeState;
+            this.driversOnFlyingLapState = driversOnFlyingLapState;
             this.driverOverrideState = driverOverrideState;
             this.carStatusState = carStatusState;
         }
@@ -43,7 +46,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             if (lapState?.State == null || participantsState?.State == null || sessionState?.State == null)
                 return null;
 
-            var vehicleIdxOnHotlap = FindDriversOnHotlap();
+            var vehicleIdxOnHotlap = FindDriversOnFlyingLap();
             var stopwatchCars = new List<StopwatchCar>();
 
             var gameYear = participantsState.State.Header.GameYear;
@@ -75,15 +78,18 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Position = lap.CarPosition,
                     CurrentTime = TimeUtility.MillisecondsToGap(lap.CurrentLapTimeInMS, 1),
                     IsLapValid = lap.CurrentLapInvalid.ToBool(),
-                    LapProgress = Convert.ToByte(lap.LapDistance / sessionState.State.TrackLength * 100),
+                    LapProgress = Convert.ToInt32((lap.LapDistance > 0 ? (lap.LapDistance / sessionState.State.TrackLength) : 0 ) * 100),
+                    LapDistance =lap.LapDistance,
                     TyreCompoundVisual = (carStatus?.VisualTyreCompound ?? TyreCompoundVisual.Soft).ToString(),
 
                     Sector1TimeStatus = sectorTimes?.Sector1Gap?.SectorTimeStatus,
                     Sector2TimeStatus = sectorTimes?.Sector2Gap?.SectorTimeStatus,
+                    Sector3TimeStatus = sectorTimes?.Sector3Gap?.SectorTimeStatus,
                     LapTimeStatus = sectorTimes?.LapGap?.SectorTimeStatus,
 
                     Sector1GapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.Sector1Gap?.Gap),
                     Sector2GapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.Sector2Gap?.Gap),
+                    Sector3GapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.Sector3Gap?.Gap),
                     LapGapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.LapGap?.Gap),
                 };
 
@@ -118,20 +124,14 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         }
 
 
-        private IEnumerable<int> FindDriversOnHotlap()
+        private IEnumerable<byte> FindDriversOnFlyingLap()
         {
-            if (lapState?.State == null || participantsState?.State == null || sessionState?.State == null)
-                return Enumerable.Empty<int>();
+            var driversOnFlyingLap = driversOnFlyingLapState.GetAll();
 
-            var gameYear = participantsState.State.Header.GameYear;
-            var participants = participantsState.State.ParticipantList;
-
-            return lapState.State
-                .Where(driver => driver.Value.DriverStatus == DriverStatus.FlyingLap)
-                                 //|| driver.Value.DriverStatus == DriverStatus.OnTrack)
-                .OrderByDescending(driver => driver.Value.LapDistance)
-                .Select(driver => driver.Key)
-                .ToList();
+            return driversOnFlyingLap.OrderByDescending(driver => driver.MarkedForDeletion)
+                                    .ThenByDescending(driver => driver.LapDistance < 0 ? 0 : driver.LapDistance) // upitan lapDistance kad prođe krug
+                                    .Select(driver => driver.VehicleIdx)
+                                    .ToList();
         }
 
         private LapTimeComparison? GetSectorTimeStatus(int vehicleIdx)
@@ -147,6 +147,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
             SectorTimeComparison? s1Gap = null;
             SectorTimeComparison? s2Gap = null;
+            SectorTimeComparison? s3Gap = null;
             SectorTimeComparison? lapGap = null;
 
             if (latestLapTimes.Sector1Changed.GetValueOrDefault())
@@ -167,6 +168,16 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 };
             }
 
+
+            if (latestLapTimes.Sector3Changed.GetValueOrDefault())
+            {
+                s3Gap = new SectorTimeComparison
+                {
+                    Gap = latestLapTimes.Sector3TimeInMS - fastestLap.Sector3TimeInMS,
+                    SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector3TimeInMS, fastestLap.Sector3TimeInMS, personalBestLap.Sector3TimeInMS)
+                };
+            }
+
             if (latestLapTimes.LapTimeChanged.GetValueOrDefault())
             {
                 lapGap = new SectorTimeComparison
@@ -180,6 +191,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             {
                 Sector1Gap = s1Gap,
                 Sector2Gap = s2Gap,
+                Sector3Gap = s3Gap,
                 LapGap = lapGap
             };
 
@@ -201,6 +213,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
     {
         public SectorTimeComparison? Sector1Gap { get; set; }
         public SectorTimeComparison? Sector2Gap { get; set; }
+        public SectorTimeComparison? Sector3Gap { get; set; }
         public SectorTimeComparison? LapGap { get; set; }
     }
 

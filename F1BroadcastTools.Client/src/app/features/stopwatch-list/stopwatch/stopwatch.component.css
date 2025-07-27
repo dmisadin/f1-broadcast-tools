@@ -114,6 +114,7 @@
     width: 69%;
     height: 100%;
     background-color: #232426;
+    transition: .5s ease-out;
 }
 
 .purple {

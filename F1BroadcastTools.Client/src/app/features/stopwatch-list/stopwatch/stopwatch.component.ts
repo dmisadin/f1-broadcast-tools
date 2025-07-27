@@ -16,6 +16,7 @@ export class StopwatchComponent {
 
     showSector1Gap = signal(false);
     showSector2Gap = signal(false);
+    showSector3Gap = signal(false);
     showLapGap = signal(false)
 
     SectorTimeStatus = SectorTimeStatus;
@@ -23,12 +24,14 @@ export class StopwatchComponent {
     private lastGapValues = {
         sector1: null as string | null,
         sector2: null as string | null,
+        sector3: null as string | null,
         lap: null as string | null
     };
 
     private gapTimers = {
         sector1: null as ReturnType<typeof setTimeout> | null,
         sector2: null as ReturnType<typeof setTimeout> | null,
+        sector3: null as ReturnType<typeof setTimeout> | null,
         lap: null as ReturnType<typeof setTimeout> | null
     };
 
@@ -46,6 +49,12 @@ export class StopwatchComponent {
         );
 
         this.setupGapEffect(
+            () => this.car().sector3GapToLeader,
+            this.showSector3Gap,
+            'sector3'
+        );
+
+        this.setupGapEffect(
             () => this.car().lapGapToLeader,
             this.showLapGap,
             'lap'
@@ -55,7 +64,7 @@ export class StopwatchComponent {
     private setupGapEffect(
         getGap: () => string | null | undefined,
         visibilitySignal: ReturnType<typeof signal<boolean>>,
-        key: 'sector1' | 'sector2' | 'lap') 
+        key: 'sector1' | 'sector2' | 'sector3' | 'lap') 
     {
         effect(() => {
             const newGap = getGap();

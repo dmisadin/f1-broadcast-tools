@@ -67,6 +67,7 @@ builder.Services.AddF125Handlers();
 builder.Services.AddSingleton<DriverOverrideState>();
 builder.Services.AddSingleton<PersonalBestLapState>();
 builder.Services.AddSingleton<LatestLapTimeState>();
+builder.Services.AddSingleton<DriversOnFlyingLapState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();

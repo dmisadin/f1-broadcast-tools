@@ -10,7 +10,7 @@ namespace F1GameDataParser.Startup
             services.AddTransient<EventService>();
             services.AddTransient<StopwatchService>();
             services.AddTransient<LapTimeService>();
-
+            services.AddTransient<LapService>();
 
             return services;
         }

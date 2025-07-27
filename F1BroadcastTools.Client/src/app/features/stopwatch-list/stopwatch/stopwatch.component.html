@@ -7,7 +7,7 @@
                        [game]="23">
             </team-logo>
         </div>
-        <div class="name"> {{car().driver.name}} </div>
+        <div class="name"> {{car().driver.name}} - {{car().driver.vehicleIdx}} </div>
         <div class="tyre" [ngStyle]="{
                 'background-image': 'url(images/icons/tyres/' + car().tyreCompoundVisual.toLowerCase() + '_empty.svg)'
             }">
@@ -25,9 +25,9 @@
                                                 'yellow-time': car().sector2TimeStatus === SectorTimeStatus.NoImprovement || car().sector2TimeStatus === SectorTimeStatus.PersonalBest,
                                                 }"> {{ car().sector2GapToLeader }} </div>
         }
-        @else if (showLapGap()) {
-        <div class="current-time" [ngClass]="{'green-time': car().lapTimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().lapTimeStatus === SectorTimeStatus.NoImprovement || car().lapTimeStatus === SectorTimeStatus.PersonalBest,
+        @else if (showSector3Gap()) {
+        <div class="current-time" [ngClass]="{'green-time': car().sector3TimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().sector3TimeStatus === SectorTimeStatus.NoImprovement || car().sector3TimeStatus === SectorTimeStatus.PersonalBest,
                                                 }"> {{ car().lapGapToLeader }} </div>
         }
         @else {

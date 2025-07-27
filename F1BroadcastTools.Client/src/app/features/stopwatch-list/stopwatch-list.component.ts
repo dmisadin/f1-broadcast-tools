@@ -18,7 +18,7 @@ import { animate, style, transition, trigger } from "@angular/animations";
                 animate('300ms ease-out', style({ width: "20rem" }))
             ]), 
             transition(':leave', [
-                animate('500ms 3000ms', style({ width: "0rem" })) // wait 3s, then instant remove
+                animate('500ms ease-in', style({ width: "0rem" }))
             ])
         ])
     ]

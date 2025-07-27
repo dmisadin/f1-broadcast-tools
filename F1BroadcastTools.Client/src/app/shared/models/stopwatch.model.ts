@@ -15,10 +15,12 @@ export interface StopwatchCar {
 
     sector1TimeStatus?: SectorTimeStatus;
     sector2TimeStatus?: SectorTimeStatus;
+    sector3TimeStatus?: SectorTimeStatus;
     lapTimeStatus?: SectorTimeStatus;
 
     sector1GapToLeader?: string;
     sector2GapToLeader?: string;
+    sector3GapToLeader?: string;
     lapGapToLeader?: string;
 
     driver: DriverBasicDetails;

@@ -1,5 +1,4 @@
 ﻿using F1GameDataParser.Models;
-using F1GameDataParser.State.ComputedStates;
 
 namespace F1GameDataParser.State
 {
@@ -15,6 +14,8 @@ namespace F1GameDataParser.State
             if (newState.Count() <= 0) return;
             lock (_lock)
             {
+                BeforeEnumerableMerged(newState);
+
                 int index = 0;
                 foreach (var newModel in newState)
                 {
@@ -41,6 +42,7 @@ namespace F1GameDataParser.State
             Update([newState]);
         }
 
+        protected virtual void BeforeEnumerableMerged(IEnumerable<TModel> newState) { }
         protected virtual void OnModelMerged(int key, TModel existingModel, TModel newModel) { }
         protected virtual void OnModelAdded(int key, TModel newModel) { }
 
@@ -66,9 +68,6 @@ namespace F1GameDataParser.State
             return results;
         }
 
-        public virtual List<TModel> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public virtual List<TModel> GetAll() => State.Select(m => m.Value).ToList();
     }
 }
