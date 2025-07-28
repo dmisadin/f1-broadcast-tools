@@ -28,6 +28,7 @@ namespace F1GameDataParser.Services
                     {
                         VehicleIdx = index,
                         LapDistance = driver.LapDistance,
+                        FrameIdentifier = driver.FrameIdentifier,
                         MarkedForDeletion = false
                     });
                 }

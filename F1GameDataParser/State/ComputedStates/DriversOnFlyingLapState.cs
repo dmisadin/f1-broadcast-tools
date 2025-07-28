@@ -11,10 +11,13 @@ namespace F1GameDataParser.State.ComputedStates
 
         public void RemoveEntryAfterDelay(IEnumerable<int> keys, int delayMilliseconds = 4000)
         {
-            foreach (var key in keys)
+            lock (_lock)
             {
-                if (State.TryGetValue(key, out var driver))
-                    driver.MarkedForDeletion = true;
+                foreach (var key in keys)
+                {
+                    if (State.TryGetValue(key, out var driver))
+                        driver.MarkedForDeletion = true;
+                }
             }
 
             _ = Task.Run(async () =>

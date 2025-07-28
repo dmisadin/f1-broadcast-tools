@@ -41,50 +41,27 @@ namespace F1GameDataParser.Services
 
             if (currentLap == null) return;
 
-            var currentState = latestLapTimeState.GetModel(sessionHistory.CarIdx);
+            var currentLatestLapState = latestLapTimeState.GetModel(sessionHistory.CarIdx);
 
-            if (previousLap == null)
-            {
-                ushort? s1TimeInMS = currentLap.Sector1TimeInMS > 0 ? currentLap.Sector1TimeInMS : previousLap?.Sector1TimeInMS;
-                ushort? s2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap?.Sector2TimeInMS;
-                ushort? s3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap?.Sector3TimeInMS;
-                uint? lapTimeInMS = currentLap.LapTimeInMS      > 0 ? currentLap.LapTimeInMS     : previousLap?.LapTimeInMS;
+            ushort? s1TimeInMS = currentLap.Sector1TimeInMS > 0 ? currentLap.Sector1TimeInMS : previousLap?.Sector1TimeInMS;
+            ushort? s2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap?.Sector2TimeInMS;
+            ushort? s3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap?.Sector3TimeInMS;
+            uint? lapTimeInMS = currentLap.LapTimeInMS      > 0 ? currentLap.LapTimeInMS     : previousLap?.LapTimeInMS;
 
-                var currentLapModel = new LapTime
-                {
-                    VehicleIdx = sessionHistory.CarIdx,
-                    LapTimeInMS = currentLap.LapTimeInMS,
-                    Sector1TimeInMS = currentLap.Sector1TimeInMS,
-                    Sector2TimeInMS = currentLap.Sector2TimeInMS,
-                    Sector3TimeInMS = currentLap.Sector3TimeInMS,
-                    Sector1Changed = (currentState?.Sector1Changed ?? false) || currentState?.Sector1TimeInMS != s1TimeInMS,
-                    Sector2Changed = (currentState?.Sector2Changed ?? false) || currentState?.Sector2TimeInMS != s2TimeInMS,
-                    Sector3Changed = (currentState?.Sector3Changed ?? false) || currentState?.Sector3TimeInMS != s3TimeInMS,
-                    LapTimeChanged = (currentState?.LapTimeChanged ?? false) || currentState?.LapTimeInMS != lapTimeInMS
-                };
-
-                latestLapTimeState.Update(currentLapModel);
-                return;
-            }
-
-            ushort sector1TimeInMS = currentLap.Sector1TimeInMS > 0 ? currentLap.Sector1TimeInMS : previousLap.Sector1TimeInMS;
-            ushort sector2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap.Sector2TimeInMS;
-            ushort sector3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap.Sector3TimeInMS;
-
-            var lapModel = new LapTime
+            var previousLapModel = new LapTime
             {
                 VehicleIdx = sessionHistory.CarIdx,
-                LapTimeInMS = currentLap.LapTimeInMS,
-                Sector1TimeInMS = sector1TimeInMS,
-                Sector2TimeInMS = sector2TimeInMS,
-                Sector3TimeInMS = sector3TimeInMS,
-                Sector1Changed = (currentState?.Sector1Changed ?? false) || currentState?.Sector1TimeInMS != sector1TimeInMS,
-                Sector2Changed = (currentState?.Sector2Changed ?? false) || currentState?.Sector2TimeInMS != sector2TimeInMS,
-                Sector3Changed = (currentState?.Sector3Changed ?? false) || currentState?.Sector3TimeInMS != sector3TimeInMS,
-                LapTimeChanged = (currentState?.LapTimeChanged ?? false) || currentState?.LapTimeInMS != currentLap.LapTimeInMS
+                LapTimeInMS = lapTimeInMS ?? 0,
+                Sector1TimeInMS = s1TimeInMS ?? 0,
+                Sector2TimeInMS = s2TimeInMS ?? 0,
+                Sector3TimeInMS = s3TimeInMS ?? 0,
+                Sector1Changed = (currentLatestLapState?.Sector1Changed ?? false) || (currentLatestLapState?.Sector1TimeInMS ?? 0) != (s1TimeInMS ?? 0),
+                Sector2Changed = (currentLatestLapState?.Sector2Changed ?? false) || (currentLatestLapState?.Sector2TimeInMS ?? 0) != (s2TimeInMS ?? 0),
+                Sector3Changed = (currentLatestLapState?.Sector3Changed ?? false) || (currentLatestLapState?.Sector3TimeInMS ?? 0) != (s3TimeInMS ?? 0),
+                LapTimeChanged = (currentLatestLapState?.LapTimeChanged ?? false) || (currentLatestLapState?.LapTimeInMS ?? 0) != (lapTimeInMS ?? 0)
             };
 
-            latestLapTimeState.Update(lapModel);
+            latestLapTimeState.Update(previousLapModel);
         }
     }
 }

@@ -12,6 +12,8 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
             return packet => packet.lapDetails.Select(lap => new LapDetails
             {
                 GameYear = packet.header.gameYear,
+                FrameIdentifier = packet.header.frameIdentifier,
+
                 LastLapTimeInMS = lap.lastLapTimeInMS,
                 CurrentLapTimeInMS = lap.currentLapTimeInMS,
                 Sector1TimeInMS = lap.sector1TimeInMS,

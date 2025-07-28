@@ -8,7 +8,7 @@ namespace F1GameDataParser.State.ComputedStates
 
         protected override void OnModelMerged(int key, LapTime existingModel, LapTime newModel)
         {
-            if (newModel.Sector3Changed.HasValue && newModel.Sector3Changed.Value)
+            if (newModel.LapTimeChanged.HasValue && newModel.LapTimeChanged.Value)
                 Task.Run(async () =>
                 {
                     await Task.Delay(5000);

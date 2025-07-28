@@ -12,6 +12,11 @@ namespace F1GameDataParser.State.ComputedStates
             return this.State.Values.OrderBy(lap => lap.LapTimeInMS).FirstOrDefault();
         }
 
+        public LapTime? GetSecondFastestLap()
+        {
+            return this.State.Values.OrderBy(lap => lap.LapTimeInMS).Skip(1).FirstOrDefault();
+        }
+
         public IDictionary<Sector, ushort?> GetFastestSectors()
         {
             var lapWithFastestS1 = this.State.Values.OrderBy(lap => lap.Sector1TimeInMS).FirstOrDefault();
