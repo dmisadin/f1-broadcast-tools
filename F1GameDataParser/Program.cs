@@ -37,37 +37,14 @@ builder.Services.AddSingleton<SessionHistoryState>();
 builder.Services.AddSingleton<CarDamageState>();
 builder.Services.AddSingleton<LobbyInfoState>();
 
-/*
-builder.Services.AddSingleton<ParticipantsHandler>();
-builder.Services.AddSingleton<SessionHandler>();
-builder.Services.AddSingleton<CarTelemetryHandler>();
-builder.Services.AddSingleton<EventsHandler>();
-builder.Services.AddSingleton<CarStatusHandler>();
-builder.Services.AddSingleton<FinalClassificationHandler>();
-builder.Services.AddSingleton<LapHandler>();
-builder.Services.AddSingleton<SessionHistoryHandler>();
-builder.Services.AddSingleton<CarDamageHandler>();
-builder.Services.AddSingleton<LobbyInfoHandler>();
-
-builder.Services.AddSingleton<F125.Handlers.ParticipantsHandler>();
-builder.Services.AddSingleton<F125.Handlers.SessionHandler>();
-builder.Services.AddSingleton<F125.Handlers.CarTelemetryHandler>();
-builder.Services.AddSingleton<F125.Handlers.EventsHandler>();
-builder.Services.AddSingleton<F125.Handlers.CarStatusHandler>();
-builder.Services.AddSingleton<F125.Handlers.FinalClassificationHandler>();
-builder.Services.AddSingleton<F125.Handlers.LapHandler>();
-builder.Services.AddSingleton<F125.Handlers.SessionHistoryHandler>();
-builder.Services.AddSingleton<F125.Handlers.CarDamageHandler>();
-builder.Services.AddSingleton<F125.Handlers.LobbyInfoHandler>();
-*/
 builder.Services.AddF123Handlers();
 builder.Services.AddF125Handlers();
-
 
 builder.Services.AddSingleton<DriverOverrideState>();
 builder.Services.AddSingleton<PersonalBestLapState>();
 builder.Services.AddSingleton<LatestLapTimeState>();
 builder.Services.AddSingleton<DriversOnFlyingLapState>();
+builder.Services.AddSingleton<FastestSectorTimeState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();

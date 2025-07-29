@@ -1,4 +1,6 @@
-﻿using F1GameDataParser.Models.LapTime;
+﻿using F1GameDataParser.Enums;
+using F1GameDataParser.Models.ComputedModels;
+using F1GameDataParser.Models.LapTime;
 using F1GameDataParser.Models.SessionHistory;
 using F1GameDataParser.State.ComputedStates;
 
@@ -8,11 +10,15 @@ namespace F1GameDataParser.Services
     {
         private readonly PersonalBestLapState personalBestLapState;
         private readonly LatestLapTimeState latestLapTimeState;
+        private readonly FastestSectorTimeState fastestSectorTimeState;
 
-        public LapTimeService(PersonalBestLapState personalBestLapState, LatestLapTimeState latestLapTimeState)
+        public LapTimeService(PersonalBestLapState personalBestLapState,
+                              LatestLapTimeState latestLapTimeState,
+                              FastestSectorTimeState fastestSectorTimeState)
         {
             this.personalBestLapState = personalBestLapState;
             this.latestLapTimeState = latestLapTimeState;
+            this.fastestSectorTimeState = fastestSectorTimeState;
         }
 
         public void UpdatePersonalBestLap(SessionHistory sessionHistory)
@@ -68,6 +74,62 @@ namespace F1GameDataParser.Services
             };
 
             latestLapTimeState.Update(previousLapModel);
+        }
+
+        public void UpdateFastestSectors(SessionHistory driverSessionHistory)
+        {
+            var newFastestSectors = new List<FastestSectorTime>();
+
+            foreach (var lap in driverSessionHistory.LapHistoryDetails)
+            {
+                if (lap.Sector1TimeInMS > 0 
+                    && lap.LapValidBitFlags.HasFlag(LapSectorsValidity.Sector1Valid)
+                    && fastestSectorTimeState.State.TryGetValue((int)Sector.Sector1, out var currentFastestS1)
+                    && lap.Sector1TimeInMS < currentFastestS1.TimeInMS)
+                {
+                    newFastestSectors.Add(new FastestSectorTime
+                    {
+                        Sector = Sector.Sector1,
+                        VehicleIdx = driverSessionHistory.CarIdx,
+                        TimeInMS = lap.Sector1TimeInMS,
+                        PreviousTimeInMS = currentFastestS1.TimeInMS
+                    });
+                    Console.WriteLine($"New fastest S1: {lap.Sector1TimeInMS};\t by Car {driverSessionHistory.CarIdx}.");
+                }
+
+                if (lap.Sector2TimeInMS > 0
+                    && lap.LapValidBitFlags.HasFlag(LapSectorsValidity.Sector2Valid)
+                    && fastestSectorTimeState.State.TryGetValue((int)Sector.Sector2, out var currentFastestS2)
+                    && lap.Sector2TimeInMS < currentFastestS2.TimeInMS)
+                {
+                    newFastestSectors.Add(new FastestSectorTime
+                    {
+                        Sector = Sector.Sector2,
+                        VehicleIdx = driverSessionHistory.CarIdx,
+                        TimeInMS = lap.Sector2TimeInMS,
+                        PreviousTimeInMS = currentFastestS2.TimeInMS
+                    });
+                    Console.WriteLine($"New fastest S2: {lap.Sector2TimeInMS};\t by Car {driverSessionHistory.CarIdx}.");
+                }
+
+                if (lap.Sector3TimeInMS > 0
+                    && lap.LapValidBitFlags.HasFlag(LapSectorsValidity.Sector3Valid)
+                    && fastestSectorTimeState.State.TryGetValue((int)Sector.Sector3, out var currentFastestS3)
+                    && lap.Sector3TimeInMS < currentFastestS3.TimeInMS)
+                {
+                    newFastestSectors.Add(new FastestSectorTime
+                    {
+                        Sector = Sector.Sector3,
+                        VehicleIdx = driverSessionHistory.CarIdx,
+                        TimeInMS = lap.Sector3TimeInMS,
+                        PreviousTimeInMS = currentFastestS3.TimeInMS
+                    });
+                    Console.WriteLine($"New fastest S3: {lap.Sector3TimeInMS};\t by Car {driverSessionHistory.CarIdx}.");
+                }
+            }
+
+            if (newFastestSectors.Any())
+                fastestSectorTimeState.Update(newFastestSectors);
         }
     }
 }

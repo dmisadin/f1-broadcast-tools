@@ -23,6 +23,7 @@ namespace F1GameDataParser.State
         {
             this.sessionFastestLapService.UpdatePersonalBestLap(newModel);
             this.sessionFastestLapService.UpdateLatestLapTimes(newModel);
+            this.sessionFastestLapService.UpdateFastestSectors(newModel);
         }   
     }
 }
