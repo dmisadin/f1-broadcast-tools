@@ -1,6 +1,6 @@
 ﻿using F1GameDataParser.Enums;
 using F1GameDataParser.GameProfiles.F1Common.Utility;
-using F1GameDataParser.Models.LapTime;
+using F1GameDataParser.Models.ComputedModels;
 using F1GameDataParser.State;
 using F1GameDataParser.State.ComputedStates;
 using F1GameDataParser.Utility;
@@ -126,7 +126,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             return driversThatFinishedLap.Concat(driversStillOnFlyingLap);
         }
 
-        private LapTimeComparison? GetSectorTimeStatus(int vehicleIdx, LapTime? fastestLap, LapTime? secondFastestLap)
+        private LapTimeComparison? GetSectorTimeStatus(int vehicleIdx, PersonalBestLap? fastestLap, PersonalBestLap? secondFastestLap)
         {
             var latestLapTimes = latestLapTimeState.GetModel(vehicleIdx);
 
@@ -134,50 +134,52 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 return null;
 
             var personalBestLap = personalBestLapState.GetModel(vehicleIdx);
-            //var fastestSectors = personalBestLapState.GetFastestSectors();
             var fastestSectors = fastestSectorTimeState.State;
 
             SectorTimeComparison? s1Gap = null;
             SectorTimeComparison? s2Gap = null;
             SectorTimeComparison? s3Gap = null;
             SectorTimeComparison? lapGap = null;
-            // TO DO: gapovi trebaju bit overall, znaci na kraju S2 treba zbrojit sektore i oduzet, (d.S1 + d.S2) - (f.S1 + f.S2)
-            // TO DO: zasebne boje sektora za timing(timeSectorStatus, relative to pole position) i footer stopwatcha(overallSectorStatus)
+
             if (latestLapTimes.Sector1Changed.GetValueOrDefault() && fastestSectors.TryGetValue((int)Sector.Sector1, out var fastestSector1) && fastestLap != null)
             {
+                ushort? personalBestS1 = latestLapTimes.LapTimeChanged.GetValueOrDefault() ? personalBestLap?.PreviousBestLap?.Sector1TimeInMS : personalBestLap?.Sector1TimeInMS;
                 s1Gap = new SectorTimeComparison
                 {
                     Gap = latestLapTimes.Sector1TimeInMS - fastestLap.Sector1TimeInMS,
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector1TimeInMS,
                                                           fastestSector1.TimeInMS,
-                                                          personalBestLap?.Sector1TimeInMS ?? latestLapTimes.Sector1TimeInMS)
+                                                          personalBestS1 ?? latestLapTimes.Sector1TimeInMS) // mozda LapChanged==true ? previousPersonalBestLap : personalBestLap
                 };
             }
 
             if (latestLapTimes.Sector2Changed.GetValueOrDefault() && fastestSectors.TryGetValue((int)Sector.Sector2, out var fastestSector2) && fastestLap != null)
             {
+                ushort? personalBestS2 = latestLapTimes.LapTimeChanged.GetValueOrDefault() ? personalBestLap?.PreviousBestLap?.Sector2TimeInMS : personalBestLap?.Sector2TimeInMS;
                 s2Gap = new SectorTimeComparison
                 {
                     Gap = latestLapTimes.Sector2TimeInMS - fastestLap.Sector2TimeInMS,
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector2TimeInMS,
                                                           fastestSector2.TimeInMS,
-                                                          personalBestLap?.Sector2TimeInMS ?? latestLapTimes.Sector2TimeInMS)
+                                                          personalBestS2 ?? latestLapTimes.Sector2TimeInMS)
                 };
             }
 
             if (latestLapTimes.Sector3Changed.GetValueOrDefault() && fastestSectors.TryGetValue((int)Sector.Sector3, out var fastestSector3) && fastestLap != null)
             {
+                ushort? personalBestS3 = latestLapTimes.LapTimeChanged.GetValueOrDefault() ? personalBestLap?.PreviousBestLap?.Sector3TimeInMS : personalBestLap?.Sector3TimeInMS;
                 s3Gap = new SectorTimeComparison
                 {
                     Gap = latestLapTimes.Sector3TimeInMS - fastestLap.Sector3TimeInMS,
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector3TimeInMS,
                                                           fastestSector3.TimeInMS,
-                                                          personalBestLap?.Sector3TimeInMS ?? latestLapTimes.Sector3TimeInMS)
+                                                          personalBestS3 ?? latestLapTimes.Sector3TimeInMS)
                 };
             }
 
             if (latestLapTimes.LapTimeChanged.GetValueOrDefault() && fastestLap != null)
             {
+                // if this player improves his pole position, it will still compare to second fastest driver; we need to check against current pole lap!
                 var poleLap = fastestLap.LapTimeInMS == latestLapTimes.LapTimeInMS && secondFastestLap != null ? secondFastestLap.LapTimeInMS : fastestLap.LapTimeInMS;
                 lapGap = new SectorTimeComparison
                 {
@@ -208,7 +210,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             return SectorTimeStatus.NoImprovement;
         }
 
-        private FastestQualifyingLap? GetFastestLapDetails(LapTime? lapTime)
+        private FastestQualifyingLap? GetFastestLapDetails(PersonalBestLap? lapTime)
         {
             if (lapTime == null || participantsState?.State == null) return null;
 

@@ -1,18 +1,18 @@
 ﻿using F1GameDataParser.Enums;
-using F1GameDataParser.Models.LapTime;
+using F1GameDataParser.Models.ComputedModels;
 
 namespace F1GameDataParser.State.ComputedStates
 {
-    public class PersonalBestLapState : DictionaryStateBase<LapTime>
+    public class PersonalBestLapState : DictionaryStateBase<PersonalBestLap>
     {
-        protected override int? GetModelKey(LapTime model) => model.VehicleIdx;
+        protected override int? GetModelKey(PersonalBestLap model) => model.VehicleIdx;
 
-        public LapTime? GetFastestLap()
+        public PersonalBestLap? GetFastestLap()
         {
             return this.State.Values.OrderBy(lap => lap.LapTimeInMS).FirstOrDefault();
         }
 
-        public LapTime? GetSecondFastestLap()
+        public PersonalBestLap? GetSecondFastestLap()
         {
             return this.State.Values.OrderBy(lap => lap.LapTimeInMS).Skip(1).FirstOrDefault();
         }

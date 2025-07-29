@@ -1,4 +1,4 @@
-﻿namespace F1GameDataParser.Models.LapTime
+﻿namespace F1GameDataParser.Models.ComputedModels
 {
     public class LapTime : MergeableBase<LapTime>
     {

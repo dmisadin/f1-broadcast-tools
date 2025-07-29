@@ -1,4 +1,4 @@
-﻿using F1GameDataParser.Models.LapTime;
+﻿using F1GameDataParser.Models.ComputedModels;
 
 namespace F1GameDataParser.State.ComputedStates
 {

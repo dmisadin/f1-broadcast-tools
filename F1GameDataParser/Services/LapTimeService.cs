@@ -1,6 +1,5 @@
 ﻿using F1GameDataParser.Enums;
 using F1GameDataParser.Models.ComputedModels;
-using F1GameDataParser.Models.LapTime;
 using F1GameDataParser.Models.SessionHistory;
 using F1GameDataParser.State.ComputedStates;
 
@@ -25,16 +24,23 @@ namespace F1GameDataParser.Services
         {
             // NOTE: Laps with Exceeding Track Limits and penalties for Multiple Warnings are valid laps in Race Sesion
             var fastestLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.BestLapTimeLapNum - 1);
-
+            
             if (fastestLap == null) return;
 
-            var personalBestLap = new LapTime
+            PersonalBestLap? newPreviousPB = null;
+
+            if (personalBestLapState.State.TryGetValue(sessionHistory.CarIdx, out var previousPB)
+                && previousPB.LapTimeInMS != fastestLap.LapTimeInMS)
+                newPreviousPB = previousPB;
+
+            var personalBestLap = new PersonalBestLap
             {
                 VehicleIdx = sessionHistory.CarIdx,
                 LapTimeInMS = fastestLap.LapTimeInMS,
                 Sector1TimeInMS = fastestLap.Sector1TimeInMS,
                 Sector2TimeInMS = fastestLap.Sector2TimeInMS,
-                Sector3TimeInMS = fastestLap.Sector3TimeInMS
+                Sector3TimeInMS = fastestLap.Sector3TimeInMS,
+                PreviousBestLap = newPreviousPB,
             };
 
             personalBestLapState.Update(personalBestLap);
