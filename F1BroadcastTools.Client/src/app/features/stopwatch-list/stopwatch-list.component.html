@@ -1,7 +1,7 @@
 <div *ngIf="stopwatch?.cars" class="stopwatch-list">
     @for (car of stopwatch.cars; track car.driver.vehicleIdx) {
     <div @gapFade class="stopwatch">
-        <stopwatch [car]="car" [leaderLap]="stopwatch.leaderLap"></stopwatch>
+        <stopwatch [car]="car" [fastestLap]="stopwatch.fastestLap" [secondFastestLap]="stopwatch.secondFastestLap"></stopwatch>
     </div>
     }
 </div>

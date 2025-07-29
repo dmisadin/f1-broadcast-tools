@@ -77,6 +77,9 @@ public class WebSocketController : ControllerBase
             while (!webSocket.CloseStatus.HasValue)
             {
                 var data = dataGenerator();
+
+                if (data == null) continue;
+
                 var jsonData = JsonSerializer.Serialize(data, options);
                 var buffer = Encoding.UTF8.GetBytes(jsonData);
 

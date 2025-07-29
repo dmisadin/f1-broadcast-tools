@@ -7,6 +7,7 @@ namespace F1GameDataParser.ViewModels.Stopwatch
     {
         public DriverBasicDetails Driver { get; set; } // Participants, DriverOverrides
         public byte Position { get; set; } // Lap
+        public string LastLapTime { get; set; } // SessionHistory.LapHistory
         public string CurrentTime { get; set; } // SessionHistory.LapHistory
         public bool IsLapValid { get; set; } // SessionHistory.LapHistory
         public int LapProgress { get; set; } // Lap

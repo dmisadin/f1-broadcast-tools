@@ -1,13 +1,15 @@
 import { DriverBasicDetails } from "./driver.model";
 
 export interface Stopwatch {
-    leaderLap: FastestQualifyingLap;
+    fastestLap?: FastestQualifyingLap | null;
+    secondFastestLap?: FastestQualifyingLap | null;
     
     cars: StopwatchCar[];
 }
 
 export interface StopwatchCar {
     position: number;
+    lastLapTime: string;
     currentTime: string;
     isLapValid: boolean;
     lapProgress: number;

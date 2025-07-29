@@ -1,5 +1,4 @@
-﻿using F1GameDataParser.Enums;
-using F1GameDataParser.GameProfiles.F125.Packets.SessionHistory;
+﻿using F1GameDataParser.GameProfiles.F125.Packets.SessionHistory;
 using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.Models.SessionHistory;
 using System.Linq.Expressions;
@@ -20,7 +19,7 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                 BestSector1LapNum = packet.bestSector1LapNum,
                 BestSector2LapNum = packet.bestSector2LapNum,
                 BestSector3LapNum = packet.bestSector3LapNum,
-                LapHistoryDetails = packet.lapHistoryData.Take(packet.numLaps)
+                LapHistoryDetails = packet.lapHistoryData.Take(packet.numLaps + 1) // +1 for Qualifying issues
                                             .Select(lap => new LapHistoryDetails
                                             {
                                                 LapTimeInMS = lap.lapTimeInMS,

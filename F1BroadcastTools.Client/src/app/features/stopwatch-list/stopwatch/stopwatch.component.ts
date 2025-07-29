@@ -1,4 +1,4 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { Component, effect, input, OnChanges, signal, SimpleChanges } from '@angular/core';
 import { FastestQualifyingLap, SectorTimeStatus, StopwatchCar } from '../../../shared/models/stopwatch.model';
 import { CommonModule } from '@angular/common';
 import { TeamLogoComponent } from '../../../shared/components/game/team-logo/team-logo.component';
@@ -12,7 +12,8 @@ import { TeamLogoComponent } from '../../../shared/components/game/team-logo/tea
 })
 export class StopwatchComponent {
     car = input<StopwatchCar>({} as StopwatchCar);
-    leaderLap = input<FastestQualifyingLap>({} as FastestQualifyingLap);
+    fastestLap = input<FastestQualifyingLap | null>();
+    secondFastestLap = input<FastestQualifyingLap | null>();
 
     showSector1Gap = signal(false);
     showSector2Gap = signal(false);
@@ -60,7 +61,14 @@ export class StopwatchComponent {
             'lap'
         );
     }
-
+/* 
+    ngOnChanges(changes: SimpleChanges): void {
+        if (this.car().lapGapToLeader == this.fastestLap()?.lapTime){
+            console.log("Car on pole;", this.car().driver.name, this.car().lapGapToLeader, this.fastestLap()?.lapTime);
+            console.log("Second place;", this.secondFastestLap()?.driver.name, this.secondFastestLap()?.lapTime, this.fastestLap()?.lapTime)
+        }
+    }
+ */
     private setupGapEffect(
         getGap: () => string | null | undefined,
         visibilitySignal: ReturnType<typeof signal<boolean>>,

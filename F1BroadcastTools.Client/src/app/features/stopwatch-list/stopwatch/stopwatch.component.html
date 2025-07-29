@@ -15,20 +15,20 @@
         </div>
     </div>
     <div class="stopwatch-body">
-        @if (showSector1Gap()) {
-        <div class="current-time" [ngClass]="{'green-time': car().sector1TimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().sector1TimeStatus === SectorTimeStatus.NoImprovement || car().sector1TimeStatus === SectorTimeStatus.PersonalBest,
-                                                }"> {{ car().sector1GapToLeader }} </div>
+        @if (showLapGap()) {
+        <div class="current-time" [ngClass]="{'green-time': car().sector3TimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().sector3TimeStatus === SectorTimeStatus.NoImprovement || car().sector3TimeStatus === SectorTimeStatus.PersonalBest,
+                                                }"> {{ car().lapGapToLeader }} </div>
         }
         @else if (showSector2Gap()) {
         <div class="current-time" [ngClass]="{'green-time': car().sector2TimeStatus === SectorTimeStatus.FasterThanLeader,
                                                 'yellow-time': car().sector2TimeStatus === SectorTimeStatus.NoImprovement || car().sector2TimeStatus === SectorTimeStatus.PersonalBest,
                                                 }"> {{ car().sector2GapToLeader }} </div>
         }
-        @else if (showSector3Gap()) {
-        <div class="current-time" [ngClass]="{'green-time': car().sector3TimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().sector3TimeStatus === SectorTimeStatus.NoImprovement || car().sector3TimeStatus === SectorTimeStatus.PersonalBest,
-                                                }"> {{ car().lapGapToLeader }} </div>
+        @else if (showSector1Gap()) {
+        <div class="current-time" [ngClass]="{'green-time': car().sector1TimeStatus === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().sector1TimeStatus === SectorTimeStatus.NoImprovement || car().sector1TimeStatus === SectorTimeStatus.PersonalBest,
+                                                }"> {{ car().sector1GapToLeader }} </div>
         }
         @else {
         <div class="current-time">{{ car().currentTime }}</div>
@@ -36,17 +36,24 @@
         <div class="best-session-time">
             @if (!car().lapGapToLeader)
             {
-            <div class="best-time">{{leaderLap().lapTime}}</div>
+            <div class="best-time">
+                @if (car().lastLapTime === fastestLap()?.lapTime) {
+                    {{secondFastestLap()?.lapTime}}
+                }
+                @else {
+                    {{fastestLap()?.lapTime}}
+                }
+            </div>
             }
             @else if (!car().sector2GapToLeader)
             {
-            <div class="best-time">{{leaderLap().sector1And2Time}}</div>
+            <div class="best-time">{{fastestLap()?.sector1And2Time}}</div>
             }
             @else 
             {
-            <div class="best-time">{{leaderLap().lapTime}}</div>
+            <div class="best-time">{{fastestLap()?.lapTime}}</div>
             }
-            <div class="best-time-driver-name">{{leaderLap().driver.name}}</div>
+            <div class="best-time-driver-name">{{fastestLap()?.driver?.name}}</div>
         </div>
     </div>
     <div class="stopwatch-footer">

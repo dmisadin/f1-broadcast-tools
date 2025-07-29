@@ -6,16 +6,16 @@ namespace F1GameDataParser.Services
 {
     public class LapTimeService
     {
-        private readonly PersonalBestLapState sessionFastestLapsState;
+        private readonly PersonalBestLapState personalBestLapState;
         private readonly LatestLapTimeState latestLapTimeState;
 
-        public LapTimeService(PersonalBestLapState sessionFastestLapsState, LatestLapTimeState latestLapTimeState)
+        public LapTimeService(PersonalBestLapState personalBestLapState, LatestLapTimeState latestLapTimeState)
         {
-            this.sessionFastestLapsState = sessionFastestLapsState;
+            this.personalBestLapState = personalBestLapState;
             this.latestLapTimeState = latestLapTimeState;
         }
 
-        public void UpdateSessionFastestLaps(SessionHistory sessionHistory)
+        public void UpdatePersonalBestLap(SessionHistory sessionHistory)
         {
             // NOTE: Laps with Exceeding Track Limits and penalties for Multiple Warnings are valid laps in Race Sesion
             var fastestLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.BestLapTimeLapNum - 1);
@@ -31,13 +31,19 @@ namespace F1GameDataParser.Services
                 Sector3TimeInMS = fastestLap.Sector3TimeInMS
             };
 
-            sessionFastestLapsState.Update(personalBestLap);
+            personalBestLapState.Update(personalBestLap);
         }
 
         public void UpdateLatestLapTimes(SessionHistory sessionHistory)
         {
             var currentLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.NumLaps - 1);
             var previousLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.NumLaps - 2);
+            
+            if (currentLap?.LapTimeInMS > 0)
+            {
+                previousLap = currentLap;
+                currentLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.NumLaps); // Take(numLaps+1) in factory
+            }
 
             if (currentLap == null) return;
 
@@ -46,7 +52,7 @@ namespace F1GameDataParser.Services
             ushort? s1TimeInMS = currentLap.Sector1TimeInMS > 0 ? currentLap.Sector1TimeInMS : previousLap?.Sector1TimeInMS;
             ushort? s2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap?.Sector2TimeInMS;
             ushort? s3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap?.Sector3TimeInMS;
-            uint? lapTimeInMS = currentLap.LapTimeInMS      > 0 ? currentLap.LapTimeInMS     : previousLap?.LapTimeInMS;
+            uint?   lapTimeInMS = currentLap.LapTimeInMS    > 0 ? currentLap.LapTimeInMS     : previousLap?.LapTimeInMS;
 
             var previousLapModel = new LapTime
             {

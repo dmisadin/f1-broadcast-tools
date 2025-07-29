@@ -21,7 +21,7 @@ namespace F1GameDataParser.State
 
         protected override void OnModelMerged(int key, SessionHistory? existingModel, SessionHistory newModel)
         {
-            this.sessionFastestLapService.UpdateSessionFastestLaps(newModel);
+            this.sessionFastestLapService.UpdatePersonalBestLap(newModel);
             this.sessionFastestLapService.UpdateLatestLapTimes(newModel);
         }   
     }
