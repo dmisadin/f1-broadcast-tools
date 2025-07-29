@@ -31,7 +31,19 @@ namespace F1GameDataParser.Services
 
             if (personalBestLapState.State.TryGetValue(sessionHistory.CarIdx, out var previousPB)
                 && previousPB.LapTimeInMS != fastestLap.LapTimeInMS)
-                newPreviousPB = previousPB;
+            {
+                newPreviousPB = new PersonalBestLap
+                {
+                    VehicleIdx = previousPB.VehicleIdx,
+                    LapTimeInMS = previousPB.LapTimeInMS,
+                    Sector1TimeInMS = previousPB.Sector1TimeInMS,
+                    Sector2TimeInMS = previousPB.Sector2TimeInMS,
+                    Sector3TimeInMS = previousPB.Sector3TimeInMS,
+                    PreviousBestLap = null
+                };
+            }
+            else
+                newPreviousPB = previousPB?.PreviousBestLap;
 
             var personalBestLap = new PersonalBestLap
             {

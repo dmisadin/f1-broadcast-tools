@@ -149,7 +149,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Gap = latestLapTimes.Sector1TimeInMS - fastestLap.Sector1TimeInMS,
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector1TimeInMS,
                                                           fastestSector1.TimeInMS,
-                                                          personalBestS1 ?? latestLapTimes.Sector1TimeInMS) // mozda LapChanged==true ? previousPersonalBestLap : personalBestLap
+                                                          personalBestS1 ?? latestLapTimes.Sector1TimeInMS)
                 };
             }
 
@@ -179,14 +179,29 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
             if (latestLapTimes.LapTimeChanged.GetValueOrDefault() && fastestLap != null)
             {
-                // if this player improves his pole position, it will still compare to second fastest driver; we need to check against current pole lap!
-                var poleLap = fastestLap.LapTimeInMS == latestLapTimes.LapTimeInMS && secondFastestLap != null ? secondFastestLap.LapTimeInMS : fastestLap.LapTimeInMS;
+                uint poleLap = 0;
+                if (fastestLap.LapTimeInMS == latestLapTimes.LapTimeInMS
+                      && secondFastestLap != null)
+                {
+                    if (fastestLap?.PreviousBestLap == null
+                        || secondFastestLap.LapTimeInMS < fastestLap.PreviousBestLap.LapTimeInMS)
+                    { // When someone takes pole position from someone
+                        poleLap = secondFastestLap.LapTimeInMS;
+                    }
+                    else if (secondFastestLap.LapTimeInMS > fastestLap.PreviousBestLap.LapTimeInMS)
+                    { // When someone improves on their own pole position
+                        poleLap = fastestLap.PreviousBestLap.LapTimeInMS;
+                    }
+                }
+                else
+                    poleLap = fastestLap?.LapTimeInMS ?? 0;
+
                 lapGap = new SectorTimeComparison
                 {
                     Gap = (int)(latestLapTimes.LapTimeInMS - poleLap),
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.LapTimeInMS,
-                                                          poleLap,
-                                                          personalBestLap?.LapTimeInMS ?? latestLapTimes.LapTimeInMS)
+                                                            poleLap,
+                                                            personalBestLap?.LapTimeInMS ?? latestLapTimes.LapTimeInMS)
                 };
             }
 
