@@ -16,7 +16,7 @@ namespace F1GameDataParser.State
 
         protected override void BeforeEnumerableMerged(IEnumerable<LapDetails> newState)
         {
-            lapService.UpdateDriversOnFlyingLap(newState);
+            lapService.UpdateDriversOnFlyingLap(this.State, newState);
         }
 
         protected override void OnModelMerged(int key, LapDetails existingModel, LapDetails newModel)
