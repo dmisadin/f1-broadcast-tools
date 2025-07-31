@@ -6,5 +6,6 @@
         public float LapDistance { get; set; }
         public uint FrameIdentifier { get; set; }
         public bool MarkedForDeletion { get; set; } = false;
+        public bool IgnoreFiltering { get; set; } = false;
     }
 }

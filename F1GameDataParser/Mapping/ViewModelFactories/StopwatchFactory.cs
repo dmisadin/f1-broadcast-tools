@@ -113,12 +113,12 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         {
             var driversOnFlyingLap = driversOnFlyingLapState.GetAll();
 
-            var driversThatFinishedLap = driversOnFlyingLap.Where(driver => driver.MarkedForDeletion)
+            var driversThatFinishedLap = driversOnFlyingLap.Where(driver => driver.MarkedForDeletion && !driver.IgnoreFiltering)
                                             .OrderBy(driver => driver.FrameIdentifier)
                                             .Select(driver => driver.VehicleIdx)
                                             .ToList();
 
-            var driversStillOnFlyingLap = driversOnFlyingLap.Where(driver => !driver.MarkedForDeletion)
+            var driversStillOnFlyingLap = driversOnFlyingLap.Where(driver => !driver.MarkedForDeletion || driver.IgnoreFiltering)
                                             .OrderByDescending(driver => driver.LapDistance < 0.0f ? 0.0f : driver.LapDistance)
                                             .Select(driver => driver.VehicleIdx)
                                             .ToList();
