@@ -19,7 +19,10 @@ export class StopwatchComponent {
     showSector2Gap = signal(false);
     showSector3Gap = signal(false);
     showLapGap = signal(false)
-
+    positionChange = signal<number>(0);
+    
+    private previousPosition = signal<number>(0);
+    private timeoutHandle: any;
     SectorTimeStatus = SectorTimeStatus;
 
     private lastGapValues = {
@@ -60,20 +63,40 @@ export class StopwatchComponent {
             this.showLapGap,
             'lap'
         );
+
+        effect(() => {
+            const driver = this.car();
+            const newPosition = driver?.position ?? 0;
+            const prevPosition = this.previousPosition();
+
+            if (newPosition == prevPosition)
+                return;
+
+            const delta = prevPosition - newPosition;
+
+            if (delta !== 0) {
+                this.positionChange.set(delta);
+                clearTimeout(this.timeoutHandle);
+
+                this.timeoutHandle = setTimeout(() => {
+                    this.positionChange.set(0);
+                }, 3000);
+            }
+            this.previousPosition.set(newPosition);
+        });
     }
-/* 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (this.car().lapGapToLeader == this.fastestLap()?.lapTime){
-            console.log("Car on pole;", this.car().driver.name, this.car().lapGapToLeader, this.fastestLap()?.lapTime);
-            console.log("Second place;", this.secondFastestLap()?.driver.name, this.secondFastestLap()?.lapTime, this.fastestLap()?.lapTime)
+    /* 
+        ngOnChanges(changes: SimpleChanges): void {
+            if (this.car().lapGapToLeader == this.fastestLap()?.lapTime){
+                console.log("Car on pole;", this.car().driver.name, this.car().lapGapToLeader, this.fastestLap()?.lapTime);
+                console.log("Second place;", this.secondFastestLap()?.driver.name, this.secondFastestLap()?.lapTime, this.fastestLap()?.lapTime)
+            }
         }
-    }
- */
+     */
     private setupGapEffect(
         getGap: () => string | null | undefined,
         visibilitySignal: ReturnType<typeof signal<boolean>>,
-        key: 'sector1' | 'sector2' | 'sector3' | 'lap') 
-    {
+        key: 'sector1' | 'sector2' | 'sector3' | 'lap') {
         effect(() => {
             const newGap = getGap();
             if (newGap && newGap !== this.lastGapValues[key]) {
