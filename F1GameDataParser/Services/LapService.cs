@@ -24,9 +24,12 @@ namespace F1GameDataParser.Services
 
             byte index = 0;
             foreach (var driver in newState)
-            { // TODO: add: 1) 107% rule on S1, S1+S2; 2) Invalid lap; 3) ResultStatus == Active
+            {
+                if (index >= 20) continue;
+
                 driversOnFlyingLapState.State.TryGetValue(index, out var driverOnFlyingLap);
-                if (driverOnFlyingLap != null && (driverOnFlyingLap.MarkedForDeletion || driversOnFlyingLapState.CooldownActive.Contains(index)))
+                if ((driverOnFlyingLap != null && driverOnFlyingLap.MarkedForDeletion) 
+                    || driversOnFlyingLapState.CooldownActive.Contains(index))
                 {
                     index++;
                     continue;
@@ -77,6 +80,8 @@ namespace F1GameDataParser.Services
                 }
                 else if (driverOnFlyingLap != null && !driverOnFlyingLap.MarkedForDeletion)
                     driversNotOnFlyingLap.Add(index);
+                else if (driver.DriverStatus == DriverStatus.InLap || driver.PitStatus == PitStatus.Pitting)
+                    driversNotOnFlyingLapAndIgnoredSorting.Add(index);
 
                 index++;
             }

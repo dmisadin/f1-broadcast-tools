@@ -1,6 +1,7 @@
 ﻿using F1GameDataParser.Enums;
 using F1GameDataParser.Models.ComputedModels;
 using F1GameDataParser.Models.SessionHistory;
+using F1GameDataParser.State;
 using F1GameDataParser.State.ComputedStates;
 
 namespace F1GameDataParser.Services
@@ -10,14 +11,17 @@ namespace F1GameDataParser.Services
         private readonly PersonalBestLapState personalBestLapState;
         private readonly LatestLapTimeState latestLapTimeState;
         private readonly FastestSectorTimeState fastestSectorTimeState;
+        private readonly LapState lapState;
 
         public LapTimeService(PersonalBestLapState personalBestLapState,
                               LatestLapTimeState latestLapTimeState,
-                              FastestSectorTimeState fastestSectorTimeState)
+                              FastestSectorTimeState fastestSectorTimeState,
+                              LapState lapState)
         {
             this.personalBestLapState = personalBestLapState;
             this.latestLapTimeState = latestLapTimeState;
             this.fastestSectorTimeState = fastestSectorTimeState;
+            this.lapState = lapState;
         }
 
         public void UpdatePersonalBestLap(SessionHistory sessionHistory)
@@ -60,6 +64,32 @@ namespace F1GameDataParser.Services
 
         public void UpdateLatestLapTimes(SessionHistory sessionHistory)
         {
+            if (lapState.State.TryGetValue(sessionHistory.CarIdx, out var driver)
+                && (driver.DriverStatus == DriverStatus.InLap 
+                    || driver.DriverStatus == DriverStatus.OutLap
+                    || driver.PitStatus == PitStatus.Pitting))
+            {
+                this.latestLapTimeState.ResetSectorTimeChanges([sessionHistory.CarIdx]);
+
+                // If lap was not finished, reset it to last finished lap times.
+                var lastFinishedLap = sessionHistory.LapHistoryDetails.LastOrDefault(lap => lap.LapTimeInMS > 0);
+
+                if (lastFinishedLap == null) return;
+
+                var defaultLapTime = new LapTime
+                {
+                    VehicleIdx = sessionHistory.CarIdx,
+                    LapTimeInMS = lastFinishedLap?.LapTimeInMS ?? 0,
+                    Sector1TimeInMS = lastFinishedLap?.Sector1TimeInMS ?? 0,
+                    Sector2TimeInMS = lastFinishedLap?.Sector2TimeInMS ?? 0,
+                    Sector3TimeInMS = lastFinishedLap?.Sector3TimeInMS ?? 0
+                };
+
+                latestLapTimeState.Update(defaultLapTime);
+
+                return;
+            }
+
             var currentLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.NumLaps - 1);
             var previousLap = sessionHistory.LapHistoryDetails.ElementAtOrDefault(sessionHistory.NumLaps - 2);
             
@@ -77,6 +107,7 @@ namespace F1GameDataParser.Services
             ushort? s2TimeInMS = currentLap.Sector2TimeInMS > 0 ? currentLap.Sector2TimeInMS : previousLap?.Sector2TimeInMS;
             ushort? s3TimeInMS = currentLap.Sector3TimeInMS > 0 ? currentLap.Sector3TimeInMS : previousLap?.Sector3TimeInMS;
             uint?   lapTimeInMS = currentLap.LapTimeInMS    > 0 ? currentLap.LapTimeInMS     : previousLap?.LapTimeInMS;
+
 
             var previousLapModel = new LapTime
             {

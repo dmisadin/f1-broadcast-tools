@@ -21,7 +21,7 @@ export class StopwatchComponent {
     showLapGap = signal(false)
     positionChange = signal<number>(0);
     
-    private previousPosition = signal<number>(0);
+    private previousPosition = signal<number>(1);
     private timeoutHandle: any;
     SectorTimeStatus = SectorTimeStatus;
 

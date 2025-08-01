@@ -5,6 +5,7 @@ namespace F1GameDataParser.State.ComputedStates
     public class DriversOnFlyingLapState : DictionaryStateBase<DriverOnFlyingLap>
     {
         public HashSet<int> CooldownActive { get; private set; } = new();
+
         protected override int? GetModelKey(DriverOnFlyingLap model)
         {
             return model.VehicleIdx;
