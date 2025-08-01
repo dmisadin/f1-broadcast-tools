@@ -16,18 +16,18 @@
     </div>
     <div class="stopwatch-body">
         @if (showLapGap()) {
-        <div class="current-time" [ngClass]="{'green-time': car().sector3TimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().sector3TimeStatus === SectorTimeStatus.NoImprovement || car().sector3TimeStatus === SectorTimeStatus.PersonalBest,
+        <div class="current-time" [ngClass]="{'green-time': car().lapTimeStatusRelativeToPole === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().lapTimeStatusRelativeToPole === SectorTimeStatus.NoImprovement,
                                                 }"> {{ car().lapGapToLeader }} </div>
         }
         @else if (showSector2Gap()) {
-        <div class="current-time" [ngClass]="{'green-time': car().sector2TimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().sector2TimeStatus === SectorTimeStatus.NoImprovement || car().sector2TimeStatus === SectorTimeStatus.PersonalBest,
+        <div class="current-time" [ngClass]="{'green-time': car().sector2TimeStatusRelativeToPole === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().sector2TimeStatusRelativeToPole === SectorTimeStatus.NoImprovement,
                                                 }"> {{ car().sector2GapToLeader }} </div>
         }
         @else if (showSector1Gap()) {
-        <div class="current-time" [ngClass]="{'green-time': car().sector1TimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().sector1TimeStatus === SectorTimeStatus.NoImprovement || car().sector1TimeStatus === SectorTimeStatus.PersonalBest,
+        <div class="current-time" [ngClass]="{'green-time': car().sector1TimeStatusRelativeToPole === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': car().sector1TimeStatusRelativeToPole === SectorTimeStatus.NoImprovement,
                                                 }"> {{ car().sector1GapToLeader }} </div>
         }
         @else {

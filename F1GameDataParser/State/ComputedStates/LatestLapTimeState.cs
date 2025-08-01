@@ -14,10 +14,13 @@ namespace F1GameDataParser.State.ComputedStates
                     await Task.Delay(5000);
                     if(State.TryGetValue(key, out var latestLap))
                     {
-                        latestLap.Sector1Changed = null;
-                        latestLap.Sector2Changed = null;
-                        latestLap.Sector3Changed = null;
-                        latestLap.LapTimeChanged = null;
+                        lock (_lock)
+                        {
+                            latestLap.Sector1Changed = null;
+                            latestLap.Sector2Changed = null;
+                            latestLap.Sector3Changed = null;
+                            latestLap.LapTimeChanged = null;
+                        }
                     }
                 });
         }

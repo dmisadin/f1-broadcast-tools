@@ -20,8 +20,11 @@ namespace F1GameDataParser.ViewModels.Stopwatch
         public SectorTimeStatus? LapTimeStatus { get; set; }
 
         public string? Sector1GapToLeader { get; set; }
+        public SectorTimeStatus ? Sector1TimeStatusRelativeToPole { get; set; }
         public string? Sector2GapToLeader { get; set; }
+        public SectorTimeStatus? Sector2TimeStatusRelativeToPole { get; set; }
         public string? Sector3GapToLeader { get; set; }
         public string? LapGapToLeader { get; set; }
+        public SectorTimeStatus? LapTimeStatusRelativeToPole { get; set; }
     }
 }

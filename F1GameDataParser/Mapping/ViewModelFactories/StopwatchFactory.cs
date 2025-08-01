@@ -96,6 +96,9 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Sector2GapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.Sector1Gap?.Gap + sectorTimes?.Sector2Gap?.Gap),
                     Sector3GapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.Sector3Gap?.Gap),
                     LapGapToLeader = TimeUtility.MillisecondsToDifference(sectorTimes?.LapGap?.Gap),
+                    Sector1TimeStatusRelativeToPole = sectorTimes?.Sector1Gap?.SectorTimeStatusRelativeToPole,
+                    Sector2TimeStatusRelativeToPole = sectorTimes?.Sector2Gap?.SectorTimeStatusRelativeToPole,
+                    LapTimeStatusRelativeToPole = sectorTimes?.LapGap?.SectorTimeStatusRelativeToPole
                 };
 
                 stopwatchCars.Add(stopwatchCar);
@@ -149,7 +152,9 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Gap = latestLapTimes.Sector1TimeInMS - fastestLap.Sector1TimeInMS,
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector1TimeInMS,
                                                           fastestSector1.TimeInMS,
-                                                          personalBestS1 ?? latestLapTimes.Sector1TimeInMS)
+                                                          personalBestS1 ?? latestLapTimes.Sector1TimeInMS),
+                    SectorTimeStatusRelativeToPole = CompareSectorTimes(latestLapTimes.Sector1TimeInMS, 
+                                                                        fastestLap.Sector1TimeInMS)
                 };
             }
 
@@ -161,7 +166,9 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Gap = latestLapTimes.Sector2TimeInMS - fastestLap.Sector2TimeInMS,
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.Sector2TimeInMS,
                                                           fastestSector2.TimeInMS,
-                                                          personalBestS2 ?? latestLapTimes.Sector2TimeInMS)
+                                                          personalBestS2 ?? latestLapTimes.Sector2TimeInMS),
+                    SectorTimeStatusRelativeToPole = CompareSectorTimes((uint)(latestLapTimes.Sector1TimeInMS+latestLapTimes.Sector2TimeInMS), 
+                                                                        (uint)(fastestLap.Sector1TimeInMS+fastestLap.Sector2TimeInMS))
                 };
             }
 
@@ -201,7 +208,9 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Gap = (int)(latestLapTimes.LapTimeInMS - poleLap),
                     SectorTimeStatus = CompareSectorTimes(latestLapTimes.LapTimeInMS,
                                                             poleLap,
-                                                            personalBestLap?.LapTimeInMS ?? latestLapTimes.LapTimeInMS)
+                                                            personalBestLap?.LapTimeInMS ?? latestLapTimes.LapTimeInMS),
+                    SectorTimeStatusRelativeToPole = CompareSectorTimes(latestLapTimes.LapTimeInMS,
+                                                                        poleLap)
                 };
             }
 
@@ -214,16 +223,17 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             };
         }
 
-        private SectorTimeStatus? CompareSectorTimes(uint sectorTime, uint leaderSectorTime, uint personalBestSectorTime)
+        private SectorTimeStatus? CompareSectorTimes(uint sectorTime, uint leaderSectorTime, uint? personalBestSectorTime = null)
         {
             if (sectorTime <= 0)
                 return null;
             if (sectorTime <= leaderSectorTime)
                 return SectorTimeStatus.FasterThanLeader;
-            if (sectorTime <= personalBestSectorTime)
+            if (personalBestSectorTime.HasValue && sectorTime <= personalBestSectorTime.Value)
                 return SectorTimeStatus.PersonalBest;
             return SectorTimeStatus.NoImprovement;
         }
+
 
         private FastestQualifyingLap? GetFastestLapDetails(PersonalBestLap? lapTime)
         {
@@ -261,5 +271,6 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
     {
         public int Gap { get; set; }
         public SectorTimeStatus? SectorTimeStatus { get; set; }
+        public SectorTimeStatus? SectorTimeStatusRelativeToPole { get; set; }
     }
 }
