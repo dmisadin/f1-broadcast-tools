@@ -2,6 +2,7 @@ import { Component, effect, input, OnChanges, signal, SimpleChanges } from '@ang
 import { FastestQualifyingLap, SectorTimeStatus, StopwatchCar } from '../../../shared/models/stopwatch.model';
 import { CommonModule } from '@angular/common';
 import { TeamLogoComponent } from '../../../shared/components/game/team-logo/team-logo.component';
+import { GameYear } from '../../../shared/models/Enumerations';
 
 @Component({
     selector: 'stopwatch',
@@ -11,6 +12,7 @@ import { TeamLogoComponent } from '../../../shared/components/game/team-logo/tea
 
 })
 export class StopwatchComponent {
+    gameYear = input<GameYear>(GameYear.F123);
     car = input<StopwatchCar>({} as StopwatchCar);
     fastestLap = input<FastestQualifyingLap | null>();
     secondFastestLap = input<FastestQualifyingLap | null>();

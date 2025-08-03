@@ -1,6 +1,8 @@
 import { DriverBasicDetails } from "./driver.model";
+import { GameYear } from "./Enumerations";
 
 export interface Stopwatch {
+    gameYear: GameYear;
     fastestLap?: FastestQualifyingLap | null;
     secondFastestLap?: FastestQualifyingLap | null;
     
