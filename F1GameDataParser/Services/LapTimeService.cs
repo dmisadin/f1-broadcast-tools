@@ -65,8 +65,7 @@ namespace F1GameDataParser.Services
         public void UpdateLatestLapTimes(SessionHistory sessionHistory)
         {
             if (lapState.State.TryGetValue(sessionHistory.CarIdx, out var driver)
-                && (driver.DriverStatus == DriverStatus.InLap 
-                    || driver.DriverStatus == DriverStatus.OutLap
+                && (driver.DriverStatus == DriverStatus.OutLap
                     || driver.PitStatus == PitStatus.Pitting))
             {
                 this.latestLapTimeState.ResetSectorTimeChanges([sessionHistory.CarIdx]);

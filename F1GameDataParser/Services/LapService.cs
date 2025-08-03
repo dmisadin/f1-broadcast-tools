@@ -28,6 +28,7 @@ namespace F1GameDataParser.Services
                 if (index >= 20) continue;
 
                 driversOnFlyingLapState.State.TryGetValue(index, out var driverOnFlyingLap);
+
                 if ((driverOnFlyingLap != null && driverOnFlyingLap.MarkedForDeletion) 
                     || driversOnFlyingLapState.CooldownActive.Contains(index))
                 {
@@ -58,14 +59,21 @@ namespace F1GameDataParser.Services
                     VehicleIdx = index,
                     LapDistance = driver.LapDistance,
                     FrameIdentifier = driver.FrameIdentifier,
-                    MarkedForDeletion = false
+                    MarkedForDeletion = driverOnFlyingLap != null && driverOnFlyingLap.MarkedForDeletion,
+                    PreviousLapWasInvalid = driverOnFlyingLap != null && driverOnFlyingLap.PreviousLapWasInvalid
                 };
 
                 if (driver.DriverStatus == DriverStatus.FlyingLap || driver.DriverStatus == DriverStatus.OnTrack)
                 { // Relevant mostly to online players
                     oldState.TryGetValue(index, out var oldDriver);
 
-                    if (oldDriver != null && oldDriver.CurrentLapNum != driver.CurrentLapNum)
+                    if ((driverOnFlyingLap != null && driverOnFlyingLap.PreviousLapWasInvalid)
+                        || (oldDriver != null && oldDriver.CurrentLapInvalid == LapValidity.Invalid && driver.CurrentLapInvalid == LapValidity.Valid))
+                    {
+                        newDriver.PreviousLapWasInvalid = true;
+                        driversOnFlyingLap.Add(newDriver);
+                    }
+                    else if (oldDriver != null && oldDriver.CurrentLapNum != driver.CurrentLapNum && !newDriver.PreviousLapWasInvalid)
                     { // If car has crossed the finish line
                         driversNotOnFlyingLap.Add(index);
                     }
@@ -87,8 +95,8 @@ namespace F1GameDataParser.Services
             }
 
             this.driversOnFlyingLapState.Update(driversOnFlyingLap);
-            this.driversOnFlyingLapState.RemoveEntryAfterDelay(driversNotOnFlyingLapAndIgnoredSorting, ignoreFiltering: true);
             this.driversOnFlyingLapState.RemoveEntryAfterDelay(driversNotOnFlyingLap);
+            this.driversOnFlyingLapState.RemoveEntryAfterDelay(driversNotOnFlyingLapAndIgnoredSorting, ignoreFiltering: true);
         }
     }
 }

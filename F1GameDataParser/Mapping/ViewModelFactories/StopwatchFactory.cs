@@ -84,7 +84,6 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     CurrentTime = TimeUtility.MillisecondsToGap(lap.CurrentLapTimeInMS, 1),
                     IsLapValid = !lap.CurrentLapInvalid.ToBool(),
                     LapProgress = Convert.ToInt32((lap.LapDistance > 0 ? (lap.LapDistance / sessionState.State.TrackLength) : 0) * 100),
-                    LapDistance = lap.LapDistance,
                     TyreCompoundVisual = (carStatus?.VisualTyreCompound ?? TyreCompoundVisual.Soft).ToString(),
 
                     Sector1TimeStatus = sectorTimes?.Sector1Gap?.SectorTimeStatus,
@@ -106,6 +105,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
             return new Stopwatch
             {
+                GameYear = sessionState.State.Header.GameYear,
                 FastestLap = GetFastestLapDetails(fastestLap),
                 SecondFastestLap = GetFastestLapDetails(secondFastestLap),
                 Cars = stopwatchCars,

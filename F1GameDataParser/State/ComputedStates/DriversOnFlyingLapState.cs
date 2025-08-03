@@ -4,6 +4,7 @@ namespace F1GameDataParser.State.ComputedStates
 {
     public class DriversOnFlyingLapState : DictionaryStateBase<DriverOnFlyingLap>
     {
+        private readonly Dictionary<int, long> _deletionSchedule = new();
         public HashSet<int> CooldownActive { get; private set; } = new();
 
         protected override int? GetModelKey(DriverOnFlyingLap model)
@@ -13,6 +14,8 @@ namespace F1GameDataParser.State.ComputedStates
 
         public void RemoveEntryAfterDelay(IEnumerable<int> keys, int delayMilliseconds = 4000, bool ignoreFiltering = false)
         {
+            long scheduledAt = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
             lock (_lock)
             {
                 foreach (var key in keys)
@@ -22,6 +25,9 @@ namespace F1GameDataParser.State.ComputedStates
                         driver.MarkedForDeletion = true;
                         driver.IgnoreFiltering = ignoreFiltering;
                         this.CooldownActive.Add(key);
+
+                        // Record when deletion was scheduled
+                        _deletionSchedule[key] = scheduledAt;
                     }
                 }
             }
@@ -30,11 +36,19 @@ namespace F1GameDataParser.State.ComputedStates
             {
                 await Task.Delay(delayMilliseconds);
 
+                long now = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
                 lock (_lock)
                 {
                     foreach (var key in keys)
                     {
-                        State.Remove(key);
+                        // Only remove if not updated since scheduled
+                        if (_deletionSchedule.TryGetValue(key, out var scheduledTime)
+                            && scheduledTime == scheduledAt)
+                        {
+                            State.Remove(key);
+                            _deletionSchedule.Remove(key);
+                        }
                     }
                 }
             });
@@ -42,13 +56,10 @@ namespace F1GameDataParser.State.ComputedStates
             _ = Task.Run(async () =>
             {
                 await Task.Delay(30000);
-
                 lock (_lock)
                 {
                     foreach (var key in keys)
-                    {
-                        this.CooldownActive.Remove(key);
-                    }
+                        CooldownActive.Remove(key);
                 }
             });
         }

@@ -7,5 +7,6 @@
         public uint FrameIdentifier { get; set; }
         public bool MarkedForDeletion { get; set; } = false;
         public bool IgnoreFiltering { get; set; } = false;
+        public bool PreviousLapWasInvalid { get; set; } = false;
     }
 }

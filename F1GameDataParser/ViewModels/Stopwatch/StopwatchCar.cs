@@ -5,13 +5,13 @@ namespace F1GameDataParser.ViewModels.Stopwatch
 {
     public class StopwatchCar
     {
+
         public DriverBasicDetails Driver { get; set; } // Participants, DriverOverrides
         public byte Position { get; set; } // Lap
         public string LastLapTime { get; set; } // SessionHistory.LapHistory
         public string CurrentTime { get; set; } // SessionHistory.LapHistory
         public bool IsLapValid { get; set; } // SessionHistory.LapHistory
         public int LapProgress { get; set; } // Lap
-        public float LapDistance { get; set; } // Lap
         public string TyreCompoundVisual { get; set; } // CarStatus
 
         public SectorTimeStatus? Sector1TimeStatus { get; set; } 
