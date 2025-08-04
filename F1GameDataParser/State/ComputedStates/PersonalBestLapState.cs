@@ -14,7 +14,17 @@ namespace F1GameDataParser.State.ComputedStates
 
         public PersonalBestLap? GetSecondFastestLap()
         {
-            return this.State.Values.OrderBy(lap => lap.LapTimeInMS).Skip(1).FirstOrDefault();
+            var topTwoFastestDrivers = this.State.Values.OrderBy(lap => lap.LapTimeInMS).Take(2);
+            var fastestDriver = topTwoFastestDrivers?.FirstOrDefault();
+            var secondFastestDriver = topTwoFastestDrivers?.Skip(1).FirstOrDefault();
+
+            if (secondFastestDriver == null) 
+                return fastestDriver;
+
+            if (fastestDriver?.PreviousBestLap?.LapTimeInMS < secondFastestDriver.LapTimeInMS)
+                return fastestDriver.PreviousBestLap;
+
+            return secondFastestDriver;
         }
 
         public IDictionary<Sector, ushort?> GetFastestSectors()

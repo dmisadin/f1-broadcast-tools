@@ -195,7 +195,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     { // When someone takes pole position from someone
                         poleLap = secondFastestLap.LapTimeInMS;
                     }
-                    else if (secondFastestLap.LapTimeInMS > fastestLap.PreviousBestLap.LapTimeInMS)
+                    else if (secondFastestLap.LapTimeInMS >= fastestLap.PreviousBestLap.LapTimeInMS)
                     { // When someone improves on their own pole position
                         poleLap = fastestLap.PreviousBestLap.LapTimeInMS;
                     }

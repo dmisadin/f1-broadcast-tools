@@ -66,7 +66,7 @@ namespace F1GameDataParser.Services
                 { // Relevant mostly to online players
                     oldState.TryGetValue(index, out var oldDriver);
 
-                    if ((oldDriver != null && oldDriver.CurrentLapInvalid == LapValidity.Invalid && driver.CurrentLapInvalid == LapValidity.Valid))
+                    if (oldDriver != null && oldDriver.CurrentLapInvalid == LapValidity.Invalid && driver.CurrentLapInvalid == LapValidity.Valid)
                     { // If car is staring new lap, but previous was invalid, skip the check old.CurrentLapNum != new.CurrentLapNum
                         driversOnFlyingLap.Add(newDriver);
                     }

@@ -62,24 +62,24 @@
         <div class="current-time mono-font">{{ car().currentTime }}</div>
         }
         <div class="best-session-time">
-            @if (!car().lapGapToLeader)
+            @if (car().sector1GapToLeader == null)
+            {
+            <div class="best-time mono-font">{{ fastestLap()?.sector1Time }}</div>
+            }
+            @else if (car().sector2GapToLeader == null)
+            {
+            <div class="best-time mono-font">{{ fastestLap()?.sector1And2Time }}</div>
+            }
+            @else if (car().lapGapToLeader == null)
             {
             <div class="best-time mono-font">
-                @if (car().lastLapTime === fastestLap()?.lapTime) {
+                @if (car().driver.vehicleIdx === fastestLap()?.driver?.vehicleIdx) {
                 {{ secondFastestLap()?.lapTime }}
                 }
                 @else {
                 {{ fastestLap()?.lapTime }}
                 }
             </div>
-            }
-            @else if (!car().sector2GapToLeader)
-            {
-            <div class="best-time mono-font">{{ fastestLap()?.sector1And2Time }}</div>
-            }
-            @else if (!car().sector1GapToLeader)
-            {
-            <div class="best-time mono-font">{{ fastestLap()?.sector1Time }}</div>
             }
             @else {
             <div class="best-time mono-font"> {{ fastestLap()?.lapTime }} </div>
