@@ -60,20 +60,17 @@ namespace F1GameDataParser.Services
                     LapDistance = driver.LapDistance,
                     FrameIdentifier = driver.FrameIdentifier,
                     MarkedForDeletion = driverOnFlyingLap != null && driverOnFlyingLap.MarkedForDeletion,
-                    PreviousLapWasInvalid = driverOnFlyingLap != null && driverOnFlyingLap.PreviousLapWasInvalid
                 };
 
                 if (driver.DriverStatus == DriverStatus.FlyingLap || driver.DriverStatus == DriverStatus.OnTrack)
                 { // Relevant mostly to online players
                     oldState.TryGetValue(index, out var oldDriver);
 
-                    if ((driverOnFlyingLap != null && driverOnFlyingLap.PreviousLapWasInvalid)
-                        || (oldDriver != null && oldDriver.CurrentLapInvalid == LapValidity.Invalid && driver.CurrentLapInvalid == LapValidity.Valid))
-                    {
-                        newDriver.PreviousLapWasInvalid = true;
+                    if ((oldDriver != null && oldDriver.CurrentLapInvalid == LapValidity.Invalid && driver.CurrentLapInvalid == LapValidity.Valid))
+                    { // If car is staring new lap, but previous was invalid, skip the check old.CurrentLapNum != new.CurrentLapNum
                         driversOnFlyingLap.Add(newDriver);
                     }
-                    else if (oldDriver != null && oldDriver.CurrentLapNum != driver.CurrentLapNum && !newDriver.PreviousLapWasInvalid)
+                    else if (oldDriver != null && oldDriver.CurrentLapNum != driver.CurrentLapNum)
                     { // If car has crossed the finish line
                         driversNotOnFlyingLap.Add(index);
                     }
