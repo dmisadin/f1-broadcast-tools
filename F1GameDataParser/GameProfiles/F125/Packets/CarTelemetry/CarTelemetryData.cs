@@ -9,10 +9,11 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.CarTelemetry
         public ushort speed; // km/h
         public float throttle; // [0.0, 1.0]
         public float steer; // [-1.0, 1.0]
+        public float brake; // [0.0, 1.0]
         public byte clutch; // [0, 100]
         public sbyte gear; // [1, 8], N=0, R=-1
         public ushort engineRPM;
-        public byte drs; // 0 = off, 1 = on
+        public Toggle drs; // 0 = off, 1 = on
         public byte revLightsPercent;
         public ushort revLightsBitValue; // Rev lights (bit 0 = leftmost LED, bit 14 = rightmost LED
 

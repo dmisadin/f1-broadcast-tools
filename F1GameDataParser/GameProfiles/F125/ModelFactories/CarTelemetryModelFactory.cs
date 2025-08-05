@@ -17,10 +17,11 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                     Speed = car.speed,
                     Throttle = car.throttle,
                     Steer = car.steer,
+                    Brake = car.brake,
                     Clutch = car.clutch,
                     Gear = car.gear,
                     EngineRPM = car.engineRPM,
-                    DRS = car.drs,
+                    DRS = car.drs.ToBool(),
                     RevLightsPercent = car.revLightsPercent,
                     RevLightsBitValue = car.revLightsBitValue,
                     BrakesTemperature = car.brakesTemperature, // will it work, array to ienumerable ?

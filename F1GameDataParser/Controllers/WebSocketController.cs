@@ -13,14 +13,17 @@ public class WebSocketController : ControllerBase
     private readonly TimingTowerFactory timingTowerFactory;
     private readonly MinimapFactory minimapFactory;
     private readonly StopwatchFactory stopwatchFactory;
+    private readonly HaloTelemetryDashboardFactory haloTelemetryDashboardFactory;
 
     public WebSocketController(TimingTowerFactory timingTowerFactory, 
                                 MinimapFactory minimapFactory,
-                                StopwatchFactory stopwatchFactory)
+                                StopwatchFactory stopwatchFactory,
+                                HaloTelemetryDashboardFactory haloTelemetryDashboardFactory)
     {
         this.timingTowerFactory = timingTowerFactory;
         this.minimapFactory = minimapFactory;
         this.stopwatchFactory = stopwatchFactory;
+        this.haloTelemetryDashboardFactory = haloTelemetryDashboardFactory;
     }
 
     [HttpGet("/ws/timing-tower")]
@@ -58,6 +61,20 @@ public class WebSocketController : ControllerBase
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
             await StreamData(webSocket, () => stopwatchFactory.Generate());
+        }
+        else
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+    }
+
+    [HttpGet("/ws/halo-telemetry")]
+    public async Task GetHaloTelemetry()
+    {
+        if (HttpContext.WebSockets.IsWebSocketRequest)
+        {
+            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+            await StreamData(webSocket, () => haloTelemetryDashboardFactory.Generate());
         }
         else
         {
