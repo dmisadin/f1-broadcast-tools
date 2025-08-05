@@ -56,8 +56,6 @@ export class PlayersComponent {
         this.nationalities = Object.entries(Nationality)
             .filter(([key, value]) => typeof value === 'number') // Ensure it's a number
             .map(([key, value]) => ({ key, value: value as number }));
-
-            console.log(this.nationalities)
     }
 
     onSubmit() {

@@ -10,14 +10,10 @@ import { F125TeamLogoComponent } from '../f1-25/f1-25-team-logo/f1-25-team-logo.
     templateUrl: './team-logo.component.html',
     styleUrl: './team-logo.component.css'
 })
-export class TeamLogoComponent implements OnChanges{
-    ngOnChanges(changes: SimpleChanges): void {
-        console.log(this.team(), this.game())
-    }
+export class TeamLogoComponent {
     team = input<Team>();
     color = input<string>();
     game = input<GameYear>(GameYear.F123);
 
     GameYear = GameYear;
-    
 }

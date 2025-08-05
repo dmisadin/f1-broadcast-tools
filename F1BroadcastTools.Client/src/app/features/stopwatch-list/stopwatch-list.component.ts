@@ -39,20 +39,10 @@ export class StopwatchListComponent implements OnInit, OnDestroy {
 
         this.webSocketService.onMessage().subscribe((data: Stopwatch) => {
             this.stopwatch = data;
-            console.log(data);
         });
     }
 
     ngOnDestroy(): void {
         this.webSocketService.disconnect();
     }
-
-    /**
-     * Changes that should be tracked:
-     * 1. isGapToLeaderVisible -> has the sectorTime got populated in sessionHistory?
-     * 2. positionChange -> track new vs old position
-     * 3. currentPoleLap -> update only if new position != 1, but not when the pole has
-     *                      been taken (we want to keep old pole lap up for comparison)
-     * 4. isLapValid -> if it gets invalidated, show that info and then remove it
-     */
 }
