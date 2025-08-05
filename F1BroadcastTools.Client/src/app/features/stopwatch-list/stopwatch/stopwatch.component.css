@@ -1,0 +1,171 @@
+.stopwatch {
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.95);
+    height: 8.5rem;
+    width: 20rem;
+    font-weight: 500;
+}
+
+.stopwatch-header {
+    display: grid;
+
+    grid-template-columns: 2.5rem 2.5rem auto 2.5rem;
+
+    width: 100%;
+    height: 2.5rem;
+
+    border-bottom: 2px solid;
+}
+
+.stopwatch-body {
+    width: 100%;
+    height: 4.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.position {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: center;
+    background-color: black;
+
+    img,
+    svg {
+        position: absolute;
+        width: auto;
+        max-height: 100%;
+        z-index: 0;
+    }
+
+    span {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.team {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 .25rem;
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem
+}
+
+.tyre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-repeat: no-repeat;
+    background-size: 2rem;
+    background-position: center;
+
+    color: white;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 500;
+
+    justify-content: center;
+
+    width: 2rem;
+    height: 100%;
+
+    img {
+        width: 90%;
+    }
+}
+
+.best-session-time {
+    width: 100%;
+    height: 100%;
+}
+
+.current-time {
+    font-size: 2rem;
+}
+
+.best-time {
+    font-size: 1.5rem;
+}
+
+.invalid-time {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.stopwatch-footer {
+    position: relative;
+    width: 100%;
+    height: 1.25rem;
+
+    background-color: black;
+    font-size: .75rem;
+}
+
+.sectors {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.lap-progress {
+    position: absolute;
+    z-index: 0;
+    width: 69%;
+    height: 100%;
+    background-color: #232426;
+    transition: .5s ease-out;
+}
+
+.purple {
+    border-bottom: 4px solid blueviolet;
+    color: blueviolet;
+}
+
+.green {
+    border-bottom: 4px solid rgb(0, 171, 0);
+    color: rgb(0, 171, 0);
+}
+
+.yellow {
+    border-bottom: 4px solid rgb(235, 193, 8);
+    color: rgb(235, 193, 8);
+}
+
+.purple-time {
+    color: blueviolet;
+}
+
+.green-time {
+    color: rgb(0, 171, 0);
+}
+
+.yellow-time {
+    color: rgb(235, 193, 8);
+}

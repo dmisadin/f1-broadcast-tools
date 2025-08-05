@@ -2,18 +2,20 @@
 
 namespace F1GameDataParser.State
 {
-    public class MotionState : ListStateBase<CarMotionDetails>
+    public class MotionState : DictionaryStateBase<CarMotionDetails>
     {
         public float MinX { get; private set; } = float.MaxValue;
         public float MaxX { get; private set; } = float.MinValue;
         public float MinZ { get; private set; } = float.MaxValue;
         public float MaxZ { get; private set; } = float.MinValue;
 
+        /*
         public override void Update(IEnumerable<CarMotionDetails> newState)
         {
             base.Update(newState);
             AnalyzeTrack(newState);
         }
+        */
 
         /// <summary>
         /// Use this when driving on the track to find bounds on map.

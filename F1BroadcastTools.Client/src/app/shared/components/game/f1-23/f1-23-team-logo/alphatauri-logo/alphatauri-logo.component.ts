@@ -8,7 +8,4 @@ import { TeamLogoBase } from '../../../shared/team-logo-base';
   styleUrl: './alphatauri-logo.component.css'
 })
 export class AlphatauriLogoComponent extends TeamLogoBase {
-    ngOnInit() {
-        console.log(this.color())
-    }
 }

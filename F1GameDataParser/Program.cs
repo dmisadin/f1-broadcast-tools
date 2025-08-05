@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using F1GameDataParser.GameProfiles.F125.Handlers;
 using F1GameDataParser.GameProfiles.F125;
+using F1GameDataParser.State.ComputedStates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,37 +37,18 @@ builder.Services.AddSingleton<SessionHistoryState>();
 builder.Services.AddSingleton<CarDamageState>();
 builder.Services.AddSingleton<LobbyInfoState>();
 
-/*
-builder.Services.AddSingleton<ParticipantsHandler>();
-builder.Services.AddSingleton<SessionHandler>();
-builder.Services.AddSingleton<CarTelemetryHandler>();
-builder.Services.AddSingleton<EventsHandler>();
-builder.Services.AddSingleton<CarStatusHandler>();
-builder.Services.AddSingleton<FinalClassificationHandler>();
-builder.Services.AddSingleton<LapHandler>();
-builder.Services.AddSingleton<SessionHistoryHandler>();
-builder.Services.AddSingleton<CarDamageHandler>();
-builder.Services.AddSingleton<LobbyInfoHandler>();
-
-builder.Services.AddSingleton<F125.Handlers.ParticipantsHandler>();
-builder.Services.AddSingleton<F125.Handlers.SessionHandler>();
-builder.Services.AddSingleton<F125.Handlers.CarTelemetryHandler>();
-builder.Services.AddSingleton<F125.Handlers.EventsHandler>();
-builder.Services.AddSingleton<F125.Handlers.CarStatusHandler>();
-builder.Services.AddSingleton<F125.Handlers.FinalClassificationHandler>();
-builder.Services.AddSingleton<F125.Handlers.LapHandler>();
-builder.Services.AddSingleton<F125.Handlers.SessionHistoryHandler>();
-builder.Services.AddSingleton<F125.Handlers.CarDamageHandler>();
-builder.Services.AddSingleton<F125.Handlers.LobbyInfoHandler>();
-*/
 builder.Services.AddF123Handlers();
 builder.Services.AddF125Handlers();
 
-
 builder.Services.AddSingleton<DriverOverrideState>();
+builder.Services.AddSingleton<PersonalBestLapState>();
+builder.Services.AddSingleton<LatestLapTimeState>();
+builder.Services.AddSingleton<DriversOnFlyingLapState>();
+builder.Services.AddSingleton<FastestSectorTimeState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
+builder.Services.AddTransient<StopwatchFactory>();
 builder.Services.AddTransient<DriverOverrideService>();
 
 // Register repositories
@@ -99,6 +81,8 @@ using (var scope = app.Services.CreateScope())
     var sessionState = services.GetRequiredService<SessionState>();
     var carTelemetryState = services.GetRequiredService<CarTelemetryState>();
     var lapState = services.GetRequiredService<LapState>();
+    var sessionFastestLapsState = services.GetRequiredService<PersonalBestLapState>();
+    var latestLapTimeState = services.GetRequiredService<LatestLapTimeState>();
     var sessionHistoryState = services.GetRequiredService<SessionHistoryState>();
     var carDamageState = services.GetRequiredService<CarDamageState>();
     var carStatusState = services.GetRequiredService<CarStatusState>();

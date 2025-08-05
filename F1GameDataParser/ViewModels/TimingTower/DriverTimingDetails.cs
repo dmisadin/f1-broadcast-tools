@@ -1,18 +1,10 @@
 ﻿using F1GameDataParser.Enums;
-using F1GameDataParser.GameProfiles.F1Common.Utility;
 
 namespace F1GameDataParser.ViewModels.TimingTower
 {
-    public class DriverTimingDetails
+    public class DriverTimingDetails : DriverDetails
     {
-        public int VehicleIdx { get; set; }
-        public byte Position { get; set; }
-        public Team TeamId { get; set; }
-        public TeamDetails? TeamDetails { get; set; }
-        public string Name { get; set; }
         public byte TyreAge { get; set; }
-        public string VisualTyreCompound { get; set; }
-        public string Gap { get; set; }
         public ResultStatus ResultStatus { get; set; }
         public int Penalties { get; set; }
         public byte Warnings { get; set; }

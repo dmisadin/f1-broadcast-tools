@@ -30,10 +30,10 @@
             <span>{{driver().position}}</span>
         </div>
         <div class="team" [ngStyle]="{'background-color': isSpectated() ? driver().teamDetails?.primaryColor : ''}">
-            <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)" [game]="25"></team-logo>
+            <team-logo [team]="driver().teamId" [color]="(isSpectated() ? driver().teamDetails?.secondaryColor : driver().teamDetails?.primaryColor)" [game]="gameYear()"></team-logo>
         </div>
         <div class="name">
-            {{driver().name}}
+            {{driver().vehicleIdx}} {{driver().name}} 
         </div>
         <div class="tyre" [ngStyle]="{
                 'background-image': 'url(images/icons/tyres/' + driver().visualTyreCompound.toLowerCase() + '_empty.svg)'
@@ -124,7 +124,7 @@
         <span [ngStyle]="{'color': driver().teamDetails?.primaryColor}">In Pit</span>
         }
         @else {
-        {{driver().gap}}
+        {{driver().gapInterval}}
         }
     </div>
 </div>

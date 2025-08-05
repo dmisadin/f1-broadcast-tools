@@ -1,18 +1,29 @@
 ﻿using F1GameDataParser.Enums;
 using F1GameDataParser.Models.Lap;
+using F1GameDataParser.Services;
 
 namespace F1GameDataParser.State
 {
-    public class LapState : ListStateBase<LapDetails>
+    public class LapState : DictionaryStateBase<LapDetails>
     {
         public object Lock => _lock;
+
+        private readonly LapService lapService;
+        public LapState(LapService lapService) 
+        {
+            this.lapService = lapService;
+        }
+
+        protected override void BeforeEnumerableMerged(IEnumerable<LapDetails> newState)
+        {
+            lapService.UpdateDriversOnFlyingLap(this.State, newState);
+        }
 
         protected override void OnModelMerged(int key, LapDetails existingModel, LapDetails newModel)
         {
             if (existingModel.GameYear == GameYear.F123)
                 this.CheckAndServeTimePenalites(existingModel);
         }
-
 
         private void CheckAndServeTimePenalites(LapDetails existingModel)
         {

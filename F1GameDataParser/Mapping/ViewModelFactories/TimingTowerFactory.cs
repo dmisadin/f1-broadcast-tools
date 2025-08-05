@@ -2,6 +2,7 @@
 using F1GameDataParser.GameProfiles.F1Common.Utility;
 using F1GameDataParser.Models;
 using F1GameDataParser.State;
+using F1GameDataParser.State.ComputedStates;
 using F1GameDataParser.Utility;
 using F1GameDataParser.ViewModels.TimingTower;
 
@@ -13,22 +14,22 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         private readonly SessionState sessionState;
         private readonly ParticipantsState participantsState;
         private readonly CarStatusState carStatusState;
-        private readonly SessionHistoryState sessionHistoryState;
         private readonly DriverOverrideState driverOverrideState;
+        private readonly PersonalBestLapState personalBestLapState;
 
         public TimingTowerFactory(LapState lapState,
             SessionState sessionState,
             ParticipantsState participantsState,
             CarStatusState carStatusState,
-            SessionHistoryState sessionHistoryState,
-            DriverOverrideState driverOverrideState)
+            DriverOverrideState driverOverrideState, 
+            PersonalBestLapState personalBestLapState)
         {
             this.lapState = lapState;
             this.sessionState = sessionState;
             this.participantsState = participantsState;
             this.carStatusState = carStatusState;
-            this.sessionHistoryState = sessionHistoryState;
             this.driverOverrideState = driverOverrideState;
+            this.personalBestLapState = personalBestLapState;
         }
 
         public override TimingTower? Generate()
@@ -37,8 +38,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 || lapState.State.Count() == 0
                 || sessionState.State == null 
                 || participantsState.State == null
-                || carStatusState.State == null 
-                || sessionHistoryState.State == null)
+                || carStatusState.State == null)
                 return null;
 
             var gameYear = sessionState.State.Header.GameYear;
@@ -68,7 +68,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Name = driverOverride?.Player.Name ?? participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
-                    Gap = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
+                    GapInterval = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
                     ResultStatus = lapDetails.ResultStatus,
                     Penalties = lapDetails.Penalties + (lapDetails.UnservedPenalties?.Sum(p => p) ?? 0),
                     Warnings = (byte)(lapDetails.CornerCuttingWarnings % 3),
@@ -92,26 +92,11 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             };
         }
 
-        private uint GetFastestLapVehicleIndex()
+        private int GetFastestLapVehicleIndex()
         {
-            if (sessionHistoryState.State == null)
-                return 255;
+            var fastestLap = personalBestLapState.GetFastestLap();
 
-            var fastestLaps = sessionHistoryState.State
-                .Where(driver =>
-                    driver != null
-                    && driver.LapHistoryDetails != null
-                    && lapState.State.TryGetValue(driver.CarIdx, out var lapDetails)
-                    && (lapDetails.ResultStatus != ResultStatus.Invalid || lapDetails.ResultStatus != ResultStatus.Inactive))
-                .Select(driver => new
-                {
-                    VehicleIdx = driver.CarIdx,
-                    FastestLap = driver.LapHistoryDetails
-                        .Where(l => l.LapValidBitFlags.HasFlag(LapSectorsValidity.LapValid) && l.LapTimeInMS > 0)
-                        .MinBy(l => l.LapTimeInMS)?.LapTimeInMS
-                });
-
-            return fastestLaps.MinBy(fl => fl.FastestLap)?.VehicleIdx ?? 255;
+            return fastestLap is null ? 255 : fastestLap.VehicleIdx;
         }
 
         private string GetGapOrResultStatus(long gap, int position, ResultStatus resultStatus = ResultStatus.Active)
