@@ -7,11 +7,13 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
     {
         private readonly CarTelemetryState carTelemetryState;
         private readonly SessionState sessionState;
+        private readonly CarStatusState carStatusState;
 
-        public HaloTelemetryDashboardFactory(CarTelemetryState carTelemetryState, SessionState sessionState)
+        public HaloTelemetryDashboardFactory(CarTelemetryState carTelemetryState, SessionState sessionState, CarStatusState carStatusState)
         {
             this.carTelemetryState = carTelemetryState;
             this.sessionState = sessionState;
+            this.carStatusState = carStatusState;
         }
 
         public HaloTelemetryDashboard? Generate()
@@ -27,8 +29,12 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
             var carTelemetry = carTelemetryState.State.CarTelemetryDetails.ElementAtOrDefault(vehicleIdx);
 
-            if (carTelemetry == null) 
+            if (carTelemetry == null)
                 return null;
+
+            var carStatus = carStatusState.State?.Details.ElementAtOrDefault(vehicleIdx);
+            double maxRpm = carStatus?.MaxRPM ?? 13500;
+            double idleRpm = carStatus?.IdleRPM ?? 3000;
 
             return new HaloTelemetryDashboard
             {
@@ -38,8 +44,8 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 Brake = carTelemetry.Brake,
                 Gear = carTelemetry.Gear,
                 EngineRPM = carTelemetry.EngineRPM,
+                EngineRPMPercentage = 1 - ((carTelemetry.EngineRPM - idleRpm) / (maxRpm - idleRpm)),
                 DRS = carTelemetry.DRS,
-                RevLightsPercent = carTelemetry.RevLightsPercent,
             };
         }
     }

@@ -5,8 +5,8 @@ export interface TelemetryDashboard {
     brake: number;
     gear: number;
     engineRPM: number;
+    engineRPMPercentage: number;
     drs: boolean;
-    revLightsPercent: number;
 }
 
 export interface HaloTelemetryDashboard extends TelemetryDashboard {

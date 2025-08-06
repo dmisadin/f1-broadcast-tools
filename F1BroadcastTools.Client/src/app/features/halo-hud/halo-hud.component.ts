@@ -11,7 +11,7 @@ import { HaloTelemetryDashboard } from "../../shared/models/telemetry.model";
     providers: [WebSocketService],
 })
 export class HaloHudComponent {
-    carTelemetry: HaloTelemetryDashboard;
+    carTelemetry?: HaloTelemetryDashboard;
 
     constructor(private webSocketService: WebSocketService<HaloTelemetryDashboard>) { }
 
@@ -25,4 +25,5 @@ export class HaloHudComponent {
     }
 
     // [style.transform]="'translateY(' + ((1-carTelemetry.throttle)*156) +'px)'"
+    // style="background-image: url(images/hud/halo/HaloBackground.png);"
 }
