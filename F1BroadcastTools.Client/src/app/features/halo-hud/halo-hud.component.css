@@ -1,3 +1,7 @@
 path {
     transition: all .1s ease;
 }
+
+text {
+    transition: transform .1s ease-out;
+}
