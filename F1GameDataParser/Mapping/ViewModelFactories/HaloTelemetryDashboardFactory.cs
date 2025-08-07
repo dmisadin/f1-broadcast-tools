@@ -1,4 +1,6 @@
-﻿using F1GameDataParser.State;
+﻿using F1GameDataParser.Services;
+using F1GameDataParser.State;
+using F1GameDataParser.ViewModels;
 using F1GameDataParser.ViewModels.TelemetryDashboard;
 
 namespace F1GameDataParser.Mapping.ViewModelFactories
@@ -8,12 +10,20 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         private readonly CarTelemetryState carTelemetryState;
         private readonly SessionState sessionState;
         private readonly CarStatusState carStatusState;
+        private readonly DriverOverrideService driverOverrideService;
+        private readonly LapState lapState;
 
-        public HaloTelemetryDashboardFactory(CarTelemetryState carTelemetryState, SessionState sessionState, CarStatusState carStatusState)
+        public HaloTelemetryDashboardFactory(CarTelemetryState carTelemetryState, 
+                                             SessionState sessionState, 
+                                             CarStatusState carStatusState, 
+                                             DriverOverrideService driverOverrideService,
+                                             LapState lapState)
         {
             this.carTelemetryState = carTelemetryState;
             this.sessionState = sessionState;
             this.carStatusState = carStatusState;
+            this.driverOverrideService = driverOverrideService;
+            this.lapState = lapState;
         }
 
         public HaloTelemetryDashboard? Generate()
@@ -36,6 +46,15 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             double maxRpm = carStatus?.MaxRPM ?? 13500;
             double idleRpm = carStatus?.IdleRPM ?? 3000;
 
+            DriverBasicDetails? nextDriver = null;
+            var driverLapState = lapState.GetModel(vehicleIdx);
+
+            if (driverLapState != null && driverLapState.CarPosition > 1)
+            {
+                var nextDriverVehicleIdx = lapState.State.Values.ToList().FindIndex(driver => driver.CarPosition == driverLapState.CarPosition - 1);
+                nextDriver = driverOverrideService.GetDriverBasicDetails(nextDriverVehicleIdx);
+            }
+
             return new HaloTelemetryDashboard
             {
                 VehicleIdx = vehicleIdx,
@@ -46,6 +65,9 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 EngineRPM = carTelemetry.EngineRPM,
                 EngineRPMPercentage = 1 - ((carTelemetry.EngineRPM - idleRpm) / (maxRpm - idleRpm)),
                 DRS = carTelemetry.DRS,
+                Position = driverLapState?.CarPosition ?? 0,
+                Driver = driverOverrideService.GetDriverBasicDetails(vehicleIdx),
+                NextDriver = nextDriver,
             };
         }
     }

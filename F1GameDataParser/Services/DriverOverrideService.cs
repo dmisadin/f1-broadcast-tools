@@ -1,29 +1,25 @@
 ﻿using F1GameDataParser.Database.Dtos;
 using F1GameDataParser.Database.Entities;
 using F1GameDataParser.Database.Repositories;
+using F1GameDataParser.GameProfiles.F1Common.Utility;
 using F1GameDataParser.State;
+using F1GameDataParser.ViewModels;
 
 namespace F1GameDataParser.Services
 {
     public class DriverOverrideService
     {
         private readonly ParticipantsState participantsState;
-        private readonly LobbyInfoState lobbyInfoState;
         private readonly LapState lapState;
         private readonly DriverOverrideState driverOverrideState;
-        private readonly IRepository<Player> playerRepository;
 
         public DriverOverrideService(ParticipantsState participantsState,
-                                    LobbyInfoState lobbyInfoState,
                                     LapState lapState,
-                                    DriverOverrideState driverOverrideState,
-                                    IRepository<Player> playerRepository)
+                                    DriverOverrideState driverOverrideState)
         {
             this.participantsState = participantsState;
-            this.lobbyInfoState = lobbyInfoState;
             this.lapState = lapState;
             this.driverOverrideState = driverOverrideState;
-            this.playerRepository = playerRepository;
         }
 
         public List<DriverOverrideDto> GetAll()
@@ -61,6 +57,25 @@ namespace F1GameDataParser.Services
                 PlayerId = driverOverrides.TryGetValue(index, out var player) ? player.PlayerId : null,
                 Player = player
             }).ToList();
+        }
+
+        public DriverBasicDetails? GetDriverBasicDetails(int vehicleIdx)
+        {
+            if (participantsState?.State == null) return null;
+
+            var participant = participantsState.State.ParticipantList.ElementAtOrDefault(vehicleIdx);
+
+            if (participant == null) return null;
+
+            var overrideDriver = driverOverrideState.GetModel(vehicleIdx);
+
+            return new DriverBasicDetails
+            {
+                VehicleIdx = vehicleIdx,
+                TeamId = participant.TeamId,
+                TeamDetails = GameSpecifics.GetTeamDetails(participantsState.State.Header.GameYear, participant.TeamId),
+                Name = overrideDriver?.Player.Name ?? participant.Name,
+            };
         }
     }
 }

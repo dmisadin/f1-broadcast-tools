@@ -10,6 +10,30 @@
 <path d="M290.5 271.5C325.833 255.167 404.128 225.394 421 221.5C434 218.5 448 218.5 449.5 238L454 333C454.167 339.5 448.8 354.5 426 362.5C403.5 370.667 351.3 391.1 322.5 407.5" stroke="url(#paint7_linear_1260_576)" stroke-opacity="0.8" stroke-width="2"/>
 <path d="M322 334C258 359.5 146.5 423.5 53.4999 514.5C28 537 30.4998 546 33 561.5L40.4999 597C42.4999 604 46.2217 609.706 55.4999 599.5C85.5 566.5 126.5 529.5 159 505C191.5 480.5 263 428.5 314.5 408" stroke="url(#paint8_linear_1260_576)" stroke-width="3"/>
 <path d="M53.4999 514.5C146.5 423.5 258 359.5 322 334V403.5C270.5 424 191.5 480.5 159 505C126.5 529.5 85.5 566.5 55.4999 599.5C46.2217 609.706 42.4999 604 40.4999 597L33 561.5C30.4998 546 28 537 53.4999 514.5Z" fill="url(#paint16_linear_1260_576)"/>
+
+@if (carTelemetry?.position) 
+{
+<path id="nextDriverNameCurve" d="M96.5 450C143.5 411 246 329 369 286.5"/>
+<text style="transform-origin: center;transform-box: fill-box; transform:skew(5deg,-25deg) rotate(-15deg);" fill="white" fill-opacity="0.7" xml:space="preserve" font-family="Formula1" font-size="24">
+    <tspan x="64" y="465" text-anchor="middle">{{(carTelemetry?.position ?? 0) > 1 ? (carTelemetry?.position ?? 0) - 1 : ''}}</tspan>
+</text>
+<text fill="white" fill-opacity="0.7" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="400" font-style="italic" letter-spacing="0em">
+    <textPath xlink:href="#nextDriverNameCurve" font-style="italic">
+        {{ carTelemetry?.nextDriver?.name }}
+    </textPath>
+</text>
+}
+
+<path id="spectatedDriverNameCurve" d="M97.5 530.5C144.5 491.5 250.5 400.5 370.5 355.5"/>
+<text style="transform-origin: center;transform-box: fill-box; transform:skew(15deg,-30deg) rotate(-15deg);" fill="white" xml:space="preserve" font-family="Formula1" font-size="24">
+    <tspan x="72" y="550" text-anchor="middle">{{carTelemetry?.position}}</tspan>
+</text>
+<text fill="white" fill-opacity="0.9" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="400" font-style="italic" letter-spacing="0em">
+    <textPath xlink:href="#spectatedDriverNameCurve" font-style="italic">
+        {{ carTelemetry?.driver?.name }}
+    </textPath>
+</text>
+
 <path d="M22 446.5C135 330 263.5 257 416.5 209.5" stroke="url(#paint9_radial_1260_576)" stroke-opacity="0.8" stroke-width="2"/>
 <path d="M1027 176.5C1229 217 1354.5 270.5 1510 364" stroke="url(#paint10_radial_1260_576)" stroke-opacity="0.8" stroke-width="2"/>
 <path d="M1074.5 189.5C1098.5 193.1 1175.67 217.334 1209 228V379.5C1167.5 358.5 1077.75 333.991 1049 327.5C1033.5 324 1021 312 1023 299L1034.5 212C1036.5 192.5 1044.5 185 1074.5 189.5Z" fill="url(#paint11_linear_1260_576)"/>
@@ -36,7 +60,7 @@
 
 <!-- RPM -->
 <path d="M1042.5 301C1190.5 336 1318 390 1465 485.5" stroke="#C5C5C5" stroke-width="8"/>
-<path d="M1042.5 301C1190.5 336 1318 390 1465 485.5" stroke="#FE9331" stroke-width="8" stroke-dasharray="464" [attr.stroke-dashoffset]="(carTelemetry?.engineRPMPercentage ?? 0) * 464"/>
+<path d="M1042.5 301C1190.5 336 1318 390 1465 485.5" [attr.stroke]="carTelemetry?.driver?.teamDetails?.primaryColor ?? 'white'" stroke-width="8" stroke-dasharray="464" [attr.stroke-dashoffset]="(carTelemetry?.engineRPMPercentage ?? 0) * 464"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M911 302.5L998.5 317L1000.16 304.854L919.675 292C917.02 295.644 914.128 299.152 911 302.5ZM921.584 289.298C923.825 286.024 925.883 282.648 927.757 279.186L1002.06 290.889L1000.58 301.747L921.584 289.298ZM1004.06 276.243L1002.44 288.076L929.211 276.411C931.059 272.765 932.709 269.031 934.161 265.226L1004.06 276.243ZM935.201 262.391C936.417 258.945 937.474 255.446 938.371 251.906L1005.93 262.544L1004.46 273.316L935.201 262.391ZM1007.93 247.855L1006.33 259.613L939.071 249C939.947 245.153 940.639 241.262 941.145 237.344L1007.93 247.855ZM941.492 234.392C941.907 230.446 942.137 226.477 942.182 222.5L1009.93 233.165L1008.33 244.926L941.492 234.392ZM1011.99 218.109L1010.32 230.309L942.185 219.93C942.148 215.871 941.919 211.808 941.498 207.759L1011.99 218.109ZM941.143 204.705C940.613 200.572 939.881 196.458 938.949 192.381L1013.99 203.397L1012.39 215.164L941.143 204.705ZM1015.96 188.974L1014.39 200.45L938.199 189.276C937.143 185.133 935.878 181.035 934.404 177L1015.96 188.974ZM933.202 173.838C931.403 169.293 929.336 164.838 927 160.5L1018 174L1016.36 186.043L933.202 173.838Z" fill="#405566"/>
 <mask id="mask0_1260_576" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="909" y="159" width="113" height="171">
 <path d="M909 159L1022 176.897V329.961L909 312.064V159Z" fill="#D9D9D9" [style.transform]="'translateY(' + ((1-(carTelemetry?.throttle ?? 0))*156) +'px)'"/>
@@ -55,12 +79,12 @@
 <path d="M204 273C291.5 228 373.79 189.393 448.5 150.5C547 96.5002 637.158 56 733 56C850.5 56 898 87.6327 1064.5 150.5C1200.1 201.7 1328.67 250.5 1376 268.5" stroke="url(#paint14_radial_1260_576)" stroke-opacity="0.8" stroke-width="2"/>
 <defs>
 <linearGradient id="paint0_linear_1260_576" x1="743.409" y1="98.5002" x2="743.409" y2="326" gradientUnits="userSpaceOnUse">
-<stop offset="0.77117" stop-color="#FE9331"/>
-<stop offset="0.975719" stop-color="#98581D" stop-opacity="0"/>
+<stop offset="0.77117" [attr.stop-color]="carTelemetry?.driver?.teamDetails?.primaryColor ?? 'white'"/>
+<stop offset="0.975719" [attr.stop-color]="carTelemetry?.driver?.teamDetails?.primaryColor ?? 'white'" stop-opacity="0"/>
 </linearGradient>
 <linearGradient id="paint1_linear_1260_576" x1="743.888" y1="93.9417" x2="743.888" y2="330.559" gradientUnits="userSpaceOnUse">
-<stop offset="0.77117" stop-color="#FE9331"/>
-<stop offset="0.975719" stop-color="#98581D" stop-opacity="0"/>
+<stop offset="0.77117" [attr.stop-color]="carTelemetry?.driver?.teamDetails?.primaryColor ?? 'white'"/>
+<stop offset="0.975719" [attr.stop-color]="carTelemetry?.driver?.teamDetails?.primaryColor ?? 'white'" stop-opacity="0"/>
 </linearGradient>
 <linearGradient id="paint2_linear_1260_576" x1="534" y1="160.5" x2="596" y2="160.5" gradientUnits="userSpaceOnUse">
 <stop stop-color="white"/>
@@ -86,13 +110,13 @@
 <stop stop-color="#79A8FF"/>
 <stop offset="1" stop-color="white" stop-opacity="0"/>
 </linearGradient>
-<linearGradient id="paint8_linear_1260_576" x1="22" y1="531" x2="313" y2="411.5" gradientUnits="userSpaceOnUse">
+<linearGradient id="paint8_linear_1260_576" x1="22" y1="531" x2="313" y2="411.5" gradientUnits="userSpaceOnUse"> <!-- Team color outline  -->
 <linearGradient id="paint16_linear_1260_576" x1="321.994" y1="403.379" x2="32.2604" y2="403.379" gradientUnits="userSpaceOnUse">
 <stop stop-color="#254057" stop-opacity="0"/>
-<stop offset="1" stop-color="#3B5972" stop-opacity="0.5"/>
+<stop offset="1" stop-color="#3B5972" stop-opacity="0.9"/>
 </linearGradient>
-<stop offset="0.451923" stop-color="#FE9331"/>
-<stop offset="1" stop-color="#F5DEC8" stop-opacity="0"/>
+<stop offset="0.451923" [attr.stop-color]="carTelemetry?.driver?.teamDetails?.primaryColor ?? 'white'"/>
+<stop offset="1" [attr.stop-color]="carTelemetry?.driver?.teamDetails?.primaryColor ?? 'white'" stop-opacity="0"/>
 </linearGradient>
 <radialGradient id="paint9_radial_1260_576" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(219 292) scale(198 329.582)">
 <stop stop-color="white"/>
