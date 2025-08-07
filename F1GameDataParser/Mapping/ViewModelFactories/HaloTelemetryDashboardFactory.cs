@@ -1,4 +1,5 @@
-﻿using F1GameDataParser.Services;
+﻿using F1GameDataParser.Enums;
+using F1GameDataParser.Services;
 using F1GameDataParser.State;
 using F1GameDataParser.ViewModels;
 using F1GameDataParser.ViewModels.TelemetryDashboard;
@@ -66,6 +67,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 EngineRPMPercentage = 1 - ((carTelemetry.EngineRPM - idleRpm) / (maxRpm - idleRpm)),
                 DRS = carTelemetry.DRS,
                 Position = driverLapState?.CarPosition ?? 0,
+                ErsDeployMode = carStatus?.ErsDeployMode ?? ERSDeployMode.None,
                 Driver = driverOverrideService.GetDriverBasicDetails(vehicleIdx),
                 NextDriver = nextDriver,
             };

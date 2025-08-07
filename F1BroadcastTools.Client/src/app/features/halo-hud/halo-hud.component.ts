@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { WebSocketService } from "../../core/services/websocket.service";
-import { HaloTelemetryDashboard } from "../../shared/models/telemetry.model";
+import { ERSDeployMode, HaloTelemetryDashboard } from "../../shared/models/telemetry.model";
 
 @Component({
     selector: 'halo-hud',
@@ -12,7 +12,7 @@ import { HaloTelemetryDashboard } from "../../shared/models/telemetry.model";
 })
 export class HaloHudComponent {
     carTelemetry?: HaloTelemetryDashboard;
-
+    ersDeployMode = ERSDeployMode;
     constructor(private webSocketService: WebSocketService<HaloTelemetryDashboard>) { }
 
     ngOnInit(): void {

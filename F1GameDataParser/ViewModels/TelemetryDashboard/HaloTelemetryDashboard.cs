@@ -1,6 +1,6 @@
 ﻿namespace F1GameDataParser.ViewModels.TelemetryDashboard
 {
-    public class HaloTelemetryDashboard : TelemetryDashboard
+    public class HaloTelemetryDashboard : HybridTelemetryDashboard
     {
         public byte Turn { get; set; } = 0;
         public DriverBasicDetails? Driver { get; set; }

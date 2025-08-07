@@ -13,8 +13,19 @@ export interface TelemetryDashboard {
     position: number;
 }
 
-export interface HaloTelemetryDashboard extends TelemetryDashboard {
+export interface HybridTelemetryDashboard extends TelemetryDashboard {
+    ersDeployMode: ERSDeployMode;
+}
+
+export interface HaloTelemetryDashboard extends HybridTelemetryDashboard {
     turn: number;
     driver?: DriverBasicDetails;
     nextDriver?: DriverBasicDetails;
+}
+
+export enum ERSDeployMode {
+    None = 0,
+    Medium,
+    Hotlap,
+    Overtake
 }
