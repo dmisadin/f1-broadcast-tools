@@ -3,5 +3,5 @@ path {
 }
 
 text {
-    transition: transform .1s ease-out;
+    transition: all .1s ease-out;
 }
