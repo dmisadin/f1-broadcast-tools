@@ -21,6 +21,10 @@ const routes: Routes = [
     {
         path: 'stopwatch',
         loadComponent: () => import('./features/stopwatch-list/stopwatch-list.component').then(m => m.StopwatchListComponent)
+    },
+    {
+        path: 'halo-hud',
+        loadComponent: () => import('./features/halo-hud/halo-hud.component').then(m => m.HaloHudComponent)
     }
 ];
 
