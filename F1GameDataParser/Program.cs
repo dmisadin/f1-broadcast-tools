@@ -1,9 +1,11 @@
 ﻿using F1GameDataParser.Database;
 using F1GameDataParser.Database.Repositories;
+using F1GameDataParser.Enums;
 using F1GameDataParser.GameProfiles.F123;
 using F1GameDataParser.GameProfiles.F123.Handlers;
 using F1GameDataParser.GameProfiles.F125;
 using F1GameDataParser.GameProfiles.F125.Handlers;
+using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.Services;
 using F1GameDataParser.Services.GameSwitch;
@@ -24,11 +26,8 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
-builder.Services.AddTransient<F123TelemetryClient>();
-builder.Services.AddTransient<F125TelemetryClient>();
-builder.Services.AddSingleton<Func<F123TelemetryClient>>(sp => () => sp.GetRequiredService<F123TelemetryClient>());
-builder.Services.AddSingleton<Func<F125TelemetryClient>>(sp => () => sp.GetRequiredService<F125TelemetryClient>());
-
+builder.Services.AddKeyedTransient<ITelemetryClient, F123TelemetryClient>(PacketFormat.F123);
+builder.Services.AddKeyedTransient<ITelemetryClient, F125TelemetryClient>(PacketFormat.F125);
 builder.Services.AddSingleton<GameManager>();
 
 builder.Services.AddSingleton<MotionState>();

@@ -1,6 +1,4 @@
 ﻿using F1GameDataParser.Enums;
-using F1GameDataParser.GameProfiles.F123;
-using F1GameDataParser.GameProfiles.F125;
 using F1GameDataParser.GameProfiles.F1Common;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,13 +6,13 @@ namespace F1GameDataParser.Services.GameSwitch
 {
     public class GameManager
     {
-        private readonly IServiceProvider provider;
+        private readonly IServiceProvider serviceProvider;
         private ITelemetryClient? activeClient;
         private PacketFormat? activeFormat;
 
-        public GameManager(IServiceProvider provider)
+        public GameManager(IServiceProvider serviceProvider)
         {
-            this.provider = provider;
+            this.serviceProvider = serviceProvider;
         }
 
         public bool SwitchGame(PacketFormat format)
@@ -22,58 +20,31 @@ namespace F1GameDataParser.Services.GameSwitch
             if (activeFormat.HasValue && activeFormat.Value == format)
                 return false;
 
-            ITelemetryClient newTelemetryClient;
-
-            switch (format)
-            {
-                case PacketFormat.F123:
-                    newTelemetryClient = provider.GetRequiredService<F123TelemetryClient>();
-                    break;
-                case PacketFormat.F125:
-                    newTelemetryClient = provider.GetRequiredService<F125TelemetryClient>();
-                    break;
-                default:
-                    return false;
-            }
-
-            if (activeClient != null)
-            {
-                try
-                {
-                    activeClient.Stop();  // should halt BeginReceive loop before dispose
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"[GameManager] Error stopping old client: {ex.Message}");
-                }
-                activeClient = null;
-                activeFormat = null;
-            }
-
-            activeClient = newTelemetryClient;
-
+            activeClient?.Stop();
+            activeClient = serviceProvider.GetRequiredKeyedService<ITelemetryClient>(format);
             activeClient.Start();
-            activeFormat = format;
 
+            activeFormat = format;
             Console.WriteLine($"[GameManager] Switched to {format}.");
             return true;
         }
 
         public void Stop()
         {
-            if (activeClient != null)
+            if (activeClient == null)
+                return;
+
+            try
             {
-                try
-                {
-                    activeClient.Stop();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"[GameManager] Error stopping client: {ex.Message}");
-                }
-                activeClient = null;
-                activeFormat = null;
+                activeClient.Stop();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[GameManager] Error stopping client: {ex.Message}");
+            }
+
+            activeClient = null;
+            activeFormat = null;
         }
     }
 }
