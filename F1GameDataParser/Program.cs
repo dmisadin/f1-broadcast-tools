@@ -1,19 +1,19 @@
 ﻿using F1GameDataParser.Database;
 using F1GameDataParser.Database.Repositories;
-using F1GameDataParser.GameProfiles;
 using F1GameDataParser.GameProfiles.F123;
 using F1GameDataParser.GameProfiles.F123.Handlers;
+using F1GameDataParser.GameProfiles.F125;
+using F1GameDataParser.GameProfiles.F125.Handlers;
 using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.Services;
+using F1GameDataParser.Services.GameSwitch;
 using F1GameDataParser.Startup;
 using F1GameDataParser.State;
+using F1GameDataParser.State.ComputedStates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
-using F1GameDataParser.GameProfiles.F125.Handlers;
-using F1GameDataParser.GameProfiles.F125;
-using F1GameDataParser.State.ComputedStates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +24,13 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
+builder.Services.AddTransient<F123TelemetryClient>();
+builder.Services.AddTransient<F125TelemetryClient>();
+builder.Services.AddSingleton<Func<F123TelemetryClient>>(sp => () => sp.GetRequiredService<F123TelemetryClient>());
+builder.Services.AddSingleton<Func<F125TelemetryClient>>(sp => () => sp.GetRequiredService<F125TelemetryClient>());
+
 builder.Services.AddSingleton<GameManager>();
-builder.Services.AddSingleton<F123TelemetryClient>();
-builder.Services.AddSingleton<F125TelemetryClient>();
+
 builder.Services.AddSingleton<MotionState>();
 builder.Services.AddSingleton<ParticipantsState>();
 builder.Services.AddSingleton<SessionState>();
@@ -90,11 +94,10 @@ using (var scope = app.Services.CreateScope())
     var lobbyInfoState = services.GetRequiredService<LobbyInfoState>();
     var driverOverrideState = services.GetRequiredService<DriverOverrideService>();
 
+    var manager = services.GetRequiredService<GameManager>();
+    GameDetector.Initialize(manager);
+    GameDetector.Start();
 
-    var gameManager = services.GetRequiredService<GameManager>();
-
-    var selectedGame = GameManager.PromptUserForGame();
-    gameManager.SwitchGame(selectedGame, services);
 }
 
 app.UseRouting();

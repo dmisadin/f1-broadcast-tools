@@ -16,6 +16,7 @@ namespace F1GameDataParser.GameProfiles.F1Common
         private readonly Timer _timeoutTimer;
 
         public bool Connected { get; private set; }
+        private bool IsRunning = true;
 
         public event Action<bool>? OnConnectedStatusChange;
 
@@ -29,8 +30,6 @@ namespace F1GameDataParser.GameProfiles.F1Common
 
             Connected = true;
             OnConnectedStatusChange?.Invoke(true);
-
-            //_client.BeginReceive(ReceiveCallback, null);
         }
 
         private void TimeoutEvent(object? sender, ElapsedEventArgs e)
@@ -50,6 +49,12 @@ namespace F1GameDataParser.GameProfiles.F1Common
 
                 var header = (THeader)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(THeader))!;
 
+                if (OnHeaderRecieved(header))
+                {
+                    this.Stop();
+                    return;
+                }
+
                 if (ShouldProcessPacket(header, out var packetId))
                 {
                     ParseAndDispatchPacket(data, packetId);
@@ -64,20 +69,20 @@ namespace F1GameDataParser.GameProfiles.F1Common
                 if (handle.IsAllocated)
                     handle.Free();
 
-                _client.BeginReceive(ReceiveCallback, null);
+
+                if (IsRunning)
+                {
+                    try
+                    {
+                        _client.BeginReceive(ReceiveCallback, null);
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // Socket closed, ignore
+                    }
+                }
             }
         }
-
-        /// <summary>
-        /// Extract the packet ID from the header.
-        /// </summary>
-        protected abstract bool ShouldProcessPacket(THeader header, out TPacketId packetId);
-
-        /// <summary>
-        /// Actual game-specific dispatch logic (based on header & packet type)
-        /// </summary>
-        protected abstract void ParseAndDispatchPacket(byte[] data, TPacketId packetId);
-
         protected static T ByteArrayToStruct<T>(byte[] data) where T : struct
         {
             var handle = GCHandle.Alloc(data, GCHandleType.Pinned);
@@ -94,12 +99,25 @@ namespace F1GameDataParser.GameProfiles.F1Common
         {
             _client.BeginReceive(ReceiveCallback, null);
             _timeoutTimer.Start();
+            IsRunning = true;
         }
 
         public virtual void Stop()
         {
             _timeoutTimer.Stop();
             _client.Close();
+            IsRunning = false;
         }
+
+        /// <summary>
+        /// Extract the packet ID from the header.
+        /// </summary>
+        protected abstract bool ShouldProcessPacket(THeader header, out TPacketId packetId);
+
+        /// <summary>
+        /// Actual game-specific dispatch logic (based on header & packet type)
+        /// </summary>
+        protected abstract void ParseAndDispatchPacket(byte[] data, TPacketId packetId);
+        protected abstract bool OnHeaderRecieved(THeader header);
     }
 }
