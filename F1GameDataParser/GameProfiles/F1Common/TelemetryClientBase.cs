@@ -69,7 +69,6 @@ namespace F1GameDataParser.GameProfiles.F1Common
                 if (handle.IsAllocated)
                     handle.Free();
 
-
                 if (IsRunning)
                 {
                     try

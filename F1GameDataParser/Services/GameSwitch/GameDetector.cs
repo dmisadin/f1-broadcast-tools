@@ -32,7 +32,7 @@ namespace F1GameDataParser.Services.GameSwitch
         /// <summary>
         /// Process the PacketFormat from any received header.
         /// </summary>
-        public static bool ProcessPacketFormat(PacketFormat packetFormat)
+        public static bool DetectPacketFormatChange(PacketFormat packetFormat)
         {
             EnsureInitialized();
 

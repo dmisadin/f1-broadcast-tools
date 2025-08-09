@@ -118,7 +118,7 @@ namespace F1GameDataParser.GameProfiles.F123
 
         protected override bool OnHeaderRecieved(PacketHeader header)
         {
-            return GameDetector.ProcessPacketFormat(header.packetFormat);
+            return GameDetector.DetectPacketFormatChange(header.packetFormat);
         }
     }
 }
