@@ -24,6 +24,9 @@ export class HaloHudComponent {
         });
     }
 
+    ngOnDestroy(): void {
+        this.webSocketService.disconnect();
+    }
     // [style.transform]="'translateY(' + ((1-carTelemetry.throttle)*156) +'px)'"
     // style="background-image: url(images/hud/halo/HaloBackground.png);"
 }
