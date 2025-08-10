@@ -41,6 +41,7 @@ export class WebSocketService<T> {
     
     disconnect(): void{
         this.socket.close();
+        console.log('WebSocket disconnected.');
     }
     
     onMessage(): Observable<T> {
