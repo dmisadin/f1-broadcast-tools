@@ -20,5 +20,6 @@ export class SidebarComponent {
         { icon: '🏎️', label: 'Timing Tower', route: '/timing-tower' },
         { icon: '🗺️', label: 'Minimap', route: '/minimap' },
         { icon: '⏱️', label: 'Stopwatch', route: '/stopwatch' },
+        { icon: '🗠', label: 'Halo Telemetry', route: '/halo-hud' },
     ];
 }
