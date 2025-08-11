@@ -16,10 +16,11 @@ export class SidebarComponent {
     menuItems = [
         { icon: '🏠', label: 'Home', route: '/' },
         { icon: '⚙️', label: 'Settings', route: '/settings' },
-        { icon: '⛹️‍♂️', label: 'Players', route: '/players'},
-        { icon: '🏎️', label: 'Timing Tower', route: '/timing-tower' },
-        { icon: '🗺️', label: 'Minimap', route: '/minimap' },
-        { icon: '⏱️', label: 'Stopwatch', route: '/stopwatch' },
-        { icon: '🗠', label: 'Halo Telemetry', route: '/halo-hud' },
+        { icon: '⚙️', label: 'Driver Overrides', route: '/settings/driver-overrides' },
+        { icon: '⛹️‍♂️', label: 'Players', route: '/settings/players'},
+        { icon: '🏎️', label: 'Timing Tower', route: '/overlay/timing-tower' },
+        { icon: '🗺️', label: 'Minimap', route: '/overlay/minimap' },
+        { icon: '⏱️', label: 'Stopwatch', route: '/overlay/stopwatch' },
+        { icon: '🗠', label: 'Halo Telemetry', route: '/overlay/halo-hud' },
     ];
 }

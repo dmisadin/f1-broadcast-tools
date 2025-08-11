@@ -1,0 +1,11 @@
+<div class="drag-boundary">
+    <div class="block" cdkDragBoundary=".drag-boundary" cdkDrag (cdkDragEnded)="drop($event)" [cdkDragData]="'LMAO'">1</div>
+    <div class="block red" cdkDragBoundary=".drag-boundary" cdkDrag>2</div>
+    <div class="block purple" cdkDragBoundary=".drag-boundary" cdkDrag>3</div>
+    <div class="block yellow" cdkDragBoundary=".drag-boundary" cdkDrag>4</div>
+</div>
+
+<div class="buttons">
+    <button type="button" (click)="onAdd()">Add</button>
+    <button type="submit" (click)="onSubmit()">Save</button>
+</div>
