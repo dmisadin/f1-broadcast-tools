@@ -8,6 +8,7 @@ namespace F1GameDataParser.Mapping.DtoFactories
         where TDto : class
     {
         Expression<Func<TEntity, TDto>> ToDtoExpression();
-        TDto ToDto(TEntity entity);
+        TDto ToDto(TEntity entity); 
+        TEntity FromDto(TDto dto);
     }
 }
