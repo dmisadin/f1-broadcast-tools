@@ -20,16 +20,75 @@ namespace F1GameDataParser.Controllers
         protected abstract IDtoFactory<TEntity, TDto> DtoFactory { get; }
 
         [HttpGet("get")]
-        public async Task<TEntity> Get([FromQuery] int id)
+        public async Task<TDto?> Get([FromQuery] int id)
         {
-            return await this.repository.GetAsync(id);
+            return await repository.GetAsync(id, DtoFactory.ToDtoExpression());
         }
 
         [HttpPost("add")]
-        public async Task Add([FromBody] TEntity entity) // TODO: mora doci Dto, pa ga pretvorit u entity
+        public async Task<ActionResult<int>> Add([FromBody] TDto dto)
         {
+            var entity = DtoFactory.FromDto(dto);
             await this.repository.InsertAsync(entity);
             await this.repository.CommitAsync();
+
+            return entity.Id;
+        }
+
+        [HttpPost("add-many")]
+        public async Task<ActionResult<List<int>>> AddMany([FromBody] List<TDto> dtos)
+        {
+            var entities = dtos.Select(DtoFactory.FromDto).ToArray();
+            await this.repository.InsertAsync(entities);
+            await this.repository.CommitAsync();
+
+            var ids = entities.Select(e => e.Id).ToList();
+            return ids;
+        }
+
+        [HttpPost("update")]
+        public async Task<ActionResult<int>> Update([FromBody] TDto dto)
+        {
+            var entity = DtoFactory.FromDto(dto);
+
+            this.repository.Update(entity);
+            await this.repository.CommitAsync();
+
+            return entity.Id;
+        }
+
+        [HttpPost("update-many")]
+        public async Task<ActionResult<List<int>>> UpdateMany([FromBody] List<TDto> dtos)
+        {
+            var entities = dtos.Select(DtoFactory.FromDto).ToArray();
+
+            foreach (var entity in entities)
+            {
+                this.repository.Update(entity);
+            }
+
+            await this.repository.CommitAsync();
+
+            var ids = entities.Select(e => e.Id).ToList();
+            return ids;
+        }
+
+        [HttpPost("upsert")]
+        public async Task<ActionResult<int>> Upsert([FromBody] TDto dto)
+        {
+            var entity = DtoFactory.FromDto(dto);
+            if (dto.Id == 0)
+            {
+                await this.repository.InsertAsync(entity);
+            }
+            else
+            {
+                this.repository.Update(entity);
+            }
+
+            await this.repository.CommitAsync();
+
+            return entity.Id;
         }
 
         [HttpGet("get-grid-structure")]

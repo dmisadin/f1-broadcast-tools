@@ -4,7 +4,6 @@ using F1GameDataParser.Database.Repositories;
 using F1GameDataParser.Mapping.DtoFactories;
 using F1GameDataParser.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace F1GameDataParser.Controllers
 {
