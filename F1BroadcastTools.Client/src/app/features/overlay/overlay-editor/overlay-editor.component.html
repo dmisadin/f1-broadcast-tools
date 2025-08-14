@@ -1,0 +1,22 @@
+@if (overlay()) {
+<div class="drag-boundary">
+    @for(widget of overlay()?.widgets; track widget.id)
+    {
+    <div class="block" nudgeDrag 
+        (nudgePositionChange)="onPositionChange($event)" 
+        (cdkDragEnded)="onDragEnded($event)"
+        [cdkDragData]="widget.id" 
+        [cdkDragFreeDragPosition]="{x: widget.positionX, y: widget.positionY}">
+        {{widget.id}} - {{widget.widgetType}}
+    </div>
+    }
+</div>
+} @else {
+Loading...
+}
+<div class="buttons">
+    <button class="btn-primary" type="button" routerLink='widget'>+ Add</button>
+    <button class="btn-primary" type="submit" (click)="onSubmit()">Save</button>
+</div>
+
+<router-outlet (deactivate)="onDeactivateRoute($event)"></router-outlet>

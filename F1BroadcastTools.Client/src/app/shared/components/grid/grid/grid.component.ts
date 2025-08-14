@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Endpoints } from '../../../models/common';
+import { Component, Input, OnInit, output } from '@angular/core';
 import { RestService } from '../../../../core/services/rest.service';
 import { ChangeForServer, GridColumn } from '../../../../thirdparty/ng-datatable/modals';
-import { GridFilter, GridRequest, GridResponse, GridStructure } from '../../../models/grid';
-import { Player } from '../../../models/Player';
+import { GridRequest, GridResponse, GridStructure } from '../../../models/grid';
+import { Endpoints } from '../../../models/common';
 
 @Component({
     selector: 'grid',
@@ -11,11 +10,11 @@ import { Player } from '../../../models/Player';
     templateUrl: './grid.component.html',
     styleUrl: './grid.component.css'
 })
-export class GridComponent implements OnInit {
+export class GridComponent<TDto> implements OnInit {
     @Input() endpoints: Endpoints;
-    
+    rowClick = output<TDto>();
     columns: GridColumn[];
-    rows: any[];
+    rows: TDto[];
     totalRows: number;
     gridRequest: GridRequest;
 
@@ -34,6 +33,10 @@ export class GridComponent implements OnInit {
             search: ""
         }              
         this.updateGridRows();
+    }
+
+    onRowClick(item: TDto) {
+        this.rowClick.emit(item);
     }
 
     changeServer(changeData: ChangeForServer) {
@@ -56,7 +59,7 @@ export class GridComponent implements OnInit {
     }
 
     updateGridRows() {
-        this.restService.post<GridResponse<Player>>(this.endpoints.getGridData, this.gridRequest)
+        this.restService.post<GridResponse<TDto>>(this.endpoints.getGridData, this.gridRequest)
                         .subscribe(result => {
                             this.rows = result.records;
                             this.totalRows = result.totalRecords;

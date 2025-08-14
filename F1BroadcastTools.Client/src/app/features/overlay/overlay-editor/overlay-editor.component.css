@@ -25,6 +25,7 @@
     right: 1rem;
     display: flex;
     gap: .5rem;
+
     button {
         cursor: pointer;
         padding: .5rem 1rem;
@@ -42,4 +43,8 @@
 .yellow {
     color: black;
     background-color: yellow;
+}
+
+.nudge-selected {
+    outline: 2px solid purple;
 }

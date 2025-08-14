@@ -22,27 +22,47 @@ const routes: Routes = [
         ]
     },
     {
-        path: 'overlay',
+        path: 'overlays',
+        loadComponent: () => import('./features/overlay/overlay-list/overlay-list.component').then(c => c.OverlayListComponent),
+        children: [
+            {
+                path: 'add',
+                loadComponent: () => import('./features/overlay/overlay-form/overlay-form.component').then(c => c.OverlayFormComponent)
+            }
+        ]
+    },
+    {
+        path: 'overlays/:id',
         loadComponent: () => import('./features/overlay/overlay.component').then(c => c.OverlayComponent),
     },
     {
-        path: 'overlay/edit',
-        loadComponent: () => import('./features/overlay/edit-overlay/edit-overlay.component').then(c => c.EditOverlayComponent)
-    }, 
+        path: 'overlays/:id/editor',
+        loadComponent: () => import('./features/overlay/overlay-editor/overlay-editor.component').then(c => c.OverlayEditorComponent),
+        children: [
+            {
+                path: 'widget',
+                loadComponent: () => import('./features/overlay/overlay-editor/widget-form/widget-form.component').then(c => c.WidgetFormComponent)
+            },
+            {
+                path: 'widget/:id',
+                loadComponent: () => import('./features/overlay/overlay-editor/widget-form/widget-form.component').then(c => c.WidgetFormComponent)
+            }
+        ]
+    },
     {
-        path: 'overlay/timing-tower',
+        path: 'overlays/timing-tower',
         loadChildren: () => import('./features/timing-tower/timing-tower.module').then(m => m.TimingTowerModule)
     },
     {
-        path: 'overlay/minimap',
+        path: 'overlays/minimap',
         loadComponent: () => import('./features/minimap/minimap.component').then(c => c.MinimapComponent)
     },
     {
-        path: 'overlay/stopwatch',
+        path: 'overlays/stopwatch',
         loadComponent: () => import('./features/stopwatch-list/stopwatch-list.component').then(c => c.StopwatchListComponent)
     },
     {
-        path: 'overlay/halo-hud',
+        path: 'overlays/halo-hud',
         loadComponent: () => import('./features/halo-hud/halo-hud.component').then(c => c.HaloHudComponent)
     }
 ];
