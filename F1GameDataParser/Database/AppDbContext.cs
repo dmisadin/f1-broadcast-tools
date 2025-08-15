@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.Database.Entities;
+using F1GameDataParser.Database.Entities.Widgets;
 using Microsoft.EntityFrameworkCore;
 
 namespace F1GameDataParser.Database
@@ -15,6 +16,8 @@ namespace F1GameDataParser.Database
         }
 
         public DbSet<Player> Players { get; set; }
+        public DbSet<Overlay> Overlays { get; set; }
+        public DbSet<Widget> Widgets { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

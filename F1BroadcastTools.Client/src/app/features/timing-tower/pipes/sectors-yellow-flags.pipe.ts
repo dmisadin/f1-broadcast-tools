@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'sectorsYellowFlags',
-    standalone: false
+    name: 'sectorsYellowFlags'
 })
 export class SectorsYellowFlagsPipe implements PipeTransform {
 

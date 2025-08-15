@@ -1,10 +1,6 @@
 ﻿using F1GameDataParser.Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace F1GameDataParser.Database.Repositories
 {
@@ -23,9 +19,14 @@ namespace F1GameDataParser.Database.Repositories
             return this.table;
         }
 
-        public async Task<TEntity> GetAsync(int id)
+        public async Task<TEntity?> GetAsync(int id)
         {
             return await this.table.FindAsync(id);
+        }
+
+        public async Task<TDto?> GetAsync<TDto>(int id, Expression<Func<TEntity, TDto>> dtoExpression)
+        {
+            return await Query().Where(e => e.Id == id).Select(dtoExpression).FirstOrDefaultAsync();
         }
 
         public async Task<List<TEntity>> GetAllAsync()
@@ -38,7 +39,12 @@ namespace F1GameDataParser.Database.Repositories
             await this.table.AddRangeAsync(entities);
         }
 
-        public async Task DeleteAsync(params TEntity[] entities)
+        public void Update(TEntity entity)
+        {
+            this.table.Update(entity);
+        }
+
+        public void DeleteAsync(params TEntity[] entities)
         {
             this.table.RemoveRange(entities);
         }

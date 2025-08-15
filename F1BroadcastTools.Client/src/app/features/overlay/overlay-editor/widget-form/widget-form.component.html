@@ -1,0 +1,20 @@
+<modal-dialog [open]="true" [guardClose]="false" [isOverflowVisible]="true" (discard)="onFormDiscard()">
+    <h3 modal-header id="product-modal-title">Add new widget to HUD</h3>
+
+    <form (ngSubmit)="onFormSubmit()">
+        <section>
+            <label for="widget-select">Select widget</label>
+            <ng-select name="widget-select" id="widget-select"
+                [ngModel]="selectedWidget()" 
+                (ngModelChange)="selectedWidget.set($event)"
+                [items]="widgetOptions" 
+                [searchable]="false">
+            </ng-select>
+        </section>
+
+        <section class="form-buttons">
+            <button type="button" class="btn btn-secondary" (click)="onFormDiscard()"> Discard </button>
+            <button type="submit" class="btn btn-primary" [disabled]="!selectedWidget()"> Add </button>
+        </section>
+    </form>
+</modal-dialog>

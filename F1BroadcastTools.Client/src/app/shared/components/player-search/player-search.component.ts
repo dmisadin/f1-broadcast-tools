@@ -3,11 +3,14 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { PlayerService } from '../../services/player.service';
 import { LookupDto } from '../../models/common';
+import { NgSelectComponent } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'player-search',
-    standalone: false,
     templateUrl: './player-search.component.html',
+    imports: [NgSelectComponent, FormsModule, AsyncPipe]
 })
 export class PlayerSearchComponent implements OnInit {
     players$ = new BehaviorSubject<LookupDto[]>([]);

@@ -1,0 +1,27 @@
+<div class="modal-backdrop" 
+    *ngIf="open()" 
+    (pointerdown)="onBackdropPointerDown($event)"
+    (click)="onBackdropClick($event)">
+    <div class="modal-panel" cdkTrapFocus role="dialog" [attr.aria-modal]="true"
+        [style.overflow]="isOverflowVisible() ? 'visible' : 'hidden'"
+        (pointerdown)="$event.stopPropagation()"
+        (click)="$event.stopPropagation()">
+
+        <header class="modal-header">
+            <ng-content select="[modal-header]"></ng-content>
+        </header>
+
+        <section class="modal-body" [style.overflow]="isOverflowVisible() ? 'visible' : 'hidden'">
+            <ng-content></ng-content>
+        </section>
+
+        <!-- <footer class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="onDiscard()">
+                {{ discardLabel() }}
+            </button>
+            <button type="button" class="btn btn-primary" (click)="onConfirm()">
+                {{ confirmLabel() }}
+            </button>
+        </footer> -->
+    </div>
+</div>

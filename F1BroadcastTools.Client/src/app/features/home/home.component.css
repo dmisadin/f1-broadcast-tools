@@ -1,0 +1,26 @@
+.main-menu {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+
+    height: fit-content;
+    position: relative;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.menu-option {
+    display: flex;
+    align-items: center;
+
+    height: 80vh;
+    padding: 2rem;
+
+    background-color: lightblue;
+    border-radius: 1rem;
+
+    cursor: pointer;
+}

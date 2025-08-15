@@ -10,10 +10,10 @@
                     "standalone": true
                 },
                 "@schematics/angular:directive": {
-                    "standalone": false
+                    "standalone": true
                 },
                 "@schematics/angular:pipe": {
-                    "standalone": false
+                    "standalone": true
                 }
             },
             "root": "",
@@ -77,7 +77,7 @@
                                 {
                                     "type": "anyComponentStyle",
                                     "maximumWarning": "4kB",
-                                    "maximumError": "8kB"
+                                    "maximumError": "20kB"
                                 }
                             ],
                             "outputHashing": "all"

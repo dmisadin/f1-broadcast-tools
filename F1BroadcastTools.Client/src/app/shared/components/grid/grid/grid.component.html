@@ -5,6 +5,7 @@
         [totalRows]="totalRows"
         [isServerMode]="true"
         
+        (rowClick)="onRowClick($event)"
         (changeServer)="changeServer($event)"
         [sortable]="true"
         [columnFilter]="true">

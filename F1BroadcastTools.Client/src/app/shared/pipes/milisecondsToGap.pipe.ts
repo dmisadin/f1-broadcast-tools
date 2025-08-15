@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'milisecondsToGap',
-    standalone: false
+    name: 'milisecondsToGap'
 })
 export class MilisecondsToGapPipe implements PipeTransform {
     transform(milliseconds?: number): string {

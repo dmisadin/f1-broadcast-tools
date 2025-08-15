@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'hasFlag',
-    standalone: false
+    name: 'hasFlag'
 })
 export class HasFlagPipe implements PipeTransform {
     transform(value: number, flag: number): boolean {

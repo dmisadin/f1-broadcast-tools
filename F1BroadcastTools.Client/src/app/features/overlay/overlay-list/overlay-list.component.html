@@ -1,0 +1,6 @@
+<button routerLink="add">Add new overlay</button>
+
+<grid [endpoints]="overlayEndpoints" (rowClick)="onRowClick($event)">
+</grid>
+
+<router-outlet></router-outlet>

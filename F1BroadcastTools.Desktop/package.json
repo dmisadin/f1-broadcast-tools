@@ -1,0 +1,20 @@
+{
+    "name": "f1broadcasttools.desktop",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "",
+    "main": "dist/main.js",
+    "scripts": {
+        "start": "electron ./dist/main.js",
+        "build": "tsc"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/electron": "^1.6.12",
+        "@types/node": "^24.2.0",
+        "electron": "^37.2.6",
+        "typescript": "^5.9.2"
+    }
+}

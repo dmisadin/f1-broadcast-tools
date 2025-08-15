@@ -21,6 +21,8 @@ namespace F1GameDataParser.Utility
             foreach (var property in properties)
             {
                 var columnAttribute = property.GetCustomAttribute<GridColumnAttribute>();
+                if (columnAttribute == null) 
+                    continue;
 
                 structure.Columns.Add(new GridColumn
                 {
