@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { SharedModule } from "../../../shared/shared.module";
 import { OverlayEndpoints } from '../../../shared/constants/apiUrls';
 import { OverlayDto } from '../../../shared/dtos/overlay.dto';
 import { BaseListComponent } from '../../../shared/components/list/base-list.component';
 import { NavigationService } from '../../../core/services/navigation.service';
+import { GridComponent } from '../../../shared/components/grid/grid/grid.component';
 
 @Component({
     selector: 'overlay-list',
-    imports: [RouterLink, RouterOutlet, SharedModule],
+    imports: [RouterLink, RouterOutlet, GridComponent],
     templateUrl: './overlay-list.component.html',
     styleUrl: './overlay-list.component.css',
     providers: [NavigationService]

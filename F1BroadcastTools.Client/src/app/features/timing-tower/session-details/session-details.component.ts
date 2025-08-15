@@ -1,11 +1,13 @@
 import { Component, Input, computed, effect, input, signal } from '@angular/core';
 import { SafetyCarStatus } from '../../../shared/models/Enumerations';
+import { CommonModule } from '@angular/common';
+import { SectorsYellowFlagsPipe } from '../pipes/sectors-yellow-flags.pipe';
 
 @Component({
-    standalone: false,
     selector: 'session-details',
     templateUrl: './session-details.component.html',
-    styleUrl: './session-details.component.css'
+    styleUrl: './session-details.component.css',
+    imports: [CommonModule, SectorsYellowFlagsPipe]
 })
 export class SessionDetailsComponent {
     @Input() currentLap: number;

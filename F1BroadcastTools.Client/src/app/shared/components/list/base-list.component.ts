@@ -1,4 +1,4 @@
-import { OnInit, signal, inject, Injectable, Component } from "@angular/core";
+import { signal, inject, Component } from "@angular/core";
 import { NavigationService } from "../../../core/services/navigation.service";
 
 @Component({

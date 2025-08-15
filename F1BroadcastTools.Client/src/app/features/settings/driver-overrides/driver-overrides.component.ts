@@ -3,13 +3,13 @@ import { Team } from "../../../shared/models/Enumerations";
 import { RestService } from "../../../core/services/rest.service";
 import { DriverOverrideDto } from "../../../shared/models/dtos";
 import { DriverOverrideEndpoints, PlayerEndpoints } from "../../../shared/constants/apiUrls";
-import { SharedModule } from "../../../shared/shared.module";
+import { PlayerSearchComponent } from "../../../shared/components/player-search/player-search.component";
 
 @Component({
     selector: 'driver-overrides',
     templateUrl: 'driver-overrides.component.html',
     styleUrl: 'driver-overrides.component.css',
-    imports: [SharedModule]
+    imports: [PlayerSearchComponent]
 })
 export class DriverOverridesComponent implements OnInit, OnChanges {
     drivers: DriverOverrideDto[]

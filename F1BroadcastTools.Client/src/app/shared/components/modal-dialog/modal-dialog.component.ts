@@ -4,7 +4,6 @@ import { CdkTrapFocus } from '@angular/cdk/a11y';
 
 @Component({
     selector: 'modal-dialog',
-    standalone: true,
     imports: [CommonModule, CdkTrapFocus],
     templateUrl: './modal-dialog.component.html',
     styleUrls: ['./modal-dialog.component.css'],

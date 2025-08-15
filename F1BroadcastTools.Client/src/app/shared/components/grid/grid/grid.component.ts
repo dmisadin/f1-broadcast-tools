@@ -3,12 +3,13 @@ import { RestService } from '../../../../core/services/rest.service';
 import { ChangeForServer, GridColumn } from '../../../../thirdparty/ng-datatable/modals';
 import { GridRequest, GridResponse, GridStructure } from '../../../models/grid';
 import { Endpoints } from '../../../models/common';
+import { DataTableModule } from '../../../../thirdparty/ng-datatable/ng-datatable.module';
 
 @Component({
     selector: 'grid',
-    standalone: false,
     templateUrl: './grid.component.html',
-    styleUrl: './grid.component.css'
+    styleUrl: './grid.component.css',
+    imports: [DataTableModule]
 })
 export class GridComponent<TDto> implements OnInit {
     @Input() endpoints: Endpoints;
