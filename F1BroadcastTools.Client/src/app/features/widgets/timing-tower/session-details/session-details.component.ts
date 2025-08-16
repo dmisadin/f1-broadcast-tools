@@ -1,7 +1,7 @@
 import { Component, Input, computed, effect, input, signal } from '@angular/core';
-import { SafetyCarStatus } from '../../../shared/models/Enumerations';
 import { CommonModule } from '@angular/common';
 import { SectorsYellowFlagsPipe } from '../pipes/sectors-yellow-flags.pipe';
+import { SafetyCarStatus } from '../../../../shared/models/Enumerations';
 
 @Component({
     selector: 'session-details',

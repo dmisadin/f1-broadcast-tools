@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, signal } from "@angular/core";
-import { TimingTower } from "../../shared/models/TimingTower"
-import { WebSocketService } from "../../core/services/websocket.service";
-import { AdditionalInfo, ResultStatus, SafetyCarStatus } from "../../shared/models/Enumerations";
 import { CommonModule } from "@angular/common";
 import { SessionDetailsComponent } from "./session-details/session-details.component";
 import { DriverTimingDetailsComponent } from "./driver-timing-details/driver-timing-details.component";
+import { WebSocketService } from "../../../core/services/websocket.service";
+import { SafetyCarStatus, ResultStatus, AdditionalInfo } from "../../../shared/models/Enumerations";
+import { TimingTower } from "../../../shared/models/TimingTower";
 
 @Component({
     selector: 'timing-tower',

@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit, signal } from "@angular/core";
-import { WebSocketService } from "../../core/services/websocket.service";
-import { SectorTimeStatus, Stopwatch } from "../../shared/models/stopwatch.model";
 import { CommonModule } from "@angular/common";
 import { StopwatchComponent } from "./stopwatch/stopwatch.component";
 import { animate, style, transition, trigger } from "@angular/animations";
+import { WebSocketService } from "../../../core/services/websocket.service";
+import { Stopwatch, SectorTimeStatus } from "../../../shared/models/stopwatch.model";
 
 @Component({
     selector: 'stopwatch-list',

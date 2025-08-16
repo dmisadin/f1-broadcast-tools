@@ -1,8 +1,8 @@
 import { Component, effect, input, signal } from '@angular/core';
-import { FastestQualifyingLap, SectorTimeStatus, StopwatchCar } from '../../../shared/models/stopwatch.model';
 import { CommonModule } from '@angular/common';
-import { TeamLogoComponent } from '../../../shared/components/game/team-logo/team-logo.component';
-import { GameYear } from '../../../shared/models/Enumerations';
+import { TeamLogoComponent } from '../../../../shared/components/game/team-logo/team-logo.component';
+import { GameYear } from '../../../../shared/models/Enumerations';
+import { StopwatchCar, FastestQualifyingLap, SectorTimeStatus } from '../../../../shared/models/stopwatch.model';
 
 @Component({
     selector: 'stopwatch',

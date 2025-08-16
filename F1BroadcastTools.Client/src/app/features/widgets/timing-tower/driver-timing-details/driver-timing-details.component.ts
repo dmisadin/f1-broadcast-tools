@@ -1,9 +1,9 @@
 import { Component, computed, effect, input, signal } from "@angular/core";
-import { DriverTimingDetails } from "../../../shared/models/TimingTower";
-import { AdditionalInfo, GameYear, ResultStatus } from "../../../shared/models/Enumerations";
 import { trigger, transition, style, animate } from "@angular/animations";
 import { CommonModule } from "@angular/common";
-import { TeamLogoComponent } from "../../../shared/components/game/team-logo/team-logo.component";
+import { TeamLogoComponent } from "../../../../shared/components/game/team-logo/team-logo.component";
+import { AdditionalInfo, GameYear, ResultStatus } from "../../../../shared/models/Enumerations";
+import { DriverTimingDetails } from "../../../../shared/models/TimingTower";
 
 @Component({
     selector: 'driver-timing-details',

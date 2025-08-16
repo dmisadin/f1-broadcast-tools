@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { Minimap } from "../../shared/models/Minimap";
-import { WebSocketService } from "../../core/services/websocket.service";
+import { WebSocketService } from "../../../core/services/websocket.service";
+import { Minimap } from "../../../shared/models/Minimap";
 
 @Component({
     selector: 'minimap',

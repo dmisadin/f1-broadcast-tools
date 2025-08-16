@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
-import { WebSocketService } from "../../core/services/websocket.service";
-import { ERSDeployMode, HaloTelemetryDashboard } from "../../shared/models/telemetry.model";
+import { WebSocketService } from "../../../core/services/websocket.service";
+import { HaloTelemetryDashboard, ERSDeployMode } from "../../../shared/models/telemetry.model";
 
 @Component({
     selector: 'halo-hud',
