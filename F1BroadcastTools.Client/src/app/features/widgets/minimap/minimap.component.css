@@ -1,5 +1,5 @@
 .minimap {
-    position: absolute;
+    position: relative;
     max-width: 500px;
     max-height: 500px;
     width: fit-content;

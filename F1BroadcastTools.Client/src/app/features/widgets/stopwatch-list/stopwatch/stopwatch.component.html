@@ -29,7 +29,7 @@
         <div class="team">
             <team-logo [team]="car().driver.teamId" 
                     [color]="car().driver.teamDetails?.primaryColor"
-                    [game]="gameYear()">
+                    [game]="gameYear() ?? GameYear.F125">
             </team-logo>
         </div>
         <div class="name"> {{car().driver.name}} - {{car().driver.vehicleIdx}} </div>

@@ -1,0 +1,132 @@
+{
+    "gameYear": 23,
+    "fastestLap": {
+        "driver": {
+            "vehicleIdx": 3,
+            "teamId": 1,
+            "teamDetails": {
+                "id": 1,
+                "name": "Ferrari",
+                "primaryColor": "#DC0000",
+                "secondaryColor": "#FAF100",
+                "textColor": "#FFFFFF"
+            },
+            "name": "LECLERC"
+        },
+        "lapTime": "1:06.291",
+        "sector1Time": "16.419",
+        "sector1And2Time": "46.561"
+    },
+    "secondFastestLap": {
+        "driver": {
+            "vehicleIdx": 11,
+            "teamId": 8,
+            "teamDetails": {
+                "id": 8,
+                "name": "McLaren",
+                "primaryColor": "#FF8700",
+                "secondaryColor": "#2D2D2D",
+                "textColor": "#2D2D2D"
+            },
+            "name": "NORRIS"
+        },
+        "lapTime": "1:06.549",
+        "sector1Time": "16.445",
+        "sector1And2Time": "46.734"
+    },
+    "cars": [
+        {
+            "driver": {
+                "vehicleIdx": 14,
+                "teamId": 3,
+                "teamDetails": {
+                    "id": 3,
+                    "name": "Williams",
+                    "primaryColor": "#1256DA",
+                    "secondaryColor": "#FFFFFF",
+                    "textColor": "#FFFFFF"
+                },
+                "name": "ALBON"
+            },
+            "position": 15,
+            "lastLapTime": "0.000",
+            "currentTime": "1:02.6",
+            "isLapValid": true,
+            "lapProgress": 93,
+            "tyreCompoundVisual": "Soft",
+            "sector1TimeStatus": 1,
+            "sector2TimeStatus": 1,
+            "sector3TimeStatus": null,
+            "lapTimeStatus": null,
+            "sector1GapToLeader": "+0.177",
+            "sector1TimeStatusRelativeToPole": 0,
+            "sector2GapToLeader": "+0.612",
+            "sector2TimeStatusRelativeToPole": 0,
+            "sector3GapToLeader": null,
+            "lapGapToLeader": null,
+            "lapTimeStatusRelativeToPole": null
+        },
+        {
+            "driver": {
+                "vehicleIdx": 2,
+                "teamId": 0,
+                "teamDetails": {
+                    "id": 0,
+                    "name": "Mercedes",
+                    "primaryColor": "#00D2BE",
+                    "secondaryColor": "#000000",
+                    "textColor": "#000000"
+                },
+                "name": "RUSSELL"
+            },
+            "position": 19,
+            "lastLapTime": "0.000",
+            "currentTime": "23.9",
+            "isLapValid": true,
+            "lapProgress": 35,
+            "tyreCompoundVisual": "Soft",
+            "sector1TimeStatus": 1,
+            "sector2TimeStatus": null,
+            "sector3TimeStatus": null,
+            "lapTimeStatus": null,
+            "sector1GapToLeader": "+0.161",
+            "sector1TimeStatusRelativeToPole": 0,
+            "sector2GapToLeader": null,
+            "sector2TimeStatusRelativeToPole": null,
+            "sector3GapToLeader": null,
+            "lapGapToLeader": null,
+            "lapTimeStatusRelativeToPole": null
+        },
+        {
+            "driver": {
+                "vehicleIdx": 16,
+                "teamId": 0,
+                "teamDetails": {
+                    "id": 0,
+                    "name": "Mercedes",
+                    "primaryColor": "#00D2BE",
+                    "secondaryColor": "#000000",
+                    "textColor": "#000000"
+                },
+                "name": "HAMILTON"
+            },
+            "position": 18,
+            "lastLapTime": "0.000",
+            "currentTime": "22.4",
+            "isLapValid": true,
+            "lapProgress": 34,
+            "tyreCompoundVisual": "Soft",
+            "sector1TimeStatus": 1,
+            "sector2TimeStatus": null,
+            "sector3TimeStatus": null,
+            "lapTimeStatus": null,
+            "sector1GapToLeader": "-0.218",
+            "sector1TimeStatusRelativeToPole": 2,
+            "sector2GapToLeader": null,
+            "sector2TimeStatusRelativeToPole": null,
+            "sector3GapToLeader": null,
+            "lapGapToLeader": null,
+            "lapTimeStatusRelativeToPole": null
+        }
+    ]
+}

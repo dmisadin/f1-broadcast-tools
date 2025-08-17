@@ -12,7 +12,7 @@ import { StopwatchCar, FastestQualifyingLap, SectorTimeStatus } from '../../../.
 
 })
 export class StopwatchComponent {
-    gameYear = input<GameYear>(GameYear.F123);
+    gameYear = input<GameYear | undefined>(GameYear.F123);
     car = input<StopwatchCar>({} as StopwatchCar);
     fastestLap = input<FastestQualifyingLap | null>();
     secondFastestLap = input<FastestQualifyingLap | null>();
@@ -26,6 +26,7 @@ export class StopwatchComponent {
     private previousPosition = signal<number>(1);
     private timeoutHandle: any;
     SectorTimeStatus = SectorTimeStatus;
+    GameYear = GameYear;
 
     private lastGapValues = {
         sector1: null as string | null,

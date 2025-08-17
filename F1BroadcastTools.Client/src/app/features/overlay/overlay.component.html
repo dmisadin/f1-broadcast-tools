@@ -1,1 +1,23 @@
-<button routerLink="editor">Overlay editor</button>
+<button class="editor-button" routerLink="editor">Overlay editor</button>
+
+<div class="screen-boundary">
+    @for(widget of overlay?.widgets; track widget.id)
+    {
+    <div class="widget-container" [style.left.px]="widget.positionX" [style.top.px]="widget.positionY > 0 ? widget.positionY : (-1*widget.positionY)">
+        @switch(widget.widgetType) {
+        @case (WidgetType.TimingTower) {
+        <timing-tower></timing-tower>
+        }
+        @case (WidgetType.Stopwatch) {
+        <stopwatch-list></stopwatch-list>
+        }
+        @case (WidgetType.Minimap) {
+        <minimap></minimap>
+        }
+        @case (WidgetType.HaloHUD) {
+        <halo-hud></halo-hud>
+        }
+        }
+    </div>
+    }
+</div>

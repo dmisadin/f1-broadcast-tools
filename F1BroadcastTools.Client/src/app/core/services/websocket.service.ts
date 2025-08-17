@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 
 @Injectable()
 export class WebSocketService<T> {
-    private socket!: WebSocket;
+    private socket?: WebSocket;
     private messageSubject = new Subject<T>();
     private isConnected = false;
 
@@ -40,7 +40,7 @@ export class WebSocketService<T> {
      */
     
     disconnect(): void{
-        this.socket.close();
+        this.socket?.close();
         console.log('WebSocket disconnected.');
     }
     

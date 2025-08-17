@@ -5,6 +5,7 @@ import { DriverTimingDetailsComponent } from "./driver-timing-details/driver-tim
 import { WebSocketService } from "../../../core/services/websocket.service";
 import { SafetyCarStatus, ResultStatus, AdditionalInfo } from "../../../shared/models/Enumerations";
 import { TimingTower } from "../../../shared/models/TimingTower";
+import { WidgetBaseComponent } from "../widget-base.component";
 
 @Component({
     selector: 'timing-tower',
@@ -13,14 +14,20 @@ import { TimingTower } from "../../../shared/models/TimingTower";
     imports: [CommonModule, SessionDetailsComponent, DriverTimingDetailsComponent],
     providers: [WebSocketService]
 })
-export class TimingTowerComponent implements OnInit, OnDestroy {
+export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> implements OnInit, OnDestroy {
     timingTower?: TimingTower;
     safetyCarStatus = SafetyCarStatus;
     resultStatus = ResultStatus;
     showAdditionalInfo = signal<number>(AdditionalInfo.None);
-    constructor(private webSocketService: WebSocketService<TimingTower>) { }
+
+    constructor(private webSocketService: WebSocketService<TimingTower>) { super(); }
 
     ngOnInit(): void {
+        if (this.placeholderData()) {
+            this.timingTower = this.placeholderData();
+            return;
+        }
+
         this.webSocketService.connect('ws://localhost:5000/ws/timing-tower');
 
         this.webSocketService.onMessage().subscribe((data: TimingTower) => {

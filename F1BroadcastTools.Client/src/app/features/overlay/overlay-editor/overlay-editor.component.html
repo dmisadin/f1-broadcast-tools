@@ -2,12 +2,26 @@
 <div class="drag-boundary">
     @for(widget of overlay()?.widgets; track widget.id)
     {
-    <div class="block" nudgeDrag 
+    <div class="widget-container" nudgeDrag 
         (nudgePositionChange)="onPositionChange($event)" 
         (cdkDragEnded)="onDragEnded($event)"
         [cdkDragData]="widget.id" 
         [cdkDragFreeDragPosition]="{x: widget.positionX, y: widget.positionY}">
-        {{widget.id}} - {{widget.widgetType}}
+
+        @switch(widget.widgetType) {
+        @case (WidgetType.TimingTower) {
+        <timing-tower [placeholderData]="timingTowerPlaceholder"></timing-tower>
+        }
+        @case (WidgetType.Stopwatch) {
+        <stopwatch-list [placeholderData]="stopwatchPlaceholder"></stopwatch-list>
+        }
+        @case (WidgetType.Minimap) {
+        <minimap [placeholderData]="minimapPlaceholder"></minimap>
+        }
+        @case (WidgetType.HaloHUD) {
+        <halo-hud [placeholderData]="haloPlaceholder"></halo-hud>
+        }
+        }
     </div>
     }
 </div>

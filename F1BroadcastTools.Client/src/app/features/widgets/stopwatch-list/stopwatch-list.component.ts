@@ -4,6 +4,7 @@ import { StopwatchComponent } from "./stopwatch/stopwatch.component";
 import { animate, style, transition, trigger } from "@angular/animations";
 import { WebSocketService } from "../../../core/services/websocket.service";
 import { Stopwatch, SectorTimeStatus } from "../../../shared/models/stopwatch.model";
+import { WidgetBaseComponent } from "../widget-base.component";
 
 @Component({
     selector: 'stopwatch-list',
@@ -23,8 +24,8 @@ import { Stopwatch, SectorTimeStatus } from "../../../shared/models/stopwatch.mo
         ])
     ]
 })
-export class StopwatchListComponent implements OnInit, OnDestroy {
-    stopwatch: Stopwatch;
+export class StopwatchListComponent extends WidgetBaseComponent<Stopwatch> implements OnInit, OnDestroy {
+    stopwatch?: Stopwatch;
     isGapToLeaderVisible: boolean = false;
     positionChange = signal<number>(0);
     currentPoleLap: { lapTime: string, driverName: string };
@@ -32,9 +33,14 @@ export class StopwatchListComponent implements OnInit, OnDestroy {
 
     SectorTimeStatus = SectorTimeStatus;
 
-    constructor(private webSocketService: WebSocketService<Stopwatch>) { }
+    constructor(private webSocketService: WebSocketService<Stopwatch>) { super(); }
 
     ngOnInit(): void {
+        if (this.placeholderData()) {
+            this.stopwatch = this.placeholderData();
+            return;
+        }
+        
         this.webSocketService.connect('ws://localhost:5000/ws/stopwatch');
 
         this.webSocketService.onMessage().subscribe((data: Stopwatch) => {

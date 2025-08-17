@@ -17,19 +17,19 @@ export interface StopwatchCar {
     lapProgress: number;
     tyreCompoundVisual: string;
 
-    sector1TimeStatus?: SectorTimeStatus;
-    sector2TimeStatus?: SectorTimeStatus;
-    sector3TimeStatus?: SectorTimeStatus;
-    lapTimeStatus?: SectorTimeStatus;
+    sector1TimeStatus?: SectorTimeStatus | null;
+    sector2TimeStatus?: SectorTimeStatus | null;
+    sector3TimeStatus?: SectorTimeStatus | null;
+    lapTimeStatus?: SectorTimeStatus | null;
 
-    sector1GapToLeader?: string;
-    sector2GapToLeader?: string;
-    sector3GapToLeader?: string;
-    lapGapToLeader?: string;
+    sector1GapToLeader?: string | null;
+    sector2GapToLeader?: string | null;
+    sector3GapToLeader?: string | null;
+    lapGapToLeader?: string | null;
 
-    sector1TimeStatusRelativeToPole?: SectorTimeStatus;
-    sector2TimeStatusRelativeToPole?: SectorTimeStatus;
-    lapTimeStatusRelativeToPole?: SectorTimeStatus;
+    sector1TimeStatusRelativeToPole?: SectorTimeStatus | null;
+    sector2TimeStatusRelativeToPole?: SectorTimeStatus | null;
+    lapTimeStatusRelativeToPole?: SectorTimeStatus | null;
 
     driver: DriverBasicDetails;
 }
