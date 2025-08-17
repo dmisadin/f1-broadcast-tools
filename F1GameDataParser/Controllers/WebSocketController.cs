@@ -15,7 +15,7 @@ public class WebSocketController : ControllerBase
     private readonly StopwatchFactory stopwatchFactory;
     private readonly HaloTelemetryDashboardFactory haloTelemetryDashboardFactory;
 
-    public WebSocketController(TimingTowerFactory timingTowerFactory, 
+    public WebSocketController(TimingTowerFactory timingTowerFactory,
                                 MinimapFactory minimapFactory,
                                 StopwatchFactory stopwatchFactory,
                                 HaloTelemetryDashboardFactory haloTelemetryDashboardFactory)
@@ -32,7 +32,7 @@ public class WebSocketController : ControllerBase
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => timingTowerFactory.Generate());
+            await StreamData(webSocket, () => timingTowerFactory.Generate(), HttpContext.RequestAborted);
         }
         else
         {
@@ -46,7 +46,7 @@ public class WebSocketController : ControllerBase
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => minimapFactory.Generate());
+            await StreamData(webSocket, () => minimapFactory.Generate(), HttpContext.RequestAborted);
         }
         else
         {
@@ -60,7 +60,7 @@ public class WebSocketController : ControllerBase
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => stopwatchFactory.Generate());
+            await StreamData(webSocket, () => stopwatchFactory.Generate(), HttpContext.RequestAborted);
         }
         else
         {
@@ -74,7 +74,7 @@ public class WebSocketController : ControllerBase
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => haloTelemetryDashboardFactory.Generate());
+            await StreamData(webSocket, () => haloTelemetryDashboardFactory.Generate(), HttpContext.RequestAborted);
         }
         else
         {
@@ -82,7 +82,7 @@ public class WebSocketController : ControllerBase
         }
     }
 
-    private async Task StreamData(WebSocket webSocket, Func<object> dataGenerator)
+    private async Task StreamData(WebSocket webSocket, Func<object?> dataGenerator, CancellationToken ct = default)
     {
         try
         {
@@ -91,34 +91,78 @@ public class WebSocketController : ControllerBase
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
 
-            while (!webSocket.CloseStatus.HasValue)
+            var recvBuffer = new byte[1]; // we ignore data, only detect Close frames
+            Task<WebSocketReceiveResult> receiveTask = webSocket.ReceiveAsync(recvBuffer, ct);
+
+            while (webSocket.State == WebSocketState.Open && !ct.IsCancellationRequested)
             {
                 var data = dataGenerator();
+                if (data is not null)
+                {
+                    var jsonData = JsonSerializer.Serialize(data, options);
+                    var buffer = Encoding.UTF8.GetBytes(jsonData);
 
-                if (data == null) continue;
+                    var sendTask = webSocket.SendAsync(
+                        new ArraySegment<byte>(buffer),
+                        WebSocketMessageType.Text,
+                        endOfMessage: true,
+                        ct);
 
-                var jsonData = JsonSerializer.Serialize(data, options);
-                var buffer = Encoding.UTF8.GetBytes(jsonData);
+                    // Race: either send finishes, receive sees a close, or our 100ms tick elapses
+                    var completed = await Task.WhenAny(sendTask, receiveTask, Task.Delay(100, ct));
 
-                await webSocket.SendAsync(
-                    new ArraySegment<byte>(buffer),
-                    WebSocketMessageType.Text,
-                    true,
-                    CancellationToken.None);
+                    if (completed == receiveTask)
+                    {
+                        var result = await receiveTask;
+                        if (result.MessageType == WebSocketMessageType.Close)
+                            break;
 
-                await Task.Delay(100);
+                        // Not a close: arm next receive
+                        receiveTask = webSocket.ReceiveAsync(recvBuffer, ct);
+                    }
+                    else if (completed == sendTask)
+                    {
+                        // propagate any send exception
+                        await sendTask;
+                    }
+                }
+                else
+                {
+                    // No data this tick—still check for a close frame with the same 100ms cadence
+                    var completed = await Task.WhenAny(receiveTask, Task.Delay(100, ct));
+                    if (completed == receiveTask)
+                    {
+                        var result = await receiveTask;
+                        if (result.MessageType == WebSocketMessageType.Close)
+                            break;
+
+                        receiveTask = webSocket.ReceiveAsync(recvBuffer, ct);
+                    }
+                }
             }
+        }
+        catch (OperationCanceledException)
+        {
+            // request aborted or server shutting down
+        }
+        catch (WebSocketException wse)
+        {
+            Console.WriteLine($"WebSocket error: {wse.Message}");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"WebSocket error: {ex.Message}");
+            Console.WriteLine($"Unexpected error: {ex.Message}");
         }
         finally
         {
-            await webSocket.CloseAsync(
-                WebSocketCloseStatus.NormalClosure,
-                "Connection closed",
-                CancellationToken.None);
+            try
+            {
+                if (webSocket.State is WebSocketState.Open or WebSocketState.CloseReceived)
+                {
+                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed", CancellationToken.None);
+                }
+            }
+            catch { /* ignore close races */ }
         }
     }
 }
