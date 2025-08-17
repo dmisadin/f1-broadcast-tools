@@ -3,7 +3,7 @@
 <div class="screen-boundary">
     @for(widget of overlay?.widgets; track widget.id)
     {
-    <div class="widget-container" [style.left.px]="widget.positionX" [style.top.px]="widget.positionY > 0 ? widget.positionY : (-1*widget.positionY)">
+    <div class="widget-container" [style.left.px]="widget.positionX" [style.top.px]="widget.positionY">
         @switch(widget.widgetType) {
         @case (WidgetType.TimingTower) {
         <timing-tower></timing-tower>
