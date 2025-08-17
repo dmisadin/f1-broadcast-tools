@@ -1,4 +1,4 @@
-import { Component, Input, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, computed, effect, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SectorsYellowFlagsPipe } from '../pipes/sectors-yellow-flags.pipe';
 import { SafetyCarStatus } from '../../../../shared/models/Enumerations';
@@ -7,12 +7,13 @@ import { SafetyCarStatus } from '../../../../shared/models/Enumerations';
     selector: 'session-details',
     templateUrl: './session-details.component.html',
     styleUrl: './session-details.component.css',
-    imports: [CommonModule, SectorsYellowFlagsPipe]
+    imports: [CommonModule, SectorsYellowFlagsPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionDetailsComponent {
-    @Input() currentLap: number;
-    @Input() totalLaps: number;
-    @Input() safetyCarStatus: SafetyCarStatus;
+    currentLap = input<number>();
+    totalLaps = input<number>();
+    safetyCarStatus = input<SafetyCarStatus>();
     sectorYellowFlags = input<boolean[]>([]);
     greenFlagVisible = signal(false);
     private previousHadYellow = signal(false);

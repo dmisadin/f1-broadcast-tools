@@ -1,18 +1,33 @@
-<div *ngIf="timingTower()" class="timing-tower">
+<div class="timing-tower">
     <session-details
-        [currentLap]="timingTower()!.currentLap"
-        [totalLaps]="timingTower()!.totalLaps"
-        [sectorYellowFlags]="timingTower()!.sectorYellowFlags"
-        [safetyCarStatus]="timingTower()!.safetyCarStatus">
+        [currentLap]="currentLap()"
+        [totalLaps]="totalLaps()"
+        [sectorYellowFlags]="sectorYellowFlags()"
+        [safetyCarStatus]="safetyCarStatus()">
     </session-details>
     
     <div class="driver-timing-details-container">
-        @for (driver of timingTower()!.driverTimingDetails; track driver.vehicleIdx)
+        @for (driver of driverTimingDetails(); track driver.vehicleIdx)
         {
-        <driver-timing-details [driver]="driver" 
-            [isSpectated]="driver.vehicleIdx === timingTower()!.spectatorCarIdx"
+        <driver-timing-details 
+            [isSpectated]="driver.vehicleIdx === spectatorCarIdx()"
             [showAdditionalInfo]="showAdditionalInfo()"
-            [gameYear]="timingTower()!.gameYear">
+            [gameYear]="gameYear()" 
+            [vehicleIdx]="driver.vehicleIdx" 
+            [position]="driver.position" 
+            [teamId]="driver.teamId" 
+            [teamDetails]="driver.teamDetails"
+            [name]="driver.name" 
+            [tyreAge]="driver.tyreAge" 
+            [visualTyreCompound]="driver.visualTyreCompound" 
+            [gapInterval]="driver.gapInterval" 
+            [resultStatus]="driver.resultStatus" 
+            [penalties]="driver.penalties" 
+            [warnings]="driver.warnings" 
+            [hasFastestLap]="driver.hasFastestLap" 
+            [isInPits]="driver.isInPits"
+            [numPitStops]="driver.numPitStops" 
+            [positionsGained]="driver.positionsGained">
         </driver-timing-details>
         }
     </div>

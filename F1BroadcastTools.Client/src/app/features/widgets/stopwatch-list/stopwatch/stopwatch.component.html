@@ -1,5 +1,5 @@
 <div class="stopwatch">
-    <div class="stopwatch-header" [style.borderColor]="car().driver.teamDetails?.primaryColor">
+    <div class="stopwatch-header" [style.borderColor]="driver().teamDetails?.primaryColor">
         <div class="position">
             <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 @if (positionChange() > 0)
@@ -24,56 +24,56 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <span>{{car().position}}</span>
+            <span>{{ position() }}</span>
         </div>
         <div class="team">
-            <team-logo [team]="car().driver.teamId" 
-                    [color]="car().driver.teamDetails?.primaryColor"
+            <team-logo [team]="driver().teamId" 
+                    [color]="driver().teamDetails?.primaryColor"
                     [game]="gameYear() ?? GameYear.F125">
             </team-logo>
         </div>
-        <div class="name"> {{car().driver.name}} - {{car().driver.vehicleIdx}} </div>
+        <div class="name"> {{driver().name}} - {{driver().vehicleIdx}} </div>
         <div class="tyre" [ngStyle]="{
-                'background-image': 'url(images/icons/tyres/' + car().tyreCompoundVisual.toLowerCase() + '_empty.svg)'
+                'background-image': 'url(images/icons/tyres/' + tyreCompoundVisual() + '_empty.svg)'
             }">
-            {{car().tyreCompoundVisual[0]}}
+            {{ tyreCompoundVisual()[0] }}
         </div>
     </div>
     <div class="stopwatch-body">
         @if (showLapGap()) {
-        <div class="current-time mono-font" [ngClass]="{'green-time': car().lapTimeStatusRelativeToPole === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().lapTimeStatusRelativeToPole === SectorTimeStatus.NoImprovement,
-                                                }"> {{ car().lapGapToLeader }} </div>
+        <div class="current-time mono-font" [ngClass]="{'green-time': lapTimeStatusRelativeToPole() === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': lapTimeStatusRelativeToPole() === SectorTimeStatus.NoImprovement,
+                                                }"> {{ lapGapToLeader() }} </div>
         }
         @else if (showSector2Gap()) {
-        <div class="current-time mono-font" [ngClass]="{'green-time': car().sector2TimeStatusRelativeToPole === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().sector2TimeStatusRelativeToPole === SectorTimeStatus.NoImprovement,
-                                                }"> {{ car().sector2GapToLeader }} </div>
+        <div class="current-time mono-font" [ngClass]="{'green-time': sector2TimeStatusRelativeToPole() === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': sector2TimeStatusRelativeToPole() === SectorTimeStatus.NoImprovement,
+                                                }"> {{ sector2GapToLeader() }} </div>
         }
         @else if (showSector1Gap()) {
-        <div class="current-time mono-font" [ngClass]="{'green-time': car().sector1TimeStatusRelativeToPole === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': car().sector1TimeStatusRelativeToPole === SectorTimeStatus.NoImprovement,
-                                                }"> {{ car().sector1GapToLeader }} </div>
+        <div class="current-time mono-font" [ngClass]="{'green-time': sector1TimeStatusRelativeToPole() === SectorTimeStatus.FasterThanLeader,
+                                                'yellow-time': sector1TimeStatusRelativeToPole() === SectorTimeStatus.NoImprovement,
+                                                }"> {{ sector1GapToLeader() }} </div>
         }
-        @else if (!car().isLapValid) {
+        @else if (!isLapValid()) {
         <div class="current-time invalid-time">Invalid lap</div>
         }
         @else {
-        <div class="current-time mono-font">{{ car().currentTime }}</div>
+        <div class="current-time mono-font">{{ currentTime() }}</div>
         }
         <div class="best-session-time">
-            @if (car().sector1GapToLeader == null)
+            @if (sector1GapToLeader == null)
             {
             <div class="best-time mono-font">{{ fastestLap()?.sector1Time }}</div>
             }
-            @else if (car().sector2GapToLeader == null)
+            @else if (sector2GapToLeader == null)
             {
             <div class="best-time mono-font">{{ fastestLap()?.sector1And2Time }}</div>
             }
-            @else if (car().lapGapToLeader == null)
+            @else if (lapGapToLeader == null)
             {
             <div class="best-time mono-font">
-                @if (car().driver.vehicleIdx === fastestLap()?.driver?.vehicleIdx) {
+                @if (driver().vehicleIdx === fastestLap()?.driver?.vehicleIdx) {
                 {{ secondFastestLap()?.lapTime }}
                 }
                 @else {
@@ -85,7 +85,7 @@
             <div class="best-time mono-font"> {{ fastestLap()?.lapTime }} </div>
             }
             <div class="best-time-driver-name">
-                @if (car().lastLapTime === fastestLap()?.lapTime) {
+                @if (lastLapTime() === fastestLap()?.lapTime) {
                 {{secondFastestLap()?.driver?.name}}
                 }
                 @else {
@@ -96,19 +96,19 @@
     </div>
     <div class="stopwatch-footer">
         <div class="sectors">
-            <div class="sector-1" [ngClass]="{'purple': car().sector1TimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'green': car().sector1TimeStatus === SectorTimeStatus.PersonalBest,
-                                                'yellow': car().sector1TimeStatus === SectorTimeStatus.NoImprovement,
+            <div class="sector-1" [ngClass]="{'purple': sector1TimeStatus() === SectorTimeStatus.FasterThanLeader,
+                                                'green': sector1TimeStatus() === SectorTimeStatus.PersonalBest,
+                                                'yellow': sector1TimeStatus() === SectorTimeStatus.NoImprovement,
                                                 }">S1</div>
-            <div class="sector-1" [ngClass]="{'purple': car().sector2TimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'green': car().sector2TimeStatus === SectorTimeStatus.PersonalBest,
-                                                'yellow': car().sector2TimeStatus === SectorTimeStatus.NoImprovement,
+            <div class="sector-1" [ngClass]="{'purple': sector2TimeStatus() === SectorTimeStatus.FasterThanLeader,
+                                                'green': sector2TimeStatus() === SectorTimeStatus.PersonalBest,
+                                                'yellow': sector2TimeStatus() === SectorTimeStatus.NoImprovement,
                                                 }">S2</div>
-            <div class="sector-1" [ngClass]="{'purple': car().lapTimeStatus === SectorTimeStatus.FasterThanLeader,
-                                                'green': car().lapTimeStatus === SectorTimeStatus.PersonalBest,
-                                                'yellow': car().lapTimeStatus === SectorTimeStatus.NoImprovement,
+            <div class="sector-1" [ngClass]="{'purple': lapTimeStatus() === SectorTimeStatus.FasterThanLeader,
+                                                'green': lapTimeStatus() === SectorTimeStatus.PersonalBest,
+                                                'yellow': lapTimeStatus() === SectorTimeStatus.NoImprovement,
                                                 }">S3</div>
         </div>
-        <div class="lap-progress" [style.width.%]="car().lapProgress"></div>
+        <div class="lap-progress" [style.width.%]="lapProgress()"></div>
     </div>
 </div>

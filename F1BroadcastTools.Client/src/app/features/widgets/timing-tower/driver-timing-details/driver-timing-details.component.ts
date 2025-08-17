@@ -1,9 +1,9 @@
-import { Component, computed, effect, input, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from "@angular/core";
 import { trigger, transition, style, animate } from "@angular/animations";
 import { CommonModule } from "@angular/common";
 import { TeamLogoComponent } from "../../../../shared/components/game/team-logo/team-logo.component";
-import { AdditionalInfo, GameYear, ResultStatus } from "../../../../shared/models/Enumerations";
-import { DriverTimingDetails } from "../../../../shared/models/TimingTower";
+import { AdditionalInfo, GameYear, ResultStatus, Team } from "../../../../shared/models/Enumerations";
+import { TeamDetails } from "../../../../shared/models/team.model";
 
 @Component({
     selector: 'driver-timing-details',
@@ -21,29 +21,44 @@ import { DriverTimingDetails } from "../../../../shared/models/TimingTower";
             ])
         ])
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DriverTimingDetailsComponent {
     isSpectated = input(false);
     showAdditionalInfo = input(AdditionalInfo.None);
-    driver = input<DriverTimingDetails>({} as DriverTimingDetails);
     gameYear = input(GameYear.F123);
 
-    resultStatus = ResultStatus;
+    vehicleIdx       = input.required<number>();
+    position         = input.required<number>();
+    teamId           = input.required<Team>();
+    teamDetails      = input<TeamDetails | undefined>();
+    name             = input.required<string>();
+    tyreAge          = input.required<number>();
+    visualTyreCompound = input.required<string>();
+    gapInterval      = input.required<string>();
+    resultStatus     = input.required<ResultStatus>();
+    penalties        = input.required<number>();
+    warnings         = input.required<number>();
+    hasFastestLap    = input.required<boolean>();
+    isInPits         = input(false);
+    numPitStops      = input.required<number>();
+    positionsGained  = input.required<number>();
+
+    ResultStatus = ResultStatus;
     AdditionalInfo = AdditionalInfo;
 
     private previousPosition = signal<number>(0);
     positionChange = signal<number>(0);
     readonly isOutOfSession = computed(() => {
-        const status = this.driver().resultStatus;
-        return status !== this.resultStatus.Active && status !== this.resultStatus.Finished;
+        const status = this.resultStatus();
+        return status !== ResultStatus.Active && status !== ResultStatus.Finished;
     });
 
     private timeoutHandle: any;
 
     constructor() {
         effect(() => {
-            const driver = this.driver();
-            const newPosition = driver?.position ?? 0;
+            const newPosition = this.position() ?? 0;
             const prevPosition = this.previousPosition();
 
             if (newPosition == prevPosition)
@@ -61,5 +76,9 @@ export class DriverTimingDetailsComponent {
             }
             this.previousPosition.set(newPosition);
         });
+
+        effect(() =>  {
+            console.log(this.teamDetails())
+        })
     }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from "@angular/core";
 import { WebSocketService } from "../../../core/services/websocket.service";
 import { Minimap, MinimapCar } from "../../../shared/models/Minimap";
 import { WidgetBaseComponent } from "../widget-base.component";
@@ -10,7 +10,8 @@ import { MinimapCarComponent } from "./minimap-car/minimap-car.component";
     templateUrl: 'minimap.component.html',
     styleUrl: 'minimap.component.css',
     imports: [CommonModule, MinimapCarComponent],
-    providers: [WebSocketService]
+    providers: [WebSocketService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MinimapComponent extends WidgetBaseComponent<Minimap> implements OnInit, OnDestroy {
     trackId = signal<number | null>(null);
@@ -23,14 +24,14 @@ export class MinimapComponent extends WidgetBaseComponent<Minimap> implements On
     ngOnInit(): void {
         const placeholder = this.placeholderData();
         if (placeholder) {
-            this.updateState(placeholder);
+            this.setState(placeholder);
             return;
         }
 
         this.webSocketService.connect('ws://localhost:5000/ws/minimap');
 
         this.webSocketService.onMessage().subscribe((data: Minimap) => {
-            this.updateState(data);
+            this.setState(data);
         });
     }
 
@@ -38,7 +39,7 @@ export class MinimapComponent extends WidgetBaseComponent<Minimap> implements On
         this.webSocketService.disconnect();
     }
 
-    private updateState(data: Minimap) {
+    protected override setState(data: Minimap): void {
         this.trackId.set(data.trackId)
         //this.spectatorCarIdx.set(data.spectatorCarIdx)
         this.rotation.set(data.rotation ?? 0);

@@ -1,20 +1,45 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TeamLogoComponent } from '../../../../shared/components/game/team-logo/team-logo.component';
 import { GameYear } from '../../../../shared/models/Enumerations';
 import { StopwatchCar, FastestQualifyingLap, SectorTimeStatus } from '../../../../shared/models/stopwatch.model';
+import { DriverBasicDetails } from '../../../../shared/models/driver.model';
 
 @Component({
     selector: 'stopwatch',
     imports: [CommonModule, TeamLogoComponent],
     templateUrl: './stopwatch.component.html',
-    styleUrl: './stopwatch.component.css'
-
+    styleUrl: './stopwatch.component.css',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StopwatchComponent {
+    position           = input.required<number>();
+    lastLapTime        = input.required<string>();
+    currentTime        = input.required<string>();
+    isLapValid         = input.required<boolean>();
+    lapProgress        = input.required<number>();
+    tyreCompoundVisual = input.required<string>();
+    driver             = input.required<DriverBasicDetails>();
+
+    sector1TimeStatus = input<SectorTimeStatus | null | undefined>();
+    sector2TimeStatus = input<SectorTimeStatus | null | undefined>();
+    sector3TimeStatus = input<SectorTimeStatus | null | undefined>();
+    lapTimeStatus     = input<SectorTimeStatus | null | undefined>();
+
+    sector1GapToLeader = input<string | null | undefined>();
+    sector2GapToLeader = input<string | null | undefined>();
+    sector3GapToLeader = input<string | null | undefined>();
+    lapGapToLeader     = input<string | null | undefined>();
+
+    sector1TimeStatusRelativeToPole = input<SectorTimeStatus | null | undefined>();
+    sector2TimeStatusRelativeToPole = input<SectorTimeStatus | null | undefined>();
+    lapTimeStatusRelativeToPole     = input<SectorTimeStatus | null | undefined>();
+
+
     gameYear = input<GameYear | undefined>(GameYear.F123);
-    car = input<StopwatchCar>({} as StopwatchCar);
+    //car = input<StopwatchCar>({} as StopwatchCar);
     fastestLap = input<FastestQualifyingLap | null>();
+
     secondFastestLap = input<FastestQualifyingLap | null>();
 
     showSector1Gap = signal(false);
@@ -44,32 +69,31 @@ export class StopwatchComponent {
 
     constructor() {
         this.setupGapEffect(
-            () => this.car().sector1GapToLeader,
+            () => this.sector1GapToLeader(),
             this.showSector1Gap,
             'sector1'
         );
 
         this.setupGapEffect(
-            () => this.car().sector2GapToLeader,
+            () => this.sector2GapToLeader(),
             this.showSector2Gap,
             'sector2'
         );
 
         this.setupGapEffect(
-            () => this.car().sector3GapToLeader,
+            () => this.sector3GapToLeader(),
             this.showSector3Gap,
             'sector3'
         );
 
         this.setupGapEffect(
-            () => this.car().lapGapToLeader,
+            () => this.lapGapToLeader(),
             this.showLapGap,
             'lap'
         );
 
         effect(() => {
-            const driver = this.car();
-            const newPosition = driver?.position ?? 0;
+            const newPosition = this.position() ?? 0;
             const prevPosition = this.previousPosition();
 
             if (newPosition == prevPosition)
