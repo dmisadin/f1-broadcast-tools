@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, signal } from "@angular/core";
 import { WebSocketService } from "../../../core/services/websocket.service";
 import { HaloTelemetryDashboard, ERSDeployMode } from "../../../shared/models/telemetry.model";
 import { WidgetBaseComponent } from "../widget-base.component";
@@ -12,19 +12,20 @@ import { WidgetBaseComponent } from "../widget-base.component";
     providers: [WebSocketService],
 })
 export class HaloHudComponent extends WidgetBaseComponent<HaloTelemetryDashboard> {
-    carTelemetry?: HaloTelemetryDashboard;
+    carTelemetry = signal<HaloTelemetryDashboard | null>(null);
     ersDeployMode = ERSDeployMode;
 
     constructor(private webSocketService: WebSocketService<HaloTelemetryDashboard>) { super(); }
 
     ngOnInit(): void {
-        if (this.placeholderData()) {
-            this.carTelemetry = this.placeholderData();
+        const placeholder = this.placeholderData();
+        if (placeholder) {
+            this.carTelemetry.set(placeholder);
             return;
         }
         this.webSocketService.connect('ws://localhost:5000/ws/halo-telemetry');
         this.webSocketService.onMessage().subscribe((data: HaloTelemetryDashboard) => {
-            this.carTelemetry = data;
+            this.carTelemetry.set(data);
         });
     }
 

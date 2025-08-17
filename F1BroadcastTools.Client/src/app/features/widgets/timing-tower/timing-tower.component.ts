@@ -15,7 +15,7 @@ import { WidgetBaseComponent } from "../widget-base.component";
     providers: [WebSocketService]
 })
 export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> implements OnInit, OnDestroy {
-    timingTower?: TimingTower;
+    timingTower = signal<TimingTower | null>(null);
     safetyCarStatus = SafetyCarStatus;
     resultStatus = ResultStatus;
     showAdditionalInfo = signal<number>(AdditionalInfo.None);
@@ -24,7 +24,7 @@ export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> imple
 
     ngOnInit(): void {
         if (this.placeholderData()) {
-            this.timingTower = this.placeholderData();
+            this.timingTower.set(this.placeholderData() ?? null);
             return;
         }
 
@@ -33,9 +33,9 @@ export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> imple
         this.webSocketService.onMessage().subscribe((data: TimingTower) => {
             //console.log("onMessage", data);
             //TODO: we could use the % of lap done by each car, or at least the leader.
-            this.timingTower = data;
-            if (this.timingTower)
-                this.showAdditionalInfo.set(this.setAdditionalInfo(this.timingTower.showAdditionalInfo));
+            this.timingTower.set(data);
+            if (data)
+                this.showAdditionalInfo.set(this.setAdditionalInfo(data.showAdditionalInfo));
         });
     }
 

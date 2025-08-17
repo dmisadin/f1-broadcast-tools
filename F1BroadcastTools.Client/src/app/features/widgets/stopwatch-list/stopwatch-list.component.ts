@@ -25,7 +25,7 @@ import { WidgetBaseComponent } from "../widget-base.component";
     ]
 })
 export class StopwatchListComponent extends WidgetBaseComponent<Stopwatch> implements OnInit, OnDestroy {
-    stopwatch?: Stopwatch;
+    stopwatch = signal<Stopwatch | null>(null);
     isGapToLeaderVisible: boolean = false;
     positionChange = signal<number>(0);
     currentPoleLap: { lapTime: string, driverName: string };
@@ -36,15 +36,16 @@ export class StopwatchListComponent extends WidgetBaseComponent<Stopwatch> imple
     constructor(private webSocketService: WebSocketService<Stopwatch>) { super(); }
 
     ngOnInit(): void {
-        if (this.placeholderData()) {
-            this.stopwatch = this.placeholderData();
+        const placeholder = this.placeholderData();
+        if (placeholder) {
+            this.stopwatch.set(placeholder);
             return;
         }
         
         this.webSocketService.connect('ws://localhost:5000/ws/stopwatch');
 
         this.webSocketService.onMessage().subscribe((data: Stopwatch) => {
-            this.stopwatch = data;
+            this.stopwatch.set(data);
         });
     }
 
