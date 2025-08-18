@@ -5,7 +5,7 @@
         [teamColor]="car.teamColor">
     </minimap-car>
     }
-    <img src="images/tracks/{{trackId()}}.svg" alt="" class="track-image">
+    <img [src]="trackUrl()" alt="" class="track-image">
 </div>
 
 <!-- [style.transform]="'translate(-50%, -50%) rotate(' + car.rotation + 'deg)'" -->

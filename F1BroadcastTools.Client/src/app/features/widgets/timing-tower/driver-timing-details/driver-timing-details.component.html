@@ -1,17 +1,22 @@
-<div class="driver" [ngClass]="{
-        'spectated': isSpectated(), 
-        'out-of-session': isOutOfSession(),
-        'show-additional-info': showAdditionalInfo()
-        }">
+@let teamDetails = this.teamDetails();
+@let isSpectated = this.isSpectated();
+@let showAdditionalInfo = this.showAdditionalInfo();
+@let positionsGained = this.positionsGained();
+
+<div class="driver"
+    [class.spectated]="isSpectated"
+    [class.out-of-session]="isOutOfSession()"
+    [class.show-additional-info]="showAdditionalInfo">
     <div class="driver-info">
-        <div class="position" [ngClass]="{'has-fastest-lap': hasFastestLap()}">
+        <div class="position" [class.has-fastest-lap]=" hasFastestLap()">
             <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                @if (positionChange() > 0)
+                @if (positionsGained > 0)
                 {
                 <path d="M9.99998 5L0 8V37H20V8L9.99998 5Z" fill="url(#paint0_linear_1106_474)" />
                 <path d="M0 8L9.99998 5L20 8" stroke="#51FF00" stroke-width="4" />
                 }
-                @else if (positionChange() < 0) { <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
+                @else if (positionsGained < 0) { 
+                <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
                 <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
                 }
                 <defs>
@@ -27,34 +32,35 @@
                     </linearGradient>
                 </defs>
             </svg>
-            <span>{{position()}}</span>
+            <span>{{ position() }}</span>
         </div>
-        <div class="team" [ngStyle]="{'background-color': isSpectated() ? teamDetails()?.primaryColor : ''}">
-            <team-logo [team]="teamId()" [color]="(isSpectated() ? teamDetails()?.secondaryColor : teamDetails()?.primaryColor)" [game]="gameYear()"></team-logo>
+        <div class="team" [style.background-color]="isSpectated && teamDetails ? teamDetails.primaryColor : null">
+            <team-logo
+                [team]="teamId()"
+                [color]="isSpectated ? teamDetails?.secondaryColor : teamDetails?.primaryColor"
+                [game]="gameYear()">
+            </team-logo>
         </div>
         <div class="name">
-            {{vehicleIdx()}} {{name()}} 
+            {{ vehicleIdx() }} {{ name() }} 
         </div>
-        <div class="tyre" [ngStyle]="{
-                'background-image': 'url(images/icons/tyres/' + visualTyreCompound() + '_empty.svg)'
-            }">
-            {{tyreAge()}}
+        <div class="tyre" [style.background-image]="tyreBackgroundUrl()">
+            {{ tyreAge() }}
         </div>
         <div class="additional-info">
-            @switch (showAdditionalInfo())
+            @switch (showAdditionalInfo)
             {
             @case (AdditionalInfo.PositionsGained)
             {
             <div class="positions-gained">
                 <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    @if (positionsGained() > 0)
-                    {
+                    @if (positionsGained > 0) {
                     <path d="M9.99998 5L0 8V37H20V8L9.99998 5Z" fill="url(#paint0_linear_1106_474)" />
                     <path d="M0 8L9.99998 5L20 8" stroke="#51FF00" stroke-width="4" />
-                    }
-                    @else if (positionsGained() < 0) { 
-                        <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
-                        <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
+                    } 
+                    @else if (positionsGained < 0) {
+                    <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
+                    <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
                     }
                     <defs>
                         <linearGradient id="paint0_linear_1106_474" x1="10" y1="3" x2="10" y2="37"
@@ -70,7 +76,7 @@
                     </defs>
                 </svg>
 
-                <span>{{positionsGained() > 0 ? positionsGained() : positionsGained()*(-1)}}</span>
+                <span>{{positionsGainedAbsolute()}}</span>
             </div>
             }
             @case (AdditionalInfo.NumPitStops)
@@ -86,7 +92,7 @@
                             7.40167V19.7842M16.2332 7.40167H3.79841" stroke="currentColor" stroke-width="4"
                         stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
-                {{numPitStops()}}
+                {{ numPitStops() }}
             </div>
             }
             }
@@ -95,7 +101,7 @@
             @if (penalties())
             {
             <div class="penalties">
-                +{{penalties()}}s
+                +{{ penalties() }}s
             </div>
             }
             }
@@ -110,7 +116,7 @@
                         stroke="currentColor" stroke-width="4" />
                 </svg>
 
-                {{warnings()}}
+                {{ warnings() }}
             </div>
             }
             }
@@ -121,10 +127,10 @@
 
     <div class="gap">
         @if (isInPits() && resultStatus() == ResultStatus.Active) {
-        <span [ngStyle]="{'color': teamDetails()?.primaryColor}">In Pit</span>
+        <span [style.color]="teamDetails?.primaryColor">In Pit</span>
         }
         @else {
-        {{gapInterval()}}
+        {{ gapInterval() }}
         }
     </div>
 </div>

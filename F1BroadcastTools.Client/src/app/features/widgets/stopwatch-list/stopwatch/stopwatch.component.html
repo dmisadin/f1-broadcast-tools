@@ -1,3 +1,6 @@
+@let fastestLap = this.fastestLap();
+@let secondFastestLap = this.secondFastestLap();
+
 <div class="stopwatch">
     <div class="stopwatch-header" [style.borderColor]="driver().teamDetails?.primaryColor">
         <div class="position">
@@ -7,8 +10,8 @@
                 <path d="M9.99998 5L0 8V37H20V8L9.99998 5Z" fill="url(#paint0_linear_1106_474)" />
                 <path d="M0 8L9.99998 5L20 8" stroke="#51FF00" stroke-width="4" />
                 }
-                @else if (positionChange()
-                < 0) { <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
+                @else if (positionChange() < 0) { 
+                <path d="M9.99998 35L0 32V3H20V32L9.99998 35Z" fill="url(#paint1_linear_1106_474)" />
                 <path d="M0 32L9.99998 35L20 32" stroke="#FF0000" stroke-width="4" />
                 }
                 <defs>
@@ -40,20 +43,10 @@
         </div>
     </div>
     <div class="stopwatch-body">
-        @if (showLapGap()) {
-        <div class="current-time mono-font" [ngClass]="{'green-time': lapTimeStatusRelativeToPole() === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': lapTimeStatusRelativeToPole() === SectorTimeStatus.NoImprovement,
-                                                }"> {{ lapGapToLeader() }} </div>
-        }
-        @else if (showSector2Gap()) {
-        <div class="current-time mono-font" [ngClass]="{'green-time': sector2TimeStatusRelativeToPole() === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': sector2TimeStatusRelativeToPole() === SectorTimeStatus.NoImprovement,
-                                                }"> {{ sector2GapToLeader() }} </div>
-        }
-        @else if (showSector1Gap()) {
-        <div class="current-time mono-font" [ngClass]="{'green-time': sector1TimeStatusRelativeToPole() === SectorTimeStatus.FasterThanLeader,
-                                                'yellow-time': sector1TimeStatusRelativeToPole() === SectorTimeStatus.NoImprovement,
-                                                }"> {{ sector1GapToLeader() }} </div>
+        @if (displayedGap()) {
+        <div class="current-time mono-font" [class]="displayedClass()">
+            {{ displayedGap() }}
+        </div>
         }
         @else if (!isLapValid()) {
         <div class="current-time invalid-time">Invalid lap</div>
@@ -62,52 +55,44 @@
         <div class="current-time mono-font">{{ currentTime() }}</div>
         }
         <div class="best-session-time">
-            @if (sector1GapToLeader == null)
+            @if (sector1GapToLeader() == null)
             {
-            <div class="best-time mono-font">{{ fastestLap()?.sector1Time }}</div>
+            <div class="best-time mono-font">{{ fastestLap?.sector1Time }}</div>
             }
-            @else if (sector2GapToLeader == null)
+            @else if (sector2GapToLeader() == null)
             {
-            <div class="best-time mono-font">{{ fastestLap()?.sector1And2Time }}</div>
+            <div class="best-time mono-font">{{ fastestLap?.sector1And2Time }}</div>
             }
-            @else if (lapGapToLeader == null)
+            @else if (lapGapToLeader() == null)
             {
             <div class="best-time mono-font">
-                @if (driver().vehicleIdx === fastestLap()?.driver?.vehicleIdx) {
-                {{ secondFastestLap()?.lapTime }}
+                @if (driver().vehicleIdx === fastestLap?.driver?.vehicleIdx) {
+                {{ secondFastestLap?.lapTime }}
                 }
                 @else {
-                {{ fastestLap()?.lapTime }}
+                {{ fastestLap?.lapTime }}
                 }
             </div>
             }
             @else {
-            <div class="best-time mono-font"> {{ fastestLap()?.lapTime }} </div>
+            <div class="best-time mono-font"> {{ fastestLap?.lapTime }} </div>
             }
             <div class="best-time-driver-name">
-                @if (lastLapTime() === fastestLap()?.lapTime) {
-                {{secondFastestLap()?.driver?.name}}
+                @if (lastLapTime() === fastestLap?.lapTime) {
+                {{secondFastestLap?.driver?.name}}
                 }
                 @else {
-                {{fastestLap()?.driver?.name}}
+                {{fastestLap?.driver?.name}}
                 }
             </div>
         </div>
     </div>
+
     <div class="stopwatch-footer">
         <div class="sectors">
-            <div class="sector-1" [ngClass]="{'purple': sector1TimeStatus() === SectorTimeStatus.FasterThanLeader,
-                                                'green': sector1TimeStatus() === SectorTimeStatus.PersonalBest,
-                                                'yellow': sector1TimeStatus() === SectorTimeStatus.NoImprovement,
-                                                }">S1</div>
-            <div class="sector-1" [ngClass]="{'purple': sector2TimeStatus() === SectorTimeStatus.FasterThanLeader,
-                                                'green': sector2TimeStatus() === SectorTimeStatus.PersonalBest,
-                                                'yellow': sector2TimeStatus() === SectorTimeStatus.NoImprovement,
-                                                }">S2</div>
-            <div class="sector-1" [ngClass]="{'purple': lapTimeStatus() === SectorTimeStatus.FasterThanLeader,
-                                                'green': lapTimeStatus() === SectorTimeStatus.PersonalBest,
-                                                'yellow': lapTimeStatus() === SectorTimeStatus.NoImprovement,
-                                                }">S3</div>
+            <div class="sector-1" [class]="sector1Class()">S1</div>
+            <div class="sector-1" [class]="sector2Class()">S2</div>
+            <div class="sector-1" [class]="lapClass()">S3</div>
         </div>
         <div class="lap-progress" [style.width.%]="lapProgress()"></div>
     </div>

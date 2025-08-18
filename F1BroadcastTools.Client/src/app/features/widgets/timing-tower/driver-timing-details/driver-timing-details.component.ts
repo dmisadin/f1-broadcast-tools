@@ -49,10 +49,14 @@ export class DriverTimingDetailsComponent {
 
     private previousPosition = signal<number>(0);
     positionChange = signal<number>(0);
+
     readonly isOutOfSession = computed(() => {
         const status = this.resultStatus();
         return status !== ResultStatus.Active && status !== ResultStatus.Finished;
     });
+
+    readonly positionsGainedAbsolute = computed(() => Math.abs(this.positionsGained()));
+    readonly tyreBackgroundUrl = computed(() => `url(images/icons/tyres/${this.visualTyreCompound()}_empty.svg)`);
 
     private timeoutHandle: any;
 
@@ -76,9 +80,5 @@ export class DriverTimingDetailsComponent {
             }
             this.previousPosition.set(newPosition);
         });
-
-        effect(() =>  {
-            console.log(this.teamDetails())
-        })
     }
 }

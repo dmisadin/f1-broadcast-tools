@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, OnDestroy, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { SessionDetailsComponent } from "./session-details/session-details.component";
 import { DriverTimingDetailsComponent } from "./driver-timing-details/driver-timing-details.component";
@@ -22,7 +22,7 @@ export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> imple
 
     safetyCarStatus     = signal<SafetyCarStatus>(SafetyCarStatus.None);
     sectorYellowFlags   = signal<boolean[]>([false, false, false]);
-    showAdditionalInfo  = signal<number>(0);
+    showAdditionalInfoFlags = signal<number>(0);
 
     driverTimingDetails = signal<DriverTimingDetails[]>([]);
     spectatorCarIdx     = signal<number>(255);
@@ -30,19 +30,17 @@ export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> imple
     SafetyCarStatus = SafetyCarStatus;
     ResultStatus = ResultStatus;
 
+    showAdditionalInfo = computed<AdditionalInfo>(() => {
+        const flags = this.showAdditionalInfoFlags();
 
-    setState(data: TimingTower) {
-        this.gameYear.set(data.gameYear);
-        this.currentLap.set(data.currentLap);
-        this.totalLaps.set(data.totalLaps);
+        if ((flags & AdditionalInfo.PositionsGained) !== 0) return AdditionalInfo.PositionsGained;
+        if ((flags & AdditionalInfo.NumPitStops)     !== 0) return AdditionalInfo.NumPitStops;
+        if ((flags & AdditionalInfo.Penalties)       !== 0) return AdditionalInfo.Penalties;
+        if ((flags & AdditionalInfo.Warnings)        !== 0) return AdditionalInfo.Warnings;
 
-        this.safetyCarStatus.set(data.safetyCarStatus);
-        this.sectorYellowFlags.set(data.sectorYellowFlags);
-        this.showAdditionalInfo.set(this.setAdditionalInfo(data.showAdditionalInfo));
+        return AdditionalInfo.None;
+    });
 
-        this.driverTimingDetails.set(data.driverTimingDetails);
-        this.spectatorCarIdx.set(data.spectatorCarIdx);
-    }
     constructor(private webSocketService: WebSocketService<TimingTower>) { super(); }
 
     ngOnInit(): void {
@@ -65,12 +63,16 @@ export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> imple
         this.webSocketService.disconnect();
     }
 
-    setAdditionalInfo(additionalInfoFlags: number): AdditionalInfo {
-        if (additionalInfoFlags & AdditionalInfo.PositionsGained) return AdditionalInfo.PositionsGained;
-        else if (additionalInfoFlags & AdditionalInfo.NumPitStops) return AdditionalInfo.NumPitStops;
-        else if (additionalInfoFlags & AdditionalInfo.Penalties) return AdditionalInfo.Penalties;
-        else if (additionalInfoFlags & AdditionalInfo.Warnings) return AdditionalInfo.Warnings;
+    setState(data: TimingTower) {
+        this.gameYear.set(data.gameYear);
+        this.currentLap.set(data.currentLap);
+        this.totalLaps.set(data.totalLaps);
 
-        return AdditionalInfo.None;
+        this.safetyCarStatus.set(data.safetyCarStatus);
+        this.sectorYellowFlags.set(data.sectorYellowFlags);
+        this.showAdditionalInfoFlags.set(data.showAdditionalInfo);
+
+        this.driverTimingDetails.set(data.driverTimingDetails);
+        this.spectatorCarIdx.set(data.spectatorCarIdx);
     }
 }

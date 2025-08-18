@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, OnDestroy, OnInit, signal } from "@angular/core";
 import { WebSocketService } from "../../../core/services/websocket.service";
 import { Minimap, MinimapCar } from "../../../shared/models/Minimap";
 import { WidgetBaseComponent } from "../widget-base.component";
@@ -18,6 +18,13 @@ export class MinimapComponent extends WidgetBaseComponent<Minimap> implements On
     //spectatorCarIdx = signal<number | null>(null);
     rotation = signal<number | null>(null);
     cars = signal<MinimapCar[] | null>(null);
+
+    trackUrl = computed(() => {
+        const trackId = this.trackId();
+        if (trackId == null) 
+            return '';
+        return `images/tracks/${trackId}.svg`
+    });
 
     constructor(private webSocketService: WebSocketService<Minimap>) { super(); }
 
