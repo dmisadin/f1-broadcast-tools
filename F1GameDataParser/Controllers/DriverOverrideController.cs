@@ -20,5 +20,11 @@ namespace F1GameDataParser.Controllers
         {
             return this.driverOverrideService.GetAll();
         }
+
+        [HttpPost("update")]
+        public async Task Update([FromBody] List<DriverOverrideDto> driverOverrides)
+        {
+            await this.driverOverrideService.UpdateOverrides(driverOverrides);
+        }
     }
 }

@@ -19,5 +19,6 @@ export const OverlayEndpoints: Endpoints = BuildGenericEndpoints("overlay");
 export const WidgetEndpoints: Endpoints = BuildGenericEndpoints("widget");
 
 export const DriverOverrideEndpoints = {
-    getAll: "/driver-override/get-all"
+    getAll: "/driver-override/get-all",
+    update: "/driver-override/update"
 }

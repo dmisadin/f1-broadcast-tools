@@ -29,12 +29,5 @@ namespace F1GameDataParser.Controllers
 
             return await playerService.SearchPlayers(query, limit);
         }
-
-
-        [HttpPost("update")]
-        public async Task Update([FromBody] List<DriverOverrideDto> driverOverrides)
-        {
-            await this.playerService.UpdateOverrides(driverOverrides);
-        }
     }
 }

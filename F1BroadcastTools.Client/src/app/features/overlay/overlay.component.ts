@@ -28,7 +28,7 @@ export class OverlayComponent implements OnInit {
         const overlayId = parseInt(this.navigationService.getId());
 
         this.restService.get<OverlayDto>(OverlayEndpoints.get(overlayId))
-            .subscribe(result => {this.overlay = result; console.log(result)});
+            .subscribe(result => { this.overlay = result });
     }
 
 }

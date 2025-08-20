@@ -2,24 +2,32 @@
 using F1GameDataParser.Database.Entities;
 using F1GameDataParser.Database.Repositories;
 using F1GameDataParser.GameProfiles.F1Common.Utility;
+using F1GameDataParser.Models.DriverOverride;
 using F1GameDataParser.State;
 using F1GameDataParser.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace F1GameDataParser.Services
 {
     public class DriverOverrideService
     {
+        private readonly IRepository<Player> playerRepository;
         private readonly ParticipantsState participantsState;
         private readonly LapState lapState;
         private readonly DriverOverrideState driverOverrideState;
+        private readonly DriverDetailsBroadcastService driverDetailsBroadcastService;
 
         public DriverOverrideService(ParticipantsState participantsState,
                                     LapState lapState,
-                                    DriverOverrideState driverOverrideState)
+                                    DriverOverrideState driverOverrideState,
+                                    DriverDetailsBroadcastService driverDetailsBroadcastService,
+                                    IRepository<Player> playerRepository)
         {
             this.participantsState = participantsState;
             this.lapState = lapState;
             this.driverOverrideState = driverOverrideState;
+            this.driverDetailsBroadcastService = driverDetailsBroadcastService;
+            this.playerRepository = playerRepository;
         }
 
         public List<DriverOverrideDto> GetAll()
@@ -76,6 +84,28 @@ namespace F1GameDataParser.Services
                 TeamDetails = GameSpecifics.GetTeamDetails(participantsState.State.Header.GameYear, participant.TeamId),
                 Name = overrideDriver?.Player.Name ?? participant.Name,
             };
+        }
+        public async Task UpdateOverrides(List<DriverOverrideDto> drivers)
+        {
+
+            var playerIds = drivers.Where(d => d.PlayerId.HasValue)
+                                    .Select(d => d.PlayerId)
+                                    .ToList();
+
+            var players = await playerRepository.Query()
+                                                .Where(p => playerIds.Contains(p.Id))
+                                                .ToDictionaryAsync(p => p.Id);
+
+            var driverOverrides = players.Select((p, index) => new DriverOverride
+            {
+                Id = drivers.FirstOrDefault(d => d.PlayerId == p.Key)?.Id ?? 0,
+                PlayerId = p.Value.Id,
+                Player = p.Value
+            });
+
+            this.driverOverrideState.Update(driverOverrides);
+
+            await this.driverDetailsBroadcastService.UpdateDrivers();
         }
     }
 }
