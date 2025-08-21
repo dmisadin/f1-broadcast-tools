@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from "@angular/core";
-import { trigger, transition, style, animate } from "@angular/animations";
 import { CommonModule } from "@angular/common";
 import { TeamLogoComponent } from "../../../../shared/components/game/team-logo/team-logo.component";
 import { AdditionalInfo, GameYear, ResultStatus, Team } from "../../../../shared/models/Enumerations";
@@ -11,17 +10,6 @@ import { DriverStateService } from "../../../../shared/services/states/driver-st
     templateUrl: 'driver-timing-details.component.html',
     styleUrl: 'driver-timing-details.component.css',
     imports: [CommonModule, TeamLogoComponent],
-    animations: [
-        trigger('fadeInOut', [
-            transition(':enter', [
-                style({ opacity: 0 }),
-                animate('300ms ease-in', style({ opacity: 1 }))
-            ]),
-            transition(':leave', [
-                animate('300ms ease-out', style({ opacity: 0 }))
-            ])
-        ])
-    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DriverTimingDetailsComponent {

@@ -119,7 +119,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                                             .Select(driver => driver.VehicleIdx)
                                             .ToList();
 
-            return driversThatFinishedLap.Concat(driversStillOnFlyingLap).Take(3);
+            return driversThatFinishedLap.Concat(driversStillOnFlyingLap).Take(4);
         }
 
         private LapTimeComparison? GetSectorTimeStatus(int vehicleIdx, PersonalBestLap? fastestLap, PersonalBestLap? secondFastestLap)

@@ -11,3 +11,32 @@
 .stopwatch {
     overflow: hidden;
 }
+
+
+.slide-in {
+    animation: slideIn 300ms ease-out forwards;
+}
+
+.slide-out {
+    animation: slideOut 500ms ease-in forwards;
+}
+
+@keyframes slideIn {
+    from {
+        width: 0rem;
+    }
+
+    to {
+        width: 20rem;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        width: 20rem;
+    }
+
+    to {
+        width: 0rem;
+    }
+}

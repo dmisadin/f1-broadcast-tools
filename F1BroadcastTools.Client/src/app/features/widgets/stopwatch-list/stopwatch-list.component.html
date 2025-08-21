@@ -1,6 +1,6 @@
 <div class="stopwatch-list">
     @for (car of cars(); track car.vehicleIdx) {
-    <div @gapFade class="stopwatch">
+    <div animate.enter="slide-in" animate.leave="slide-out" class="stopwatch">
         <stopwatch [gameYear]="gameYear()"
             [fastestLap]="fastestLap()" 
             [secondFastestLap]="secondFastestLap()" 
