@@ -3,13 +3,14 @@ import { GameYear } from "./Enumerations";
 
 export interface Stopwatch {
     gameYear: GameYear;
-    fastestLap?: FastestQualifyingLap | null;
-    secondFastestLap?: FastestQualifyingLap | null;
+    fastestLap: FastestQualifyingLap | null;
+    secondFastestLap: FastestQualifyingLap | null;
     
     cars: StopwatchCar[];
 }
 
 export interface StopwatchCar {
+    vehicleIdx: number;
     position: number;
     lastLapTime: string;
     currentTime: string;
@@ -30,8 +31,6 @@ export interface StopwatchCar {
     sector1TimeStatusRelativeToPole?: SectorTimeStatus | null;
     sector2TimeStatusRelativeToPole?: SectorTimeStatus | null;
     lapTimeStatusRelativeToPole?: SectorTimeStatus | null;
-
-    driver: DriverBasicDetails;
 }
 
 export enum SectorTimeStatus {

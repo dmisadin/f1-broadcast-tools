@@ -4,6 +4,7 @@ import { CommonModule } from "@angular/common";
 import { TeamLogoComponent } from "../../../../shared/components/game/team-logo/team-logo.component";
 import { AdditionalInfo, GameYear, ResultStatus, Team } from "../../../../shared/models/Enumerations";
 import { TeamDetails } from "../../../../shared/models/team.model";
+import { DriverStateService } from "../../../../shared/services/states/driver-state.service";
 
 @Component({
     selector: 'driver-timing-details',
@@ -31,7 +32,6 @@ export class DriverTimingDetailsComponent {
     vehicleIdx       = input.required<number>();
     position         = input.required<number>();
     teamId           = input.required<Team>();
-    teamDetails      = input<TeamDetails | undefined>();
     name             = input.required<string>();
     tyreAge          = input.required<number>();
     visualTyreCompound = input.required<string>();
@@ -57,10 +57,11 @@ export class DriverTimingDetailsComponent {
 
     readonly positionsGainedAbsolute = computed(() => Math.abs(this.positionsGained()));
     readonly tyreBackgroundUrl = computed(() => `url(images/icons/tyres/${this.visualTyreCompound()}_empty.svg)`);
+    readonly teamDetails = computed<TeamDetails | null>(() => this.driverStateService.driversSignal()[this.vehicleIdx()]?.teamDetails);
 
     private timeoutHandle: any;
 
-    constructor() {
+    constructor(private driverStateService: DriverStateService) {
         effect(() => {
             const newPosition = this.position() ?? 0;
             const prevPosition = this.previousPosition();

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, effect, OnDestroy, OnInit, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { StopwatchComponent } from "./stopwatch/stopwatch.component";
 import { animate, style, transition, trigger } from "@angular/animations";
@@ -62,8 +62,17 @@ export class StopwatchListComponent extends WidgetBaseComponent<Stopwatch> imple
 
     protected override setState(data: Stopwatch): void {
         this.gameYear.set(data.gameYear);
-        this.fastestLap.set(data.fastestLap ?? null);
-        this.secondFastestLap.set(data.secondFastestLap ?? null);
         this.cars.set(data.cars);
+        this.updateFastestLaps(data.fastestLap, data.secondFastestLap);
+    }
+
+    private updateFastestLaps(fastestLap: FastestQualifyingLap | null, secondFastestLap?: FastestQualifyingLap | null) {
+        const currentFastestLap = this.fastestLap();
+        const currentSecondFastestLap = this.secondFastestLap();
+
+        if (fastestLap && fastestLap.lapTime != currentFastestLap?.lapTime)
+            this.fastestLap.set(fastestLap);
+        if (secondFastestLap && secondFastestLap.lapTime != currentSecondFastestLap?.lapTime)
+            this.secondFastestLap.set(secondFastestLap);
     }
 }

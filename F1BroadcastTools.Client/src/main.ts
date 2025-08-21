@@ -11,6 +11,6 @@ bootstrapApplication(AppComponent, {
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes, withComponentInputBinding()),
         provideHttpClient(),
-        provideAnimations(),
+        provideAnimations()
     ],
 }).catch(err => console.error(err));

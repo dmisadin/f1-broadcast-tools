@@ -1,16 +1,16 @@
 <div class="stopwatch-list">
-    @for (car of cars(); track car.driver.vehicleIdx) {
+    @for (car of cars(); track car.vehicleIdx) {
     <div @gapFade class="stopwatch">
         <stopwatch [gameYear]="gameYear()"
             [fastestLap]="fastestLap()" 
             [secondFastestLap]="secondFastestLap()" 
+            [vehicleIdx]="car.vehicleIdx"
             [position]="car.position" 
             [lastLapTime]="car.lastLapTime" 
             [currentTime]="car.currentTime" 
             [isLapValid]="car.isLapValid" 
             [lapProgress]="car.lapProgress" 
-            [tyreCompoundVisual]="car.tyreCompoundVisual" 
-            [driver]="car.driver"
+            [tyreCompoundVisual]="car.tyreCompoundVisual"
             
             [sector1TimeStatus]="car.sector1TimeStatus"
             [sector2TimeStatus]="car.sector2TimeStatus"

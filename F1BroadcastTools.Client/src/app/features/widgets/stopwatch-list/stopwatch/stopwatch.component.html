@@ -1,8 +1,9 @@
 @let fastestLap = this.fastestLap();
 @let secondFastestLap = this.secondFastestLap();
+@let driver = this.driver();
 
 <div class="stopwatch">
-    <div class="stopwatch-header" [style.borderColor]="driver().teamDetails?.primaryColor">
+    <div class="stopwatch-header" [style.borderColor]="driver?.teamDetails?.primaryColor">
         <div class="position">
             <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
                 @if (positionChange() > 0)
@@ -30,12 +31,12 @@
             <span>{{ position() }}</span>
         </div>
         <div class="team">
-            <team-logo [team]="driver().teamId" 
-                    [color]="driver().teamDetails?.primaryColor"
+            <team-logo [team]="driver?.teamId" 
+                    [color]="driver?.teamDetails?.primaryColor"
                     [game]="gameYear() ?? GameYear.F125">
             </team-logo>
         </div>
-        <div class="name"> {{driver().name}} - {{driver().vehicleIdx}} </div>
+        <div class="name"> {{driver?.name}} - {{driver?.vehicleIdx}} </div>
         <div class="tyre" [ngStyle]="{
                 'background-image': 'url(images/icons/tyres/' + tyreCompoundVisual() + '_empty.svg)'
             }">
@@ -66,7 +67,7 @@
             @else if (lapGapToLeader() == null)
             {
             <div class="best-time mono-font">
-                @if (driver().vehicleIdx === fastestLap?.driver?.vehicleIdx) {
+                @if (driver?.vehicleIdx === fastestLap?.driver?.vehicleIdx) {
                 {{ secondFastestLap?.lapTime }}
                 }
                 @else {

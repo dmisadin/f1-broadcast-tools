@@ -5,8 +5,7 @@ namespace F1GameDataParser.ViewModels.Stopwatch
 {
     public class StopwatchCar
     {
-
-        public DriverBasicDetails Driver { get; set; } // Participants, DriverOverrides
+        public byte VehicleIdx { get; set; }
         public byte Position { get; set; } // Lap
         public string LastLapTime { get; set; } // SessionHistory.LapHistory
         public string CurrentTime { get; set; } // SessionHistory.LapHistory

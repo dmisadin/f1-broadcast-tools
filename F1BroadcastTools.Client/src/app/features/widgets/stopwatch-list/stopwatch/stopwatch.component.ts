@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TeamLogoComponent } from '../../../../shared/components/game/team-logo/team-logo.component';
-import { GameYear } from '../../../../shared/models/Enumerations';
+import { GameYear, Team } from '../../../../shared/models/Enumerations';
 import { FastestQualifyingLap, SectorTimeStatus } from '../../../../shared/models/stopwatch.model';
 import { DriverBasicDetails } from '../../../../shared/models/driver.model';
+import { DriverStateService } from '../../../../shared/services/states/driver-state.service';
 
 @Component({
     selector: 'stopwatch',
@@ -13,14 +14,17 @@ import { DriverBasicDetails } from '../../../../shared/models/driver.model';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StopwatchComponent {
+    private driverStateService = inject(DriverStateService);
+
+    vehicleIdx = input.required<number>();
     position = input.required<number>();
     lastLapTime = input.required<string>();
     currentTime = input.required<string>();
     isLapValid = input.required<boolean>();
     lapProgress = input.required<number>();
     tyreCompoundVisual = input.required<string>();
-    driver = input.required<DriverBasicDetails>();
 
+    teamId = input<Team>();
     sector1TimeStatus = input<SectorTimeStatus | null | undefined>();
     sector2TimeStatus = input<SectorTimeStatus | null | undefined>();
     sector3TimeStatus = input<SectorTimeStatus | null | undefined>();
@@ -35,10 +39,8 @@ export class StopwatchComponent {
     sector2TimeStatusRelativeToPole = input<SectorTimeStatus | null | undefined>();
     lapTimeStatusRelativeToPole = input<SectorTimeStatus | null | undefined>();
 
-
     gameYear = input<GameYear | undefined>(GameYear.F123);
     fastestLap = input<FastestQualifyingLap | null>();
-
     secondFastestLap = input<FastestQualifyingLap | null>();
 
     showSector1Gap = signal(false);
@@ -49,7 +51,8 @@ export class StopwatchComponent {
 
     sector1Class = computed(() => this.mapStatusClass(this.sector1TimeStatus()));
     sector2Class = computed(() => this.mapStatusClass(this.sector2TimeStatus()));
-    lapClass     = computed(() => this.mapStatusClass(this.lapTimeStatus()));
+    lapClass = computed(() => this.mapStatusClass(this.lapTimeStatus()));
+    driver = computed<DriverBasicDetails | null>(() => this.driverStateService.driversSignal()[this.vehicleIdx()]);
 
     readonly displayedGap = computed(() => {
         if (this.showLapGap()) return this.lapGapToLeader();

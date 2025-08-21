@@ -14,10 +14,19 @@ namespace F1GameDataParser.State
             lock (_lock)
             {
                 if (State != null)
+                {
+                    BeforeModelMerged(State, newState);
                     State.MergeFrom(newState);
+                }
                 else
+                {
                     State = newState;
+                    AfterModelAdded(newState);
+                }
             }
         }
+
+        protected virtual void BeforeModelMerged(TModel existingModel, TModel newModel) { }
+        protected virtual void AfterModelAdded(TModel newModel) { }
     }
 }
