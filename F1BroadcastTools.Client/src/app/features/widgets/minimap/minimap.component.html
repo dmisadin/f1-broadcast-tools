@@ -1,9 +1,10 @@
 <div class="minimap">
     @for (car of cars(); track car.vehicleIdx) {
-    <minimap-car [positionX]="car.x"
-        [positionY]="car.y"
-        [teamColor]="car.teamColor">
-    </minimap-car>
+    <div class="car"
+        [style.left.%]="car.x"
+        [style.top.%]="car.y"
+        [style.background]="car.teamColor">
+    </div>
     }
     <img [src]="trackUrl()" alt="" class="track-image">
 </div>

@@ -12,3 +12,14 @@
     height: auto;
     max-height: 500px;
 }
+
+.car {
+    position: absolute;
+    width: 1.25rem;
+    height: 1.25rem;
+    background-color: blue;
+    transition: all .1s ease-in;
+    border-radius: 50% 50% 50% 50%;
+    transform: translate(-50%, -50%);
+    border: 3px solid rgb(19, 20, 20);
+}
