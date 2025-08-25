@@ -8,7 +8,7 @@ namespace F1GameDataParser.Database.Repositories
         IQueryable<TEntity> Query();
         Task<TEntity?> GetAsync(int id);
         Task<TDto?> GetAsync<TDto>(int id, Expression<Func<TEntity, TDto>> dtoExpression);
-        Task<List<TEntity>> GetAllAsync();
+        Task<List<TDto>> GetAllAsync<TDto>(Expression<Func<TEntity, TDto>> dtoExpression);
         Task InsertAsync(params TEntity[] entities);
         void Update(TEntity entity);
         void DeleteAsync(params TEntity[] entities);

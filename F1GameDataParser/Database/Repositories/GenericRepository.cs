@@ -29,9 +29,9 @@ namespace F1GameDataParser.Database.Repositories
             return await Query().Where(e => e.Id == id).Select(dtoExpression).FirstOrDefaultAsync();
         }
 
-        public async Task<List<TEntity>> GetAllAsync()
+        public async Task<List<TDto>> GetAllAsync<TDto>(Expression<Func<TEntity, TDto>> dtoExpression)
         {
-            return await this.table.ToListAsync();
+            return await Query().Select(dtoExpression).ToListAsync(); ;
         }
 
         public async Task InsertAsync(params TEntity[] entities)
