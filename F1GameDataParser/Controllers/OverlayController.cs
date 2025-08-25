@@ -15,5 +15,11 @@ namespace F1GameDataParser.Controllers
         }
 
         protected override IDtoFactory<Overlay, OverlayDto> DtoFactory => new OverlayDtoFactory();
+
+        [HttpGet("get-all")]
+        public async Task<IEnumerable<OverlayDto>> GetAll()
+        {
+            return await this.repository.GetAllAsync(DtoFactory.ToDtoExpression());
+        }
     }
 }

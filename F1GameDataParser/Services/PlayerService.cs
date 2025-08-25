@@ -16,11 +16,6 @@ namespace F1GameDataParser.Services
             this.playerRepository = playerRepository;
         }
 
-        public List<Player> GetPlayers()
-        {
-            return this.playerRepository.GetAllAsync().Result;
-        }
-
         public async Task<List<LookupDto>> SearchPlayers(string name, int limit)
         {
             var playersQuery = playerRepository.Query();

@@ -12,7 +12,7 @@ namespace F1GameDataParser.Controllers
         where TEntity : BaseEntity
         where TDto : BaseDto
     {
-        private readonly IRepository<TEntity> repository;
+        protected readonly IRepository<TEntity> repository;
         public GenericController(IRepository<TEntity> repository)
         {
             this.repository = repository;
