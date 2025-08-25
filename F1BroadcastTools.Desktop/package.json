@@ -1,12 +1,14 @@
 {
-    "name": "f1broadcasttools.desktop",
+    "name": "f1-broadcast-tools-desktop",
     "version": "1.0.0",
     "type": "module",
     "description": "",
     "main": "dist/main.js",
     "scripts": {
-        "start": "electron ./dist/main.js",
-        "build": "tsc"
+        "start": "tsc && cross-env NODE_ENV=development electron ./dist/main.js",
+        "staging": "tsc && electron ./dist/main.js",
+        "dev": "tsc -w",
+        "electron": "electron ."
     },
     "keywords": [],
     "author": "",
@@ -14,6 +16,7 @@
     "devDependencies": {
         "@types/electron": "^1.6.12",
         "@types/node": "^24.2.0",
+        "cross-env": "^10.0.0",
         "electron": "^37.2.6",
         "typescript": "^5.9.2"
     }
