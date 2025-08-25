@@ -2,6 +2,7 @@
 @import "app/shared/styles/forms.css";
 @import "@ng-select/ng-select/themes/default.theme.css";
 @import "../public/fonts/formula1/formula1font.css";
+@import "../public/fonts/fbt-icons/fbt-icons.css";
 
 body {
     font-family: "Roboto", sans-serif;
