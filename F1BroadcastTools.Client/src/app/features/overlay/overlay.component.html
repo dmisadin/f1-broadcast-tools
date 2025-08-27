@@ -1,23 +1,19 @@
-<button class="editor-button" routerLink="editor">Overlay editor</button>
-
-<div class="screen-boundary">
-    @for(widget of overlay?.widgets; track widget.id)
-    {
-    <div class="widget-container" [style.left.px]="widget.positionX" [style.top.px]="widget.positionY">
-        @switch(widget.widgetType) {
-        @case (WidgetType.TimingTower) {
-        <timing-tower></timing-tower>
-        }
-        @case (WidgetType.Stopwatch) {
-        <stopwatch-list></stopwatch-list>
-        }
-        @case (WidgetType.Minimap) {
-        <minimap></minimap>
-        }
-        @case (WidgetType.HaloHUD) {
-        <halo-hud></halo-hud>
-        }
-        }
+<div class="menu">
+    <div class="menu-header">
+        <i class="fbt-icons-layers"></i> &nbsp;
+        {{ overlay?.title }}
+    </div>
+    <div class="menu-item" routerLink="add">
+        <i class="fbt-icons-plus"></i>
+        <span> Add new widget </span>
+    </div>
+    @for (widget of overlay?.widgets; track widget.id) {
+    <div class="menu-item" (click)="onRowClick(widget.id)" routerLink="widget/{{widget.id}}" routerLinkActive="active">
+        <span>{{ WidgetDetails[widget.widgetType] }}</span>
     </div>
     }
+</div>
+
+<div class="outlet-content">
+    <router-outlet></router-outlet>
 </div>

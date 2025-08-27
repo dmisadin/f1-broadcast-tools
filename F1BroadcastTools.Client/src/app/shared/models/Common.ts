@@ -1,3 +1,5 @@
+import { FormGroup } from "@angular/forms";
+
 export interface KeyNumberPair { 
     key: string; 
     value: number 
@@ -28,4 +30,11 @@ export interface Coordinates {
 export interface DragItemCoordinates {
     id: number;
     position: Coordinates;
+}
+
+export interface TabStructure {
+    title: string;
+    route: string;
+    color?: string;
+    formGroup?: FormGroup;
 }

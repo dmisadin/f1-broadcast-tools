@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { SharedFormService } from '../../shared/services/shared-form.service';
 
 export const OVERLAY_ROUTES: Routes = [
     {
@@ -14,18 +15,27 @@ export const OVERLAY_ROUTES: Routes = [
     {
         path: ':id',
         loadComponent: () => import('./overlay.component').then(c => c.OverlayComponent),
-    },
-    {
-        path: ':id/editor',
-        loadComponent: () => import('./overlay-editor/overlay-editor.component').then(c => c.OverlayEditorComponent),
         children: [
             {
                 path: 'widget',
                 loadComponent: () => import('./overlay-editor/widget-form/widget-form.component').then(c => c.WidgetFormComponent),
             },
+            { path: 'widget:id', redirectTo: 'general', pathMatch: 'full' },
             {
                 path: 'widget/:id',
-                loadComponent: () => import('./overlay-editor/widget-form/widget-form.component').then(c => c.WidgetFormComponent),
+                loadComponent: () => import('./widget-details-form/widget-details-form.component').then(c => c.WidgetDetailsFormComponent),
+                providers: [SharedFormService],
+                children: [
+                    { path: '', redirectTo: 'general', pathMatch: 'full' },
+                    {
+                        path: 'general',
+                        loadComponent: () => import('./widget-details-form/widget-general-form/widget-general-form.component').then(c => c.WidgetGeneralFormComponent)
+                    },
+                    {
+                        path: 'specific',
+                        loadComponent: () => import('./widget-details-form/widget-specific-form/widget-specific-form.component').then(c => c.WidgetSpecificFormComponent)
+                    }
+                ]
             },
         ],
     }

@@ -27,7 +27,6 @@ export class SwitchComponent implements ControlValueAccessor {
         this.onChange(checked);
     }
 
-    // CVA API
     writeValue(val: boolean): void {
         this.value = val ?? false;
     }

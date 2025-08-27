@@ -23,7 +23,6 @@
                 "build": {
                     "builder": "@angular/build:application",
                     "options": {
-                        "baseHref": "./",
                         "outputPath": "dist/f1-broadcast-tools-client",
                         "index": "src/index.html",
                         "browser": "src/main.ts",

@@ -1,0 +1,19 @@
+<div class="tab-header">
+    <div class="tabs">
+        <div class="tab" routerLink="general" routerLinkActive="active">General</div>
+        <div class="tab" routerLink="specific" routerLinkActive="active">Specific</div>
+    </div>
+
+    <div class="form-actions">
+        <div class="action" (click)="discard()">
+            <i class="fbt-icons-cancel discard"></i>
+        </div>
+        <div class="action" (click)="submit()">
+            <i class="fbt-icons-save save"></i>
+        </div>
+    </div>
+</div>
+
+<div class="outlet-content">
+    <router-outlet></router-outlet>
+</div>

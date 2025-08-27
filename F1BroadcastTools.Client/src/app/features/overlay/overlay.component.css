@@ -1,20 +1,71 @@
-.editor-button {
-    position: absolute;
-    z-index: 2;
+:host {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 240px 1fr;
 }
 
-.widget-container {
-    position: absolute;
-    width: fit-content;
-    height: fit-content;
-    user-select: none;
+.menu {
+    width: var(--menu-size);
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
 }
 
-.screen-boundary {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: transparent;
+.menu-header {
+    width: 100%;
+    height: var(--navigation-size);
+
+    display: flex;
+    align-items: center;
+
+    padding: var(--spacing);
+
+    font-size: var(--font-size-l);
+
+    background-color: var(--color-bg-darker);
+}
+
+.menu-item {
+    width: 100%;
+    height: var(--navigation-size);
+
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+
+    padding: var(--spacing);
+
+    cursor: pointer;
+    text-transform: uppercase;
+    color: var(--color-text-inactive);
+
+    i {
+        font-size: var(--font-size-m);
+    }
+
+    span {
+        vertical-align: middle;
+    }
+}
+
+.menu-item:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text);
+}
+
+.menu-item-actions {
+    display: flex;
+}
+
+.outlet-content {
+    width: auto;
+    height: 100%;
+}
+
+
+.active {
+    background-color: var(--color-bg-active);
+    border-width: var(--border-width-active);
 }

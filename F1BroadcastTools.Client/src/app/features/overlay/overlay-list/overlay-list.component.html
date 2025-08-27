@@ -1,6 +1,16 @@
-<button routerLink="add">Add new overlay</button>
+<div class="menu">
+    <div class="menu-header">OVERLAYS</div>
+    <div class="menu-item" routerLink="add">
+        <i class="fbt-icons-plus"></i>
+        <span> Add new overlay </span>
+    </div>
+    @for (overlay of overlays; track overlay.id) {
+    <div class="menu-item" (click)="onRowClick(overlay.id)">
+        <span>{{ overlay.title }}</span>
+    </div>
+    }
+</div>
 
-<grid [endpoints]="overlayEndpoints" (rowClick)="onRowClick($event)">
-</grid>
-
-<router-outlet></router-outlet>
+<div class="outlet-content">
+    <router-outlet></router-outlet>
+</div>

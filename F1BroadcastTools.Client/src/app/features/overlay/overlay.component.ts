@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { RestService } from '../../core/services/rest.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { OverlayDto } from '../../shared/dtos/overlay.dto';
 import { OverlayEndpoints } from '../../shared/constants/apiUrls';
 import { WidgetType } from '../../shared/dtos/widget.dto';
-import { TimingTowerComponent } from "../widgets/timing-tower/timing-tower.component";
-import { StopwatchListComponent } from "../widgets/stopwatch-list/stopwatch-list.component";
-import { MinimapComponent } from "../widgets/minimap/minimap.component";
-import { HaloHudComponent } from "../widgets/halo-hud/halo-hud.component";
+import { WidgetDetails } from '../../shared/constants/widgets';
 
 @Component({
     selector: 'overlay',
-    imports: [RouterLink, TimingTowerComponent, StopwatchListComponent, MinimapComponent, HaloHudComponent],
+    imports: [RouterLink, RouterOutlet, RouterLinkActive],
     templateUrl: './overlay.component.html',
     styleUrl: './overlay.component.css',
     providers: [NavigationService]
@@ -20,6 +17,7 @@ import { HaloHudComponent } from "../widgets/halo-hud/halo-hud.component";
 export class OverlayComponent implements OnInit {
     overlay?: OverlayDto;
     WidgetType = WidgetType;
+    WidgetDetails = WidgetDetails;
 
     constructor(private restService: RestService,
                 private navigationService: NavigationService) { }
@@ -31,4 +29,7 @@ export class OverlayComponent implements OnInit {
             .subscribe(result => { this.overlay = result });
     }
 
+    onRowClick(id: number) {
+        this.navigationService.navigateToRelative('widget', id.toString());
+    }
 }
