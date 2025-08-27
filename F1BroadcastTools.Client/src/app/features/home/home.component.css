@@ -1,26 +1,69 @@
-.main-menu {
+:host {
     display: flex;
-    justify-content: center;
-    gap: 2rem;
-
-    height: fit-content;
-    position: relative;
-    margin: auto;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    max-width: 100vw;
+    max-height: 100vh;
 }
 
-.menu-option {
+.navigation {
+    width: var(--navigation-size);
+    height: 100vh;
+
+    display: inline-flex;
+    flex-direction: column;
+
+    background-color: var(--color-bg-darker);
+    color: var(--color-text-inactive);
+
+    div {
+        cursor: pointer;
+    }
+}
+
+.navigation-item {
+    width: 100%;
+    height: var(--navigation-size);
+
     display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
 
-    height: 80vh;
-    padding: 2rem;
+    font-size: var(--font-size-s);
 
-    background-color: lightblue;
-    border-radius: 1rem;
+    i {
+        font-size: var(--font-size-xl);
+    }
+}
 
-    cursor: pointer;
+.navigation-item:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text);
+}
+
+.navigation-buttons {
+    width: 100%;
+    height: var(--navigation-size);
+}
+
+.navigation-buttons .arrow {
+    width: 50%;
+    height: 100%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navigation-buttons .arrow:hover {
+    background-color: var(--color-bg-hover);
+    color: var(--color-text);
+}
+
+.active {
+    color: var(--color-text);
+    background-color: var(--color-bg-active);
+}
+
+.main-content {
+    width: calc(100vw - var(--navigation-size));
+    height: 100%;
 }

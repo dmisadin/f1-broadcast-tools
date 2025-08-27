@@ -1,8 +1,25 @@
-<div class="main-menu">
-    <div class="menu-option" routerLink="/settings">
-        <h1>Settings</h1>
+<div class="navigation">
+    <div class="navigation-buttons">
+        <div class="arrow" (click)="back()">
+            <i class="fbt-icons-arrow-left"></i>
+        </div>
+        <div class="arrow" (click)="forward()">
+            <i class="fbt-icons-arrow-right"></i>
+        </div>
     </div>
-    <div class="menu-option" routerLink="/overlays">
-        <h1>Overlay</h1>
+    <div class="navigation-item" routerLink="driver-overrides" routerLinkActive="active">
+        <i class="fbt-icons-helmet"></i>
+        <span> SESSION </span>
     </div>
+    <div class="navigation-item" routerLink="players" routerLinkActive="active">
+        <i class="fbt-icons-list"></i>
+        <span> PLAYERS </span>
+    </div>
+    <div class="navigation-item" routerLink="overlays" routerLinkActive="active">
+        <i class="fbt-icons-layers"></i>
+        <span> OVERLAYS </span>
+    </div>
+</div>
+<div class="main-content">
+    <router-outlet></router-outlet>
 </div>
