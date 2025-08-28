@@ -48,9 +48,9 @@
 .navigation-buttons .arrow {
     width: 50%;
     height: 100%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+    display: inline-block;
+    align-content: center;
+    text-align: center;
 }
 
 .navigation-buttons .arrow:hover {

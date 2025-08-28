@@ -13,8 +13,14 @@
         </section>
 
         <section class="form-buttons">
-            <button type="button" class="btn btn-secondary" (click)="onFormDiscard()"> Discard </button>
-            <button type="submit" class="btn btn-primary" [disabled]="!selectedWidget()"> Add </button>
+            <button type="button" class="btn btn-secondary" (click)="onFormDiscard()"> 
+                <i class="fbt-icons-cancel"></i>
+                Discard 
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="!selectedWidget()">
+                <i class="fbt-icons-save"></i>
+                Add 
+                </button>
         </section>
     </form>
 </modal-dialog>
