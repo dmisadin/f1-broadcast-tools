@@ -26,10 +26,7 @@
     width: fit-content;
     height: 100%;
 
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-
+    align-content: center;
     padding: var(--spacing);
 
     text-transform: uppercase;
@@ -60,9 +57,8 @@
     width: var(--navigation-size);
     height: 100%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    align-content: center;
+    text-align: center;
 }
 
 .action:hover {

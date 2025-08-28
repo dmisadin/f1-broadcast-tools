@@ -1,5 +1,5 @@
 <form [formGroup]="sharedFormService.form" class="tab-form">
-    <ng-container formGroupName="general">
+    <div class="grid-wrapper">
         <section>
             <label for="positionX">Position X</label>
             <input type="number" name="positionX" id="positionX" formControlName="positionX">
@@ -9,5 +9,5 @@
             <label for="positionY">Position Y</label>
             <input type="number" name="positionY" id="positionY" formControlName="positionY">
         </section>
-    </ng-container>
+    </div>
 </form>

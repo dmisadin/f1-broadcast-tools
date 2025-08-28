@@ -1,0 +1,30 @@
+.tab-form {
+    container-type: inline-size;
+    container-name: responsive-form;
+}
+
+.grid-wrapper {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+
+}
+
+@container responsive-form (width < 800px) {
+    .grid-wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@container responsive-form (width < 400px) {
+    .grid-wrapper {
+        grid-template-columns: 1fr;
+    }
+}
+
+@container responsive-form (width > 1440px) {
+    .grid-wrapper {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}

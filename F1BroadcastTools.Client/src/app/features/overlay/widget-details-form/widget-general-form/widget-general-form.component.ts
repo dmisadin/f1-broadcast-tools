@@ -8,11 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     templateUrl: './widget-general-form.component.html',
     styleUrl: './widget-general-form.component.css'
 })
-export class WidgetGeneralFormComponent implements OnInit {
-
-    constructor(public sharedFormService: SharedFormService) {
-    }
-
-    ngOnInit() {
-    }
+export class WidgetGeneralFormComponent {
+    constructor(public sharedFormService: SharedFormService) { }
 }
