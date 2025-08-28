@@ -1,5 +1,5 @@
 .ng-select.ng-select-opened>.ng-select-container {
-    background: #fff;
+    background-color: var(--color-bg);
     border-color: hsl(0, 0%, 70%) #ccc hsl(0, 0%, 85%)
 }
 
@@ -51,8 +51,8 @@
 }
 
 .ng-select .ng-select-container {
-    color: #333;
-    background-color: #fff;
+    color: var(--color-text-dark);
+    background-color: var(--color-bg);
     border-radius: 4px;
     border: 1px solid #ccc;
     min-height: 36px;
@@ -115,8 +115,8 @@
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
     font-size: .9em;
     margin-bottom: 5px;
-    color: #333;
-    background-color: rgb(234.6, 244.68, 255);
+    color: var(--color-text-dark);
+    background-color: var(--color-bg);
     border-radius: 2px;
     margin-right: 5px
 }
@@ -239,7 +239,7 @@
 }
 
 .ng-dropdown-panel {
-    background-color: #fff;
+    background-color: var(--color-bg);
     border: 1px solid #ccc;
     box-shadow: 0 1px 0 rgba(0, 0, 0, .06);
     left: 0
@@ -333,15 +333,15 @@
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-    background-color: #fff;
-    color: rgba(0, 0, 0, .87);
+    background-color: var(--color-bg);
+    color: var(--color-text-dark);
     padding: 8px 10px
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
-    color: #333;
-    background-color: rgb(234.6, 244.68, 255)
+    color: var(--color-text);
+    background-color: var(--color-bg-darker);
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label,
@@ -350,8 +350,8 @@
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
-    background-color: rgb(244.8, 249.84, 255);
-    color: #333
+    background-color: var(--color-bg-darker);
+    color: var(--color-text);
 }
 
 .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled {

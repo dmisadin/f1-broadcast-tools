@@ -9,13 +9,13 @@ form label {
     display: inline-block;
     margin-bottom: 0.25rem;
     font-weight: 400;
-    color: var(--color-text);
+    color: var(--color-text-dark);
 }
 
 form input,
 form select {
     background-color: #F9FAFB;
-    border: 1px solid #D1D5DB;
+    border: 1px solid var(--color-bg-darker);
     color: #111827;
     font-size: 0.875rem;
     border-radius: 0.5rem;
@@ -54,11 +54,13 @@ form button:disabled {
     background-color: #989898;
     cursor: not-allowed;
 }
+
 form section {
     width: 100%;
     display: flex;
     flex-direction: column;
 }
+
 form section.form-buttons {
     display: flex;
     flex-direction: row;
@@ -101,9 +103,9 @@ textarea {
     padding: var(--spacing-lg) var(--spacing);
     font-size: var(--font-size);
     font-family: var(--font-family);
-    color: var(--color-text);
-    background-color: var(--color-bg);
-    border: 1px solid var(--color-border);
+    color: var(--color-text-dark);
+    background-color: var(--color-bg-dark);
+    border: 1px solid var(--color-bg-darker);
     border-radius: var(--radius);
     transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
@@ -121,7 +123,7 @@ input:disabled,
 select:disabled,
 textarea:disabled {
     background-color: var(--color-bg-disabled);
-    color: var(--color-text-muted);
+    color: var(--color-text-disabled);
     cursor: not-allowed;
 }
 
@@ -180,4 +182,14 @@ button:disabled {
     border-color: var(--color-border);
     cursor: not-allowed;
     opacity: 0.8;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
 }
