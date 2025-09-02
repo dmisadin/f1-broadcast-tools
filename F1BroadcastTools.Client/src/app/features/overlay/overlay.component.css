@@ -17,7 +17,9 @@
     width: 100%;
     height: var(--navigation-size);
 
-    display: flex;
+    display: grid;
+    grid-template-columns: 20px 1fr 32px;
+    column-gap: .5rem;
     align-items: center;
 
     padding: var(--spacing);
@@ -68,4 +70,24 @@
 .active {
     background-color: var(--color-bg-active);
     border-width: var(--border-width-active);
+}
+
+.overlay-title {
+    text-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.play-button {
+    width: 100%;
+    height: 100%;
+    font-size: var(--font-size-m);
+    cursor: pointer;
+    border-radius: 50%;
+    align-content: center;
+    text-align: center;
+}
+
+.play-button:hover {
+    background-color: var(--color-bg-hover);
 }

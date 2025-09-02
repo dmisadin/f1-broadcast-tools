@@ -1,7 +1,10 @@
 <div class="menu">
     <div class="menu-header">
-        <i class="fbt-icons-layers"></i> &nbsp;
-        {{ overlay?.title }}
+        <i class="fbt-icons-layers"></i>
+        <span class="overlay-title" title="{{overlay?.title}}">{{ overlay?.title }}</span>
+        <div class="play-button" title="Start overlay">
+            <i class="fbt-icons-play"></i>
+        </div>
     </div>
     <div class="menu-item" routerLink="widget">
         <i class="fbt-icons-plus"></i>
