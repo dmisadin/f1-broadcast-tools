@@ -4,6 +4,7 @@
     max-height: 500px;
     width: fit-content;
     height: fit-content;
+    -webkit-app-region: drag;
 }
 
 .track-image {

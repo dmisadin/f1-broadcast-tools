@@ -20,6 +20,10 @@ body {
     color: var(--color-text);
 }
 
+body:has(timing-tower, stopwatch-list, minimap, halo-hud) {
+    background-color: transparent;
+}
+
 h2 {
     margin: 1rem 0;
 }

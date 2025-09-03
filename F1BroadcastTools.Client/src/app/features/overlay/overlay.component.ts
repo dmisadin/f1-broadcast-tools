@@ -6,6 +6,7 @@ import { OverlayDto } from '../../shared/dtos/overlay.dto';
 import { OverlayEndpoints } from '../../shared/constants/apiUrls';
 import { WidgetType } from '../../shared/dtos/widget.dto';
 import { WidgetDetails } from '../../shared/constants/widgets';
+import { IpcService } from '../../core/services/ipc.service';
 
 @Component({
     selector: 'overlay',
@@ -20,7 +21,8 @@ export class OverlayComponent implements OnInit {
     WidgetDetails = WidgetDetails;
 
     constructor(private restService: RestService,
-                private navigationService: NavigationService) { }
+        private navigationService: NavigationService,
+        private ipc: IpcService) { }
 
     ngOnInit(): void {
         const overlayId = parseInt(this.navigationService.getId());
@@ -31,5 +33,12 @@ export class OverlayComponent implements OnInit {
 
     onRowClick(id: number) {
         this.navigationService.navigateToRelative('widget', id.toString());
+    }
+
+    async openOverlay() {
+        const overlayId = this.overlay?.id;
+        if (!overlayId) return;
+        const response = await this.ipc.openOverlay(overlayId);
+        console.log(response);
     }
 }

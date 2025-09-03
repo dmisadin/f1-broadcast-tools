@@ -5,3 +5,7 @@ path {
 text {
     transition: all .1s ease-out;
 }
+
+.halo-telemetry {
+    -webkit-app-region: drag;
+}

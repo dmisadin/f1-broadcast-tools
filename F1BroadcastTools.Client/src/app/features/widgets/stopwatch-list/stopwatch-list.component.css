@@ -6,6 +6,8 @@
     flex-wrap: wrap;
 
     color: white;
+    
+    -webkit-app-region: drag;
 }
 
 .stopwatch {
