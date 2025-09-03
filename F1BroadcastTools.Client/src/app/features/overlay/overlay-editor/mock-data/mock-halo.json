@@ -1,37 +1,26 @@
 {
     "turn": 0,
     "driver": {
-        "vehicleIdx": 1,
-        "teamId": 8,
+        "vehicleIdx": 15,
+        "teamId": 4,
         "teamDetails": {
-            "id": 8,
-            "name": "McLaren",
-            "primaryColor": "#FF8700",
-            "secondaryColor": "#2D2D2D",
-            "textColor": "#2D2D2D"
-        },
-        "name": "Player"
-    },
-    "nextDriver": {
-        "vehicleIdx": 13,
-        "teamId": 6,
-        "teamDetails": {
-            "id": 6,
-            "name": "AlphaTauri",
-            "primaryColor": "#2B4562",
-            "secondaryColor": "#FFFFFF",
+            "id": 4,
+            "name": "Aston Martin",
+            "primaryColor": "#006F62",
+            "secondaryColor": "#CEDC00",
             "textColor": "#FFFFFF"
         },
         "name": "Player"
     },
+    "nextDriver": null,
     "ersDeployMode": 0,
-    "vehicleIdx": 1,
-    "speed": 300,
-    "throttle": 1,
-    "brake": 0,
-    "gear": 8,
-    "engineRPM": 10745,
-    "engineRPMPercentage": 0.23734343753289122,
+    "vehicleIdx": 15,
+    "speed": 105,
+    "throttle": 0,
+    "brake": 0.04132408,
+    "gear": 3,
+    "engineRPM": 7518,
+    "engineRPMPercentage": 0.5769918955899379,
     "drs": false,
-    "position": 9
+    "position": 1
 }
