@@ -1,0 +1,26 @@
+{
+    "turn": 0,
+    "driver": {
+        "vehicleIdx": 15,
+        "teamId": 4,
+        "teamDetails": {
+            "id": 4,
+            "name": "Aston Martin",
+            "primaryColor": "#006F62",
+            "secondaryColor": "#CEDC00",
+            "textColor": "#FFFFFF"
+        },
+        "name": "Player"
+    },
+    "nextDriver": null,
+    "ersDeployMode": 0,
+    "vehicleIdx": 15,
+    "speed": 105,
+    "throttle": 0,
+    "brake": 0.04132408,
+    "gear": 3,
+    "engineRPM": 7518,
+    "engineRPMPercentage": 0.5769918955899379,
+    "drs": false,
+    "position": 1
+}

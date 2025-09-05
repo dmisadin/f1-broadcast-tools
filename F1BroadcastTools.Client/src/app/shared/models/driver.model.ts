@@ -4,6 +4,6 @@ import { TeamDetails } from "./team.model";
 export interface DriverBasicDetails {
     vehicleIdx: number;
     teamId: Team;
-    teamDetails?: TeamDetails;
+    teamDetails: TeamDetails | null;
     name: string;
 }

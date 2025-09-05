@@ -5,6 +5,6 @@ namespace F1GameDataParser.Database.Dtos
     public class BaseDto
     {
         [GridColumn("Id", IsUnique = true)]
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
     }
 }

@@ -1,0 +1,49 @@
+.widget-container {
+
+    position: absolute;
+    width: fit-content;
+    height: fit-content;
+    user-select: none;
+}
+
+.drag-boundary {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(132, 202, 255);
+    border: dotted #ccc 2px;
+}
+
+.buttons {
+    position: absolute;
+    z-index: 2;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: .5rem;
+
+    button {
+        cursor: pointer;
+        padding: .5rem 1rem;
+    }
+}
+
+.red {
+    background-color: red;
+}
+
+.purple {
+    background-color: purple;
+}
+
+.yellow {
+    color: black;
+    background-color: yellow;
+}
+
+.nudge-selected {
+    background-color: rgba(0, 72, 255, 0.2);
+    outline: 2px solid purple;
+}

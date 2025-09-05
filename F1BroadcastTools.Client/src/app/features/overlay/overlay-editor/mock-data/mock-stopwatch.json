@@ -1,0 +1,119 @@
+{
+    "gameYear": 23,
+    "fastestLap": {
+        "driver": {
+            "vehicleIdx": 0,
+            "teamId": 4,
+            "teamDetails": {
+                "id": 4,
+                "name": "Aston Martin",
+                "primaryColor": "#006F62",
+                "secondaryColor": "#CEDC00",
+                "textColor": "#FFFFFF"
+            },
+            "name": "STROLL"
+        },
+        "lapTime": "1:07.333",
+        "sector1Time": "16.561",
+        "sector1And2Time": "47.084"
+    },
+    "secondFastestLap": {
+        "driver": {
+            "vehicleIdx": 0,
+            "teamId": 4,
+            "teamDetails": {
+                "id": 4,
+                "name": "Aston Martin",
+                "primaryColor": "#006F62",
+                "secondaryColor": "#CEDC00",
+                "textColor": "#FFFFFF"
+            },
+            "name": "STROLL"
+        },
+        "lapTime": "1:07.333",
+        "sector1Time": "16.561",
+        "sector1And2Time": "47.084"
+    },
+    "cars": [
+        {
+            "vehicleIdx": 0,
+            "position": 1,
+            "lastLapTime": "1:07.333",
+            "currentTime": "3.0",
+            "isLapValid": true,
+            "lapProgress": 6,
+            "tyreCompoundVisual": "Soft",
+            "sector1TimeStatus": 1,
+            "sector2TimeStatus": 1,
+            "sector3TimeStatus": 2,
+            "lapTimeStatus": 2,
+            "sector1GapToLeader": "+0.000",
+            "sector1TimeStatusRelativeToPole": 2,
+            "sector2GapToLeader": "+0.000",
+            "sector2TimeStatusRelativeToPole": 2,
+            "sector3GapToLeader": "+0.000",
+            "lapGapToLeader": "+0.000",
+            "lapTimeStatusRelativeToPole": 2
+        },
+        {
+            "vehicleIdx": 10,
+            "position": 2,
+            "lastLapTime": "1:07.414",
+            "currentTime": "2.4",
+            "isLapValid": true,
+            "lapProgress": 5,
+            "tyreCompoundVisual": "Soft",
+            "sector1TimeStatus": 1,
+            "sector2TimeStatus": 1,
+            "sector3TimeStatus": 1,
+            "lapTimeStatus": 1,
+            "sector1GapToLeader": "+0.011",
+            "sector1TimeStatusRelativeToPole": 0,
+            "sector2GapToLeader": "+0.076",
+            "sector2TimeStatusRelativeToPole": 0,
+            "sector3GapToLeader": "+0.004",
+            "lapGapToLeader": "+0.081",
+            "lapTimeStatusRelativeToPole": 0
+        },
+        {
+            "vehicleIdx": 7,
+            "position": 17,
+            "lastLapTime": "0.000",
+            "currentTime": "1:00.2",
+            "isLapValid": true,
+            "lapProgress": 89,
+            "tyreCompoundVisual": "Soft",
+            "sector1TimeStatus": 2,
+            "sector2TimeStatus": 2,
+            "sector3TimeStatus": null,
+            "lapTimeStatus": null,
+            "sector1GapToLeader": "-0.197",
+            "sector1TimeStatusRelativeToPole": 2,
+            "sector2GapToLeader": "-0.429",
+            "sector2TimeStatusRelativeToPole": 2,
+            "sector3GapToLeader": null,
+            "lapGapToLeader": null,
+            "lapTimeStatusRelativeToPole": null
+        },
+        {
+            "vehicleIdx": 3,
+            "position": 10,
+            "lastLapTime": "0.000",
+            "currentTime": "44.7",
+            "isLapValid": true,
+            "lapProgress": 65,
+            "tyreCompoundVisual": "Soft",
+            "sector1TimeStatus": 1,
+            "sector2TimeStatus": null,
+            "sector3TimeStatus": null,
+            "lapTimeStatus": null,
+            "sector1GapToLeader": "-0.142",
+            "sector1TimeStatusRelativeToPole": 2,
+            "sector2GapToLeader": null,
+            "sector2TimeStatusRelativeToPole": null,
+            "sector3GapToLeader": null,
+            "lapGapToLeader": null,
+            "lapTimeStatusRelativeToPole": null
+        }
+    ]
+}

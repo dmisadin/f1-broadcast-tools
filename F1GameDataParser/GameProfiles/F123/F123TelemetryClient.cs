@@ -13,6 +13,7 @@ using F1GameDataParser.GameProfiles.F123.Packets.Session;
 using F1GameDataParser.GameProfiles.F123.Packets.SessionHistory;
 using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.GameProfiles.F1Common.Packets;
+using F1GameDataParser.Services.GameSwitch;
 
 namespace F1GameDataParser.GameProfiles.F123
 {
@@ -113,6 +114,11 @@ namespace F1GameDataParser.GameProfiles.F123
                     _sessionHistoryHandler.OnReceived(sessionHistory);
                     break;
             }
+        }
+
+        protected override bool OnHeaderRecieved(PacketHeader header)
+        {
+            return GameDetector.DetectPacketFormatChange(header.packetFormat);
         }
     }
 }

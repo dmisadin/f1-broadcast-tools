@@ -71,14 +71,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
 
                 var stopwatchCar = new StopwatchCar
                 {
-                    Driver = new DriverBasicDetails
-                    {
-                        VehicleIdx = vehicleIdx,
-                        TeamId = participant?.TeamId ?? 0,
-                        TeamDetails = teamDetails,
-                        Name = overrideDriver?.Player?.Name ?? participant?.Name ?? "Unknown"
-                    },
-
+                    VehicleIdx = vehicleIdx,
                     Position = lap.CarPosition,
                     LastLapTime = TimeUtility.MillisecondsToGap(lap.LastLapTimeInMS),
                     CurrentTime = TimeUtility.MillisecondsToGap(lap.CurrentLapTimeInMS, 1),
@@ -126,7 +119,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                                             .Select(driver => driver.VehicleIdx)
                                             .ToList();
 
-            return driversThatFinishedLap.Concat(driversStillOnFlyingLap);
+            return driversThatFinishedLap.Concat(driversStillOnFlyingLap).Take(4);
         }
 
         private LapTimeComparison? GetSectorTimeStatus(int vehicleIdx, PersonalBestLap? fastestLap, PersonalBestLap? secondFastestLap)

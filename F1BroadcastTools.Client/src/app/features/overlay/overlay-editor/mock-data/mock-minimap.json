@@ -1,0 +1,105 @@
+{
+    "trackId": 7,
+    "cars": [
+        {
+            "x": 32.757786,
+            "y": 12.675208,
+            "rotation": -94.10238,
+            "vehicleIdx": 0,
+            "teamColor": "#D2D3D5"
+        },
+        {
+            "x": 28.211807,
+            "y": 13.441936,
+            "rotation": -53.624744,
+            "vehicleIdx": 1,
+            "teamColor": "#FF8700"
+        },
+        {
+            "x": 41.601093,
+            "y": 15.898864,
+            "rotation": -133.54073,
+            "vehicleIdx": 2,
+            "teamColor": "#D2D3D5"
+        },
+        {
+            "x": 29.103588,
+            "y": 13.113372,
+            "rotation": -62.768288,
+            "vehicleIdx": 3,
+            "teamColor": "#720600"
+        },
+        {
+            "x": 60.204327,
+            "y": 0.9535639,
+            "rotation": 97.09434,
+            "vehicleIdx": 6,
+            "teamColor": "#DC0000"
+        },
+        {
+            "x": 89.10199,
+            "y": 9.579275,
+            "rotation": 7.006035,
+            "vehicleIdx": 8,
+            "teamColor": "#0600EF"
+        },
+        {
+            "x": 29.226122,
+            "y": 5.3124657,
+            "rotation": 120.35362,
+            "vehicleIdx": 9,
+            "teamColor": "#0600EF"
+        },
+        {
+            "x": 48.307114,
+            "y": 1.9545826,
+            "rotation": 98.207306,
+            "vehicleIdx": 12,
+            "teamColor": "#00D2BE"
+        },
+        {
+            "x": 25.90723,
+            "y": 15.140106,
+            "rotation": -21.222479,
+            "vehicleIdx": 13,
+            "teamColor": "#2B4562"
+        },
+        {
+            "x": 42.419193,
+            "y": 16.049774,
+            "rotation": -130.9174,
+            "vehicleIdx": 14,
+            "teamColor": "#0090FF"
+        },
+        {
+            "x": 21.452803,
+            "y": 9.495483,
+            "rotation": 145.45964,
+            "vehicleIdx": 15,
+            "teamColor": "#0090FF"
+        },
+        {
+            "x": 36.18183,
+            "y": 3.2738528,
+            "rotation": 107.14041,
+            "vehicleIdx": 16,
+            "teamColor": "#1256DA"
+        },
+        {
+            "x": 32.738094,
+            "y": 12.803102,
+            "rotation": -98.91152,
+            "vehicleIdx": 17,
+            "teamColor": "#720600"
+        },
+        {
+            "x": 31.02215,
+            "y": 12.724887,
+            "rotation": -79.69067,
+            "vehicleIdx": 18,
+            "teamColor": "#006F62"
+        }
+    ],
+    "spectatorCarIdx": 255,
+    "rotation": 97
+}

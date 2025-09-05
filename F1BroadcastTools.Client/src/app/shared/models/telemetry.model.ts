@@ -19,8 +19,8 @@ export interface HybridTelemetryDashboard extends TelemetryDashboard {
 
 export interface HaloTelemetryDashboard extends HybridTelemetryDashboard {
     turn: number;
-    driver?: DriverBasicDetails;
-    nextDriver?: DriverBasicDetails;
+    driver: DriverBasicDetails | null;
+    nextDriver: DriverBasicDetails | null;
 }
 
 export enum ERSDeployMode {

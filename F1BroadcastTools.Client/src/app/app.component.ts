@@ -1,11 +1,16 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { WebSocketService } from './core/services/websocket.service';
+import { DriverStateService } from './shared/services/states/driver-state.service';
 
 @Component({
     selector: 'app-root',
-    templateUrl: './app.component.html',
-    standalone: false,
-    styleUrl: './app.component.css'
+    imports: [RouterOutlet],
+    template: '<router-outlet />',
+    styleUrl: './app.component.css',
+    providers: [WebSocketService, DriverStateService]
 })
 export class AppComponent {
-    title = 'F1BroadcastTools';
+
+    constructor(private driverStateService: DriverStateService) { }
 }

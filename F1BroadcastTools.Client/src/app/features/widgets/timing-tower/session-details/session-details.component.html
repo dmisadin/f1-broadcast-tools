@@ -1,0 +1,29 @@
+<div class="session-details"
+    [ngClass]="{'show-fia-flag': hasAnyYellow() || greenFlagVisible()}">
+    <div class="laps">
+        LAP <span>{{currentLap()}}</span> / {{totalLaps()}}
+    </div>
+    <div class="fia-flag"
+        [ngClass]="hasAnyYellow() ? 'yellow-flag' : greenFlagVisible() ? 'green-flag' : ''">
+        @if (safetyCarStatus() == SafetyCarStatus.Full)
+        {
+        <img src="images/icons/common/double-flags.svg" alt="">
+        <div class="safety-car"> Safety Car </div>
+        <img src="images/icons/common/safety-car.svg" alt="">
+        }
+        @else if (safetyCarStatus() == SafetyCarStatus.Virtual) {
+        <img src="images/icons/common/vsc.svg" alt="">
+        <div class="safety-car"> Virtual Safety Car </div>
+        }
+        @else if (hasAnyYellow())
+        {
+        <img src="images/icons/common/double-flags.svg" alt="">
+        <div class="">
+            {{sectorYellowFlags() | sectorsYellowFlags}}
+        </div>
+        }
+        @else if (greenFlagVisible()) {
+        <div>GREEN FLAG</div>
+        }
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="timing-tower">
+    <session-details
+        [currentLap]="currentLap()"
+        [totalLaps]="totalLaps()"
+        [sectorYellowFlags]="sectorYellowFlags()"
+        [safetyCarStatus]="safetyCarStatus()">
+    </session-details>
+    
+    <div class="driver-timing-details-container">
+        @for (driver of driverTimingDetails(); track driver.vehicleIdx)
+        {
+        <driver-timing-details 
+            [isSpectated]="driver.vehicleIdx === spectatorCarIdx()"
+            [showAdditionalInfo]="showAdditionalInfo()"
+            [gameYear]="gameYear()" 
+            [vehicleIdx]="driver.vehicleIdx" 
+            [position]="driver.position" 
+            [teamId]="driver.teamId"
+            [name]="driver.name" 
+            [tyreAge]="driver.tyreAge" 
+            [visualTyreCompound]="driver.visualTyreCompound" 
+            [gapInterval]="driver.gapInterval" 
+            [resultStatus]="driver.resultStatus" 
+            [penalties]="driver.penalties" 
+            [warnings]="driver.warnings" 
+            [hasFastestLap]="driver.hasFastestLap" 
+            [isInPits]="driver.isInPits"
+            [numPitStops]="driver.numPitStops" 
+            [positionsGained]="driver.positionsGained">
+        </driver-timing-details>
+        }
+    </div>
+</div>

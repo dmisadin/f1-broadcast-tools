@@ -1,24 +1,88 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap'); */
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Recursive:wght@300..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&display=swap');
 @import "app/shared/styles/forms.css";
-@import "@ng-select/ng-select/themes/default.theme.css";
+@import "app/shared/styles/custom-ng-select.theme.css";
 @import "../public/fonts/formula1/formula1font.css";
+@import "../public/fonts/fbt-icons/fbt-icons.css";
 
-body {
-    font-family: "Formula1", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+* {
+    box-sizing: border-box;
 }
 
-.mono-font {
-    font-family: "Recursive", sans-serif;
-    font-optical-sizing: auto;
+body {
+    /* Default font-size: 16px; */
+    font-family: "Figtree", sans-serif;
+    font-weight: 600;
     font-style: normal;
-    font-variation-settings:
-        "slnt" 0,
-        "CASL" 0,
-        "CRSV" 0.5,
-        "MONO" 0;
+
+    margin: 0;
+
+    background-color: var(--color-bg);
+    color: var(--color-text);
+}
+
+body:has(timing-tower, stopwatch-list, minimap, halo-hud) {
+    background-color: transparent;
+}
+
+h2 {
+    margin: 1rem 0;
+}
+
+:root {
+    /* Colors */
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-primary-active: #1d4ed8;
+    --color-border: #d1d5db;
+    --color-border-focus: var(--color-primary);
+    --color-bg-disabled: #f9fafb;
+    --color-text: #111827;
+    --color-text-muted: #6b7280;
+    --color-text-inverse: #ffffff;
+
+    /* Sizing */
+    --radius: 6px;
+    --spacing-lg: 0.75rem;
+
+    /* Font */
+    --font-family: "Roboto", sans-serif;
+
+    --font-size-xs: 0.5rem;
+    --font-size-s: 0.625rem;
+    --font-size-m: 0.75rem;
+    --font-size: 1rem;
+    --font-size-l: 1.25rem;
+    --font-size-xl: 1.5rem;
+
+    --navigation-size: 4rem;
+    --navigation-half-size: 2rem;
+
+    --menu-size: 15rem;
+
+    --spacing: 1rem;
+    --spacing-l: 1.5rem;
+    --spacing-xl: 2rem;
+
+
+    --border-width-active: 4px;
+    --border-width: 2px;
+
+    --color-border-active: white;
+    --color-border: white;
+
+    --color-bg-active: rgba(255, 255, 255, 0.1);
+    --color-bg-hover: rgba(255, 255, 255, 0.05);
+    --color-bg: #1C1F25;
+    --color-bg-dark: #181A1D;
+    --color-bg-darker: #101215;
+
+    --color-text: white;
+    --color-text-dark: rgb(195, 195, 195);
+    --color-text-inactive: rgba(255, 255, 255, 0.75);
+    --color-text-disabled: rgba(255, 255, 255, 0.5);
+
+    --color-error: #FF4646;
+    --color-warning: orange;
+    --color-success: #47FF47;
+    --color-info: rgb(58, 88, 210);
 }

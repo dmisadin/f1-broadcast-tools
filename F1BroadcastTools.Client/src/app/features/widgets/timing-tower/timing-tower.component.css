@@ -1,0 +1,8 @@
+.timing-tower {
+    width: fit-content;
+    -webkit-app-region: drag;
+}
+
+.driver-timing-details-container {
+    width: fit-content;
+}

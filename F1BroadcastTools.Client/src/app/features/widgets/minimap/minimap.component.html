@@ -1,0 +1,12 @@
+<div class="minimap">
+    @for (car of cars(); track car.vehicleIdx) {
+    <div class="car"
+        [style.left.%]="car.x"
+        [style.top.%]="car.y"
+        [style.background]="car.teamColor">
+    </div>
+    }
+    <img [src]="trackUrl()" alt="" class="track-image">
+</div>
+
+<!-- [style.transform]="'translate(-50%, -50%) rotate(' + car.rotation + 'deg)'" -->

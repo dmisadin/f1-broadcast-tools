@@ -16,6 +16,21 @@ namespace F1GameDataParser.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.1");
 
+            modelBuilder.Entity("F1GameDataParser.Database.Entities.Overlay", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Overlays");
+                });
+
             modelBuilder.Entity("F1GameDataParser.Database.Entities.Player", b =>
                 {
                     b.Property<int>("Id")
@@ -32,6 +47,47 @@ namespace F1GameDataParser.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Players");
+                });
+
+            modelBuilder.Entity("F1GameDataParser.Database.Entities.Widgets.Widget", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OverlayId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PositionX")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PositionY")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("WidgetType")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OverlayId");
+
+                    b.ToTable("Widgets");
+                });
+
+            modelBuilder.Entity("F1GameDataParser.Database.Entities.Widgets.Widget", b =>
+                {
+                    b.HasOne("F1GameDataParser.Database.Entities.Overlay", "Overlay")
+                        .WithMany("Widgets")
+                        .HasForeignKey("OverlayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Overlay");
+                });
+
+            modelBuilder.Entity("F1GameDataParser.Database.Entities.Overlay", b =>
+                {
+                    b.Navigation("Widgets");
                 });
 #pragma warning restore 612, 618
         }

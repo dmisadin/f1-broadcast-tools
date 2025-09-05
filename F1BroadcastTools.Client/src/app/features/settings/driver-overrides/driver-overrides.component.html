@@ -20,8 +20,8 @@
                 <tr>
                     <td>{{ driver.id }}</td>
                     <td>{{ driver.position ?? "Unknown" }}</td>
-                    <td>
-                        <img src="images/teams/F1/23/{{driver.team}}.svg" alt="" class="team-logo">
+                    <td class="team">
+                        <team-logo [team]="driver.team" ></team-logo>
                     </td>
                     <td>{{ driver.racingNumber }}</td>
                     <td>{{ driver.name }}</td>

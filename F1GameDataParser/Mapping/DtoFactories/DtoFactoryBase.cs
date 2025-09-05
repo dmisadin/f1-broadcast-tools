@@ -8,6 +8,7 @@ namespace F1GameDataParser.Mapping.DtoFactories
         where TDto : class
     {
         public abstract Expression<Func<TEntity, TDto>> ToDtoExpression();
+        public abstract TEntity FromDto(TDto dto);
 
         public virtual TDto ToDto(TEntity entity)
         {

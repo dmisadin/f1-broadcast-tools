@@ -1,19 +1,21 @@
 ﻿using F1GameDataParser.Database;
 using F1GameDataParser.Database.Repositories;
-using F1GameDataParser.GameProfiles;
+using F1GameDataParser.Enums;
 using F1GameDataParser.GameProfiles.F123;
 using F1GameDataParser.GameProfiles.F123.Handlers;
+using F1GameDataParser.GameProfiles.F125;
+using F1GameDataParser.GameProfiles.F125.Handlers;
+using F1GameDataParser.GameProfiles.F1Common;
 using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.Services;
+using F1GameDataParser.Services.GameSwitch;
 using F1GameDataParser.Startup;
 using F1GameDataParser.State;
+using F1GameDataParser.State.ComputedStates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
-using F1GameDataParser.GameProfiles.F125.Handlers;
-using F1GameDataParser.GameProfiles.F125;
-using F1GameDataParser.State.ComputedStates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +26,10 @@ builder.Services.AddControllers().AddJsonOptions(options =>
         options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     });
 
+builder.Services.AddKeyedTransient<ITelemetryClient, F123TelemetryClient>(PacketFormat.F123);
+builder.Services.AddKeyedTransient<ITelemetryClient, F125TelemetryClient>(PacketFormat.F125);
 builder.Services.AddSingleton<GameManager>();
-builder.Services.AddSingleton<F123TelemetryClient>();
-builder.Services.AddSingleton<F125TelemetryClient>();
+
 builder.Services.AddSingleton<MotionState>();
 builder.Services.AddSingleton<ParticipantsState>();
 builder.Services.AddSingleton<SessionState>();
@@ -36,6 +39,8 @@ builder.Services.AddSingleton<LapState>();
 builder.Services.AddSingleton<SessionHistoryState>();
 builder.Services.AddSingleton<CarDamageState>();
 builder.Services.AddSingleton<LobbyInfoState>();
+
+builder.Services.AddSingleton<DriverDetailsBroadcastService>();
 
 builder.Services.AddF123Handlers();
 builder.Services.AddF125Handlers();
@@ -50,7 +55,8 @@ builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
 builder.Services.AddTransient<StopwatchFactory>();
 builder.Services.AddTransient<HaloTelemetryDashboardFactory>();
-builder.Services.AddTransient<DriverOverrideService>();
+builder.Services.AddTransient<DriverOverrideService>(); 
+builder.Services.AddTransient<DriverDetailService>(); 
 
 // Register repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -90,11 +96,10 @@ using (var scope = app.Services.CreateScope())
     var lobbyInfoState = services.GetRequiredService<LobbyInfoState>();
     var driverOverrideState = services.GetRequiredService<DriverOverrideService>();
 
+    var manager = services.GetRequiredService<GameManager>();
+    GameDetector.Initialize(manager);
+    GameDetector.Start();
 
-    var gameManager = services.GetRequiredService<GameManager>();
-
-    var selectedGame = GameManager.PromptUserForGame();
-    gameManager.SwitchGame(selectedGame, services);
 }
 
 app.UseRouting();

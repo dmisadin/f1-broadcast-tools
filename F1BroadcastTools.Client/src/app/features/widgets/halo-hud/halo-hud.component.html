@@ -1,0 +1,330 @@
+<svg *ngIf="carTelemetry() as carTelemetry" width="1532" height="648" viewBox="0 0 1532 648" fill="none" class="halo-telemetry"
+    xmlns="http://www.w3.org/2000/svg" style="background-image: url(images/hud/halo/HaloBackground.png);">
+    <path
+        d="M642.914 326C599.477 295.5 586.823 256.485 590.5 221.5C597.495 154.95 662.42 98.5002 743.31 98.5002C819.202 98.5002 877.399 155.5 870.62 220C866.942 255 852.635 287 810.188 318"
+        stroke="url(#paint0_linear_1260_576)" stroke-width="4" />
+    <path
+        d="M639.366 330.559C594.189 298.837 581.027 258.257 584.851 221.871C592.126 152.654 659.654 93.9417 743.785 93.9417C822.719 93.9417 883.248 153.226 876.197 220.311C872.371 256.713 857.492 289.996 813.344 322.238"
+        stroke="url(#paint1_linear_1260_576)" />
+    <path
+        d="M637.44 306.349C614.939 286.117 602.563 257.179 605.94 225.044C612.37 163.874 673.444 114.287 742.354 114.287C811.265 114.287 861.915 163.874 855.486 225.044C852.61 252.414 838.792 277.465 818.227 296.793"
+        stroke="#C5C5C5" stroke-width="10" />
+    <path
+        d="M637.44 306.349C614.939 286.117 602.563 257.179 605.94 225.044C612.37 163.874 673.444 114.287 742.354 114.287C811.265 114.287 861.915 163.874 855.486 225.044C852.61 252.414 838.792 277.465 818.227 296.793"
+        [attr.stroke]="carTelemetry.drs ? '#0ADD00' : (carTelemetry.speed > 300 ? '#F8585E' : 'white')"
+        stroke-width="10" stroke-dasharray="545" [attr.stroke-dashoffset]="(1-carTelemetry.speed/400) * 545" />
+    <text
+        [attr.transform]="carTelemetry.drs ? 'matrix(0.999391 -0.0348995 0 1 700 150)' : 'matrix(0.999391 -0.0348995 0 1 697 162)'"
+        [attr.fill]="carTelemetry.drs ? '#0ADD00' : 'white'" font-family="Formula1"
+        [attr.font-size]="carTelemetry.drs ? 20 : 24" font-weight="700"> KM/H </text>
+    <text
+        [attr.transform]="carTelemetry.drs ? 'matrix(0.999391 -0.0348995 0 1 735 200)' : 'matrix(0.999391 -0.0348995 0 1 737 236)'"
+        style="font-variant-numeric: tabular-nums;"
+        [attr.fill]="carTelemetry.speed >= 300 ? '#F8585E' : (carTelemetry.drs ? '#0ADD00' : 'white')"
+        font-family="Formula1" [attr.font-size]="carTelemetry.drs ? 50 : 72" font-weight="700" text-anchor="middle">
+        {{ carTelemetry.speed }}
+    </text>
+    <text transform="matrix(0.999391 -0.0348995 0 1 684.951 257.862)" fill="white" font-family="Formula1" font-size="16">
+        <tspan x="0.492188" y="15.1">ERS Mode</tspan>
+    </text>
+    <text transform="matrix(0.999391 -0.0348995 0 1 668.96 282.001)" fill="#FFCC00" font-family="Formula1"
+        font-size="20" font-weight="700" text-anchor="middle" style="text-transform: uppercase;">
+        <tspan x="64" y="20">{{ ersDeployMode[carTelemetry.ersDeployMode] }}</tspan>
+    </text>
+
+    <g filter="url(#filter0_d_1300_461)">
+        <text transform="matrix(0.999391 -0.0348995 0 1 637.985 208.375)" fill="#0ADD00"
+            [attr.fill-opacity]="carTelemetry.drs ? 1 : 0" font-family="Formula1Wide" font-size="42">
+            <tspan x="0.249023" y="39.7">DRS</tspan>
+        </text>
+    </g>
+
+    <path
+        d="M595.5 160.5L568 164C565 164.5 562.299 165.769 559.5 169.5C555 175.5 526 224.5 535.5 270C544.016 303 558.499 316.807 561 319.5C562.5 321.116 565 322.8 571 322C577 321.2 589.5 318.667 595.5 317.5"
+        stroke="url(#paint2_linear_1260_576)" stroke-opacity="0.5" stroke-width="2" />
+    <path
+        d="M592 169.5L568.898 172.639C566.377 173.087 564.109 174.224 561.757 177.57C557.976 182.951 533.615 226.889 541.596 267.688C548.749 297.279 560.917 309.66 563.017 312.074C564.277 313.523 566.378 315.033 571.418 314.316C576.459 313.599 586.96 311.327 592 310.281"
+        stroke="url(#paint3_linear_1260_576)" stroke-opacity="0.5" stroke-width="2" />
+    <path
+        d="M877.5 150H899C903 150 908.5 150 912 156C919.5 170 934 197 931.5 235C929.592 264 909 294.5 901.5 302C897 306.5 896.5 308.5 888 308.5L852.5 307"
+        stroke="url(#paint4_linear_1260_576)" stroke-opacity="0.5" stroke-width="2" />
+    <path
+        d="M874.807 159.5H892.701C896.03 159.5 900.94 160.034 903.936 165.727C910.456 180.257 921.83 201.311 919.749 235.115C918.162 260.913 901.023 288.046 894.781 294.718C891.036 298.721 890.62 300.5 883.546 300.5L854 299.166"
+        stroke="url(#paint5_linear_1260_576)" stroke-opacity="0.5" stroke-width="2" />
+    <path
+        d="M407 214.5C390.128 218.394 294.5 258 247.5 282.5V437.5C341.5 382 389.5 363.667 412 355.5C434.8 347.5 440.167 332.5 440 326L435.5 231C434 211.5 420 211.5 407 214.5Z"
+        fill="url(#paint6_linear_1260_576)" />
+    <path
+        d="M290.5 271.5C325.833 255.167 404.128 225.394 421 221.5C434 218.5 448 218.5 449.5 238L454 333C454.167 339.5 448.8 354.5 426 362.5C403.5 370.667 351.3 391.1 322.5 407.5"
+        stroke="url(#paint7_linear_1260_576)" stroke-opacity="0.8" stroke-width="2" />
+    <path
+        d="M322 334C258 359.5 146.5 423.5 53.4999 514.5C28 537 30.4998 546 33 561.5L40.4999 597C42.4999 604 46.2217 609.706 55.4999 599.5C85.5 566.5 126.5 529.5 159 505C191.5 480.5 263 428.5 314.5 408"
+        stroke="url(#paint8_linear_1260_576)" stroke-width="3" />
+    <path
+        d="M53.4999 514.5C146.5 423.5 258 359.5 322 334V403.5C270.5 424 191.5 480.5 159 505C126.5 529.5 85.5 566.5 55.4999 599.5C46.2217 609.706 42.4999 604 40.4999 597L33 561.5C30.4998 546 28 537 53.4999 514.5Z"
+        fill="url(#paint16_linear_1260_576)" />
+
+    @if (carTelemetry.position)
+    {
+    <path id="nextDriverNameCurve" d="M96.5 450C143.5 411 246 329 369 286.5" />
+    <text style="transform-origin: center;transform-box: fill-box; transform:skew(5deg,-25deg) rotate(-15deg);"
+        fill="white" fill-opacity="0.7" xml:space="preserve" font-family="Formula1" font-size="24">
+        <tspan x="64" y="465" text-anchor="middle">{{carTelemetry.position > 1 ? carTelemetry.position - 1 : ''}}
+        </tspan>
+    </text>
+    <text fill="white" fill-opacity="0.7" xml:space="preserve" style="white-space: pre" font-family="Formula1"
+        font-size="32" font-weight="400" font-style="italic" letter-spacing="0em">
+        <textPath xlink:href="#nextDriverNameCurve" font-style="italic">
+            {{ carTelemetry.nextDriver?.name }}
+        </textPath>
+    </text>
+    }
+
+    <path id="spectatedDriverNameCurve" d="M97.5 530.5C144.5 491.5 250.5 400.5 370.5 355.5" />
+    <text style="transform-origin: center;transform-box: fill-box; transform:skew(15deg,-30deg) rotate(-15deg);"
+        fill="white" xml:space="preserve" font-family="Formula1" font-size="24">
+        <tspan x="72" y="550" text-anchor="middle">{{carTelemetry.position}}</tspan>
+    </text>
+    <text fill="white" fill-opacity="0.9" xml:space="preserve" style="white-space: pre" font-family="Formula1"
+        font-size="32" font-weight="400" font-style="italic" letter-spacing="0em">
+        <textPath xlink:href="#spectatedDriverNameCurve" font-style="italic">
+            {{ carTelemetry.driver?.name }}
+        </textPath>
+    </text>
+
+    <path d="M22 446.5C135 330 263.5 257 416.5 209.5" stroke="url(#paint9_radial_1260_576)" stroke-opacity="0.8"
+        stroke-width="2" />
+    <path d="M1027 176.5C1229 217 1354.5 270.5 1510 364" stroke="url(#paint10_radial_1260_576)" stroke-opacity="0.8"
+        stroke-width="2" />
+    <path
+        d="M1074.5 189.5C1098.5 193.1 1175.67 217.334 1209 228V379.5C1167.5 358.5 1077.75 333.991 1049 327.5C1033.5 324 1021 312 1023 299L1034.5 212C1036.5 192.5 1044.5 185 1074.5 189.5Z"
+        fill="url(#paint11_linear_1260_576)" />
+    <path
+        d="M1194.5 233C1161.17 222.334 1088.5 200.1 1064.5 196.5C1034.5 192 1026.5 199.5 1024.5 219L1013 306C1011 319 1023.5 331 1039 334.5C1067.75 340.991 1157.5 365.5 1199 386.5"
+        stroke="url(#paint12_linear_1260_576)" stroke-opacity="0.8" stroke-width="2" />
+    <text transform="matrix(0.952566 0.304333 -0.0996326 0.995024 1079.79 238)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">N</tspan>
+    </text>
+    <text transform="matrix(0.952566 0.304333 -0.0996326 0.995024 1126.41 249.918)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">1</tspan>
+    </text>
+    <text transform="matrix(0.952566 0.304333 -0.0996326 0.995024 1174.41 264.918)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">2</tspan>
+    </text>
+    <text transform="matrix(0.92636 0.37664 -0.158601 0.987343 1224.65 280.918)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">3</tspan>
+    </text>
+    <text transform="matrix(0.92636 0.37664 -0.158601 0.987343 1270.65 299.918)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">4</tspan>
+    </text>
+    <text transform="matrix(0.894609 0.44685 -0.234155 0.972199 1319.52 320.918)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">5</tspan>
+    </text>
+    <text transform="matrix(0.894609 0.44685 -0.234155 0.972199 1364.52 344.918)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">6</tspan>
+    </text>
+    <text transform="matrix(0.859112 0.511787 -0.288747 0.957406 1413.67 370.653)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">7</tspan>
+    </text>
+    <text transform="matrix(0.859112 0.511787 -0.288747 0.957406 1461.6 399.918)" fill="#79A8FF" fill-opacity="0.3"
+        xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32" font-weight="700">
+        <tspan x="0" y="30.2">8</tspan>
+    </text>
+
+    <text
+        [attr.transform]="carTelemetry.gear == 0 ? 'matrix(1.428849 0.4564995 -0.149449 1.492536 1058 226)' : 'matrix(0.952566 0.304333 -0.0996326 0.995024 1070.79 242)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">N</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 1 ? 'matrix(1.428849 0.4564995 -0.149449 1.492536 1115 245)' : 'matrix(0.952566 0.304333 -0.0996326 0.995024 1117.41 253.918)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">1</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 2 ? 'matrix(1.428849 0.4564995 -0.149449 1.492536 1161 260)' : 'matrix(0.952566 0.304333 -0.0996326 0.995024 1165.41 268.918)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">2</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 3 ? 'matrix(1.38954 0.56496 -0.2379015 1.4810145 1212 274)' : 'matrix(0.92636 0.37664 -0.158601 0.987343 1215.65 284.918)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">3</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 4 ? 'matrix(1.38954 0.56496 -0.2379015 1.4810145 1258 294)' : 'matrix(0.92636 0.37664 -0.158601 0.987343 1261.65 303.918)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">4</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 5 ? 'matrix(1.3419135 0.670275 -0.3512325 1.4582985 1305 315)' : 'matrix(0.894609 0.44685 -0.234155 0.972199 1310.52 324.918)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">5</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 6 ? 'matrix(1.3419135 0.670275 -0.3512325 1.4582985 1353 338)' : 'matrix(0.894609 0.44685 -0.234155 0.972199 1355.52 348.918)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">6</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 7 ? 'matrix(1.288668 0.7676805 -0.4331205 1.436109 1405 365)' : 'matrix(0.859112 0.511787 -0.288747 0.957406 1404.67 374.653)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">7</tspan>
+    </text>
+    <text
+        [attr.transform]="carTelemetry.gear == 8 ? 'matrix(1.288668 0.7676805 -0.4331205 1.436109 1448 387)' : 'matrix(0.859112 0.511787 -0.288747 0.957406 1452.6 403.918)'"
+        fill="white" xml:space="preserve" style="white-space: pre" font-family="Formula1" font-size="32"
+        font-weight="700">
+        <tspan x="0" y="30.2">8</tspan>
+    </text>
+
+    <!-- RPM -->
+    <path d="M1042.5 301C1190.5 336 1318 390 1465 485.5" stroke="#C5C5C5" stroke-width="8" />
+    <path d="M1042.5 301C1190.5 336 1318 390 1465 485.5"
+        [attr.stroke]="carTelemetry.driver?.teamDetails?.primaryColor ?? 'white'" stroke-width="8"
+        stroke-dasharray="464" [attr.stroke-dashoffset]="carTelemetry.engineRPMPercentage * 464" />
+    <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M911 302.5L998.5 317L1000.16 304.854L919.675 292C917.02 295.644 914.128 299.152 911 302.5ZM921.584 289.298C923.825 286.024 925.883 282.648 927.757 279.186L1002.06 290.889L1000.58 301.747L921.584 289.298ZM1004.06 276.243L1002.44 288.076L929.211 276.411C931.059 272.765 932.709 269.031 934.161 265.226L1004.06 276.243ZM935.201 262.391C936.417 258.945 937.474 255.446 938.371 251.906L1005.93 262.544L1004.46 273.316L935.201 262.391ZM1007.93 247.855L1006.33 259.613L939.071 249C939.947 245.153 940.639 241.262 941.145 237.344L1007.93 247.855ZM941.492 234.392C941.907 230.446 942.137 226.477 942.182 222.5L1009.93 233.165L1008.33 244.926L941.492 234.392ZM1011.99 218.109L1010.32 230.309L942.185 219.93C942.148 215.871 941.919 211.808 941.498 207.759L1011.99 218.109ZM941.143 204.705C940.613 200.572 939.881 196.458 938.949 192.381L1013.99 203.397L1012.39 215.164L941.143 204.705ZM1015.96 188.974L1014.39 200.45L938.199 189.276C937.143 185.133 935.878 181.035 934.404 177L1015.96 188.974ZM933.202 173.838C931.403 169.293 929.336 164.838 927 160.5L1018 174L1016.36 186.043L933.202 173.838Z"
+        fill="#405566" />
+    <mask id="mask0_1260_576" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="909" y="159" width="113" height="171">
+        <path d="M909 159L1022 176.897V329.961L909 312.064V159Z" fill="#D9D9D9"
+            [style.transform]="'translateY(' + ((1-carTelemetry.throttle)*156) +'px)'" />
+    </mask>
+    <g mask="url(#mask0_1260_576)">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M912 308L999.5 322.5L1001.16 310.354L920.675 297.5C918.02 301.144 915.128 304.652 912 308ZM922.584 294.798C924.825 291.524 926.883 288.148 928.757 284.686L1003.06 296.389L1001.58 307.247L922.584 294.798ZM1005.06 281.743L1003.44 293.576L930.211 281.911C932.059 278.265 933.709 274.531 935.161 270.726L1005.06 281.743ZM936.201 267.891C937.417 264.445 938.474 260.945 939.371 257.405L1006.93 268.044L1005.46 278.816L936.201 267.891ZM1008.93 253.354L1007.33 265.113L940.071 254.5C940.947 250.652 941.639 246.761 942.145 242.843L1008.93 253.354ZM942.492 239.892C942.907 235.946 943.137 231.976 943.182 228L1010.93 238.664L1009.33 250.426L942.492 239.892ZM1012.99 223.608L1011.32 235.809L943.185 225.43C943.148 221.371 942.919 217.308 942.498 213.259L1012.99 223.608ZM942.143 210.205C941.613 206.072 940.881 201.957 939.949 197.881L1014.99 208.897L1013.39 220.664L942.143 210.205ZM1016.96 194.474L1015.39 205.949L939.199 194.775C938.143 190.633 936.878 186.535 935.404 182.5L1016.96 194.474ZM934.202 179.338C932.403 174.793 930.336 170.337 928 166L1019 179.5L1017.36 191.542L934.202 179.338Z"
+            fill="#39DF92" />
+    </g>
+    <path fill-rule="evenodd" clip-rule="evenodd"
+        d="M462.5 336L543.5 314.5C540.946 311.877 538.327 308.657 535.81 304.867L461.8 324.39L462.5 336ZM461.619 321.389L460.951 310.301L529 292.413C530.583 295.965 532.307 299.227 534.107 302.187L461.619 321.389ZM524.636 280.551C525.592 283.78 526.674 286.84 527.852 289.724L460.773 307.348L460.179 297.5L524.636 280.551ZM460.003 294.583L459.314 283.156L521.68 267.463C522.254 271.059 522.99 274.495 523.857 277.769L460.003 294.583ZM520.37 254.061C520.512 257.782 520.827 261.369 521.291 264.817L459.154 280.5L458.5 269.647L520.37 254.061ZM458.334 266.9L457.629 255.197L520.656 240C520.357 243.885 520.244 247.649 520.297 251.289L458.334 266.9ZM522.776 224.5C521.94 228.789 521.33 232.957 520.923 237L457.45 252.235L456.737 240.403L522.776 224.5ZM456.562 237.5L455.847 225.635L526.786 208.596C525.439 212.962 524.324 217.223 523.421 221.373L456.562 237.5ZM532.803 192.105C530.883 196.671 529.213 201.137 527.774 205.5L455.682 222.895L454.953 210.805L532.803 192.105ZM454.775 207.86L454 195L541.5 174C538.796 179.014 536.391 183.925 534.262 188.728L454.775 207.86Z"
+        fill="#405566" />
+    <mask id="mask1_1260_576" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="446" y="172" width="113"
+        height="181">
+        <path d="M558.57 172L446 199.746V352.81L558.57 325.064V172Z" fill="#D9D9D9"
+            [style.transform]="'translateY(' + ((1-carTelemetry.brake)*150) +'px)'" />
+    </mask>
+    <g mask="url(#mask1_1260_576)">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M465.5 340L546.5 318.5C543.946 315.877 541.327 312.657 538.81 308.867L464.8 328.39L465.5 340ZM464.619 325.389L463.951 314.301L532 296.413C533.583 299.965 535.307 303.227 537.107 306.187L464.619 325.389ZM527.636 284.55C528.592 287.78 529.674 290.84 530.852 293.724L463.773 311.348L463.179 301.5L527.636 284.55ZM463.003 298.583L462.314 287.156L524.68 271.463C525.254 275.058 525.99 278.495 526.857 281.768L463.003 298.583ZM523.37 258.061C523.512 261.782 523.827 265.369 524.291 268.816L462.154 284.5L461.5 273.647L523.37 258.061ZM461.334 270.9L460.629 259.197L523.656 244C523.357 247.884 523.244 251.649 523.297 255.289L461.334 270.9ZM525.776 228.5C524.94 232.789 524.33 236.957 523.923 241L460.45 256.235L459.737 244.403L525.776 228.5ZM459.562 241.5L458.847 229.634L529.786 212.596C528.439 216.962 527.324 221.222 526.421 225.373L459.562 241.5ZM535.803 196.105C533.883 200.671 532.213 205.137 530.774 209.5L458.682 226.895L457.953 214.804L535.803 196.105ZM457.775 211.86L457 199L544.5 178C541.796 183.014 539.391 187.924 537.262 192.727L457.775 211.86Z"
+            fill="#C80000" />
+    </g>
+    <path
+        d="M759.44 322.501C1119.29 317.115 1389.86 501.236 1481 583.5C1390.81 502.098 1116.76 325.154 759.56 330.5C393.569 335.977 177.977 518.154 74 648C179.023 516.847 390.432 328.023 759.44 322.501Z"
+        fill="url(#paint13_radial_1260_576)" />
+    <path
+        d="M204 273C291.5 228 373.79 189.393 448.5 150.5C547 96.5002 637.158 56 733 56C850.5 56 898 87.6327 1064.5 150.5C1200.1 201.7 1328.67 250.5 1376 268.5"
+        stroke="url(#paint14_radial_1260_576)" stroke-opacity="0.8" stroke-width="2" />
+
+    <defs>
+        <filter id="filter0_d_1300_461" x="626.012" y="194.256" width="217.491" height="69.9775"
+            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix" />
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+            <feOffset />
+            <feGaussianBlur stdDeviation="8" />
+            <feComposite in2="hardAlpha" operator="out" />
+            <feColorMatrix type="matrix" values="0 0 0 0 0.0392157 0 0 0 0 0.866667 0 0 0 0 0 0 0 0 0.5 0" />
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1300_461" />
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1300_461" result="shape" />
+        </filter>
+        <linearGradient id="paint0_linear_1260_576" x1="743.409" y1="98.5002" x2="743.409" y2="326"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0.77117" [attr.stop-color]="carTelemetry.driver?.teamDetails?.primaryColor ?? 'white'" />
+            <stop offset="0.975719" [attr.stop-color]="carTelemetry.driver?.teamDetails?.primaryColor ?? 'white'"
+                stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint1_linear_1260_576" x1="743.888" y1="93.9417" x2="743.888" y2="330.559"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0.77117" [attr.stop-color]="carTelemetry.driver?.teamDetails?.primaryColor ?? 'white'" />
+            <stop offset="0.975719" [attr.stop-color]="carTelemetry.driver?.teamDetails?.primaryColor ?? 'white'"
+                stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint2_linear_1260_576" x1="534" y1="160.5" x2="596" y2="160.5"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint3_linear_1260_576" x1="540.335" y1="169.5" x2="592.42" y2="169.5"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint4_linear_1260_576" x1="932" y1="149.5" x2="883" y2="142"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint5_linear_1260_576" x1="920.166" y1="159.055" x2="879.268" y2="153.199"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint6_linear_1260_576" x1="440" y1="270.5" x2="248" y2="270.5"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#3B5972" />
+            <stop offset="1" stop-color="#254057" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint7_linear_1260_576" x1="441.5" y1="220.5" x2="293.769" y2="261.616"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#79A8FF" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+        <linearGradient id="paint8_linear_1260_576" x1="22" y1="531" x2="313" y2="411.5" gradientUnits="userSpaceOnUse">
+            <!-- Team color outline  -->
+            <linearGradient id="paint16_linear_1260_576" x1="321.994" y1="403.379" x2="32.2604" y2="403.379"
+                gradientUnits="userSpaceOnUse">
+                <stop stop-color="#254057" stop-opacity="0" />
+                <stop offset="1" stop-color="#3B5972" stop-opacity="0.9" />
+            </linearGradient>
+            <stop offset="0.451923" [attr.stop-color]="carTelemetry.driver?.teamDetails?.primaryColor ?? 'white'" />
+            <stop offset="1" [attr.stop-color]="carTelemetry.driver?.teamDetails?.primaryColor ?? 'white'"
+                stop-opacity="0" />
+        </linearGradient>
+        <radialGradient id="paint9_radial_1260_576" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(219 292) scale(198 329.582)">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="paint10_radial_1260_576" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(1283.74 248.835) rotate(51.3071) scale(198 329.582)">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="paint11_linear_1260_576" x1="1209" y1="237.192" x2="1023.27" y2="237.192"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#254057" stop-opacity="0" />
+            <stop offset="1" stop-color="#3B5972" />
+        </linearGradient>
+        <linearGradient id="paint12_linear_1260_576" x1="1040.5" y1="343" x2="1190.16" y2="349.583"
+            gradientUnits="userSpaceOnUse">
+            <stop stop-color="#79A8FF" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </linearGradient>
+        <radialGradient id="paint13_radial_1260_576" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(747.03 325.646) rotate(90) scale(904.963 734.268)">
+            <stop stop-color="white" />
+            <stop offset="1" stop-color="#C0D6FF" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="paint14_radial_1260_576" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+            gradientTransform="translate(765 55.5002) rotate(90) scale(612.5 612.5)">
+            <stop stop-color="#79A8FF" />
+            <stop offset="1" stop-color="white" stop-opacity="0" />
+        </radialGradient>
+    </defs>
+</svg>

@@ -1,18 +1,20 @@
 import { Component, ViewChild } from '@angular/core';
 import { GridColumn } from '../../../thirdparty/ng-datatable/modals';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Nationality } from '../../../shared/models/Enumerations';
 import { KeyNumberPair } from '../../../shared/models/common';
 import { RestService } from '../../../core/services/rest.service';
 import { Player } from '../../../shared/models/Player';
 import { PlayerEndpoints } from '../../../shared/constants/apiUrls';
 import { GridRequest } from '../../../shared/models/grid';
+import { CommonModule } from '@angular/common';
+import { GridComponent } from '../../../shared/components/grid/grid/grid.component';
 
 @Component({
-    standalone: false,
     selector: 'players',
     templateUrl: './players.component.html',
-    styleUrl: './players.component.css'
+    styleUrl: './players.component.css',
+    imports: [CommonModule, ReactiveFormsModule, GridComponent]
 })
 export class PlayersComponent {
     cols: Array<GridColumn> = [
