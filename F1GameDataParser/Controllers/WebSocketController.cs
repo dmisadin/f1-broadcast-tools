@@ -160,6 +160,7 @@ public class WebSocketController : ControllerBase
                 if (webSocket.State is WebSocketState.Open or WebSocketState.CloseReceived)
                 {
                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed", CancellationToken.None);
+                    Console.WriteLine($"[Websocket] Websocket closed.");
                 }
             }
             catch { /* ignore close races */ }

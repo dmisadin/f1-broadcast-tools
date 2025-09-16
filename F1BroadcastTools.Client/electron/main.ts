@@ -126,6 +126,10 @@ function stopBackend() {
     }
 }
 
+app.commandLine.appendSwitch('enable-gpu-rasterization');
+app.commandLine.appendSwitch('enable-zero-copy');
+app.commandLine.appendSwitch('ignore-gpu-blacklist');
+
 /** ---------- App lifecycle ---------- **/
 app.whenReady().then(() => {
     startBackend();
