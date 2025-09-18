@@ -52,5 +52,15 @@ namespace F1GameDataParser.Utility
 
             return (isNegative ? "-" : "+") + result;
         }
+
+        public static string SecondsToTime(int seconds)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(seconds);
+
+            int minutes = (int)time.TotalMinutes;
+            int secs = time.Seconds;
+
+            return $"{minutes}:{secs:D2}";
+        }
     }
 }

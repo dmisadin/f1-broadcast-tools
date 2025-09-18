@@ -23,6 +23,8 @@ export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> imple
     safetyCarStatus     = signal<SafetyCarStatus>(SafetyCarStatus.None);
     sectorYellowFlags   = signal<boolean[]>([false, false, false]);
     showAdditionalInfoFlags = signal<number>(0);
+    isRaceSession       = signal<boolean>(false);
+    sessionTimeLeft     = signal<string | null>(null);
 
     driverTimingDetails = signal<DriverTimingDetails[]>([]);
     spectatorCarIdx     = signal<number>(255);
@@ -71,6 +73,8 @@ export class TimingTowerComponent extends WidgetBaseComponent<TimingTower> imple
         this.safetyCarStatus.set(data.safetyCarStatus);
         this.sectorYellowFlags.set(data.sectorYellowFlags);
         this.showAdditionalInfoFlags.set(data.showAdditionalInfo);
+        this.isRaceSession.set(data.isRaceSession);
+        this.sessionTimeLeft.set(data.sessionTimeLeft);
 
         this.driverTimingDetails.set(data.driverTimingDetails);
         this.spectatorCarIdx.set(data.spectatorCarIdx);

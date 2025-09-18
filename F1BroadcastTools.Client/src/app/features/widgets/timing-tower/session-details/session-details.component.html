@@ -1,7 +1,11 @@
 <div class="session-details"
     [ngClass]="{'show-fia-flag': hasAnyYellow() || greenFlagVisible()}">
     <div class="laps">
+        @if (isRaceSession()) {
         LAP <span>{{currentLap()}}</span> / {{totalLaps()}}
+        } @else {
+        {{ sessionTimeLeft() }}
+        }
     </div>
     <div class="fia-flag"
         [ngClass]="hasAnyYellow() ? 'yellow-flag' : greenFlagVisible() ? 'green-flag' : ''">

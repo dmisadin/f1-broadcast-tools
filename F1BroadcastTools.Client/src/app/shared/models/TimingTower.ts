@@ -3,12 +3,14 @@ import { TeamDetails } from "./team.model";
 
 export interface TimingTower {
     gameYear: GameYear;
+    isRaceSession: boolean;
     currentLap: number;
     totalLaps: number;
 
     safetyCarStatus: SafetyCarStatus;
     sectorYellowFlags: boolean[];
     showAdditionalInfo: number;
+    sessionTimeLeft: string | null;
 
     driverTimingDetails: DriverTimingDetails[];
     spectatorCarIdx: number;
@@ -22,7 +24,7 @@ export interface DriverTimingDetails {
     name: string;
     tyreAge: number;
     visualTyreCompound: string;
-    gapInterval: string;
+    gap: string;
     resultStatus: ResultStatus;
     penalties: number;
     warnings: number;

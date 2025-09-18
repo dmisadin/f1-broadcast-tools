@@ -3,7 +3,9 @@
         [currentLap]="currentLap()"
         [totalLaps]="totalLaps()"
         [sectorYellowFlags]="sectorYellowFlags()"
-        [safetyCarStatus]="safetyCarStatus()">
+        [safetyCarStatus]="safetyCarStatus()"
+        [isRaceSession]="isRaceSession()"
+        [sessionTimeLeft]="sessionTimeLeft()">
     </session-details>
     
     <div class="driver-timing-details-container">
@@ -19,7 +21,7 @@
             [name]="driver.name" 
             [tyreAge]="driver.tyreAge" 
             [visualTyreCompound]="driver.visualTyreCompound" 
-            [gapInterval]="driver.gapInterval" 
+            [gap]="driver.gap" 
             [resultStatus]="driver.resultStatus" 
             [penalties]="driver.penalties" 
             [warnings]="driver.warnings" 

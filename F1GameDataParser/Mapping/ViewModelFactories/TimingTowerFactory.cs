@@ -17,6 +17,8 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
         private readonly DriverOverrideState driverOverrideState;
         private readonly PersonalBestLapState personalBestLapState;
 
+        private readonly List<SessionType> RacingSessions = [SessionType.Race, SessionType.Race2, SessionType.Race3];
+
         public TimingTowerFactory(LapState lapState,
             SessionState sessionState,
             ParticipantsState participantsState,
@@ -42,13 +44,16 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 return null;
 
             var gameYear = sessionState.State.Header.GameYear;
+            var isRaceSession = RacingSessions.Contains(sessionState.State.SessionType);
             var firstPlaceDriver = lapState.State.Where(detail => detail.Value.CarPosition == 1).FirstOrDefault().Value;
             var currentLap = firstPlaceDriver?.CurrentLapNum ?? 0;
             var totalLaps = sessionState.State.TotalLaps;
+            var sessionTimeLeft = isRaceSession ? null : TimeUtility.SecondsToTime(sessionState.State.SessionTimeLeft);
             var currentLapDistance = this.CurrentLapDistanceDonePercentage(firstPlaceDriver?.LapDistance ?? -1, sessionState.State.TrackLength);
 
             var driverTimingDetails = new DriverTimingDetails[22];
-            var fastestLapVehicleIdx = currentLap > 1 ? GetFastestLapVehicleIndex() : 255;
+            var fastestLap = personalBestLapState.GetFastestLap();
+            var fastestLapVehicleIdx = currentLap > 1 && fastestLap is not null ? fastestLap.VehicleIdx : 255;
 
             for (int i = 0; i < Sizes.MaxPlayers; i++)
             {
@@ -58,6 +63,13 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 var participantDetails = participantsState.State.ParticipantList[i];
                 var carStatusDetails = carStatusState.State.Details[i];
                 var driverOverride = driverOverrideState.GetModel(i);
+                var gapInMS = 0;
+                int driversBestLap = (int)(personalBestLapState.GetModel(i)?.LapTimeInMS ?? 0);
+
+                if (isRaceSession)
+                    gapInMS = lapDetails.DeltaToCarInFrontInMS;
+                else if (driversBestLap != 0)
+                    gapInMS = driversBestLap - (int)(fastestLap?.LapTimeInMS ?? 0);
 
                 driverTimingDetails[i] = new DriverTimingDetails
                 {
@@ -68,7 +80,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     Name = driverOverride?.Player.Name ?? participantDetails.Name,
                     TyreAge = carStatusDetails.TyresAgeLaps,
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
-                    GapInterval = GetGapOrResultStatus(lapDetails.DeltaToCarInFrontInMS, lapDetails.CarPosition, lapDetails.ResultStatus),
+                    Gap = GetGapOrResultStatus(gapInMS, lapDetails.CarPosition, isRaceSession, lapDetails.ResultStatus),
                     ResultStatus = lapDetails.ResultStatus,
                     Penalties = lapDetails.Penalties + (lapDetails.UnservedPenalties?.Sum(p => p) ?? 0),
                     Warnings = (byte)(lapDetails.CornerCuttingWarnings % 3),
@@ -82,32 +94,31 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             return new TimingTower
             {
                 GameYear = gameYear,
+                IsRaceSession = isRaceSession,
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
                 SafetyCarStatus = sessionState.State.SafetyCarStatus,
                 SectorYellowFlags = GetFIAFlags(),
+                SessionTimeLeft = sessionTimeLeft,
+
                 ShowAdditionalInfo = ShouldShowAdditionalInfo(currentLap, totalLaps, currentLapDistance),
                 DriverTimingDetails = driverTimingDetails.Where(x => x.Position > 0).OrderBy(x => x.Position).ToArray(),
                 SpectatorCarIdx = sessionState.State.SpectatorCarIndex
             };
         }
 
-        private int GetFastestLapVehicleIndex()
-        {
-            var fastestLap = personalBestLapState.GetFastestLap();
-
-            return fastestLap is null ? 255 : fastestLap.VehicleIdx;
-        }
-
-        private string GetGapOrResultStatus(long gap, int position, ResultStatus resultStatus = ResultStatus.Active)
+        private string GetGapOrResultStatus(long gap, int position, bool isRaceSession, ResultStatus resultStatus = ResultStatus.Active)
         {
             if (resultStatus == ResultStatus.Active || resultStatus == ResultStatus.Finished)
             {
                 if (position == 1)
-                    return "Interval"; // TO DO: Implement Leader Gap
-                else if (gap == 0)
+                    return isRaceSession ? "Interval" : "Leader";
+                if (gap == 0)
                     return "-";
-                return  $"+{TimeUtility.MillisecondsToGap(gap)}";
+                if (isRaceSession)
+                    return $"+{TimeUtility.MillisecondsToGap(gap)}";
+
+                return TimeUtility.MillisecondsToDifference(gap) ?? "lmao";
             }
 
             return resultStatus.GetShortLabel();

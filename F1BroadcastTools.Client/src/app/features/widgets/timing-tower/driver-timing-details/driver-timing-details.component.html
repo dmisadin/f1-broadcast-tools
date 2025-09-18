@@ -128,11 +128,11 @@
     </div>
 
     <div class="gap">
-        @if (isInPits() && resultStatus() == ResultStatus.Active) {
+        @if (isRaceSession() && isInPits() && resultStatus() == ResultStatus.Active) {
         <span [style.color]="teamPrimaryColor">In Pit</span>
         }
         @else {
-        {{ gapInterval() }}
+        {{ gap() }}
         }
     </div>
 </div>
