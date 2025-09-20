@@ -16,6 +16,7 @@ export class SessionDetailsComponent {
     safetyCarStatus = input<SafetyCarStatus>();
     sectorYellowFlags = input<boolean[]>([]);
     isRaceSession = input<boolean>();
+    isSessionFinished = input<boolean>();
     sessionTimeLeft = input<string | null>(null);
     greenFlagVisible = signal(false);
     private previousHadYellow = signal(false);

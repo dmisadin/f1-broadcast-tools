@@ -1,29 +1,30 @@
-<div class="session-details"
-    [ngClass]="{'show-fia-flag': hasAnyYellow() || greenFlagVisible()}">
-    <div class="laps">
+<div class="session-details" [class.show-fia-flag]="hasAnyYellow() || greenFlagVisible()">
+    <div class="laps" [class.checkered-flag]="isSessionFinished()">
         @if (isRaceSession()) {
-        LAP <span>{{currentLap()}}</span> / {{totalLaps()}}
+        <span>LAP </span> &nbsp;
+        <span class="current-lap">{{ currentLap() }}</span>
+        <span>/{{ totalLaps() }}</span>
         } @else {
         {{ sessionTimeLeft() }}
         }
     </div>
-    <div class="fia-flag"
-        [ngClass]="hasAnyYellow() ? 'yellow-flag' : greenFlagVisible() ? 'green-flag' : ''">
-        @if (safetyCarStatus() == SafetyCarStatus.Full)
-        {
+
+    <div class="fia-flag" [class.yellow-flag]="hasAnyYellow()"
+        [class.green-flag]="!hasAnyYellow() && greenFlagVisible()">
+
+        @if (safetyCarStatus() == SafetyCarStatus.Full) {
         <img src="images/icons/common/double-flags.svg" alt="">
-        <div class="safety-car"> Safety Car </div>
+        <div class="safety-car">Safety Car</div>
         <img src="images/icons/common/safety-car.svg" alt="">
         }
         @else if (safetyCarStatus() == SafetyCarStatus.Virtual) {
         <img src="images/icons/common/vsc.svg" alt="">
-        <div class="safety-car"> Virtual Safety Car </div>
+        <div class="safety-car">Virtual Safety Car</div>
         }
-        @else if (hasAnyYellow())
-        {
+        @else if (hasAnyYellow()) {
         <img src="images/icons/common/double-flags.svg" alt="">
-        <div class="">
-            {{sectorYellowFlags() | sectorsYellowFlags}}
+        <div>
+            {{ sectorYellowFlags() | sectorsYellowFlags }}
         </div>
         }
         @else if (greenFlagVisible()) {

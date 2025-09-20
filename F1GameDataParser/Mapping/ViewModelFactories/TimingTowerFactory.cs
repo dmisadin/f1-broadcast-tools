@@ -54,6 +54,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             var driverTimingDetails = new DriverTimingDetails[22];
             var fastestLap = personalBestLapState.GetFastestLap();
             var fastestLapVehicleIdx = currentLap > 1 && fastestLap is not null ? fastestLap.VehicleIdx : 255;
+            var isSessionFinished = false;
 
             for (int i = 0; i < Sizes.MaxPlayers; i++)
             {
@@ -70,6 +71,9 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     gapInMS = lapDetails.DeltaToCarInFrontInMS;
                 else if (driversBestLap != 0)
                     gapInMS = driversBestLap - (int)(fastestLap?.LapTimeInMS ?? 0);
+
+                if (!isSessionFinished && lapDetails.ResultStatus == ResultStatus.Finished)
+                    isSessionFinished = true;
 
                 driverTimingDetails[i] = new DriverTimingDetails
                 {
@@ -95,6 +99,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             {
                 GameYear = gameYear,
                 IsRaceSession = isRaceSession,
+                IsSessionFinished = isSessionFinished,
                 CurrentLap = currentLap,
                 TotalLaps = totalLaps,
                 SafetyCarStatus = sessionState.State.SafetyCarStatus,

@@ -6,6 +6,7 @@ namespace F1GameDataParser.ViewModels.TimingTower
     {
         public GameYear GameYear { get; set; }
         public bool IsRaceSession { get; set; }
+        public bool IsSessionFinished { get; set; }
         public byte CurrentLap { get; set; }
         public byte TotalLaps { get; set; }
 

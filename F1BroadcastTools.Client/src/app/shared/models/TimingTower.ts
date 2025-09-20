@@ -4,6 +4,7 @@ import { TeamDetails } from "./team.model";
 export interface TimingTower {
     gameYear: GameYear;
     isRaceSession: boolean;
+    isSessionFinished: boolean;
     currentLap: number;
     totalLaps: number;
 
