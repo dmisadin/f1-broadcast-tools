@@ -4,19 +4,19 @@ namespace F1GameDataParser.Enums
 {
     public enum ResultStatus : byte
     {
-        [Label("Invalid")]
+        [Label("Invalid", "INV")]
         Invalid = 0,
-        [Label("Inactive")]
+        [Label("Inactive", "INA")]
         Inactive,
-        [Label("Active")]
+        [Label("Active", "ACT")]
         Active,
-        [Label("Finished")]
+        [Label("Finished", "FIN")]
         Finished,
         [Label("Did not finish", "DNF")]
         DNF,
         [Label("Disqualified", "DSQ")]
         DSQ,
-        [Label("Not classified")]
+        [Label("Not classified", "NC")]
         NC,
         [Label("Retired", "DNF")]
         Retired

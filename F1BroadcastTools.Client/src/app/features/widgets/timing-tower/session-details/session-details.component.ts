@@ -15,6 +15,9 @@ export class SessionDetailsComponent {
     totalLaps = input<number>();
     safetyCarStatus = input<SafetyCarStatus>();
     sectorYellowFlags = input<boolean[]>([]);
+    isRaceSession = input<boolean>();
+    isSessionFinished = input<boolean>();
+    sessionTimeLeft = input<string | null>(null);
     greenFlagVisible = signal(false);
     private previousHadYellow = signal(false);
     hasAnyYellow = computed(() => this.sectorYellowFlags().some(f => f));

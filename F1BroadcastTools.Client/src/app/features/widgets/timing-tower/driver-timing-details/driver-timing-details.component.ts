@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { TeamLogoComponent } from "../../../../shared/components/game/team-logo/team-logo.component";
-import { AdditionalInfo, GameYear, ResultStatus, Team } from "../../../../shared/models/Enumerations";
+import { AdditionalInfo, DriverStatus, GameYear, ResultStatus, Team } from "../../../../shared/models/Enumerations";
 import { TeamDetails } from "../../../../shared/models/team.model";
 import { DriverStateService } from "../../../../shared/services/states/driver-state.service";
 
@@ -16,6 +16,7 @@ export class DriverTimingDetailsComponent {
     isSpectated = input(false);
     showAdditionalInfo = input(AdditionalInfo.None);
     gameYear = input(GameYear.F123);
+    isRaceSession = input<boolean>(false);
 
     vehicleIdx       = input.required<number>();
     position         = input.required<number>();
@@ -23,8 +24,9 @@ export class DriverTimingDetailsComponent {
     name             = input.required<string>();
     tyreAge          = input.required<number>();
     visualTyreCompound = input.required<string>();
-    gapInterval      = input.required<string>();
+    gap              = input.required<string>();
     resultStatus     = input.required<ResultStatus>();
+    driverStatus     = input.required<DriverStatus>();
     penalties        = input.required<number>();
     warnings         = input.required<number>();
     hasFastestLap    = input.required<boolean>();
@@ -34,6 +36,7 @@ export class DriverTimingDetailsComponent {
 
     ResultStatus = ResultStatus;
     AdditionalInfo = AdditionalInfo;
+    DriverStatus = DriverStatus;
 
     private previousPosition = signal<number>(0);
     positionChange = signal<number>(0);
@@ -65,7 +68,7 @@ export class DriverTimingDetailsComponent {
 
                 this.timeoutHandle = setTimeout(() => {
                     this.positionChange.set(0);
-                }, 3000);
+                }, 4000);
             }
             this.previousPosition.set(newPosition);
         });

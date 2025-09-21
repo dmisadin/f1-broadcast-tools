@@ -44,10 +44,25 @@
             </team-logo>
         </div>
         <div class="name">
-            {{ vehicleIdx() }} {{ name() }} 
+            {{ name() }} {{ vehicleIdx() }}
         </div>
         <div class="tyre" [style.background-image]="tyreBackgroundUrl()">
+            @if (isRaceSession()) {
             {{ tyreAge() }}
+            }
+            @else {
+            @switch (driverStatus()) {
+            @case (DriverStatus.InGarage) {
+            <span class="driver-status"> Pit </span>
+            }
+            @case (DriverStatus.OutLap) {
+            <span class="driver-status"> Out </span>
+            }
+            @default {
+            {{ tyreAge() }}
+            }
+            }
+            }
         </div>
         <div class="additional-info">
             @switch (showAdditionalInfo)
@@ -128,11 +143,11 @@
     </div>
 
     <div class="gap">
-        @if (isInPits() && resultStatus() == ResultStatus.Active) {
+        @if (isRaceSession() && isInPits() && resultStatus() == ResultStatus.Active) {
         <span [style.color]="teamPrimaryColor">In Pit</span>
         }
         @else {
-        {{ gapInterval() }}
+        {{ gap() }}
         }
     </div>
 </div>
