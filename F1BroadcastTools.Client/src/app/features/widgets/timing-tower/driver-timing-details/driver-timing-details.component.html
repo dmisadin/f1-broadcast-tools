@@ -47,7 +47,22 @@
             {{ name() }} {{ vehicleIdx() }}
         </div>
         <div class="tyre" [style.background-image]="tyreBackgroundUrl()">
+            @if (isRaceSession()) {
             {{ tyreAge() }}
+            }
+            @else {
+            @switch (driverStatus()) {
+            @case (DriverStatus.InGarage) {
+            <span class="driver-status"> Pit </span>
+            }
+            @case (DriverStatus.OutLap) {
+            <span class="driver-status"> Out </span>
+            }
+            @default {
+            {{ tyreAge() }}
+            }
+            }
+            }
         </div>
         <div class="additional-info">
             @switch (showAdditionalInfo)

@@ -22,7 +22,7 @@
 }
 
 .session-details.show-fia-flag {
-    grid-template-rows: 2.5em 2.5em;
+    grid-template-rows: 2.5em 2em;
 }
 
 .session-details:not(.show-fia-flag) .fia-flag {

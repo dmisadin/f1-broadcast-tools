@@ -9,6 +9,14 @@ export enum ResultStatus {
     Retired
 }
 
+export enum DriverStatus {
+    InGarage = 0,
+    FlyingLap,
+    InLap,
+    OutLap,
+    OnTrack
+}
+
 export enum Team {
     Mercedes,
     Ferrari,

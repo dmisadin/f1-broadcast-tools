@@ -49,7 +49,7 @@
     svg {
         position: absolute;
         width: auto;
-        max-height: 100%;
+        height: 100%;
         z-index: 0;
     }
 
@@ -180,7 +180,7 @@
 }
 
 
-.additional-info .positions-gained span{
+.additional-info .positions-gained span {
     font-size: 1.25em;
 }
 
@@ -205,4 +205,8 @@
 
 .has-fastest-lap {
     background: linear-gradient(to right, #963F9D 0%, #963F9D00 100%);
+}
+
+.driver-status {
+    font-size: .8em
 }

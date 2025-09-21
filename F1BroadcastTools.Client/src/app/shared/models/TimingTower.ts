@@ -1,4 +1,4 @@
-import { GameYear, ResultStatus, SafetyCarStatus, Team } from "./Enumerations";
+import { DriverStatus, GameYear, ResultStatus, SafetyCarStatus, Team } from "./Enumerations";
 import { TeamDetails } from "./team.model";
 
 export interface TimingTower {
@@ -27,6 +27,7 @@ export interface DriverTimingDetails {
     visualTyreCompound: string;
     gap: string;
     resultStatus: ResultStatus;
+    driverStatus: DriverStatus;
     penalties: number;
     warnings: number;
     hasFastestLap: boolean;

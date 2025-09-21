@@ -6,6 +6,7 @@ namespace F1GameDataParser.ViewModels.TimingTower
     {
         public byte TyreAge { get; set; }
         public ResultStatus ResultStatus { get; set; }
+        public DriverStatus DriverStatus { get; set; }
         public int Penalties { get; set; }
         public byte Warnings { get; set; }
         public bool HasFastestLap { get; set; }

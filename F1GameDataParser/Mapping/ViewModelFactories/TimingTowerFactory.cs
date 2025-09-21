@@ -51,7 +51,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             var sessionTimeLeft = isRaceSession ? null : TimeUtility.SecondsToTime(sessionState.State.SessionTimeLeft);
             var currentLapDistance = this.CurrentLapDistanceDonePercentage(firstPlaceDriver?.LapDistance ?? -1, sessionState.State.TrackLength);
 
-            var driverTimingDetails = new DriverTimingDetails[22];
+            var driverTimingDetails = new List<DriverTimingDetails>();
             var fastestLap = personalBestLapState.GetFastestLap();
             var fastestLapVehicleIdx = currentLap > 1 && fastestLap is not null ? fastestLap.VehicleIdx : 255;
             var isSessionFinished = false;
@@ -61,6 +61,9 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 // TO DO: Find a way to skip some, maybe not maxplayers
                 if (!lapState.State.TryGetValue(i, out var lapDetails))
                     continue;
+                if (lapDetails.ResultStatus == ResultStatus.Inactive)
+                    continue;
+
                 var participantDetails = participantsState.State.ParticipantList[i];
                 var carStatusDetails = carStatusState.State.Details[i];
                 var driverOverride = driverOverrideState.GetModel(i);
@@ -75,7 +78,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 if (!isSessionFinished && lapDetails.ResultStatus == ResultStatus.Finished)
                     isSessionFinished = true;
 
-                driverTimingDetails[i] = new DriverTimingDetails
+                driverTimingDetails.Add(new DriverTimingDetails
                 {
                     VehicleIdx = i,
                     Position = lapDetails.CarPosition,
@@ -86,13 +89,14 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                     VisualTyreCompound = carStatusDetails.VisualTyreCompound.ToString(),
                     Gap = GetGapOrResultStatus(gapInMS, lapDetails.CarPosition, isRaceSession, lapDetails.ResultStatus),
                     ResultStatus = lapDetails.ResultStatus,
+                    DriverStatus = lapDetails.DriverStatus,
                     Penalties = lapDetails.Penalties + (lapDetails.UnservedPenalties?.Sum(p => p) ?? 0),
                     Warnings = (byte)(lapDetails.CornerCuttingWarnings % 3),
                     HasFastestLap = i == fastestLapVehicleIdx,
                     IsInPits = lapDetails.PitStatus != PitStatus.None,
                     NumPitStops = lapDetails.NumPitStops,
                     PositionsGained = lapDetails.GridPosition - lapDetails.CarPosition
-                };
+                });
             }
 
             return new TimingTower
@@ -123,7 +127,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 if (isRaceSession)
                     return $"+{TimeUtility.MillisecondsToGap(gap)}";
 
-                return TimeUtility.MillisecondsToDifference(gap) ?? "lmao";
+                return TimeUtility.MillisecondsToDifference(gap) ?? "/";
             }
 
             return resultStatus.GetShortLabel();
