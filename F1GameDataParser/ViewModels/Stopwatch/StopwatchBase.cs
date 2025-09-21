@@ -2,11 +2,10 @@
 
 namespace F1GameDataParser.ViewModels.Stopwatch
 {
-    public class Stopwatch
+    public class StopwatchBase
     {
         public GameYear GameYear { get; set; }
         public FastestQualifyingLap? FastestLap { get; set; }
         public FastestQualifyingLap? SecondFastestLap { get; set; }
-        public IEnumerable<StopwatchCar> Cars { get; set; }
     }
 }

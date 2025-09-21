@@ -10,7 +10,7 @@ using F1GameDataParser.ViewModels.Stopwatch;
 
 namespace F1GameDataParser.Mapping.ViewModelFactories
 {
-    public class StopwatchFactory : ViewModelFactoryBase<Stopwatch>
+    public class StopwatchFactory : ViewModelFactoryBase<StopwatchList>
     {
         private readonly LapState lapState;
         private readonly ParticipantsState participantsState;
@@ -43,7 +43,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             this.carStatusState = carStatusState;
         }
 
-        public override Stopwatch? Generate()
+        public override StopwatchList? Generate()
         {
             if (lapState?.State == null || participantsState?.State == null || sessionState?.State == null)
                 return null;
@@ -96,7 +96,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 stopwatchCars.Add(stopwatchCar);
             }
 
-            return new Stopwatch
+            return new StopwatchList
             {
                 GameYear = sessionState.State.Header.GameYear,
                 FastestLap = GetFastestLapDetails(fastestLap),
