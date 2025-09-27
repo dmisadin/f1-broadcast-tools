@@ -1,19 +1,14 @@
 {
   "name": "f1-broadcast-tools-client",
   "version": "0.0.0",
-
   "main": ".electron/main.js",
   "scripts": {
     "ng": "ng",
     "start:ng": "ng serve",
     "build:electron": "tsc -p electron/tsconfig.json",
-
     "watch:main": "tsc -p electron/tsconfig.json -w",
-
     "launch:electron": "wait-on http://localhost:4200 && wait-on .electron/main.js && cross-env NODE_ENV=development electron .",
-
     "start": "npm run build:electron && concurrently -k \"npm:watch:main\" \"npm:start:ng\" \"npm:launch:electron\"",
-
     "build": "ng build && npm run build:electron",
     "dist": "npm run build && cross-env NODE_ENV=production electron-builder"
   },
@@ -43,6 +38,7 @@
     "cross-env": "^10.0.0",
     "electron": "^37.4.0",
     "electron-builder": "^26.0.12",
+    "eslint": "^9.36.0",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
@@ -52,27 +48,43 @@
     "typescript": "~5.9.2",
     "wait-on": "^8.0.4"
   },
-
   "build": {
     "appId": "com.dmisadin.f1broadcasttools",
     "productName": "F1BroadcastTools",
     "files": [
-        "package.json",
-        ".electron/**/*",
-        {
+      "package.json",
+      ".electron/**/*",
+      {
         "from": "dist/F1BroadcastTools.Client/browser",
         "to": "app",
-        "filter": ["**/*"]
-        }
+        "filter": [
+          "**/*"
+        ]
+      }
     ],
     "extraMetadata": {
-        "main": ".electron/main.js"
+      "main": ".electron/main.js"
     },
     "directories": {
-        "output": "release"
+      "output": "release"
     },
-    "mac": { "target": ["dmg", "zip"] },
-    "win": { "target": ["nsis", "zip"] },
-    "linux": { "target": ["AppImage", "deb"] }
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    }
   }
 }
