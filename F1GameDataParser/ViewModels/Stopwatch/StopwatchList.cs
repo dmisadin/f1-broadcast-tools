@@ -1,6 +1,4 @@
-﻿using F1GameDataParser.Enums;
-
-namespace F1GameDataParser.ViewModels.Stopwatch
+﻿namespace F1GameDataParser.ViewModels.Stopwatch
 {
     public class StopwatchList : StopwatchBase
     {
