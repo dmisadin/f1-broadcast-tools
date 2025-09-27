@@ -1,0 +1,31 @@
+@let car = this.car();
+
+@if (car) 
+{
+<stopwatch [gameYear]="gameYear()"
+    [fastestLap]="fastestLap()" 
+    [secondFastestLap]="secondFastestLap()" 
+    [vehicleIdx]="car.vehicleIdx"
+    [position]="car.position" 
+    [lastLapTime]="car.lastLapTime" 
+    [currentTime]="car.currentTime" 
+    [isLapValid]="car.isLapValid" 
+    [lapProgress]="car.lapProgress" 
+    [tyreCompoundVisual]="car.tyreCompoundVisual"
+    
+    [sector1TimeStatus]="car.sector1TimeStatus"
+    [sector2TimeStatus]="car.sector2TimeStatus"
+    [sector3TimeStatus]="car.sector3TimeStatus"
+    [lapTimeStatus]="car.lapTimeStatus"
+
+    [sector1GapToLeader]="car.sector1GapToLeader"
+    [sector2GapToLeader]="car.sector2GapToLeader"
+    [sector3GapToLeader]="car.sector3GapToLeader"
+    [lapGapToLeader]="car.lapGapToLeader"
+
+    [sector1TimeStatusRelativeToPole]="car.sector1TimeStatusRelativeToPole"
+    [sector2TimeStatusRelativeToPole]="car.sector2TimeStatusRelativeToPole"
+    [lapTimeStatusRelativeToPole]="car.lapTimeStatusRelativeToPole"
+    >
+</stopwatch>
+}
