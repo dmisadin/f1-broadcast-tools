@@ -7,6 +7,7 @@
         {
             return null;
         }
+
         public virtual IList<TViewModel>? GenerateList()
         {
             return null;

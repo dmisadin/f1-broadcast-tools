@@ -11,6 +11,10 @@ export const WIDGETS_ROUTES: Routes = [
     },
     {
         path: 'stopwatch',
+        loadComponent: () => import('./stopwatch-spectated/stopwatch-spectated.component').then(c => c.StopwatchSpectatedComponent),
+    },
+    {
+        path: 'stopwatch-list',
         loadComponent: () => import('./stopwatch-list/stopwatch-list.component').then(c => c.StopwatchListComponent),
     },
     {

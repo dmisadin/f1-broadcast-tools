@@ -1,11 +1,17 @@
 import { DriverBasicDetails } from "./driver.model";
 import { GameYear } from "./Enumerations";
 
-export interface Stopwatch {
+export interface StopwatchBase {
     gameYear: GameYear;
     fastestLap: FastestQualifyingLap | null;
     secondFastestLap: FastestQualifyingLap | null;
-    
+}
+
+export interface StopwatchSpectated extends StopwatchBase {
+    car: StopwatchCar;
+}
+
+export interface StopwatchList extends StopwatchBase {
     cars: StopwatchCar[];
 }
 

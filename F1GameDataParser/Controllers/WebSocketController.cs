@@ -54,8 +54,22 @@ public class WebSocketController : ControllerBase
         }
     }
 
-    [HttpGet("/ws/stopwatch")]
+    [HttpGet("/ws/stopwatch-spectated")]
     public async Task GetStopwatch()
+    {
+        if (HttpContext.WebSockets.IsWebSocketRequest)
+        {
+            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+            await StreamData(webSocket, () => stopwatchFactory.GenerateSpectated(), HttpContext.RequestAborted);
+        }
+        else
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+    }
+
+    [HttpGet("/ws/stopwatch-list")]
+    public async Task GetStopwatchList()
     {
         if (HttpContext.WebSockets.IsWebSocketRequest)
         {
