@@ -33,7 +33,7 @@ namespace F1GameDataParser.GameProfiles.F125.Packets.Session
         public NetworkGame networkGame;
         public byte numWeatherForecastSamples;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 56)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)] // F1 24: 56 -> 64
         public WeatherForecastSampleData[] weatherForecastSamples;
 
         public ForecastAccuracy forecastAccuracy;
