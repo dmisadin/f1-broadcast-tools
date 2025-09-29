@@ -59,6 +59,7 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                 BrakingAssist = packet.brakingAssist,
                 GearboxAssist = packet.gearboxAssist,
                 PitAssist = packet.pitAssist,
+                PitReleaseAssist = packet.pitReleaseAssist,
                 ERSAssist = packet.ERSAssist,
                 DRSAssist = packet.DRSAssist,
                 DynamicRacingLine = packet.dynamicRacingLine,

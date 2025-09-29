@@ -48,6 +48,7 @@ namespace F1GameDataParser.GameProfiles.F124.Packets.Session
         public AssistBraking brakingAssist;
         public AssistGearbox gearboxAssist;
         public Assist pitAssist;
+        public Assist pitReleaseAssist;
         public Assist ERSAssist;
         public Assist DRSAssist;
         public AssistDynamicRacingLine dynamicRacingLine;
