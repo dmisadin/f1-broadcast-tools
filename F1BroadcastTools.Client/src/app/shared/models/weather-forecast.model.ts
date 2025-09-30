@@ -2,7 +2,7 @@ import { SessionType, Weather } from "./Enumerations";
 
 export interface WeatherForecast {
     samples: WeatherForecastSample[];
-    timeOfDay: number;
+    isNightRace: boolean;
 }
 
 export interface WeatherForecastSample {

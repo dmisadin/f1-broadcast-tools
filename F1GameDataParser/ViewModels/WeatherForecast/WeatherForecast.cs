@@ -3,6 +3,6 @@
     public class WeatherForecast
     {
         public IEnumerable<WeatherForecastSample> Samples { get; set; } = new List<WeatherForecastSample>();
-        public uint TimeOfDay { get; set; }
+        public bool IsNightRace { get; set; }
     }
 }

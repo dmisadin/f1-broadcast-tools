@@ -20,7 +20,7 @@ body {
     color: var(--color-text);
 }
 
-body:has(timing-tower, stopwatch-list, minimap, halo-hud, stopwatch-spectated) {
+body:has(timing-tower, stopwatch-list, minimap, halo-hud, stopwatch-spectated, weather-forecast) {
     background-color: transparent;
 }
 

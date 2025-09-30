@@ -19,6 +19,8 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
             if (sessionState == null)
                 return null;
 
+            var timeOfDayInHours = sessionState.TimeOfDay / 60.0f;
+
             return new WeatherForecast
             {
                 Samples = sessionState.WeatherForecastSamples
@@ -30,7 +32,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                                 Weather = s.Weather,
                                 RainPercentage = s.RainPercentage
                             }),
-                TimeOfDay = sessionState.TimeOfDay
+                IsNightRace = (timeOfDayInHours >= 18 && timeOfDayInHours < 24) || (timeOfDayInHours >= 0 &&  timeOfDayInHours < 6)
             };
         }
     }

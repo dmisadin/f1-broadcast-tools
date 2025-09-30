@@ -1,0 +1,28 @@
+@let weatherForecast = this.weatherForecast();
+@let isNightRace = this.weatherForecast()?.isNightRace;
+
+<div class="weather-forecast">
+    <div class="weather-header"> Weather Forecast </div>
+    @for (sample of weatherForecast?.samples; track $index)
+    {
+    @if (!sample.timeOffset && $index) {
+    <div class="divider"></div>
+    }
+    <div class="weather-sample">  
+        <img [src]="`images/hud/weather/${isNightRace ? `${sample.weather}_night` : sample.weather}.svg`"
+            alt="" class="weather-icon">
+        <div class="weather-details">
+            <div class="label">{{WeatherLabels[sample.weather]}}</div>
+            @if (sample.timeOffset)
+            {
+            <div class="time">in {{sample.timeOffset}} minutes</div>
+            } @else if ($index) {
+            <div class="time">at {{SessionShortLabels[sample.sessionType]}} start</div>
+            } @else {
+            <div class="time">currently</div>
+            }
+        </div>
+    </div>
+
+    }
+</div>
