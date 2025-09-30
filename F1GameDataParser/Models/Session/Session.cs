@@ -40,6 +40,7 @@ namespace F1GameDataParser.Models.Session
         public AssistBraking BrakingAssist { get; set; }
         public AssistGearbox GearboxAssist { get; set; }
         public Assist PitAssist { get; set; }
+        public Assist PitReleaseAssist { get; set; }
         public Assist ERSAssist { get; set; }
         public Assist DRSAssist { get; set; }
         public AssistDynamicRacingLine DynamicRacingLine { get; set; }

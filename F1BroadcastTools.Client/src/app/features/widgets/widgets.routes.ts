@@ -21,4 +21,8 @@ export const WIDGETS_ROUTES: Routes = [
         path: 'halo-hud',
         loadComponent: () => import('./halo-hud/halo-hud.component').then(c => c.HaloHudComponent),
     },
+    {
+        path: 'weather-forecast',
+        loadComponent: () => import('./weather-forecast/weather-forecast.component').then(c => c.WeatherForecastComponent)
+    }
 ];

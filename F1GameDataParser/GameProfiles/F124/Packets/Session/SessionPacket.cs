@@ -33,7 +33,7 @@ namespace F1GameDataParser.GameProfiles.F124.Packets.Session
         public NetworkGame networkGame;
         public byte numWeatherForecastSamples;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 56)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)] // F1 24: 56 -> 64
         public WeatherForecastSampleData[] weatherForecastSamples;
 
         public ForecastAccuracy forecastAccuracy;
@@ -48,6 +48,7 @@ namespace F1GameDataParser.GameProfiles.F124.Packets.Session
         public AssistBraking brakingAssist;
         public AssistGearbox gearboxAssist;
         public Assist pitAssist;
+        public Assist pitReleaseAssist;
         public Assist ERSAssist;
         public Assist DRSAssist;
         public AssistDynamicRacingLine dynamicRacingLine;

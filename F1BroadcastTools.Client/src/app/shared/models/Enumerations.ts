@@ -140,3 +140,36 @@ export enum GameYear {
     F123 = 23,
     F125 = 25
 }
+
+export enum SessionType {
+    Unknown,
+    Practice1,
+    Practice2,
+    Practice3,
+    ShortPractice,
+    Q1,
+    Q2,
+    Q3,
+    ShortQualifying,
+    OneShotQualifying,
+
+    SprintShootout1,
+    SprintShootout2,
+    SprintShootout3,
+    ShortSprintShootout,
+    OneShotSprintShootout,
+
+    Race,
+    Race2,
+    Race3,
+    TimeTrial
+}
+
+export enum Weather {
+    Clear,
+    LightCloud,
+    Overcast,
+    LightRain,
+    HeavyRain,
+    Storm
+}

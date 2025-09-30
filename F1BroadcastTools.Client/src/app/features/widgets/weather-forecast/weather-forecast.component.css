@@ -1,0 +1,48 @@
+.weather-forecast {
+    font-size: 1.25em;
+    width: fit-content;
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    background-color: rgb(21, 21, 25);
+}
+
+.weather-header {
+    align-content: center;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.weather-sample {
+    display: flex;
+    gap: 1em;
+}
+
+.weather-icon {
+    width: 3em;
+}
+
+.weather-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+.label {
+    font-weight: 600;
+    font-size: 1.25em;
+}
+
+.time {
+    font-style: italic;
+    font-weight: 400;
+}
+
+.divider {
+    width: 100%;
+    border-bottom: 2px solid rgb(125, 125, 125);
+}
