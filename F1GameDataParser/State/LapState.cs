@@ -51,5 +51,15 @@ namespace F1GameDataParser.State
                 Console.WriteLine("Error removing penalty from queue: " + e.Message);
             }
         }
+
+        public LapDetails? GetModelAtPosition(int position)
+        {
+            return State?.FirstOrDefault(l => l.Value.CarPosition == position).Value;
+        }
+
+        public int? GetVehicleIdxAtPosition(int position)
+        {
+            return State?.FirstOrDefault(l => l.Value.CarPosition == position).Key;
+        }
     }
 }

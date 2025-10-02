@@ -12,6 +12,7 @@ using F1GameDataParser.Services.GameSwitch;
 using F1GameDataParser.Startup;
 using F1GameDataParser.State;
 using F1GameDataParser.State.ComputedStates;
+using F1GameDataParser.State.WidgetStates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -50,12 +51,14 @@ builder.Services.AddSingleton<PersonalBestLapState>();
 builder.Services.AddSingleton<LatestLapTimeState>();
 builder.Services.AddSingleton<DriversOnFlyingLapState>();
 builder.Services.AddSingleton<FastestSectorTimeState>();
+builder.Services.AddSingleton<PreviousLapSectorComparisonState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
 builder.Services.AddTransient<StopwatchFactory>();
 builder.Services.AddTransient<HaloTelemetryDashboardFactory>();
 builder.Services.AddTransient<WeatherForecastFactory>();
+builder.Services.AddTransient<PreviousLapSectorComparisonFactory>();
 builder.Services.AddTransient<DriverOverrideService>(); 
 builder.Services.AddTransient<DriverDetailService>(); 
 
