@@ -1,0 +1,54 @@
+@let driverTiming = driverPreviousLapDetails()?.lapTiming;
+@let comparingDriverTiming = comparingDriverPreviousLapDetails()?.lapTiming;
+
+<!-- @if (driverPreviousLapDetails() && comparingDriverPreviousLapDetails()) { -->
+<div class="previous-lap-sector-comparison" [style.background]="gradient()">
+    <div class="driver left-driver">
+        <div class="name">{{ driverPreviousLapDetails()?.driver?.name }}</div>
+        <div class="lap-details">
+            <team-logo class="team" [game]="driverPreviousLapDetails()?.driver?.teamDetails?.gameYear ?? GameYear.F125"
+                [team]="driverPreviousLapDetails()?.driver?.teamId"
+                [color]="driverPreviousLapDetails()?.driver?.teamDetails?.secondaryColor">
+            </team-logo>
+            <div class="lap-time">{{ driverTiming?.lapTime }}</div>
+            <div class="tyre" [style.background-image]="tyreCompoundUrl()">
+                <img [src]="tyreCompoundUrl()" [alt]="driverPreviousLapDetails()?.visualTyreCompound">
+            </div>
+        </div>
+        <div class="position">19</div>
+    </div>
+
+    <div class="sector-timings">
+        <div class="widget-title"> Lap {{ currentLap() }} - Sector Times </div>
+        <div class="sector">
+            <span class="sector-time">{{ driverTiming?.sector1Time }}</span>
+            <span class="sector-name">Sector 1</span>
+            <span class="sector-gap" [class]="comparingSector1StatusClass()">{{ comparingDriverTiming?.sector1Time }}</span>
+        </div>
+        <div class="sector">
+            <span class="sector-time">{{ driverTiming?.sector2Time }}</span>
+            <span class="sector-name">Sector 2</span>
+            <span class="sector-gap" [class]="comparingSector2StatusClass()">{{ comparingDriverTiming?.sector2Time }}</span>
+        </div>
+        <div class="sector">
+            <span class="sector-time">{{ driverTiming?.sector3Time }}</span>
+            <span class="sector-name">Sector 3</span>
+            <span class="sector-gap" [class]="comparingSector3StatusClass()">{{ comparingDriverTiming?.sector3Time }}</span>
+        </div>
+    </div>
+
+    <div class="driver right-driver">
+        <div class="name">{{ comparingDriverPreviousLapDetails()?.driver?.name }}</div>
+        <div class="lap-details">
+            <div class="tyre" [style.background-image]="comparingTyreCompoundUrl()">
+                <img [src]="comparingTyreCompoundUrl()" [alt]="comparingDriverPreviousLapDetails()?.visualTyreCompound">
+            </div>
+            <div class="lap-time lap-gap" [class]="comparingLapStatusClass()">{{ comparingDriverTiming?.lapTime }}</div>
+            <team-logo class="team" [game]="comparingDriverPreviousLapDetails()?.driver?.teamDetails?.gameYear ?? GameYear.F125"
+                [team]="comparingDriverPreviousLapDetails()?.driver?.teamId"
+                [color]="comparingDriverPreviousLapDetails()?.driver?.teamDetails?.secondaryColor">
+            </team-logo>
+        </div>
+        <div class="position">20</div>
+    </div>
+</div>
