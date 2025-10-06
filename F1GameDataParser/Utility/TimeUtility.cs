@@ -4,7 +4,7 @@ namespace F1GameDataParser.Utility
 {
     public static class TimeUtility
     {
-        public static string MillisecondsToGap(long milliseconds, byte decimalPlaces = 3)
+        public static string MillisecondsToTime(long milliseconds, byte decimalPlaces = 3)
         {
             if (milliseconds < 0)
                 throw new ArgumentOutOfRangeException(nameof(milliseconds), "Milliseconds cannot be negative.");

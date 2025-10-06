@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.GameProfiles.F1Common.Utility
 {
-    public record TeamDetails(Team Id, string Name, string PrimaryColor, string SecondaryColor, string TextColor = "#FFFFFF");
+    public record TeamDetails(GameYear gameYear, Team Id, string Name, string PrimaryColor, string SecondaryColor, string TextColor = "#FFFFFF");
     public class GameSpecifics
     {
         public static TeamDetails? GetTeamDetails(GameYear year, Team teamId)

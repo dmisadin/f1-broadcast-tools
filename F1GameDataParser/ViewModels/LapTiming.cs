@@ -2,9 +2,9 @@
 {
     public class LapTiming
     {
-        public uint LapTimeInMS { get; set; }
-        public ushort Sector1TimeInMS { get; set; }
-        public ushort Sector2TimeInMS { get; set; }
-        public ushort Sector3TimeInMS { get; set; }
+        public string LapTime { get; set; }
+        public string Sector1Time { get; set; }
+        public string Sector2Time { get; set; }
+        public string Sector3Time { get; set; }
     }
 }
