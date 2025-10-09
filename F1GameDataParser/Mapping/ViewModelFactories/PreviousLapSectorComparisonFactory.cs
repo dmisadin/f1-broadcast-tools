@@ -60,31 +60,34 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
 
         var isRaceSession = sessionState.State.SessionType >= SessionType.Race;
 
+        var sessionHistory = sessionHistoryState.GetModel(vehicleIdx);
+
         var previousLapAndIndex = previousLapSectorComparisonState?.State?.LapNumber is int lapNumber
-            ? sessionHistoryState.GetModel(vehicleIdx)?.LapHistoryDetails
+            ? sessionHistory?.LapHistoryDetails
                 .Select((lap, idx) => new { lap, idx })
                 .ElementAtOrDefault(lapNumber - 1)
             : null;
 
         if (previousLapAndIndex == null) // Fallback: get previous completed lap
-            previousLapAndIndex = sessionHistoryState.GetModel(vehicleIdx)?.LapHistoryDetails
+            previousLapAndIndex = sessionHistory?.LapHistoryDetails
                 .Select((lap, idx) => new { lap, idx })
                 .LastOrDefault(l => l.lap.LapTimeInMS > 0);
 
         if (previousLapAndIndex == null)
             return null;
 
-        var previousLap = previousLapAndIndex.lap;
-        var previousLapIndex = previousLapAndIndex.idx;
-        var comparingPreviousLap = sessionHistoryState.GetModel(comparingVehicleIdx.Value)?.LapHistoryDetails.ElementAtOrDefault(previousLapIndex);
+        var lap = previousLapAndIndex.lap;
+        var lapIndex = previousLapAndIndex.idx;
+        var comparingSessionHistory = sessionHistoryState.GetModel(comparingVehicleIdx.Value);
+        var comparingLap = comparingSessionHistory?.LapHistoryDetails.ElementAtOrDefault(lapIndex);
 
-        if (comparingPreviousLap == null || comparingPreviousLap.LapTimeInMS == 0) // Try to match laps with comparingCar's current lap
+        if (comparingLap == null || comparingLap.LapTimeInMS == 0) // Try to match laps with comparingCar's current lap
         {
-            previousLapIndex--;
-            previousLap = sessionHistoryState.GetModel(vehicleIdx)?.LapHistoryDetails.ElementAtOrDefault(previousLapIndex);
-            comparingPreviousLap = sessionHistoryState.GetModel(comparingVehicleIdx.Value)?.LapHistoryDetails.ElementAtOrDefault(previousLapIndex);
+            lapIndex--;
+            lap = sessionHistory?.LapHistoryDetails.ElementAtOrDefault(lapIndex);
+            comparingLap = comparingSessionHistory?.LapHistoryDetails.ElementAtOrDefault(lapIndex);
 
-            if (previousLap == null || comparingPreviousLap == null)
+            if (lap == null || comparingLap == null)
                 return null;
         }
 
@@ -96,39 +99,42 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
         if (carStatus == null || comparingCarStatus == null || driver == null || comparingDriver == null)
             return null;
 
+        var tyreUsedInTheLap = sessionHistory?.TyreStintHistoryDetails.FirstOrDefault(t => lapIndex <= t.EndLap)?.TyreVisualCompound;
+        var comparingTyreUsedInTheLap = comparingSessionHistory?.TyreStintHistoryDetails.FirstOrDefault(t => lapIndex <= t.EndLap)?.TyreVisualCompound;
+
         return new PreviousLapSectorComparison
         {
-            LapNumber = previousLapIndex + 1,
+            LapNumber = lapIndex + 1,
             DriverPreviousLapDetails = new DriverPreviousLapDetails
             {
                 VehicleIdx = vehicleIdx,
                 Position = lapDetails.CarPosition,
-                VisualTyreCompound = carStatus!.VisualTyreCompound.ToString(),
+                VisualTyreCompound = (tyreUsedInTheLap ?? carStatus!.VisualTyreCompound).ToString(),
                 Driver = driver,
                 LapTiming = new LapTimingStatus
                 {
-                    LapTime = TimeUtility.MillisecondsToTime(previousLap.LapTimeInMS),
-                    Sector1Time = TimeUtility.MillisecondsToTime(previousLap.Sector1TimeInMS),
-                    Sector2Time = TimeUtility.MillisecondsToTime(previousLap.Sector2TimeInMS),
-                    Sector3Time = TimeUtility.MillisecondsToTime(previousLap.Sector3TimeInMS)
+                    LapTime = TimeUtility.MillisecondsToTime(lap.LapTimeInMS),
+                    Sector1Time = TimeUtility.MillisecondsToTime(lap.Sector1TimeInMS),
+                    Sector2Time = TimeUtility.MillisecondsToTime(lap.Sector2TimeInMS),
+                    Sector3Time = TimeUtility.MillisecondsToTime(lap.Sector3TimeInMS)
                 }
             },
             ComparingDriverPreviousLapDetails = new DriverPreviousLapDetails
             {
                 VehicleIdx = comparingVehicleIdx.Value,
                 Position = comparingLapDetails.CarPosition,
-                VisualTyreCompound = comparingCarStatus!.VisualTyreCompound.ToString(),
+                VisualTyreCompound = (comparingTyreUsedInTheLap ?? comparingCarStatus!.VisualTyreCompound).ToString(),
                 Driver = comparingDriver,
                 LapTiming = new LapTimingStatus
                 {
-                    LapTime = TimeUtility.MillisecondsToDifference((long)comparingPreviousLap.LapTimeInMS - previousLap.LapTimeInMS) ?? "0.000",
-                    Sector1Time = TimeUtility.MillisecondsToDifference(comparingPreviousLap.Sector1TimeInMS - previousLap.Sector1TimeInMS) ?? "0.000",
-                    Sector2Time = TimeUtility.MillisecondsToDifference(comparingPreviousLap.Sector2TimeInMS - previousLap.Sector2TimeInMS) ?? "0.000",
-                    Sector3Time = TimeUtility.MillisecondsToDifference(comparingPreviousLap.Sector3TimeInMS - previousLap.Sector3TimeInMS) ?? "0.000",
-                    LapTimeStatus = LapTimingUtility.CompareSectorTimes(comparingPreviousLap.LapTimeInMS, previousLap.LapTimeInMS),
-                    Sector1TimeStatus = LapTimingUtility.CompareSectorTimes(comparingPreviousLap.Sector1TimeInMS, previousLap.Sector1TimeInMS),
-                    Sector2TimeStatus = LapTimingUtility.CompareSectorTimes(comparingPreviousLap.Sector2TimeInMS, previousLap.Sector2TimeInMS),
-                    Sector3TimeStatus = LapTimingUtility.CompareSectorTimes(comparingPreviousLap.Sector3TimeInMS, previousLap.Sector3TimeInMS)
+                    LapTime = TimeUtility.MillisecondsToDifference((long)comparingLap.LapTimeInMS - lap.LapTimeInMS) ?? "0.000",
+                    Sector1Time = TimeUtility.MillisecondsToDifference(comparingLap.Sector1TimeInMS - lap.Sector1TimeInMS) ?? "0.000",
+                    Sector2Time = TimeUtility.MillisecondsToDifference(comparingLap.Sector2TimeInMS - lap.Sector2TimeInMS) ?? "0.000",
+                    Sector3Time = TimeUtility.MillisecondsToDifference(comparingLap.Sector3TimeInMS - lap.Sector3TimeInMS) ?? "0.000",
+                    LapTimeStatus = LapTimingUtility.CompareSectorTimes(comparingLap.LapTimeInMS, lap.LapTimeInMS),
+                    Sector1TimeStatus = LapTimingUtility.CompareSectorTimes(comparingLap.Sector1TimeInMS, lap.Sector1TimeInMS),
+                    Sector2TimeStatus = LapTimingUtility.CompareSectorTimes(comparingLap.Sector2TimeInMS, lap.Sector2TimeInMS),
+                    Sector3TimeStatus = LapTimingUtility.CompareSectorTimes(comparingLap.Sector3TimeInMS, lap.Sector3TimeInMS)
                 }
             }
         };

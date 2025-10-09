@@ -55,7 +55,7 @@
     </section>
 
     <section class="form-buttons">
-        <button type="button" class="btn btn-secondary" (click)="onFormClear()"> Discard </button>
+        <button type="button" class="btn btn-secondary" (click)="onFormClear()"> Clear </button>
         <button type="submit" class="btn btn-primary" [disabled]="isLoading() || form.invalid">
             {{ isLoading() ? 'Loading' : 'Update' }}
         </button>
