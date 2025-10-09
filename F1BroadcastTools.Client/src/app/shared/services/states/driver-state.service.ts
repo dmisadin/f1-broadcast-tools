@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, Signal, signal } from "@angular/core";
+import { computed, inject, Injectable, Signal, signal } from "@angular/core";
 import { DriverBasicDetails } from "../../models/driver.model";
 import { WebSocketService } from "../../../core/services/websocket.service";
 

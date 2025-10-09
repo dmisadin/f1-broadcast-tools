@@ -1,5 +1,6 @@
 .previous-lap-sector-comparison {
-    width: fit-content; /* TO DO: make this fixed px value */
+    width: fit-content;
+    /* TO DO: make this fixed px value */
     font-size: 1.5em;
     display: flex;
     gap: .5em;
@@ -43,14 +44,13 @@
     display: flex;
     flex-direction: column;
     gap: 2em;
-    
+
     div {
         z-index: 1;
     }
 }
 
-.left-driver {
-}
+.left-driver {}
 
 .right-driver {
     .position {

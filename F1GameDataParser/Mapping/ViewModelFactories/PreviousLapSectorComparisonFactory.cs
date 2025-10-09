@@ -60,9 +60,16 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
 
         var isRaceSession = sessionState.State.SessionType >= SessionType.Race;
 
-        var previousLapAndIndex = sessionHistoryState.GetModel(vehicleIdx)?.LapHistoryDetails
-            .Select((lap, idx) => new { lap, idx })
-            .LastOrDefault(l => l.lap.LapTimeInMS > 0);
+        var previousLapAndIndex = previousLapSectorComparisonState?.State?.LapNumber is int lapNumber
+            ? sessionHistoryState.GetModel(vehicleIdx)?.LapHistoryDetails
+                .Select((lap, idx) => new { lap, idx })
+                .ElementAtOrDefault(lapNumber - 1)
+            : null;
+
+        if (previousLapAndIndex == null) // Fallback: get previous completed lap
+            previousLapAndIndex = sessionHistoryState.GetModel(vehicleIdx)?.LapHistoryDetails
+                .Select((lap, idx) => new { lap, idx })
+                .LastOrDefault(l => l.lap.LapTimeInMS > 0);
 
         if (previousLapAndIndex == null)
             return null;

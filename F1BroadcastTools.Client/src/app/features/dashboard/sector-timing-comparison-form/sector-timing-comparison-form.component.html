@@ -1,0 +1,63 @@
+<h3 modal-header id="product-modal-title">Sector timing comparison</h3>
+
+<form class="select-overlay-form" (ngSubmit)="onFormSubmit()" [formGroup]="form">
+    <section>
+        <label for="driver-select">Select driver</label>
+        <ng-select class="driver-select" name="driver-select" id="driver-select"
+            formControlName="vehicleIdx"
+            [items]="drivers()" 
+            [searchable]="true"
+            [clearable]="true"
+            bindLabel="label"
+            bindValue="id">
+            <ng-template ng-option-tmp let-item="item">
+                <div class="option-item">
+                    <team-logo class="team" [team]="item.teamId" [game]="item.gameYear ?? GameYear.F125"></team-logo>
+                    <span>{{ item.label }}</span>
+                </div>
+            </ng-template>
+            <ng-template ng-label-tmp let-item="item">
+                <div class="selected-item">
+                    <team-logo class="team" [team]="item.teamId" [game]="item.gameYear ?? GameYear.F125"></team-logo>
+                    <span>{{ item.label }}</span>
+                </div>
+            </ng-template>
+        </ng-select>
+    </section>
+
+    <section>
+        <label for="driver-select">Select comparing driver</label>
+        <ng-select class="driver-select" name="driver-select" id="driver-select"
+            formControlName="comparingVehicleIdx"
+            [items]="drivers()" 
+            [searchable]="true"
+            [clearable]="true"
+            bindLabel="label"
+            bindValue="id">
+            <ng-template ng-option-tmp let-item="item">
+                <div class="option-item">
+                    <team-logo class="team" [team]="item.teamId" [game]="item.gameYear ?? GameYear.F125"></team-logo>
+                    <span>{{ item.label }}</span>
+                </div>
+            </ng-template>
+            <ng-template ng-label-tmp let-item="item">
+                <div class="selected-item">
+                    <team-logo class="team" [team]="item.teamId" [game]="item.gameYear ?? GameYear.F125"></team-logo>
+                    <span>{{ item.label }}</span>
+                </div>
+            </ng-template>
+        </ng-select>
+    </section>
+
+    <section>
+        <label for="lap-number">Lap number</label>
+        <input type="number" name="lap-number" id="lap-number" formControlName="lapNumber">
+    </section>
+
+    <section class="form-buttons">
+        <button type="button" class="btn btn-secondary" (click)="onFormClear()"> Discard </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading() || form.invalid">
+            {{ isLoading() ? 'Loading' : 'Update' }}
+        </button>
+    </section>
+</form>

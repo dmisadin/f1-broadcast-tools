@@ -15,7 +15,7 @@ import { mapSectorTimeStatusClass } from '../../../shared/utlity/timing.utility'
 })
 export class PreviousLapSectorComparisonComponent
     extends WidgetBaseComponent<PreviousLapSectorComparison> implements OnInit {
-    currentLap = signal<number>(1);
+    lapNumber = signal<number>(1);
     driverPreviousLapDetails = signal<DriverPreviousLapDetails | null>(null);
     comparingDriverPreviousLapDetails = signal<DriverPreviousLapDetails | null>(null);
 
@@ -28,12 +28,7 @@ export class PreviousLapSectorComparisonComponent
         #181b29 65%, 
         ${this.comparingDriverPreviousLapDetails()?.driver.teamDetails?.primaryColor ?? '#000000'}ee 100%)`
     );
-    /* teamGradient = computed(() =>
-        `linear-gradient(90deg, ${this.driverPreviousLapDetails()?.driver.teamDetails?.primaryColor ?? '#000000'} 0%, black 100%)`
-    );
-    comparingTeamGradient = computed(() =>
-        `linear-gradient(270deg, ${this.comparingDriverPreviousLapDetails()?.driver.teamDetails?.primaryColor ?? '#000000'} 0%, black 100%)`
-    ); */
+    
     comparingLapStatusClass = computed(() => mapSectorTimeStatusClass(this.comparingDriverPreviousLapDetails()?.lapTiming.lapTimeStatus));
     comparingSector1StatusClass = computed(() => mapSectorTimeStatusClass(this.comparingDriverPreviousLapDetails()?.lapTiming.sector1TimeStatus));
     comparingSector2StatusClass = computed(() => mapSectorTimeStatusClass(this.comparingDriverPreviousLapDetails()?.lapTiming.sector2TimeStatus));
@@ -49,7 +44,7 @@ export class PreviousLapSectorComparisonComponent
     }
 
     protected override setState(data: PreviousLapSectorComparison): void {
-        this.currentLap.set(data.lapNumber);
+        this.lapNumber.set(data.lapNumber);
         this.driverPreviousLapDetails.set(data.driverPreviousLapDetails);
         this.comparingDriverPreviousLapDetails.set(data.comparingDriverPreviousLapDetails);
     }

@@ -15,11 +15,11 @@
                 <img [src]="tyreCompoundUrl()" [alt]="driverPreviousLapDetails()?.visualTyreCompound">
             </div>
         </div>
-        <div class="position">19</div>
+        <div class="position">{{ driverPreviousLapDetails()?.position }}</div>
     </div>
 
     <div class="sector-timings">
-        <div class="widget-title"> Lap {{ currentLap() }} - Sector Times </div>
+        <div class="widget-title"> Lap {{ lapNumber() }} - Sector Times </div>
         <div class="sector">
             <span class="sector-time">{{ driverTiming?.sector1Time }}</span>
             <span class="sector-name">Sector 1</span>
@@ -49,6 +49,6 @@
                 [color]="comparingDriverPreviousLapDetails()?.driver?.teamDetails?.secondaryColor">
             </team-logo>
         </div>
-        <div class="position">20</div>
+        <div class="position">{{ comparingDriverPreviousLapDetails()?.position }}</div>
     </div>
 </div>

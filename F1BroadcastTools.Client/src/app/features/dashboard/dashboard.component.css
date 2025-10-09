@@ -1,0 +1,22 @@
+.header {
+    width: 100%;
+    height: var(--navigation-size);
+
+    display: grid;
+    grid-template-columns: 20px 1fr 32px;
+    column-gap: .5rem;
+    align-items: center;
+
+    padding: var(--spacing);
+
+    font-size: var(--font-size-l);
+
+    background-color: var(--color-bg-darker);
+}
+
+.content {
+    padding: var(--spacing);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+}
