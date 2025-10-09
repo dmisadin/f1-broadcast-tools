@@ -4,14 +4,13 @@ using F1GameDataParser.State;
 using F1GameDataParser.State.ComputedStates;
 using F1GameDataParser.State.WidgetStates;
 using F1GameDataParser.Utility;
-using F1GameDataParser.ViewModels.LastLapSectorComparison;
-using F1GameDataParser.ViewModels.PreviousLapSectorComparison;
+using F1GameDataParser.ViewModels.SectorTimingComparison;
 
 namespace F1GameDataParser.Mapping.ViewModelFactories;
 
-public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousLapSectorComparison>
+public class SectorTimingComparisonFactory : ViewModelFactoryBase<SectorTimingComparison>
 {
-    private readonly PreviousLapSectorComparisonState previousLapSectorComparisonState;
+    private readonly SectorTimingComparisonState sectorTimingComparisonState;
     private readonly LatestLapTimeState latestLapTimeState;
     private readonly SessionHistoryState sessionHistoryState;
     private readonly SessionState sessionState;
@@ -19,7 +18,7 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
     private readonly CarStatusState carStatusState;
     private readonly DriverOverrideService driverOverrideService;
 
-    public PreviousLapSectorComparisonFactory(PreviousLapSectorComparisonState previousLapSectorComparisonState,
+    public SectorTimingComparisonFactory(SectorTimingComparisonState sectorTimingComparisonState,
                                         LatestLapTimeState latestLapTimeState,
                                         SessionHistoryState sessionHistoryState,
                                         SessionState sessionState,
@@ -27,7 +26,7 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
                                         CarStatusState carStatusState,
                                         DriverOverrideService driverOverrideService)
     {
-        this.previousLapSectorComparisonState = previousLapSectorComparisonState;
+        this.sectorTimingComparisonState = sectorTimingComparisonState;
         this.latestLapTimeState = latestLapTimeState; // use only for qualifying
         this.sessionHistoryState = sessionHistoryState;
         this.sessionState = sessionState; // get sessiontype Q or Race
@@ -36,7 +35,7 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
         this.driverOverrideService = driverOverrideService;
     }
 
-    public override PreviousLapSectorComparison? Generate()
+    public override SectorTimingComparison? Generate()
     {
         if (latestLapTimeState?.State == null
             || sessionHistoryState?.State == null
@@ -45,12 +44,12 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
             || carStatusState?.State == null)
             return null;
 
-        var vehicleIdx = previousLapSectorComparisonState?.State?.VehicleIdx ?? sessionState.State.SpectatorCarIndex;
+        var vehicleIdx = sectorTimingComparisonState?.State?.VehicleIdx ?? sessionState.State.SpectatorCarIndex;
 
         if (!lapState.State.TryGetValue(vehicleIdx, out var lapDetails))
             return null;
 
-        var comparingVehicleIdx = previousLapSectorComparisonState?.State?.ComparingVehicleIdx ?? lapState.GetVehicleIdxAtPosition(lapDetails.CarPosition + 1);
+        var comparingVehicleIdx = sectorTimingComparisonState?.State?.ComparingVehicleIdx ?? lapState.GetVehicleIdxAtPosition(lapDetails.CarPosition + 1);
 
         if (comparingVehicleIdx == null)
             return null;
@@ -62,7 +61,7 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
 
         var sessionHistory = sessionHistoryState.GetModel(vehicleIdx);
 
-        var previousLapAndIndex = previousLapSectorComparisonState?.State?.LapNumber is int lapNumber
+        var previousLapAndIndex = sectorTimingComparisonState?.State?.LapNumber is int lapNumber
             ? sessionHistory?.LapHistoryDetails
                 .Select((lap, idx) => new { lap, idx })
                 .ElementAtOrDefault(lapNumber - 1)
@@ -102,7 +101,7 @@ public class PreviousLapSectorComparisonFactory : ViewModelFactoryBase<PreviousL
         var tyreUsedInTheLap = sessionHistory?.TyreStintHistoryDetails.FirstOrDefault(t => lapIndex <= t.EndLap)?.TyreVisualCompound;
         var comparingTyreUsedInTheLap = comparingSessionHistory?.TyreStintHistoryDetails.FirstOrDefault(t => lapIndex <= t.EndLap)?.TyreVisualCompound;
 
-        return new PreviousLapSectorComparison
+        return new SectorTimingComparison
         {
             LapNumber = lapIndex + 1,
             DriverPreviousLapDetails = new DriverPreviousLapDetails

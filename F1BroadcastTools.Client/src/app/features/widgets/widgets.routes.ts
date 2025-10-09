@@ -26,7 +26,7 @@ export const WIDGETS_ROUTES: Routes = [
         loadComponent: () => import('./weather-forecast/weather-forecast.component').then(c => c.WeatherForecastComponent)
     },
     {
-        path: 'previous-lap-sector-comparison',
-        loadComponent: () => import('./previous-lap-sector-comparison/previous-lap-sector-comparison.component').then(c => c.PreviousLapSectorComparisonComponent)
+        path: 'sector-timing-comparison',
+        loadComponent: () => import('./sector-timing-comparison/sector-timing-comparison.component').then(c => c.SectorTimingComparisonComponent)
     }
 ];

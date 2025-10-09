@@ -51,14 +51,14 @@ builder.Services.AddSingleton<PersonalBestLapState>();
 builder.Services.AddSingleton<LatestLapTimeState>();
 builder.Services.AddSingleton<DriversOnFlyingLapState>();
 builder.Services.AddSingleton<FastestSectorTimeState>();
-builder.Services.AddSingleton<PreviousLapSectorComparisonState>();
+builder.Services.AddSingleton<SectorTimingComparisonState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
 builder.Services.AddTransient<StopwatchFactory>();
 builder.Services.AddTransient<HaloTelemetryDashboardFactory>();
 builder.Services.AddTransient<WeatherForecastFactory>();
-builder.Services.AddTransient<PreviousLapSectorComparisonFactory>();
+builder.Services.AddTransient<SectorTimingComparisonFactory>();
 builder.Services.AddTransient<DriverOverrideService>(); 
 builder.Services.AddTransient<DriverDetailService>(); 
 

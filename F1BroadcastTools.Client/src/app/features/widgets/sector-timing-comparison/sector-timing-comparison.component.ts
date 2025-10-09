@@ -10,10 +10,10 @@ import { mapSectorTimeStatusClass } from '../../../shared/utlity/timing.utility'
 @Component({
     selector: 'previous-lap-sector-comparison',
     imports: [CommonModule, TeamLogoComponent],
-    templateUrl: './previous-lap-sector-comparison.component.html',
-    styleUrl: './previous-lap-sector-comparison.component.css'
+    templateUrl: './sector-timing-comparison.component.html',
+    styleUrl: './sector-timing-comparison.component.css'
 })
-export class PreviousLapSectorComparisonComponent
+export class SectorTimingComparisonComponent
     extends WidgetBaseComponent<PreviousLapSectorComparison> implements OnInit {
     lapNumber = signal<number>(1);
     driverPreviousLapDetails = signal<DriverPreviousLapDetails | null>(null);

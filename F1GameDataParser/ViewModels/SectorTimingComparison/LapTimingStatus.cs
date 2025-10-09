@@ -1,6 +1,6 @@
 ﻿using F1GameDataParser.ViewModels.Enums;
 
-namespace F1GameDataParser.ViewModels.PreviousLapSectorComparison
+namespace F1GameDataParser.ViewModels.SectorTimingComparison
 {
     public class LapTimingStatus : LapTiming
     {

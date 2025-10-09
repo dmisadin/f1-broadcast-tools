@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.State.WidgetStates
 {
-    public class PreviousLapSectorComparisonState : StateBase<PreviousLapSectorComparisonModel>
+    public class SectorTimingComparisonState : StateBase<SectorTimingComparisonModel>
     {
     }
 }

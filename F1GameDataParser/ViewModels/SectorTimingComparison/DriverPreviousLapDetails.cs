@@ -1,6 +1,4 @@
-﻿using F1GameDataParser.ViewModels.PreviousLapSectorComparison;
-
-namespace F1GameDataParser.ViewModels.LastLapSectorComparison
+﻿namespace F1GameDataParser.ViewModels.SectorTimingComparison
 {
     public class DriverPreviousLapDetails
     {

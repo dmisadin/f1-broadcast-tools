@@ -8,23 +8,23 @@ namespace F1GameDataParser.Controllers
     [ApiController]
     public class WidgetStateController : ControllerBase
     {
-        private readonly PreviousLapSectorComparisonState previousLapSectorComparisonState;
+        private readonly SectorTimingComparisonState sectorTimingComparisonFactory;
 
-        public WidgetStateController(PreviousLapSectorComparisonState previousLapSectorComparisonState)
+        public WidgetStateController(SectorTimingComparisonState sectorTimingComparisonFactory)
         {
-            this.previousLapSectorComparisonState = previousLapSectorComparisonState;
+            this.sectorTimingComparisonFactory = sectorTimingComparisonFactory;
         }
 
         [HttpGet("get-sector-timing-comparison-model")]
-        public PreviousLapSectorComparisonModel? GetSectorTimingComparisonModel()
+        public SectorTimingComparisonModel? GetSectorTimingComparisonModel()
         {
-            return this.previousLapSectorComparisonState?.State;
+            return this.sectorTimingComparisonFactory?.State;
         }
 
         [HttpPost("update-sector-timing-comparison")]
-        public void UpdateSectorTimingComparison([FromBody] PreviousLapSectorComparisonModel previousLapSectorComparisonModel)
+        public void UpdateSectorTimingComparison([FromBody] SectorTimingComparisonModel previousLapSectorComparisonModel)
         {
-            this.previousLapSectorComparisonState.Update(previousLapSectorComparisonModel);
+            this.sectorTimingComparisonFactory.Update(previousLapSectorComparisonModel);
         }
     }
 }

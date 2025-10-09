@@ -1,6 +1,6 @@
-﻿namespace F1GameDataParser.ViewModels.LastLapSectorComparison
+﻿namespace F1GameDataParser.ViewModels.SectorTimingComparison
 {
-    public class PreviousLapSectorComparison
+    public class SectorTimingComparison
     {
         public int LapNumber { get; set; }
         public DriverPreviousLapDetails DriverPreviousLapDetails { get; set; } 
