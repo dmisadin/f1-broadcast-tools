@@ -19,13 +19,16 @@ export const routes: Routes = [
                 path: 'overlays',
                 loadChildren: () => import('./features/overlay/overlay.routes').then(r => r.OVERLAY_ROUTES)
             },
+            {
+                path: 'dashboard',
+                loadComponent: () => import('./features/dashboard/dashboard.component').then(c => c.DashboardComponent)
+            },
         ],
     },
     {
         path: 'settings',
         loadComponent: () => import('./features/settings/settings.component').then(c => c.SettingsComponent),
     },
-
     {
         path: 'widgets',
         loadChildren: () => import('./features/widgets/widgets.routes').then(r => r.WIDGETS_ROUTES)

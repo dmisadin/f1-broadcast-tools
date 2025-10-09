@@ -125,7 +125,7 @@ namespace F1GameDataParser.Mapping.ViewModelFactories
                 if (gap == 0)
                     return "-";
                 if (isRaceSession)
-                    return $"+{TimeUtility.MillisecondsToGap(gap)}";
+                    return $"+{TimeUtility.MillisecondsToTime(gap)}";
 
                 return TimeUtility.MillisecondsToDifference(gap) ?? "/";
             }

@@ -1,4 +1,4 @@
-import { Team } from "./Enumerations"
+import { GameYear, Team } from "./Enumerations"
 
 export interface TeamDetails {
     id: Team;
@@ -6,4 +6,5 @@ export interface TeamDetails {
     primaryColor: string;
     secondaryColor: string;
     textColor: string;
+    gameYear: GameYear;
 }

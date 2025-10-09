@@ -1,4 +1,5 @@
-﻿using F1GameDataParser.GameProfiles.F1Common.Utility;
+﻿using F1GameDataParser.Enums;
+using F1GameDataParser.GameProfiles.F1Common.Utility;
 using F1GameDataParser.State;
 using F1GameDataParser.ViewModels;
 
@@ -24,7 +25,8 @@ namespace F1GameDataParser.Services
             var gameYear = participantsState.State.Header.GameYear;
             var participants = participantsState.State.ParticipantList;
 
-            return participants.Select((driver, index) => new DriverBasicDetails 
+            return participants.Where(p => p.TeamId != Team.Undefined)
+                               .Select((driver, index) => new DriverBasicDetails 
                                 {
                                     VehicleIdx = index,
                                     TeamId = driver.TeamId,
