@@ -28,5 +28,9 @@ export const WIDGETS_ROUTES: Routes = [
     {
         path: 'sector-timing-comparison',
         loadComponent: () => import('./sector-timing-comparison/sector-timing-comparison.component').then(c => c.SectorTimingComparisonComponent)
+    },
+    {
+        path: 'speed-difference',
+        loadComponent: () => import('./speed-difference/speed-difference.component').then(c => c.SpeedDifferenceComponent)
     }
 ];

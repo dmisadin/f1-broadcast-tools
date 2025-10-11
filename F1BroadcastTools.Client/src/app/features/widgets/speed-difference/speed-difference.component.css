@@ -1,0 +1,44 @@
+.speed-difference {
+    width: 22em;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: black;
+    color: white;
+}
+
+.driver {
+    position: relative;
+    display: grid;
+    grid-template-columns: 6fr 2fr;
+    align-items: center;
+
+    font-size: 1.5em;
+    padding: 1em;
+    overflow: hidden;
+}
+
+.position {
+    position: absolute;
+    z-index: 0;
+    font-family: fantasy;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 4.5em;
+    opacity: .1;
+}
+
+.speed {
+    text-align: end;
+    font-size: 1.25em;
+}
+
+.faster {
+    color: rgb(0, 171, 0);
+}
+
+.slower {
+    color: rgb(194, 63, 63);
+}
