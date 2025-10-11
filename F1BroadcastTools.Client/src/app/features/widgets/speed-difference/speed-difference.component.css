@@ -1,0 +1,57 @@
+.speed-difference {
+    width: 24em;
+    height: fit-content;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: black;
+    color: white;
+}
+
+.driver {
+    position: relative;
+    display: grid;
+    grid-template-columns: 6fr 2fr;
+    align-items: center;
+
+    font-size: 1.5em;
+    padding: .75em;
+    overflow: hidden;
+}
+
+.position {
+    position: absolute;
+    z-index: 0;
+    font-family: fantasy;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 4.5em;
+    opacity: .1;
+}
+
+.speed {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    text-align: end;
+}
+
+.speed-amount {
+    font-size: 1.25em;
+}
+
+.unit {
+    font-size: .8em;
+    font-weight: 300;
+    margin-left: .25em;
+    margin-top: .25em
+}
+
+.faster {
+    color: rgb(0, 171, 0);
+}
+
+.slower {
+    color: rgb(194, 63, 63);
+}

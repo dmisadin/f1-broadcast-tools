@@ -59,6 +59,7 @@ builder.Services.AddTransient<StopwatchFactory>();
 builder.Services.AddTransient<HaloTelemetryDashboardFactory>();
 builder.Services.AddTransient<WeatherForecastFactory>();
 builder.Services.AddTransient<SectorTimingComparisonFactory>();
+builder.Services.AddTransient<SpeedDifferenceFactory>();
 builder.Services.AddTransient<DriverOverrideService>(); 
 builder.Services.AddTransient<DriverDetailService>(); 
 

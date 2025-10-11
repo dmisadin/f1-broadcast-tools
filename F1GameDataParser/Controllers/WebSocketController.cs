@@ -14,16 +14,19 @@ public class WebSocketController : ControllerBase
     private readonly MinimapFactory minimapFactory;
     private readonly StopwatchFactory stopwatchFactory;
     private readonly HaloTelemetryDashboardFactory haloTelemetryDashboardFactory;
+    private readonly SpeedDifferenceFactory speedDifferenceFactory;
 
     public WebSocketController(TimingTowerFactory timingTowerFactory,
                                 MinimapFactory minimapFactory,
                                 StopwatchFactory stopwatchFactory,
-                                HaloTelemetryDashboardFactory haloTelemetryDashboardFactory)
+                                HaloTelemetryDashboardFactory haloTelemetryDashboardFactory,
+                                SpeedDifferenceFactory speedDifferenceFactory)
     {
         this.timingTowerFactory = timingTowerFactory;
         this.minimapFactory = minimapFactory;
         this.stopwatchFactory = stopwatchFactory;
         this.haloTelemetryDashboardFactory = haloTelemetryDashboardFactory;
+        this.speedDifferenceFactory = speedDifferenceFactory;
     }
 
     [HttpGet("/ws/timing-tower")]
@@ -89,6 +92,20 @@ public class WebSocketController : ControllerBase
         {
             using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
             await StreamData(webSocket, () => haloTelemetryDashboardFactory.Generate(), HttpContext.RequestAborted);
+        }
+        else
+        {
+            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+    }
+
+    [HttpGet("/ws/speed-difference")]
+    public async Task GetSpeedDifference()
+    {
+        if (HttpContext.WebSockets.IsWebSocketRequest)
+        {
+            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+            await StreamData(webSocket, () => speedDifferenceFactory.Generate(), HttpContext.RequestAborted);
         }
         else
         {
