@@ -5,12 +5,18 @@
     <div class="driver spectated" [style.background]="spectatedTeamGradient()">
         <div class="position"> {{ drivers.spectatedPosition }}</div>
         <div class="name">{{ spectatedDriver()?.name }}</div>
-        <div class="speed"> {{ drivers.spectatedSpeed }}</div>
+        <div class="speed">
+            <span class="speed-amount">{{ drivers.spectatedSpeed }}</span>
+            <span class="unit">km/h</span>
+        </div>
     </div>
     <div class="driver following" [style.background]="followingTeamGradient()">
         <div class="position"> {{ drivers.followingPosition }}</div>
         <div class="name">{{ followingDriver()?.name }}</div>
-        <div class="speed" [class]="speedColor()"> {{ speedDifference() }}</div>
+        <div class="speed">
+            <span class="speed-amount" [class]="speedColor()">{{ speedDifference() }}</span>
+            <span class="unit">km/h</span>
+        </div>
     </div>
 </div>
 }

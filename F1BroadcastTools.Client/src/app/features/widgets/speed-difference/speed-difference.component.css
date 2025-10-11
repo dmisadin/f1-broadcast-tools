@@ -1,5 +1,5 @@
 .speed-difference {
-    width: 22em;
+    width: 24em;
     height: fit-content;
 
     display: flex;
@@ -16,7 +16,7 @@
     align-items: center;
 
     font-size: 1.5em;
-    padding: 1em;
+    padding: .75em;
     overflow: hidden;
 }
 
@@ -31,8 +31,21 @@
 }
 
 .speed {
+    display: flex;
+    align-items: center;
+    justify-content: end;
     text-align: end;
+}
+
+.speed-amount {
     font-size: 1.25em;
+}
+
+.unit {
+    font-size: .8em;
+    font-weight: 300;
+    margin-left: .25em;
+    margin-top: .25em
 }
 
 .faster {
