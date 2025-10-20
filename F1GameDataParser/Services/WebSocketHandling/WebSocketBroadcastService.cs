@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks.Dataflow;
 
 public class WebSocketBroadcastService : BackgroundService
 {
@@ -18,6 +19,8 @@ public class WebSocketBroadcastService : BackgroundService
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
+
+    private readonly SemaphoreSlim broadcastLock = new(1, 1);
 
     public WebSocketBroadcastService(WebSocketConnectionManager connections,
                                        TimingTowerFactory timingTowerFactory,
@@ -54,40 +57,48 @@ public class WebSocketBroadcastService : BackgroundService
                 };
 
                 if (data is not null)
-                    await Broadcast(widget, data, stoppingToken);
+                    await BroadcastAsync(widget, data, stoppingToken);
             }
 
             await Task.Delay(100, stoppingToken);
         }
     }
 
-    private async Task Broadcast(WidgetType widget, object data, CancellationToken ct)
+    public async Task BroadcastAsync(WidgetType widget, object data, CancellationToken? ct = null)
     {
-        var sockets = _connections.GetSockets(widget).ToList();
-        if (sockets.Count == 0)
-            return;
-
-        var json = JsonSerializer.Serialize(data, _jsonOptions);
-        var buffer = Encoding.UTF8.GetBytes(json);
-        var segment = new ArraySegment<byte>(buffer);
-
-        foreach (var socket in sockets)
+        await broadcastLock.WaitAsync();
+        try
         {
-            if (socket.State == WebSocketState.Open)
+            var sockets = _connections.GetSockets(widget).ToList();
+            if (sockets.Count == 0)
+                return;
+
+            var json = JsonSerializer.Serialize(data, _jsonOptions);
+            var buffer = Encoding.UTF8.GetBytes(json);
+            var segment = new ArraySegment<byte>(buffer);
+
+            foreach (var socket in sockets)
             {
-                try
+                if (socket.State == WebSocketState.Open)
                 {
-                    await socket.SendAsync(segment, WebSocketMessageType.Text, true, ct);
+                    try
+                    {
+                        await socket.SendAsync(segment, WebSocketMessageType.Text, true, ct ?? CancellationToken.None);
+                    }
+                    catch
+                    {
+                        _connections.RemoveSocket(widget, socket);
+                    }
                 }
-                catch
+                else
                 {
                     _connections.RemoveSocket(widget, socket);
                 }
             }
-            else
-            {
-                _connections.RemoveSocket(widget, socket);
-            }
+        }
+        finally
+        {
+            broadcastLock.Release();
         }
     }
 }

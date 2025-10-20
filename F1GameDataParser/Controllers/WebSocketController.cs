@@ -8,11 +8,11 @@ namespace F1GameDataParser.Controllers;
 [Route("ws")]
 public class WebSocketController : ControllerBase
 {
-    private readonly WebSocketConnectionManager _connections;
+    private readonly WebSocketConnectionManager webSocketConnectionManager;
 
-    public WebSocketController(WebSocketConnectionManager connections)
+    public WebSocketController(WebSocketConnectionManager webSocketConnectionManager)
     {
-        _connections = connections;
+        this.webSocketConnectionManager = webSocketConnectionManager;
     }
 
     [HttpGet("timing-tower")]
@@ -33,6 +33,9 @@ public class WebSocketController : ControllerBase
     [HttpGet("speed-difference")]
     public async Task ConnectSpeedDifference() => await HandleConnection(WidgetType.SpeedDifference);
 
+    [HttpGet("session-events")]
+    public async Task ConnectSessionEvents() => await HandleConnection(WidgetType.SessionEvents);
+
     private async Task HandleConnection(WidgetType widgetType)
     {
         if (!HttpContext.WebSockets.IsWebSocketRequest)
@@ -42,7 +45,7 @@ public class WebSocketController : ControllerBase
         }
 
         var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-        _connections.AddSocket(widgetType, socket);
+        webSocketConnectionManager.AddSocket(widgetType, socket);
         Console.WriteLine($"[WebSocket] {widgetType} connected");
 
         var buffer = new byte[512];
@@ -57,7 +60,7 @@ public class WebSocketController : ControllerBase
         }
         finally
         {
-            _connections.RemoveSocket(widgetType, socket);
+            webSocketConnectionManager.RemoveSocket(widgetType, socket);
             try
             {
                 await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);

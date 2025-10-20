@@ -10,6 +10,6 @@
         WeatherForecast,
         SectorTimingComparison,
         SpeedDifference,
-        Events
+        SessionEvents
     }
 }
