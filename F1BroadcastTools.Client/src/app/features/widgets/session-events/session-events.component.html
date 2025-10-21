@@ -1,1 +1,14 @@
-<p>session-events works!</p>
+<div class="event-list">
+    @for(event of events(); track event.id) 
+    {
+    <div class="event">
+        <div class="event-details">
+            <span class="title"> {{ event.title }} </span>
+            @if (event.description) 
+            {
+            <span class="description"> {{ event.description }} </span>
+            }
+        </div>
+    </div>
+    }
+</div>

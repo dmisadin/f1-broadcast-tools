@@ -1,6 +1,9 @@
+import { DriverBasicDetails } from "./driver.model";
+
 export interface SessionEvent {
-    vehicleIdx: number | null;
-    involvedVehicleIdx: number | null;
+    id: number;
+    driver: DriverBasicDetails | null;
+    involvedDriver: DriverBasicDetails | null;
     title: string;
-    description: string;
+    description: string | null;
 }
