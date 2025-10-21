@@ -9,9 +9,9 @@ namespace F1GameDataParser.GameProfiles.F123.Handlers
     // This should be a stateless handler, just send data to client
     public class EventsHandler : GenericHandler<EventPacket, Event>
     {
-        private readonly EventService eventService;
+        private readonly SessionEventService eventService;
 
-        public EventsHandler(EventService eventService) 
+        public EventsHandler(SessionEventService eventService) 
         { 
             this.eventService = eventService;
         }

@@ -53,6 +53,12 @@ namespace F1GameDataParser.Utility
             return (isNegative ? "-" : "+") + result;
         }
 
+        public static string SecondsToTime(float seconds)
+        {
+            long integerSeconds = (long)(seconds * 1000);
+            return MillisecondsToTime(integerSeconds);
+        }
+
         public static string SecondsToTime(int seconds)
         {
             TimeSpan time = TimeSpan.FromSeconds(seconds);

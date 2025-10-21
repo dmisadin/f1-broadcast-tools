@@ -1,0 +1,24 @@
+.event-list {
+    display: flex;
+    width: fit-content;
+    max-width: 16em;
+}
+
+.event {
+    padding: .5em;
+}
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+.title {
+    font-weight: bold;   
+}
+
+.description {
+    font-style: italic;
+}

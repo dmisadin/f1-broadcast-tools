@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.Enums;
+using F1GameDataParser.Enums.Event;
 
 namespace F1GameDataParser.Models.Event
 {
@@ -11,6 +12,7 @@ namespace F1GameDataParser.Models.Event
     public class Retirement : IEvent
     {
         public byte VehicleIdx { get; set; }
+        public ResultReason? Reason { get; set; } // Added in F1 25
     }
 
     public class TeamMateInPits : IEvent
@@ -76,24 +78,14 @@ namespace F1GameDataParser.Models.Event
         public byte BeingOvertakenVehicleIdx { get; set; }
     }
 
+    public class DrsDisabled : IEvent // Added in F1 25
+    {
+        public DRSDisabledReason DRSDisabledReason { get; set; }
+    }
+
     public class EventDetails<TEvent> where TEvent : IEvent
     {
         public TEvent? Details { get; set; }
-        /*
-        //Missing SSTA, SEND, DRSE, DRSD, CHQF, those carry no data
-        public FastestLap fastestLap;
-        public Retirement retirement;
-        public TeamMateInPits teamMateInPits;
-        public RaceWinner raceWinner;
-        public Penalty penalty;
-        public SpeedTrap speedTrap;
-        public StartLights startLights;
-        public DriveThroughPenaltyServed driveThroughPenaltyServed;
-        public StopGoPenaltyServed stopGoPenaltyServed;
-        public Flashback flashback;
-        public Buttons buttons;
-        public Overtake overtake;
-        */
     }
 
     public interface IEvent

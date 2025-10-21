@@ -18,7 +18,7 @@ export const WIDGETS_ROUTES: Routes = [
         loadComponent: () => import('./stopwatch-list/stopwatch-list.component').then(c => c.StopwatchListComponent),
     },
     {
-        path: 'halo-hud',
+        path: 'halo-telemetry',
         loadComponent: () => import('./halo-hud/halo-hud.component').then(c => c.HaloHudComponent),
     },
     {
@@ -32,5 +32,9 @@ export const WIDGETS_ROUTES: Routes = [
     {
         path: 'speed-difference',
         loadComponent: () => import('./speed-difference/speed-difference.component').then(c => c.SpeedDifferenceComponent)
+    },
+    {
+        path: 'session-events',
+        loadComponent: () => import('./session-events/session-events.component').then(c => c.SessionEventsComponent)
     }
 ];
