@@ -1,11 +1,15 @@
 .event-list {
     display: flex;
+    flex-direction: column;
+    gap: .5em;
     width: fit-content;
-    max-width: 16em;
+    max-width: 24em;
 }
 
 .event {
+    width: 100%;
     padding: .5em;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .event-details {

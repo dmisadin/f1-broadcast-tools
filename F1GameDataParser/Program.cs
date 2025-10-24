@@ -64,7 +64,9 @@ builder.Services.AddTransient<DriverOverrideService>();
 builder.Services.AddTransient<DriverDetailService>();
 
 builder.Services.AddSingleton<WebSocketConnectionManager>();
-builder.Services.AddHostedService<WebSocketBroadcastService>();
+builder.Services.AddSingleton<WebSocketBroadcastService>();
+builder.Services.AddHostedService(provider => provider.GetRequiredService<WebSocketBroadcastService>());
+
 
 // Register repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));

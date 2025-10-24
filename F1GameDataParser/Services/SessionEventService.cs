@@ -43,31 +43,31 @@ namespace F1GameDataParser.Services
             switch (sessionEvent.EventDetails.Details)
             {
                 case FastestLap fastestLap:
-                    HandleFastestLap(fastestLap, id);
+                    await HandleFastestLap(fastestLap, id);
                     break;
                 case Retirement retirement:
-                    HandleRetirement(retirement, id);
+                    await HandleRetirement(retirement, id);
                     break;
                 case DrsDisabled drsDisabled:
-                    HandleDrsDisabled(drsDisabled, id);
+                    await HandleDrsDisabled(drsDisabled, id);
                     break;
                 case DriveThroughPenaltyServed driveThroughPenaltyServed:
-                    HandleDriveThroughPenaltyServed(driveThroughPenaltyServed, id);
+                    await HandleDriveThroughPenaltyServed(driveThroughPenaltyServed, id);
                     break;
                 case StopGoPenaltyServed stopGoPenaltyServed:
-                    HandleStopGoPenaltyServed(stopGoPenaltyServed, id;
+                    await HandleStopGoPenaltyServed(stopGoPenaltyServed, id);
                     break;
                 case Penalty penalty:
-                    HandlePenaltyIssued(penalty, id);
+                    await HandlePenaltyIssued(penalty, id);
                     break;
                 default:
-                    HandleSimpleEvents(sessionEvent, id);
+                    await HandleSimpleEvents(sessionEvent, id);
                     break;
             }
         }
 
 
-        private async void HandleFastestLap(FastestLap fastestLap, uint id)
+        private async Task HandleFastestLap(FastestLap fastestLap, uint id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(fastestLap.VehicleIdx);
 
@@ -85,7 +85,7 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async void HandleRetirement(Retirement retirement, uint id)
+        private async Task HandleRetirement(Retirement retirement, uint id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(retirement.VehicleIdx);
 
@@ -103,7 +103,7 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private void HandleDrsDisabled(DrsDisabled drsDisabled, uint id)
+        private async Task HandleDrsDisabled(DrsDisabled drsDisabled, uint id)
         {
             var eventModel = new SessionEvent
             {
@@ -111,9 +111,11 @@ namespace F1GameDataParser.Services
                 Title = "DRS has been disabled.",
                 Description = drsDisabled.DRSDisabledReason.ToString()
             };
+
+            await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async void HandleDriveThroughPenaltyServed(DriveThroughPenaltyServed driveThroughPenaltyServed, uint id)
+        private async Task HandleDriveThroughPenaltyServed(DriveThroughPenaltyServed driveThroughPenaltyServed, uint id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(driveThroughPenaltyServed.VehicleIdx);
 
@@ -130,7 +132,7 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async void HandleStopGoPenaltyServed(StopGoPenaltyServed stopGoPenaltyServed, uint id)
+        private async Task HandleStopGoPenaltyServed(StopGoPenaltyServed stopGoPenaltyServed, uint id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(stopGoPenaltyServed.VehicleIdx);
 
@@ -147,7 +149,7 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async void HandlePenaltyIssued(Penalty penalty, uint id)
+        private async Task HandlePenaltyIssued(Penalty penalty, uint id)
         {
 
             var driver = driverOverrideService.GetDriverBasicDetails(penalty.VehicleIdx);
@@ -166,7 +168,7 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async void HandleSimpleEvents(Event sessionEvent, uint id)
+        private async Task HandleSimpleEvents(Event sessionEvent, uint id)
         {
             var eventMessage = sessionEvent.EventStringCode switch
             {

@@ -9,11 +9,11 @@ namespace F1GameDataParser.GameProfiles.F125.Handlers
     // This should be a stateless handler, just send data to client
     public class EventsHandler : GenericHandler<EventPacket, Event>
     {
-        private readonly SessionEventService eventService;
+        private readonly SessionEventService sessionEventService;
 
-        public EventsHandler(SessionEventService eventService) 
+        public EventsHandler(SessionEventService sessionEventService) 
         { 
-            this.eventService = eventService;
+            this.sessionEventService = sessionEventService;
         }
 
         protected override IModelFactory<EventPacket, Event> ModelFactory => new EventModelFactory();
@@ -24,14 +24,7 @@ namespace F1GameDataParser.GameProfiles.F125.Handlers
             if (!EventCodes.EnabledEvents.Contains(eventModel.EventStringCode))
                 return;
 
-            switch (eventModel.EventDetails.Details)
-            {
-                case Models.Event.Penalty penalty:
-                    // eventService.HandlePenalty(penalty, eventModel.Header.GameYear);
-                    break;
-                default:
-                    break;
-            }
+            sessionEventService.HandleSessionEvents(eventModel);
         }
     }
 }
