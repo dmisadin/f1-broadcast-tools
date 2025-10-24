@@ -12,7 +12,7 @@ import { DriverBasicDetails } from '../../../shared/models/driver.model';
     styleUrl: './speed-difference.component.css',
     providers: [WebSocketService]
 })
-export class SpeedDifferenceComponent extends WidgetBaseComponent<SpeedDifference> implements OnInit {
+export class SpeedDifferenceComponent extends WidgetBaseComponent<SpeedDifference> implements OnInit, OnInit {
     state = signal<SpeedDifference | null>(null);
 
     readonly spectatedDriver = computed<DriverBasicDetails | null>(() => {
@@ -61,6 +61,10 @@ export class SpeedDifferenceComponent extends WidgetBaseComponent<SpeedDifferenc
         this.webSocketService.onMessage().subscribe((data: SpeedDifference) => {
             this.setState(data);
         });
+    }
+
+    ngOnDestroy(): void {
+        this.webSocketService.disconnect();
     }
 
     protected override setState(data: SpeedDifference): void {
