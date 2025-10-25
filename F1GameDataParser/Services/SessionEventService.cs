@@ -39,7 +39,7 @@ namespace F1GameDataParser.Services
 
         public async void HandleSessionEvents(Event sessionEvent)
         {
-            var id = sessionEvent.Header.FrameIdentifier;
+            var id = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             switch (sessionEvent.EventDetails.Details)
             {
                 case FastestLap fastestLap:
@@ -67,7 +67,7 @@ namespace F1GameDataParser.Services
         }
 
 
-        private async Task HandleFastestLap(FastestLap fastestLap, uint id)
+        private async Task HandleFastestLap(FastestLap fastestLap, long id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(fastestLap.VehicleIdx);
 
@@ -85,25 +85,27 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async Task HandleRetirement(Retirement retirement, uint id)
+        private async Task HandleRetirement(Retirement retirement, long id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(retirement.VehicleIdx);
 
             if (driver is null)
                 return;
 
+            string? description = retirement.Reason >= ResultReason.Retired ? retirement.Reason?.GetLabel() : null;
+
             var eventModel = new SessionEvent
             {
-                Id = id,
+                Id = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds(),
                 Driver = driver,
                 Title = $"{driver.Name} retired.",
-                Description = retirement.Reason.ToString()
+                Description = description
             };
 
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async Task HandleDrsDisabled(DrsDisabled drsDisabled, uint id)
+        private async Task HandleDrsDisabled(DrsDisabled drsDisabled, long id)
         {
             var eventModel = new SessionEvent
             {
@@ -115,7 +117,7 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async Task HandleDriveThroughPenaltyServed(DriveThroughPenaltyServed driveThroughPenaltyServed, uint id)
+        private async Task HandleDriveThroughPenaltyServed(DriveThroughPenaltyServed driveThroughPenaltyServed, long id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(driveThroughPenaltyServed.VehicleIdx);
 
@@ -132,7 +134,7 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async Task HandleStopGoPenaltyServed(StopGoPenaltyServed stopGoPenaltyServed, uint id)
+        private async Task HandleStopGoPenaltyServed(StopGoPenaltyServed stopGoPenaltyServed, long id)
         {
             var driver = driverOverrideService.GetDriverBasicDetails(stopGoPenaltyServed.VehicleIdx);
 
@@ -149,26 +151,63 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async Task HandlePenaltyIssued(Penalty penalty, uint id)
+        private async Task HandlePenaltyIssued(Penalty penalty, long id)
         {
-
             var driver = driverOverrideService.GetDriverBasicDetails(penalty.VehicleIdx);
 
             if (driver is null)
                 return;
 
+            string title = "";
+
+            switch (penalty.PenaltyType)
+            {
+                case PenaltyType.DriveThrough:
+                    title = $"{driver.Name} has received a drive-through penalty";
+                    break;
+                case PenaltyType.StopGo:
+                    title = $"{driver.Name} has received a stop-go penalty";
+                    break;
+                case PenaltyType.GridPenalty:
+                    title = $"{driver.Name} has received a grid-drop penalty";
+                    break;
+                case PenaltyType.TimePenalty:
+                    title = $"{driver.Name} has received a {penalty.Time}s time penalty";
+                    break;
+                case PenaltyType.Disqualified:
+                    title = $"{driver.Name} has been disqualified";
+                    break;
+                case PenaltyType.RemovedFromFormationLap:
+                    title = $"{driver.Name} has been removed from the formation lap";
+                    break;
+                case PenaltyType.ParkedTooLongTimer: // je li ovo samo za timer ili bas penal?
+                    title = $"{driver.Name} has been parked for too long";
+                    break;
+                case PenaltyType.TyreRegulations:
+                    title = $"{driver.Name} has breached tyre regulations";
+                    break;
+                case PenaltyType.Retired:
+                    title = $"{driver.Name} has retired";
+                    break;
+                case PenaltyType.BlackFlagTimer: // je li ovo samo za timer ili bas penal?
+                    title = $"{driver.Name} has received black flag";
+                    break;
+                default:
+                    return;
+            }
+
             var eventModel = new SessionEvent
             {
                 Id = id,
                 Driver = driver,
-                Title = $"{driver.Name} has received a {penalty.PenaltyType.ToString()} penalty.",
-                Description = penalty.InfringementType.ToString()
+                Title = title,
+                Description = penalty.InfringementType.GetLabel()
             };
 
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
-        private async Task HandleSimpleEvents(Event sessionEvent, uint id)
+        private async Task HandleSimpleEvents(Event sessionEvent, long id)
         {
             var eventMessage = sessionEvent.EventStringCode switch
             {

@@ -4,19 +4,22 @@
     gap: .5em;
     width: fit-content;
     max-width: 24em;
+
+    font-size: 1.25rem;
 }
 
 .event {
     width: 100%;
-    padding: .5em;
     background-color: rgba(0, 0, 0, 0.7);
 }
 
 .event-details {
+    padding: .5em 1em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: start;
+    gap: .5em;
 }
 
 .title {
@@ -25,4 +28,5 @@
 
 .description {
     font-style: italic;
+    font-weight: normal;
 }
