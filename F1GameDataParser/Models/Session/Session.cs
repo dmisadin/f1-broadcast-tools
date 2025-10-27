@@ -24,7 +24,7 @@ namespace F1GameDataParser.Models.Session
 
         public IEnumerable<MarshalZone> MarshalZones { get; set; }
 
-        public SafetyCarStatus SafetyCarStatus { get; set; }
+        public SafetyCarType SafetyCarStatus { get; set; }
         public NetworkGame NetworkGame { get; set; }
         public byte NumWeatherForecastSamples { get; set; }
         public IEnumerable<WeatherForecastSample> WeatherForecastSamples { get; set; }

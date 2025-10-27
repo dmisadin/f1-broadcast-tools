@@ -10,7 +10,7 @@ namespace F1GameDataParser.ViewModels.TimingTower
         public byte CurrentLap { get; set; }
         public byte TotalLaps { get; set; }
 
-        public SafetyCarStatus SafetyCarStatus { get; set; }
+        public SafetyCarType SafetyCarStatus { get; set; }
         public IEnumerable<bool> SectorYellowFlags { get; set; }
         public AdditionalInfoType ShowAdditionalInfo { get; set; }
         public string? SessionTimeLeft { get; set; }

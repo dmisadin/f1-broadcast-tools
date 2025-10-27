@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.Enums
 {
-    public enum SafetyCarStatus : byte
+    public enum SafetyCarType : byte
     {
         None,
         [Label("Safety Car")]

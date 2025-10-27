@@ -83,6 +83,12 @@ namespace F1GameDataParser.Models.Event
         public DRSDisabledReason DRSDisabledReason { get; set; }
     }
 
+    public class SafetyCar : IEvent
+    {
+        public SafetyCarType SafetyCarType { get; set; }
+        public SafetyCarEventType EventType { get; set; }
+    }
+
     public class EventDetails<TEvent> where TEvent : IEvent
     {
         public TEvent? Details { get; set; }

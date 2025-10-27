@@ -35,11 +35,9 @@
             ChequeredFlag,
             RaceWinner,
             PenaltyIssued,
-            StartLights,
-            LightsOut,
             DriveThroughServed,
             StopGoServed,
-            Overtake
+            SafetyCar
         };
     }
 }

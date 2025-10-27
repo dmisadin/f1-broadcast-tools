@@ -102,6 +102,12 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                         {
                             DRSDisabledReason = packet.drsDisabled.reason
                         }
+                    : eventCode == EventCodes.SafetyCar 
+                        ? new Models.Event.SafetyCar
+                        {
+                            SafetyCarType = packet.safetyCar.safetyCarType,
+                            EventType = packet.safetyCar.eventType
+                        }
                     : null
             };
         }

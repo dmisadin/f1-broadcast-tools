@@ -60,12 +60,14 @@ namespace F1GameDataParser.Services
                 case Penalty penalty:
                     await HandlePenaltyIssued(penalty, id);
                     break;
+                case SafetyCar safetyCar:
+                    await HandleSafetyCar(safetyCar, id);
+                    break;
                 default:
                     await HandleSimpleEvents(sessionEvent, id);
                     break;
             }
         }
-
 
         private async Task HandleFastestLap(FastestLap fastestLap, long id)
         {
@@ -207,11 +209,31 @@ namespace F1GameDataParser.Services
             await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
         }
 
+        private async Task HandleSafetyCar(SafetyCar safetyCar, long id)
+        {
+            string eventType;
+            if (safetyCar.EventType == SafetyCarEventType.Deployed)
+                eventType = "has been deployed";
+            else if (safetyCar.EventType == SafetyCarEventType.Returning)
+                eventType = "is returning";
+            else
+                return;
+
+            var eventModel = new SessionEvent
+            {
+                Id = id,
+                Title = $"{safetyCar.SafetyCarType.GetLabel()} {eventType}"
+            };
+
+            await webSocketBroadcastService.BroadcastAsync(WidgetType.SessionEvents, eventModel);
+        }
+
         private async Task HandleSimpleEvents(Event sessionEvent, long id)
         {
             var eventMessage = sessionEvent.EventStringCode switch
             {
                     EventCodes.DrsEnabled => "DRS enabled.",
+                    // TODO: Implement older games events that have no details (like SCAR)
                     _ => null
             };
 
