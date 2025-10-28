@@ -2,7 +2,9 @@
     @for(event of events(); track event.id) 
     {
     <div class="event" 
-        [style.border-left]="'2px solid ' + event.driver?.teamDetails?.primaryColor">
+        animate.enter="slide-in" 
+        animate.leave="slide-out"
+        [style.border-color]="event.driver?.teamDetails?.primaryColor">
         <div class="event-details"
         [style.background]="'linear-gradient(to right, ' + event.driver?.teamDetails?.primaryColor + '33 0%, #00000000 100%)'">
             <span class="title"> {{ event.title }} </span>

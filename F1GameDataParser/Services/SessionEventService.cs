@@ -167,12 +167,13 @@ namespace F1GameDataParser.Services
                 case PenaltyType.DriveThrough:
                     title = $"{driver.Name} has received a drive-through penalty";
                     break;
-                case PenaltyType.StopGo:
-                    title = $"{driver.Name} has received a stop-go penalty";
-                    break;
+                //case PenaltyType.StopGo: // Bugged as of: 28.10.2025.
+                //    title = $"{driver.Name} has received a stop-go penalty";
+                //    break;
                 case PenaltyType.GridPenalty:
                     title = $"{driver.Name} has received a grid-drop penalty";
                     break;
+                case PenaltyType.StopGo:
                 case PenaltyType.TimePenalty:
                     title = $"{driver.Name} has received a {penalty.Time}s time penalty";
                     break;
@@ -188,9 +189,9 @@ namespace F1GameDataParser.Services
                 case PenaltyType.TyreRegulations:
                     title = $"{driver.Name} has breached tyre regulations";
                     break;
-                case PenaltyType.Retired:
-                    title = $"{driver.Name} has retired";
-                    break;
+                //case PenaltyType.Retired:
+                //    title = $"{driver.Name} has retired";
+                //    break;
                 case PenaltyType.BlackFlagTimer: // je li ovo samo za timer ili bas penal?
                     title = $"{driver.Name} has received black flag";
                     break;

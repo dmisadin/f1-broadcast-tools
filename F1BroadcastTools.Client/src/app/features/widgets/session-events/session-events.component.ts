@@ -21,7 +21,6 @@ export class SessionEventsComponent extends WidgetBaseComponent<SessionEvent> im
 		this.webSocketService.connect('ws://localhost:5000/ws/session-events');
 
 		this.webSocketService.onMessage().subscribe((data: SessionEvent) => {
-			console.log(data)
 			this.setState(data);
 		});
 	}
