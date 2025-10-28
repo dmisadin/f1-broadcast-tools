@@ -28,7 +28,7 @@ namespace F1GameDataParser.GameProfiles.F123.Packets.Session
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 21)]
         public MarshalZoneData[] marshalZones;
 
-        public SafetyCarStatus safetyCarStatus;
+        public SafetyCarType safetyCarStatus;
         public NetworkGame networkGame;
         public byte numWeatherForecastSamples;
 

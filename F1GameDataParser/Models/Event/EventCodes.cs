@@ -21,6 +21,11 @@
         public const string ButtonStatus = "BUTN";
         public const string Overtake = "OVTK";
 
+        // Added in F1 24
+        public const string RedFlag = "RDFL";
+        public const string SafetyCar = "SCAR";
+        public const string Collision = "COLL";
+
         public static readonly List<string> EnabledEvents = new List<string>
         {
             FastestLap,
@@ -30,11 +35,9 @@
             ChequeredFlag,
             RaceWinner,
             PenaltyIssued,
-            StartLights,
-            LightsOut,
             DriveThroughServed,
             StopGoServed,
-            Overtake
+            SafetyCar
         };
     }
 }

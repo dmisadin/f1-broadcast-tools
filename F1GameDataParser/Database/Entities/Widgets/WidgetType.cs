@@ -3,8 +3,13 @@
     public enum WidgetType
     {
         TimingTower = 1,
-        Stopwatch,
+        StopwatchList,
         Minimap,
-        HaloHUD
+        HaloTelemetry,
+        StopwatchSpectated,
+        WeatherForecast,
+        SectorTimingComparison,
+        SpeedDifference,
+        SessionEvents
     }
 }

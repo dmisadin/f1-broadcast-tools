@@ -62,39 +62,12 @@ namespace F1GameDataParser.GameProfiles.F124.Packets.Event
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct Penalty
     {
-        /// <summary>
-        /// Penalty type
-        /// </summary>
         public PenaltyType penaltyType;
-
-        /// <summary>
-        /// Infringement type
-        /// </summary>
         public InfringementType infringementType;
-
-        /// <summary>
-        /// Index of the car the penalty is applied to
-        /// </summary>
         public byte vehicleIdx;
-
-        /// <summary>
-        /// Index of the other car involved
-        /// </summary>
         public byte otherVehicleIdx;
-
-        /// <summary>
-        /// Time gained or time spent doing action in seconds
-        /// </summary>
         public byte time;
-
-        /// <summary>
-        /// Lap the penalty ocurred on
-        /// </summary>
         public byte lapNum;
-
-        /// <summary>
-        /// Number of places gained by this
-        /// </summary>
         public byte placesGained;
     }
 
@@ -223,8 +196,8 @@ namespace F1GameDataParser.GameProfiles.F124.Packets.Event
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct SafetyCar
     {
-        public SafetyCarStatus safetyCarType;
-        public EventType eventType;
+        public SafetyCarType safetyCarType;
+        public SafetyCarEventType eventType;
     }
 
     // Added in F1 24

@@ -61,7 +61,12 @@ builder.Services.AddTransient<WeatherForecastFactory>();
 builder.Services.AddTransient<SectorTimingComparisonFactory>();
 builder.Services.AddTransient<SpeedDifferenceFactory>();
 builder.Services.AddTransient<DriverOverrideService>(); 
-builder.Services.AddTransient<DriverDetailService>(); 
+builder.Services.AddTransient<DriverDetailService>();
+
+builder.Services.AddSingleton<WebSocketConnectionManager>();
+builder.Services.AddSingleton<WebSocketBroadcastService>();
+builder.Services.AddHostedService(provider => provider.GetRequiredService<WebSocketBroadcastService>());
+
 
 // Register repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
@@ -80,9 +85,6 @@ string dbpath = Path.Combine(folderPath, "f1BroadcastTools.db");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(dbpath)); // Use SQLite
 
 var app = builder.Build();
-
-// Configure WebSocket options
-app.UseWebSockets();
 
 using (var scope = app.Services.CreateScope())
 {
@@ -107,6 +109,7 @@ using (var scope = app.Services.CreateScope())
 
 }
 
+app.UseWebSockets();
 app.UseRouting();
 app.MapControllers();
 app.UseCors(x => x
@@ -114,5 +117,4 @@ app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
-// Run the application
 await app.RunAsync();

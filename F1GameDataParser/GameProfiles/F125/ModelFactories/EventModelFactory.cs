@@ -31,7 +31,8 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                     : eventCode == EventCodes.Retirement
                         ? new Models.Event.Retirement
                         {
-                            VehicleIdx = packet.retirement.vehicleIdx
+                            VehicleIdx = packet.retirement.vehicleIdx,
+                            Reason = packet.retirement.reason,
                         }
                     : eventCode == EventCodes.TeamMateInPits
                         ? new Models.Event.TeamMateInPits
@@ -95,6 +96,17 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                         {
                             OvertakingVehicleIdx = packet.overtake.overtakingVehicleIdx,
                             BeingOvertakenVehicleIdx = packet.overtake.beingOvertakenVehicleIdx
+                        }
+                    : eventCode == EventCodes.DrsDisabled
+                        ? new Models.Event.DrsDisabled
+                        {
+                            DRSDisabledReason = packet.drsDisabled.reason
+                        }
+                    : eventCode == EventCodes.SafetyCar 
+                        ? new Models.Event.SafetyCar
+                        {
+                            SafetyCarType = packet.safetyCar.safetyCarType,
+                            EventType = packet.safetyCar.eventType
                         }
                     : null
             };

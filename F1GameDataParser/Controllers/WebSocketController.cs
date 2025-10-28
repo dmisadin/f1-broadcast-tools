@@ -1,200 +1,72 @@
-﻿using System.Net.WebSockets;
-using System.Text;
-using System.Text.Json;
-using F1GameDataParser.Mapping.ViewModelFactories;
-using Microsoft.AspNetCore.Http;
+﻿using F1GameDataParser.Database.Entities.Widgets;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.WebSockets;
 
 namespace F1GameDataParser.Controllers;
 
 [ApiController]
+[Route("ws")]
 public class WebSocketController : ControllerBase
 {
-    private readonly TimingTowerFactory timingTowerFactory;
-    private readonly MinimapFactory minimapFactory;
-    private readonly StopwatchFactory stopwatchFactory;
-    private readonly HaloTelemetryDashboardFactory haloTelemetryDashboardFactory;
-    private readonly SpeedDifferenceFactory speedDifferenceFactory;
+    private readonly WebSocketConnectionManager webSocketConnectionManager;
 
-    public WebSocketController(TimingTowerFactory timingTowerFactory,
-                                MinimapFactory minimapFactory,
-                                StopwatchFactory stopwatchFactory,
-                                HaloTelemetryDashboardFactory haloTelemetryDashboardFactory,
-                                SpeedDifferenceFactory speedDifferenceFactory)
+    public WebSocketController(WebSocketConnectionManager webSocketConnectionManager)
     {
-        this.timingTowerFactory = timingTowerFactory;
-        this.minimapFactory = minimapFactory;
-        this.stopwatchFactory = stopwatchFactory;
-        this.haloTelemetryDashboardFactory = haloTelemetryDashboardFactory;
-        this.speedDifferenceFactory = speedDifferenceFactory;
+        this.webSocketConnectionManager = webSocketConnectionManager;
     }
 
-    [HttpGet("/ws/timing-tower")]
-    public async Task GetTimingTower()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => timingTowerFactory.Generate(), HttpContext.RequestAborted);
-        }
-        else
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        }
-    }
+    [HttpGet("timing-tower")]
+    public async Task ConnectTimingTower() => await HandleConnection(WidgetType.TimingTower);
 
-    [HttpGet("/ws/minimap")]
-    public async Task GetMinimap()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => minimapFactory.Generate(), HttpContext.RequestAborted);
-        }
-        else
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        }
-    }
+    [HttpGet("minimap")]
+    public async Task ConnectMinimap() => await HandleConnection(WidgetType.Minimap);
 
-    [HttpGet("/ws/stopwatch-spectated")]
-    public async Task GetStopwatch()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => stopwatchFactory.GenerateSpectated(), HttpContext.RequestAborted);
-        }
-        else
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        }
-    }
+    [HttpGet("stopwatch-spectated")]
+    public async Task ConnectStopwatchSpectated() => await HandleConnection(WidgetType.StopwatchSpectated);
 
-    [HttpGet("/ws/stopwatch-list")]
-    public async Task GetStopwatchList()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => stopwatchFactory.Generate(), HttpContext.RequestAborted);
-        }
-        else
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        }
-    }
+    [HttpGet("stopwatch-list")]
+    public async Task ConnectStopwatchList() => await HandleConnection(WidgetType.StopwatchList);
 
-    [HttpGet("/ws/halo-telemetry")]
-    public async Task GetHaloTelemetry()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => haloTelemetryDashboardFactory.Generate(), HttpContext.RequestAborted);
-        }
-        else
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        }
-    }
+    [HttpGet("halo-telemetry")]
+    public async Task ConnectHaloTelemetry() => await HandleConnection(WidgetType.HaloTelemetry);
 
-    [HttpGet("/ws/speed-difference")]
-    public async Task GetSpeedDifference()
-    {
-        if (HttpContext.WebSockets.IsWebSocketRequest)
-        {
-            using var webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-            await StreamData(webSocket, () => speedDifferenceFactory.Generate(), HttpContext.RequestAborted);
-        }
-        else
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        }
-    }
+    [HttpGet("speed-difference")]
+    public async Task ConnectSpeedDifference() => await HandleConnection(WidgetType.SpeedDifference);
 
-    private async Task StreamData(WebSocket webSocket, Func<object?> dataGenerator, CancellationToken ct = default)
+    [HttpGet("session-events")]
+    public async Task ConnectSessionEvents() => await HandleConnection(WidgetType.SessionEvents);
+
+    private async Task HandleConnection(WidgetType widgetType)
     {
+        if (!HttpContext.WebSockets.IsWebSocketRequest)
+        {
+            HttpContext.Response.StatusCode = 400;
+            return;
+        }
+
+        var socket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+        webSocketConnectionManager.AddSocket(widgetType, socket);
+        Console.WriteLine($"[WebSocket] {widgetType} connected");
+
+        var buffer = new byte[512];
         try
         {
-            var options = new JsonSerializerOptions
+            while (socket.State == WebSocketState.Open && !HttpContext.RequestAborted.IsCancellationRequested)
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
-
-            var recvBuffer = new byte[1]; // we ignore data, only detect Close frames
-            Task<WebSocketReceiveResult> receiveTask = webSocket.ReceiveAsync(recvBuffer, ct);
-
-            while (webSocket.State == WebSocketState.Open && !ct.IsCancellationRequested)
-            {
-                var data = dataGenerator();
-                if (data is not null)
-                {
-                    var jsonData = JsonSerializer.Serialize(data, options);
-                    var buffer = Encoding.UTF8.GetBytes(jsonData);
-
-                    var sendTask = webSocket.SendAsync(
-                        new ArraySegment<byte>(buffer),
-                        WebSocketMessageType.Text,
-                        endOfMessage: true,
-                        ct);
-
-                    // Race: either send finishes, receive sees a close, or our 100ms tick elapses
-                    var completed = await Task.WhenAny(sendTask, receiveTask, Task.Delay(100, ct));
-
-                    if (completed == receiveTask)
-                    {
-                        var result = await receiveTask;
-                        if (result.MessageType == WebSocketMessageType.Close)
-                            break;
-
-                        // Not a close: arm next receive
-                        receiveTask = webSocket.ReceiveAsync(recvBuffer, ct);
-                    }
-                    else if (completed == sendTask)
-                    {
-                        // propagate any send exception
-                        await sendTask;
-                    }
-                }
-                else
-                {
-                    // No data this tick—still check for a close frame with the same 100ms cadence
-                    var completed = await Task.WhenAny(receiveTask, Task.Delay(100, ct));
-                    if (completed == receiveTask)
-                    {
-                        var result = await receiveTask;
-                        if (result.MessageType == WebSocketMessageType.Close)
-                            break;
-
-                        receiveTask = webSocket.ReceiveAsync(recvBuffer, ct);
-                    }
-                }
+                var result = await socket.ReceiveAsync(new ArraySegment<byte>(buffer), HttpContext.RequestAborted);
+                if (result.MessageType == WebSocketMessageType.Close)
+                    break;
             }
-        }
-        catch (OperationCanceledException)
-        {
-            // request aborted or server shutting down
-        }
-        catch (WebSocketException wse)
-        {
-            Console.WriteLine($"WebSocket error: {wse.Message}");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Unexpected error: {ex.Message}");
         }
         finally
         {
+            webSocketConnectionManager.RemoveSocket(widgetType, socket);
             try
             {
-                if (webSocket.State is WebSocketState.Open or WebSocketState.CloseReceived)
-                {
-                    await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Connection closed", CancellationToken.None);
-                    Console.WriteLine($"[Websocket] Websocket closed.");
-                }
+                await socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", CancellationToken.None);
             }
-            catch { /* ignore close races */ }
+            catch { }
+            Console.WriteLine($"[WebSocket] {widgetType} disconnected");
         }
     }
 }
