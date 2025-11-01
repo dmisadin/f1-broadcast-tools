@@ -1,0 +1,19 @@
+@if (cars())
+{
+<div class="speed-trap-leaderboard">
+    <div class="title">
+        TOP SPEED
+    </div>
+    <div class="cars">
+        @for(car of cars(); track car.vehicleIdx)
+        {
+        <div class="car" [class.separator]="car.needSeparator">
+            <div class="position"> {{ car.ordinalNumber }} </div>
+            <div class="team"> {{ car.driver.teamId }} </div>
+            <div class="name"> {{ car.driver.name }} </div>
+            <div class="speed"> {{ car.speed }} </div>
+        </div>
+        }
+    </div>
+</div>
+}

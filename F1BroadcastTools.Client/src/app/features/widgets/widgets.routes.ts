@@ -36,5 +36,9 @@ export const WIDGETS_ROUTES: Routes = [
     {
         path: 'session-events',
         loadComponent: () => import('./session-events/session-events.component').then(c => c.SessionEventsComponent)
+    },
+    {
+        path: 'speed-trap-leaderboard',
+        loadComponent: () => import('./speed-trap-leaderboard/speed-trap-leaderboard.component').then(c => c.SpeedTrapLeaderboardComponent)
     }
 ];

@@ -1,5 +1,6 @@
 ﻿using F1GameDataParser.Mapping.ViewModelFactories;
 using F1GameDataParser.ViewModels.SectorTimingComparison;
+using F1GameDataParser.ViewModels.SpeedTrapLeaderboard;
 using F1GameDataParser.ViewModels.WeatherForecast;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,15 @@ namespace F1GameDataParser.Controllers
     {
         private readonly WeatherForecastFactory weatherForecastFactory;
         private readonly SectorTimingComparisonFactory sectorTimingComparisonFactory;
+        private readonly SpeedTrapLeaderboardFactory speedTrapLeaderboardFactory;
 
         public StaticWidgetController(WeatherForecastFactory weatherForecastFactory,
-                                      SectorTimingComparisonFactory sectorTimingComparisonFactory)
+                                      SectorTimingComparisonFactory sectorTimingComparisonFactory,
+                                      SpeedTrapLeaderboardFactory speedTrapLeaderboardFactory)
         {
             this.weatherForecastFactory = weatherForecastFactory;
             this.sectorTimingComparisonFactory = sectorTimingComparisonFactory;
+            this.speedTrapLeaderboardFactory = speedTrapLeaderboardFactory;
         }
 
         [HttpGet("weather-forecast")]
@@ -29,6 +33,13 @@ namespace F1GameDataParser.Controllers
         public SectorTimingComparison? PreviousLapSectorComparison()
         {
             return sectorTimingComparisonFactory.Generate();
+        }
+
+
+        [HttpGet("get-speed-trap-leaderboard")]
+        public IList<SpeedTrapCar>? GetSpeedTrapLeaderboard()
+        {
+            return speedTrapLeaderboardFactory.GenerateList();
         }
     }
 }
