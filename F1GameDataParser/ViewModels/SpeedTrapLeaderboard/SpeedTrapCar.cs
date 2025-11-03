@@ -6,6 +6,6 @@
         public DriverBasicDetails? Driver { get; set; }
         public short Speed { get; set; }  
         public int OrdinalNumber { get; set; }
-        public bool NeedSeparator { get; set; }
+        public bool NeedDivider { get; set; }
     }
 }

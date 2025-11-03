@@ -1,4 +1,4 @@
-@if (cars())
+@if (cars().length)
 {
 <div class="speed-trap-leaderboard">
     <div class="title">
@@ -7,9 +7,11 @@
     <div class="cars">
         @for(car of cars(); track car.vehicleIdx)
         {
-        <div class="car" [class.separator]="car.needSeparator">
+        <div class="car" [class.divider]="car.needDivider">
             <div class="position"> {{ car.ordinalNumber }} </div>
-            <div class="team"> {{ car.driver.teamId }} </div>
+            <div class="team"> 
+                <team-logo [team]="car.driver.teamId"></team-logo>
+            </div>
             <div class="name"> {{ car.driver.name }} </div>
             <div class="speed"> {{ car.speed }} </div>
         </div>

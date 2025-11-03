@@ -45,18 +45,25 @@ public class SpeedTrapLeaderboardFactory : ViewModelFactoryBase<SpeedTrapCar>
         foreach (var vehicle in sortedCars) 
         {
             i++;
-            if (i > 4 || (speedTrapLeaderboardState?.State != null 
+            if (i > 5 || (speedTrapLeaderboardState?.State != null 
                         && speedTrapLeaderboardState.State.SelectedVehicles.Count() > 0
                         && !speedTrapLeaderboardState.State.SelectedVehicles.Contains(vehicle.VehicleIdx)))
                 continue;
+
+            var fastestCar = cars.FirstOrDefault();
+            short speed = 0;
+            if (fastestCar == null && vehicle.Speed != null)
+                speed = (short)Math.Round(vehicle.Speed.Value);
+            else if (fastestCar != null && vehicle.Speed != null)
+                speed = (short)Math.Round(vehicle.Speed.Value - fastestCar.Speed);
 
             cars.Add(new SpeedTrapCar
             {
                 VehicleIdx = vehicle.VehicleIdx,
                 Driver = driverOverrideService.GetDriverBasicDetails(vehicle.VehicleIdx),
-                Speed = (short)Math.Round(vehicle.Speed.Value),
+                Speed = speed,
                 OrdinalNumber = vehicle.OrdinalNumber,
-                NeedSeparator = cars.LastOrDefault()?.OrdinalNumber - vehicle.OrdinalNumber >= 2
+                NeedDivider = cars.LastOrDefault()?.OrdinalNumber - vehicle.OrdinalNumber >= 2
             });
         }
 

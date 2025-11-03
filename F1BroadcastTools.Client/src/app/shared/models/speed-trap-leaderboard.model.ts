@@ -5,5 +5,5 @@ export interface SpeedTrapLeaderboard {
     driver: DriverBasicDetails;
     speed: number;
     ordinalNumber: number;
-    needSeparator: boolean;
+    needDivider: boolean;
 }
