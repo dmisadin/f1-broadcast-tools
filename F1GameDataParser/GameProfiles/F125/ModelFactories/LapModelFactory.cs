@@ -46,6 +46,8 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                 PitLaneTimerActive = lap.pitLaneTimerActive,
                 PitStopTimerInMS = lap.pitStopTimerInMS,
                 PitStopShouldServePen = lap.pitStopShouldServePen,
+                SpeedTrapFastestSpeed = lap.speedTrapFastestSpeed,
+                SpeedTrapFastestLap = lap.speedTrapFastestLap
             }).ToList();
         }
     }

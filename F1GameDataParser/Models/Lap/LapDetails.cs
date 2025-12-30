@@ -41,6 +41,8 @@ namespace F1GameDataParser.Models.Lap
         public ushort PitLaneTimeInLaneInMS { get; set; } // If active, the current time spent in the pit lane in ms
         public ushort PitStopTimerInMS { get; set; } // Time of the actual pit stop in ms
         public byte PitStopShouldServePen { get; set; } // Whether the car should serve a penalty at this stop
+        public float? SpeedTrapFastestSpeed { get; set; }    // Added in F1 24
+        public byte? SpeedTrapFastestLap { get; set; }       // Added in F1 24
 
         public override void MergeFrom(LapDetails source)
         {
@@ -77,6 +79,8 @@ namespace F1GameDataParser.Models.Lap
             PitLaneTimeInLaneInMS = source.PitLaneTimeInLaneInMS;
             PitStopTimerInMS = source.PitStopTimerInMS;
             PitStopShouldServePen = source.PitStopShouldServePen;
+            SpeedTrapFastestSpeed = source.SpeedTrapFastestSpeed;
+            SpeedTrapFastestLap = source.SpeedTrapFastestLap;
         }
     }
 }

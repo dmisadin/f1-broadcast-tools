@@ -1,0 +1,56 @@
+.speed-trap-leaderboard {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(21, 21, 25);
+    width: fit-content;
+    padding: .5em 1em 1.5em .5em;
+    font-size: 1.5em;
+    --size: 2em;
+}
+
+.title {
+    padding: .5em;
+    font-weight: 600;
+    color: white;
+    font-size: 1.55em;
+    text-align: center;
+}
+
+.cars {
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    width: fit-content;
+
+    div {
+        align-content: center;
+    }
+}
+
+.car {
+    display: grid;
+    grid-template-columns: var(--size) var(--size) auto var(--size);
+    gap: .5em;
+    height: var(--size);
+    width: 100%;
+    max-width: 16em;
+}
+
+.position {
+    text-align: center;
+}
+
+.team {
+    padding: .25em;
+}
+
+.name {
+}
+
+.speed {
+    text-align: end;
+}
+
+.divider {
+    border-top: 2px solid rgb(37, 37, 37);
+}
