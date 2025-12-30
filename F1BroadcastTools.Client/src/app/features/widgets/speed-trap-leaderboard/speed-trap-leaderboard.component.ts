@@ -3,6 +3,7 @@ import { WidgetBaseComponent } from '../widget-base.component';
 import { SpeedTrapLeaderboard } from '../../../shared/models/speed-trap-leaderboard.model';
 import { RestService } from '../../../core/services/rest.service';
 import { TeamLogoComponent } from "../../../shared/components/game/team-logo/team-logo.component";
+import { GameYear } from '../../../shared/models/Enumerations';
 
 @Component({
 	selector: 'speed-trap-leaderboard',
@@ -14,6 +15,7 @@ export class SpeedTrapLeaderboardComponent extends WidgetBaseComponent<SpeedTrap
 	private restService = inject(RestService);
 
 	cars = signal<SpeedTrapLeaderboard[]>([])
+	GameYear = GameYear;
 
 	ngOnInit(): void {
 		this.restService.get<SpeedTrapLeaderboard[] | null>("/static-widget/get-speed-trap-leaderboard").subscribe(res => {
