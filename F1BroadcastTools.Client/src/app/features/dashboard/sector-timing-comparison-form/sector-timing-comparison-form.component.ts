@@ -36,8 +36,9 @@ export class SectorTimingComparisonFormComponent implements OnInit {
             comparingVehicleIdx: [null],
             lapNumber: [null, Validators.max(255)]
         });
-
+        this.isLoading.set(true);
         this.restService.get<SectorTimingComparisonModel | null>("/widget-state/get-sector-timing-comparison-model").subscribe(res => {
+            this.isLoading.set(false);
             if (!res) return;
             this.form.patchValue({
                 vehicleIdx: res.vehicleIdx ? `${res.vehicleIdx}` : null,
@@ -59,6 +60,9 @@ export class SectorTimingComparisonFormComponent implements OnInit {
             lapNumber: formValue.lapNumber
         };
 
-        this.restService.post("/widget-state/update-sector-timing-comparison", body).subscribe();
+        this.isLoading.set(true);
+        this.restService.post("/widget-state/update-sector-timing-comparison", body).subscribe(() => {
+            this.isLoading.set(false);
+        });
     }
 }

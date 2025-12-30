@@ -7,3 +7,7 @@ export interface SpeedTrapLeaderboard {
     ordinalNumber: number;
     needDivider: boolean;
 }
+
+export interface SpeedTrapLeaderboardModel {
+    selectedVehicles: number[];
+}

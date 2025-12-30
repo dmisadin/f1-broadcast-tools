@@ -8,23 +8,38 @@ namespace F1GameDataParser.Controllers
     [ApiController]
     public class WidgetStateController : ControllerBase
     {
-        private readonly SectorTimingComparisonState sectorTimingComparisonFactory;
+        private readonly SectorTimingComparisonState sectorTimingComparisonState;
+        private readonly SpeedTrapLeaderboardState speedTrapLeaderboardState;
 
-        public WidgetStateController(SectorTimingComparisonState sectorTimingComparisonFactory)
+        public WidgetStateController(SectorTimingComparisonState sectorTimingComparisonState,
+                                    SpeedTrapLeaderboardState speedTrapLeaderboardState)
         {
-            this.sectorTimingComparisonFactory = sectorTimingComparisonFactory;
+            this.sectorTimingComparisonState = sectorTimingComparisonState;
+            this.speedTrapLeaderboardState = speedTrapLeaderboardState;
         }
 
         [HttpGet("get-sector-timing-comparison-model")]
         public SectorTimingComparisonModel? GetSectorTimingComparisonModel()
         {
-            return this.sectorTimingComparisonFactory?.State;
+            return this.sectorTimingComparisonState?.State;
         }
 
         [HttpPost("update-sector-timing-comparison")]
         public void UpdateSectorTimingComparison([FromBody] SectorTimingComparisonModel previousLapSectorComparisonModel)
         {
-            this.sectorTimingComparisonFactory.Update(previousLapSectorComparisonModel);
+            this.sectorTimingComparisonState.Update(previousLapSectorComparisonModel);
+        }
+
+        [HttpGet("get-speed-trap-leaderboard-model")]
+        public SpeedTrapLeaderboardModel? GetSpeedTrapLeaderboardModel()
+        {
+            return this.speedTrapLeaderboardState?.State;
+        }
+
+        [HttpPost("update-speed-trap-leaderboard")]
+        public void UpdateSpeedTrapLeaderboard([FromBody] SpeedTrapLeaderboardModel speedTrapLeaderboardModel)
+        {
+            this.speedTrapLeaderboardState.Update(speedTrapLeaderboardModel);
         }
     }
 }
