@@ -45,9 +45,9 @@ public class SpeedTrapLeaderboardFactory : ViewModelFactoryBase<SpeedTrapCar>
         foreach (var vehicle in sortedCars) 
         {
             i++;
-            if (i > 5 || (speedTrapLeaderboardState?.State != null 
-                        && speedTrapLeaderboardState.State.SelectedVehicles.Count() > 0
-                        && !speedTrapLeaderboardState.State.SelectedVehicles.Contains(vehicle.VehicleIdx)))
+            if (i > 5 && (speedTrapLeaderboardState?.State == null
+                      || speedTrapLeaderboardState.State.SelectedVehicles.Count() == 0
+                      || !speedTrapLeaderboardState.State.SelectedVehicles.Contains(vehicle.VehicleIdx)))
                 continue;
 
             var fastestCar = cars.FirstOrDefault();
@@ -57,16 +57,23 @@ public class SpeedTrapLeaderboardFactory : ViewModelFactoryBase<SpeedTrapCar>
             else if (fastestCar != null && vehicle.Speed != null)
                 speed = (short)Math.Round(vehicle.Speed.Value - fastestCar.Speed);
 
+            var previousCar = cars.LastOrDefault();
+
             cars.Add(new SpeedTrapCar
             {
                 VehicleIdx = vehicle.VehicleIdx,
                 Driver = driverOverrideService.GetDriverBasicDetails(vehicle.VehicleIdx),
                 Speed = speed,
                 OrdinalNumber = vehicle.OrdinalNumber,
-                NeedDivider = cars.LastOrDefault()?.OrdinalNumber - vehicle.OrdinalNumber >= 2
+                NeedDivider = DoesRowNeedDivider(vehicle.OrdinalNumber, previousCar?.OrdinalNumber ?? 0)
             });
         }
 
         return cars;
+    }
+
+    private bool DoesRowNeedDivider(int position, int previousCarPosition)
+    {
+        return position - previousCarPosition > 1;
     }
 }
