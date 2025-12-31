@@ -35,7 +35,6 @@ namespace F1GameDataParser.Controllers
             return sectorTimingComparisonFactory.Generate();
         }
 
-
         [HttpGet("get-speed-trap-leaderboard")]
         public IList<SpeedTrapCar>? GetSpeedTrapLeaderboard()
         {
