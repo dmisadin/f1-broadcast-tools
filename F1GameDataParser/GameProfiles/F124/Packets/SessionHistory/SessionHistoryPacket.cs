@@ -10,7 +10,7 @@ namespace F1GameDataParser.GameProfiles.F124.Packets.SessionHistory
 
         public byte carIdx;
         public byte numLaps;
-        public byte numTyreStings;
+        public byte numTyreStints;
 
         public byte bestLapTimeLapNum;
         public byte bestSector1LapNum;

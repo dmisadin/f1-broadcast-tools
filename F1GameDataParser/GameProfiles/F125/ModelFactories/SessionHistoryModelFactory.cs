@@ -14,7 +14,7 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                 Header = HeaderExpressionCompiled.Invoke(packet.header),
                 CarIdx = packet.carIdx,
                 NumLaps = packet.numLaps,
-                NumTyreStints = packet.numTyreStings,
+                NumTyreStints = packet.numTyreStints,
                 BestLapTimeLapNum = packet.bestLapTimeLapNum,
                 BestSector1LapNum = packet.bestSector1LapNum,
                 BestSector2LapNum = packet.bestSector2LapNum,
@@ -31,7 +31,8 @@ namespace F1GameDataParser.GameProfiles.F125.ModelFactories
                                                 Sector3TimeMinutes = lap.sector3TimeMinutes,
                                                 LapValidBitFlags = lap.lapValidBitFlags
                                             }),
-                TyreStintHistoryDetails = packet.tyreStintHistoryDetails.Select(tyre => new TyreStintHistoryDetails
+                TyreStintHistoryDetails = packet.tyreStintHistoryDetails.Take(packet.numTyreStints)
+                    .Select(tyre => new TyreStintHistoryDetails
                     {
                         EndLap = tyre.endLap,
                         TyreActualCompound = tyre.tyreActualCompound,
