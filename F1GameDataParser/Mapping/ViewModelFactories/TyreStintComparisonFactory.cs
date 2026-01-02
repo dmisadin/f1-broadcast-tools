@@ -1,4 +1,5 @@
-﻿using F1GameDataParser.Services;
+﻿using F1GameDataParser.GameProfiles.F1Common.Constants;
+using F1GameDataParser.Services;
 using F1GameDataParser.State;
 using F1GameDataParser.State.WidgetStates;
 using F1GameDataParser.ViewModels.TyreStintComparison;
@@ -52,9 +53,12 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
 
         var selectedVehicleSessionHistories = sessionHistoryState.GetModels(carIdxs);
         int currentLap = lapState.GetLeadingLapNumber();
+        byte totalLaps = sessionState?.State?.TotalLaps ?? 1;
 
         return selectedVehicleSessionHistories.Select(v => new TyreStintComparison
         {
+            TotalLaps = totalLaps,
+            TotalSizePercentage = (byte)Math.Ceiling(currentLap * 100.0 / totalLaps),
             Driver = driverOverrideService.GetDriverBasicDetails(v.CarIdx),
             TyreStints = v.TyreStintHistoryDetails.Select((t, index) =>
                 {
@@ -63,14 +67,14 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
                     int duration = previousStint == null
                         ? (endLap ?? currentLap)
                         : (endLap ?? currentLap) - previousStint.EndLap;
-                    byte totalLaps = sessionState?.State?.TotalLaps ?? 1;
 
                     return new TyreStint
                     {
                         TyreCompound = t.TyreVisualCompound.ToString().ToLower(),
+                        TyreColor = Tyres.Colors.GetValueOrDefault(t.TyreVisualCompound) ?? "#fff",
                         EndLap = endLap,
                         Duration = (byte)duration,
-                        SizePercentage = (byte)(duration * 100 / totalLaps)
+                        SizePercentage = (byte)(duration * 100 / currentLap)
                     };
                 })
         }).ToList();
