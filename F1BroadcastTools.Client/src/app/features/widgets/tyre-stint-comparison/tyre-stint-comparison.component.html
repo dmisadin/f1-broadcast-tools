@@ -1,0 +1,18 @@
+<div class="tyre-stint-comparison">
+    @for (car of cars(); track car.driver.vehicleIdx)
+    {
+    <div class="car" 
+        [style.height.em]="(cars().length - $index + 1) * 4" 
+        [style.z-index]="$index" 
+        [style.width.%]="car.totalSizePercentage">
+        <div class="stints">
+            @for (stint of car.tyreStints; track $index) 
+            {
+            <div class="stint" [style.width.%]="stint.sizePercentage">
+                <div class="stint-bar" [style.background]="stint.tyreColor"> {{stint.duration}} - dur:{{stint.sizePercentage}} </div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+</div>

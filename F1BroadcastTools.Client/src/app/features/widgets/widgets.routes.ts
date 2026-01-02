@@ -40,5 +40,9 @@ export const WIDGETS_ROUTES: Routes = [
     {
         path: 'speed-trap-leaderboard',
         loadComponent: () => import('./speed-trap-leaderboard/speed-trap-leaderboard.component').then(c => c.SpeedTrapLeaderboardComponent)
+    },
+    {
+        path: 'tyre-stint-comparison',
+        loadComponent: () => import('./tyre-stint-comparison/tyre-stint-comparison.component').then(c => c.TyreStintComparisonComponent)
     }
 ];

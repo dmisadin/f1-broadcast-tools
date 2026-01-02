@@ -37,7 +37,7 @@ export class TyreStintComparisonFormComponent implements OnInit {
 		this.isLoading.set(true);
 		this.restService.get<LookupDto[]>("/widget-state/get-tyre-stint-comparison-lookup")
 			.subscribe({
-				next: res => { this.form.setValue({ selectedVehicles: res }) },
+				next: res => this.form.setValue({ selectedVehicles: res }),
 				error: () => this.isLoading.set(false),
 				complete: () => this.isLoading.set(false)
 			});

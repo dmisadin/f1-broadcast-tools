@@ -1,0 +1,32 @@
+.tyre-stint-comparison {
+    width: 1200px;
+    height: 400px;
+    background: black;
+    position: relative;
+    padding: 2em;
+}
+
+.car {
+    position: absolute;
+    width: 90%;
+    height: 100%;
+    bottom: 0;
+}
+
+.stints {
+    background: rgba(152, 152, 255, 0.5);
+    position: relative;
+    height: 90%;
+    width: 100%;
+    display: flex;
+    gap: 2px
+}
+
+.stint {
+    height: 2em;
+}
+
+.stint-bar {
+    width: 100%;
+    background: blueviolet;
+}
