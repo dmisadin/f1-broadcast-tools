@@ -1,0 +1,25 @@
+<h3 modal-header id="product-modal-title">Speed trap leaderboard</h3>
+
+<form class="" (ngSubmit)="onFormSubmit()" [formGroup]="form">
+    <section>
+        <label for="driver-select">Select drivers</label>
+        <ng-select
+            class="driver-select"
+            name="driver-select"
+            id="driver-select"
+            formControlName="selectedVehicles"
+            [items]="drivers()"
+            [multiple]="true"
+            [searchable]="true"
+            [clearable]="true"
+            bindLabel="label">
+        </ng-select>
+    </section>
+
+    <section class="form-buttons">
+        <button type="button" class="btn btn-secondary" (click)="onFormClear()"> Clear </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading() || form.invalid">
+            {{ isLoading() ? 'Loading' : 'Update' }}
+        </button>
+    </section>
+</form>
