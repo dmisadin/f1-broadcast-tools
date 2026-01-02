@@ -41,7 +41,7 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
         else if (sessionState?.State != null)
         {
             int spectatedCarIdx = sessionState.State.SpectatorCarIndex;
-            var spectatedAndFollowingVehicleIdxs = lapState.GetModelAndFollowingCarModel(spectatedCarIdx)?.Select(l => (int)l.CarPosition);
+            var spectatedAndFollowingVehicleIdxs = lapState.GetCarAndFollowingCarVehicleIdx(spectatedCarIdx);
 
             if (spectatedAndFollowingVehicleIdxs != null)
                 carIdxs.AddRange(spectatedAndFollowingVehicleIdxs);
@@ -51,6 +51,7 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
 
 
         var selectedVehicleSessionHistories = sessionHistoryState.GetModels(carIdxs);
+        int currentLap = lapState.GetLeadingLapNumber();
 
         return selectedVehicleSessionHistories.Select(v => new TyreStintComparison
         {
@@ -58,16 +59,17 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
             TyreStints = v.TyreStintHistoryDetails.Select((t, index) =>
                 {
                     var previousStint = v.TyreStintHistoryDetails.ElementAtOrDefault(index - 1);
-                    byte duration = previousStint == null
-                        ? t.EndLap
-                        : (byte)(t.EndLap - previousStint.EndLap);
+                    byte? endLap = t.EndLap == byte.MaxValue ? null : t.EndLap;
+                    int duration = previousStint == null
+                        ? (endLap ?? currentLap)
+                        : (endLap ?? currentLap) - previousStint.EndLap;
                     byte totalLaps = sessionState?.State?.TotalLaps ?? 1;
 
                     return new TyreStint
                     {
                         TyreCompound = t.TyreVisualCompound.ToString().ToLower(),
-                        EndLap = t.EndLap,
-                        Duration = duration,
+                        EndLap = endLap,
+                        Duration = (byte)duration,
                         SizePercentage = (byte)(duration * 100 / totalLaps)
                     };
                 })

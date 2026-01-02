@@ -81,5 +81,31 @@ namespace F1GameDataParser.State
 
             return result;
         }
+
+        public List<int>? GetCarAndFollowingCarVehicleIdx(int vehicleIdx)
+        {
+            if (State == null || !State.ContainsKey(vehicleIdx))
+                return null;
+
+            var driverLapData = State.GetValueOrDefault(vehicleIdx);
+
+            if (driverLapData == null)
+                return null;
+
+            var carPosition = driverLapData.CarPosition;
+            var result = new List<int> { vehicleIdx };
+            var followingVehicleIdx = GetVehicleIdxAtPosition(carPosition + 1);
+
+            if (followingVehicleIdx != null)
+                result.Add(followingVehicleIdx.Value);
+
+            return result;
+        }
+
+        public int GetLeadingLapNumber()
+        {
+            var firstPlaceDriver = GetModelAtPosition(1);
+            return firstPlaceDriver?.CurrentLapNum ?? 0;
+        }
     }
 }
