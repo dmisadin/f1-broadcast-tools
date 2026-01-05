@@ -2,14 +2,17 @@
     @for (car of cars(); track car.driver.vehicleIdx)
     {
     <div class="car" 
-        [style.height.em]="(cars().length - $index + 1) * 4" 
+        [style.height.em]="(cars().length - $index + 1) * 2" 
         [style.z-index]="$index" 
         [style.width.%]="car.totalSizePercentage">
-        <div class="stints">
+        <div class="stints" [style.border-width]="$index ? '0' : '1px'">
             @for (stint of car.tyreStints; track $index) 
             {
-            <div class="stint" [style.width.%]="stint.sizePercentage">
-                <div class="stint-bar" [style.background]="stint.tyreColor"> {{stint.duration}} - dur:{{stint.sizePercentage}} </div>
+            <div class="stint" 
+                [style.width.%]="stint.sizePercentage"
+                [style.flex-grow]="$index ? 0 : 1"
+                [style.border-width]="$index == car.tyreStints.length - 1 ? '0' : '1px'">
+                <div class="stint-bar" [style.background]="stint.tyreColor"> {{stint.duration}} </div>
             </div>
             }
         </div>

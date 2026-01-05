@@ -7,10 +7,11 @@ import { SpeedTrapLeaderboardModel } from '../../../shared/models/speed-trap-lea
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { LookupDto } from '../../../shared/models/common';
+import { RouterLink } from "@angular/router";
 
 @Component({
 	selector: 'speed-trap-leaderboard-form',
-	imports: [CommonModule, ReactiveFormsModule, NgSelectComponent],
+	imports: [CommonModule, ReactiveFormsModule, NgSelectComponent, RouterLink],
 	templateUrl: './speed-trap-leaderboard-form.component.html',
 	styleUrl: './speed-trap-leaderboard-form.component.css'
 })

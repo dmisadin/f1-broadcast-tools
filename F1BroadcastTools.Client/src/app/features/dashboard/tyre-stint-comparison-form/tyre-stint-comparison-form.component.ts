@@ -6,10 +6,11 @@ import { DriverStateService } from '../../../shared/services/states/driver-state
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { LookupDto } from '../../../shared/models/common';
+import { RouterLink, RouterModule } from "@angular/router";
 
 @Component({
 	selector: 'tyre-stint-comparison-form',
-	imports: [CommonModule, ReactiveFormsModule, NgSelectComponent],
+	imports: [CommonModule, ReactiveFormsModule, NgSelectComponent, RouterLink, RouterModule],
 	templateUrl: './tyre-stint-comparison-form.component.html',
 	styleUrl: './tyre-stint-comparison-form.component.css'
 })

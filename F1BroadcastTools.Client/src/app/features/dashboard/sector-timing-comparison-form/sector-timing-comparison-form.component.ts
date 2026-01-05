@@ -6,10 +6,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TeamLogoComponent } from "../../../shared/components/game/team-logo/team-logo.component";
 import { GameYear } from '../../../shared/models/Enumerations';
 import { SectorTimingComparisonModel } from '../../../shared/models/sector-comparison.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
     selector: 'sector-timing-comparison-form',
-    imports: [FormsModule, NgSelectModule, ReactiveFormsModule, TeamLogoComponent],
+    imports: [FormsModule, NgSelectModule, ReactiveFormsModule, TeamLogoComponent, RouterLink],
     templateUrl: './sector-timing-comparison-form.component.html',
     styleUrl: './sector-timing-comparison-form.component.css'
 })

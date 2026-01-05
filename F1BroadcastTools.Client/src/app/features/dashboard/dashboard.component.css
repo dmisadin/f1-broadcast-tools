@@ -19,4 +19,10 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 2em;
+
+    * {
+        background-color: var(--color-bg-darker);
+        padding: 1em;
+        border-radius: 1em;
+    }
 }

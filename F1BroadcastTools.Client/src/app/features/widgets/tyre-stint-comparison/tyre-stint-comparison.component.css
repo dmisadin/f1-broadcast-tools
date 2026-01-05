@@ -14,19 +14,24 @@
 }
 
 .stints {
-    background: rgba(152, 152, 255, 0.5);
+    background: rgba(152, 152, 255, 0);
     position: relative;
     height: 90%;
     width: 100%;
     display: flex;
-    gap: 2px
+    gap: 2px;
+    border-left: dashed 1px white;
+    border-right: dashed 1px white;
 }
 
 .stint {
-    height: 2em;
+    height: 100%;
+    border-right: dashed 1px white;
 }
 
 .stint-bar {
     width: 100%;
     background: blueviolet;
+    color: black;
+    text-align: center;
 }
