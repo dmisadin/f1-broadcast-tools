@@ -1,9 +1,17 @@
 .tyre-stint-comparison {
-    width: 1200px;
-    height: 400px;
+    width: 80em;
+    height: fit-content;
     background: black;
     position: relative;
     padding: 2em;
+
+    display: flex;
+    gap: 1em;
+}
+
+.car-stints {
+    position: relative;
+    flex-grow: 1;
 }
 
 .car {
@@ -13,10 +21,19 @@
     bottom: 0;
 }
 
+.drivers {
+    display: flex;
+    flex-direction: column;
+}
+
+.driver {
+    height: 2em;
+}
+
 .stints {
     background: rgba(152, 152, 255, 0);
     position: relative;
-    height: 90%;
+    height: 100%;
     width: 100%;
     display: flex;
     gap: 2px;
