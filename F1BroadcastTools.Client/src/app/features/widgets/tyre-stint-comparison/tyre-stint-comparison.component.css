@@ -1,12 +1,12 @@
 .tyre-stint-comparison {
     width: 80em;
     height: fit-content;
-    background: black;
+    background: rgb(31, 10, 47);
     position: relative;
     padding: 2em;
 
     display: flex;
-    gap: 1em;
+    gap: 2em;
 }
 
 .car-stints {
@@ -42,6 +42,7 @@
 }
 
 .stint {
+    position: relative;
     height: 100%;
     border-right: dashed 1px white;
 }
@@ -51,4 +52,19 @@
     background: blueviolet;
     color: black;
     text-align: center;
+}
+
+.tyre {
+    position: relative;
+    z-index: 2;
+    left: -0.75em;
+    top: -1.35em;
+    height: 1.5em;
+    width: 1.5em;
+}
+
+.lap-number {
+    position: absolute;
+    bottom: -1.5em;
+    right: -0.35em;
 }

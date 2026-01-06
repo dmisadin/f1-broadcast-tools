@@ -5,11 +5,11 @@
         <div class="driver"> {{ car.driver.name }} </div>
         }
     </div>
-    <div class="car-stints" [style.height.em]="(cars().length + 1) * 2">
+    <div class="car-stints" [style.height.em]="cars().length * 2">
         @for (car of cars(); track car.driver.vehicleIdx)
         {
         <div class="car" 
-            [style.height.em]="(cars().length - $index + 1) * 2" 
+            [style.height.em]="(cars().length - $index) * 2" 
             [style.z-index]="$index" 
             [style.width.%]="car.totalSizePercentage">
             <div class="stints" [style.border-width]="$index ? '0' : '1px'">
@@ -19,7 +19,9 @@
                     [style.width.%]="stint.sizePercentage"
                     [style.flex-grow]="$index ? 0 : 1"
                     [style.border-width]="$index == car.tyreStints.length - 1 ? '0' : '1px'">
-                    <div class="stint-bar" [style.background]="stint.tyreColor"> {{stint.duration}} </div>
+                    <div class="stint-bar" [style.background]="stint.tyreColor"> {{ stint.duration }} </div>
+                    <img [src]="'/images/icons/tyres/' + stint.tyreCompound + '.svg'" [alt]="stint.tyreCompound" class="tyre">
+                    <span class="lap-number"> {{ stint.endLap }} </span>
                 </div>
                 }
             </div>
