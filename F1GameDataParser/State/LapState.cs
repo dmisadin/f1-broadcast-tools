@@ -102,7 +102,7 @@ namespace F1GameDataParser.State
             return result;
         }
 
-        public int GetLeadingLapNumber()
+        public byte GetLeadingLapNumber()
         {
             var firstPlaceDriver = GetModelAtPosition(1);
             return firstPlaceDriver?.CurrentLapNum ?? 0;

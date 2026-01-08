@@ -46,9 +46,9 @@ namespace F1GameDataParser.Controllers
         }
 
         [HttpGet("get-tyre-stint-comparison")]
-        public IList<TyreStintComparison>? GetTyreStintComparison()
+        public TyreStintComparison? GetTyreStintComparison()
         {
-            return tyreStintComparisonFactory.GenerateList();
+            return tyreStintComparisonFactory.Generate();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using F1GameDataParser.GameProfiles.F1Common.Constants;
+using F1GameDataParser.Models.SessionHistory;
 using F1GameDataParser.Services;
 using F1GameDataParser.State;
 using F1GameDataParser.State.WidgetStates;
@@ -27,7 +28,7 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
         this.driverOverrideService = driverOverrideService;
     }
 
-    public override List<TyreStintComparison>? GenerateList()
+    public override TyreStintComparison? Generate()
     {
         if (sessionHistoryState?.State == null) 
             return null;
@@ -52,31 +53,56 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
 
 
         var selectedVehicleSessionHistories = sessionHistoryState.GetModels(carIdxs);
-        int currentLap = lapState.GetLeadingLapNumber();
+        byte currentLap = lapState.GetLeadingLapNumber();
         byte totalLaps = sessionState?.State?.TotalLaps ?? 1;
 
-        return selectedVehicleSessionHistories.Select(v => new TyreStintComparison
+        var pitStopLapMarkers = new HashSet<byte> { 1 };
+
+        var cars = new List<CarTyreStints>();
+
+        foreach (var v in selectedVehicleSessionHistories)
+        {
+            var carTyreStints = new CarTyreStints
+            {
+                Driver = driverOverrideService.GetDriverBasicDetails(v.CarIdx),
+                TyreStints = new List<TyreStint>()
+            };
+
+            TyreStintHistoryDetails? previousStint = null;
+
+            foreach (var t in v.TyreStintHistoryDetails)
+            {
+                byte? endLap = t.EndLap == byte.MaxValue ? null : t.EndLap;
+
+                int duration = previousStint == null
+                    ? (endLap ?? currentLap)
+                    : (endLap ?? currentLap) - previousStint.EndLap;
+
+                pitStopLapMarkers.Add(endLap ?? currentLap);
+
+                carTyreStints.TyreStints.Add(new TyreStint
+                {
+                    TyreCompound = t.TyreVisualCompound.ToString().ToLower(),
+                    TyreColor = Tyres.Colors.GetValueOrDefault(t.TyreVisualCompound) ?? "#fff",
+                    EndLap = endLap,
+                    Duration = (byte)duration,
+                    SizePercentage = (byte)(duration * 100 / currentLap)
+                });
+
+                previousStint = t;
+            }
+
+            cars.Add(carTyreStints);
+        }
+
+        pitStopLapMarkers.Add(totalLaps);
+
+        return new TyreStintComparison
         {
             TotalLaps = totalLaps,
             TotalSizePercentage = (byte)Math.Ceiling(currentLap * 100.0 / totalLaps),
-            Driver = driverOverrideService.GetDriverBasicDetails(v.CarIdx),
-            TyreStints = v.TyreStintHistoryDetails.Select((t, index) =>
-                {
-                    var previousStint = v.TyreStintHistoryDetails.ElementAtOrDefault(index - 1);
-                    byte? endLap = t.EndLap == byte.MaxValue ? null : t.EndLap;
-                    int duration = previousStint == null
-                        ? (endLap ?? currentLap)
-                        : (endLap ?? currentLap) - previousStint.EndLap;
-
-                    return new TyreStint
-                    {
-                        TyreCompound = t.TyreVisualCompound.ToString().ToLower(),
-                        TyreColor = Tyres.Colors.GetValueOrDefault(t.TyreVisualCompound) ?? "#fff",
-                        EndLap = endLap,
-                        Duration = (byte)duration,
-                        SizePercentage = (byte)(duration * 100 / currentLap)
-                    };
-                })
-        }).ToList();
+            Cars = cars,
+            PitStopLapMarkers = pitStopLapMarkers.OrderBy(lap => lap).ToList()
+        };
     }
 }

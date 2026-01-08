@@ -4,7 +4,7 @@
     {
         public byte TotalLaps { get; set; }
         public byte TotalSizePercentage { get; set; }
-        public DriverBasicDetails? Driver { get; set; }
-        public IEnumerable<TyreStint> TyreStints { get; set; }
+        public IEnumerable<CarTyreStints> Cars { get; set; }
+        public IEnumerable<byte> PitStopLapMarkers { get; set; }= new List<byte> { 1 };
     }
 }
