@@ -1,4 +1,5 @@
-﻿using F1GameDataParser.GameProfiles.F1Common.Constants;
+﻿using F1GameDataParser.Enums;
+using F1GameDataParser.GameProfiles.F1Common.Constants;
 using F1GameDataParser.Models.SessionHistory;
 using F1GameDataParser.Services;
 using F1GameDataParser.State;
@@ -72,11 +73,24 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
 
             foreach (var t in v.TyreStintHistoryDetails)
             {
-                byte? endLap = t.EndLap == byte.MaxValue ? null : t.EndLap;
+                byte? endLap = t.EndLap == byte.MaxValue ? null : (byte)(t.EndLap + 1);
+
+                bool hasFinished = lapState.GetModel(v.CarIdx)?.ResultStatus != ResultStatus.Active;
+
+                if (endLap == null && hasFinished)
+                {
+                    endLap = v.LapHistoryDetails.Select((l, index) => new 
+                                                { 
+                                                    LapIndex = (byte)index, 
+                                                    l.LapTimeInMS 
+                                                })
+                                                .FirstOrDefault(l => l.LapTimeInMS == 0)
+                                                ?.LapIndex;
+                }
 
                 int duration = previousStint == null
                     ? (endLap ?? currentLap)
-                    : (endLap ?? currentLap) - previousStint.EndLap;
+                    : (endLap ?? currentLap) - (previousStint.EndLap + 1);
 
                 pitStopLapMarkers.Add(endLap ?? currentLap);
 
