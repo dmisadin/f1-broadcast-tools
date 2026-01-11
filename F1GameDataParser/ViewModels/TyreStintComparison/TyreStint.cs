@@ -7,8 +7,8 @@ namespace F1GameDataParser.ViewModels.TyreStintComparison
     {
         public string TyreCompound { get; set; } = string.Empty;
         public string TyreColor { get; set; } = Tyres.Colors.GetValueOrDefault(TyreCompoundVisual.Hard) ?? "#fff";
+        public byte StartLap { get; set; } = 1;
         public byte? EndLap { get; set; }
         public byte Duration { get; set; }
-        public byte SizePercentage { get; set; }
     }
 }

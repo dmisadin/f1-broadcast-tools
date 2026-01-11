@@ -2,7 +2,6 @@ import { DriverBasicDetails } from "./driver.model";
 
 export interface TyreStintComparison {
     totalLaps: number;
-    totalSizePercentage: number;
     cars: CarTyreStints[];
     pitStopLapMarkers: number[];
 }
@@ -10,9 +9,9 @@ export interface TyreStintComparison {
 export interface TyreStint {
     tyreCompound: string;
     tyreColor: string;
+    startLap: number;
     endLap: number | null;
     duration: number;
-    sizePercentage: number;
 }
 
 export interface CarTyreStints {

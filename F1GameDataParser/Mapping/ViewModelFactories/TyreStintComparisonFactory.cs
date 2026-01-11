@@ -87,20 +87,20 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
                                                 .FirstOrDefault(l => l.LapTimeInMS == 0)
                                                 ?.LapIndex;
                 }
-
+                byte endLapOrCurrentLap = endLap ?? currentLap;
                 int duration = previousStint == null
-                    ? (endLap ?? currentLap)
-                    : (endLap ?? currentLap) - (previousStint.EndLap + 1);
+                    ? endLapOrCurrentLap
+                    : endLapOrCurrentLap - (previousStint.EndLap + 1);
 
-                pitStopLapMarkers.Add(endLap ?? currentLap);
+                pitStopLapMarkers.Add(endLapOrCurrentLap);
 
                 carTyreStints.TyreStints.Add(new TyreStint
                 {
                     TyreCompound = t.TyreVisualCompound.ToString().ToLower(),
                     TyreColor = Tyres.Colors.GetValueOrDefault(t.TyreVisualCompound) ?? "#fff",
+                    StartLap = (byte)(endLapOrCurrentLap - duration + 1),
                     EndLap = endLap,
-                    Duration = (byte)duration,
-                    SizePercentage = (byte)(duration * 100 / currentLap)
+                    Duration = (byte)duration
                 });
 
                 previousStint = t;
@@ -114,7 +114,6 @@ public class TyreStintComparisonFactory : ViewModelFactoryBase<TyreStintComparis
         return new TyreStintComparison
         {
             TotalLaps = totalLaps,
-            TotalSizePercentage = (byte)Math.Ceiling(currentLap * 100.0 / totalLaps),
             Cars = cars,
             PitStopLapMarkers = pitStopLapMarkers.OrderBy(lap => lap).ToList()
         };

@@ -13,21 +13,18 @@
         @for (car of state.cars; track car.driver.vehicleIdx)
         {
         <div class="car" 
+            [style.grid-template-columns]="'repeat('+ state.totalLaps + ',1fr)'"
             [style.height.em]="(state.cars.length - $index) * 2" 
-            [style.z-index]="$index" 
-            [style.width.%]="state.totalSizePercentage">
-            <div class="stints" [style.border-width]="$index ? '0' : '1px'">
-                @for (stint of car.tyreStints; track $index) 
-                {
-                <div class="stint" 
-                    [style.width.%]="stint.sizePercentage"
-                    [style.flex-grow]="$index ? 0 : 1"
-                    [style.border-width]="$index == car.tyreStints.length - 1 ? '0' : '1px'">
-                    <div class="stint-bar" [style.background]="stint.tyreColor"> {{ stint.duration }} </div>
-                    <img [src]="'/images/icons/tyres/' + stint.tyreCompound + '.svg'" [alt]="stint.tyreCompound" class="tyre">
-                </div>
-                }
+            [style.z-index]="$index">
+            @for (stint of car.tyreStints; track $index) 
+            {
+            <div class="stint" 
+                [style.grid-column]="stint.startLap + '/' + 'span ' + stint.duration"
+                >
+                <div class="stint-bar" [style.background]="stint.tyreColor"> {{ stint.duration }} </div>
+                <img [src]="'/images/icons/tyres/' + stint.tyreCompound + '.svg'" [alt]="stint.tyreCompound" class="tyre">
             </div>
+            }
         </div>
         }
         <div class="pit-stop-lap-markers" [style.grid-template-columns]="'repeat('+ state.totalLaps + ',1fr)'">
