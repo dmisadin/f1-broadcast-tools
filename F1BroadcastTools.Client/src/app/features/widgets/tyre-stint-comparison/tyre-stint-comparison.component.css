@@ -1,3 +1,24 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0 2em;
+    width: 90%;
+    margin-left: 1em;
+
+    td {
+        text-align: center;
+        color: black;
+    }
+    tr td {
+        padding-bottom: 1em;
+    }
+}
+
+.dashed-border {
+    border-right: dashed 1px white;
+}
+
+
+
 .tyre-stint-comparison {
     width: 80em;
     height: fit-content;
