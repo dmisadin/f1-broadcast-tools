@@ -3,10 +3,11 @@ import { RestService } from '../../../core/services/rest.service';
 import { GameYear } from '../../../shared/models/Enumerations';
 import { WidgetBaseComponent } from '../widget-base.component';
 import { TyreStintComparison } from '../../../shared/models/tyre-stint-comparison.model';
+import { TeamLogoComponent } from "../../../shared/components/game/team-logo/team-logo.component";
 
 @Component({
 	selector: 'tyre-stint-comparison',
-	imports: [],
+	imports: [TeamLogoComponent],
 	templateUrl: './tyre-stint-comparison.component.html',
 	styleUrl: './tyre-stint-comparison.component.css'
 })
@@ -24,7 +25,6 @@ export class TyreStintComparisonComponent extends WidgetBaseComponent<TyreStintC
 		}
 		return totalLaps;
 	});
-	GameYear = GameYear;
 
 	ngOnInit(): void {
 		this.restService.get<TyreStintComparison>("/static-widget/get-tyre-stint-comparison")

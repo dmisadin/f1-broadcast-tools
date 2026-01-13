@@ -9,14 +9,21 @@
 
         @for (car of state.cars; track car.driver.vehicleIdx; let carIndex = $index)
         {
-            <div class="driver" [style.grid-column]="1"> {{ car.driver.name }} </div>
+            <div class="driver" [style.grid-column]="1"> 
+                <team-logo [team]="car.driver.teamDetails?.id" [game]="car.driver.teamDetails?.gameYear"></team-logo>
+                {{ car.driver.name }} 
+            </div>
 
             @for (stint of car.tyreStints; track $index) 
             {
+            @let teamColor = car.driver.teamDetails?.primaryColor;
             <div class="stint" 
+                [style.background]="'linear-gradient(to bottom, '+ teamColor +'55 0%, ' + teamColor +'00 100%)'"
                 [style.grid-column]="(stint.startLap + 1) + '/' + 'span ' + stint.duration"
                 [style.grid-row]="(carIndex + 1) + '/' + (state.cars.length + 1)">
-                <div class="stint-bar" [style.background]="stint.tyreColor"> {{ stint.duration }} </div>
+                <div class="stint-bar" [class.loader]="!stint.endLap" [style.background-color]="stint.tyreColor">
+                    {{ stint.duration }}
+                </div>
                 <img [src]="'/images/icons/tyres/' + stint.tyreCompound + '.svg'" [alt]="stint.tyreCompound" class="tyre">
             </div>
             }

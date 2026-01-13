@@ -1,7 +1,7 @@
 .tyre-stint-comparison {
     width: 80em;
     height: fit-content;
-    background: rgb(31, 10, 47);
+    background: rgba(0, 0, 0, 0.9);
     position: relative;
     padding: 2em;
 
@@ -20,7 +20,14 @@
 }
 
 .driver {
+    max-height: 1em;
     padding-right: 1em;
+
+    display: grid;
+    grid-template-columns: 2em auto;
+    grid-template-rows: 1em;
+    gap: .5em;
+    align-items: center;
 }
 
 .stints {
@@ -66,4 +73,37 @@
 .lap-marker:first-of-type {
     text-align: left;
     left: -0.25em;
+}
+
+.loader {
+    --loader-opacity: 0.1;
+
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, var(--loader-opacity)) 25%, 
+                                    transparent 25%, 
+                                    transparent 50%, 
+                                    rgba(0, 0, 0, var(--loader-opacity)) 50%, 
+                                    rgba(0, 0, 0, var(--loader-opacity)) 75%, 
+                                    transparent 75%, 
+                                    transparent);
+    background-size: 1em 1em;
+    box-sizing: border-box;
+    animation: barStripe 1s linear infinite;
+}
+
+@keyframes barStripe {
+    0% {
+        background-position: -1em 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.stint-duration {
+    position: relative;
+    z-index: 2;
 }
