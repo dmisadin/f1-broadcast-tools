@@ -3,36 +3,34 @@
 @if (state != null) 
 {
 <div class="tyre-stint-comparison">
-    <div class="drivers">
-        @for (car of state.cars; track car.driver.vehicleIdx)
+    <div class="car-stints"
+        [style.grid-template-rows]="'repeat(' + state.cars.length + ',1fr) 1em'"
+        [style.grid-template-columns]="'auto repeat(' + state.totalLaps + ',1fr)'">
+
+        @for (car of state.cars; track car.driver.vehicleIdx; let carIndex = $index)
         {
-        <div class="driver"> {{ car.driver.name }} </div>
-        }
-    </div>
-    <div class="car-stints" [style.height.em]="state.cars.length * 2">
-        @for (car of state.cars; track car.driver.vehicleIdx)
-        {
-        <div class="car" 
-            [style.grid-template-columns]="'repeat('+ state.totalLaps + ',1fr)'"
-            [style.height.em]="(state.cars.length - $index) * 2" 
-            [style.z-index]="$index">
+            <div class="driver" [style.grid-column]="1"> {{ car.driver.name }} </div>
+
             @for (stint of car.tyreStints; track $index) 
             {
             <div class="stint" 
-                [style.grid-column]="stint.startLap + '/' + 'span ' + stint.duration"
-                >
+                [style.grid-column]="(stint.startLap + 1) + '/' + 'span ' + stint.duration"
+                [style.grid-row]="(carIndex + 1) + '/' + (state.cars.length + 1)">
                 <div class="stint-bar" [style.background]="stint.tyreColor"> {{ stint.duration }} </div>
                 <img [src]="'/images/icons/tyres/' + stint.tyreCompound + '.svg'" [alt]="stint.tyreCompound" class="tyre">
             </div>
             }
-        </div>
         }
-        <div class="pit-stop-lap-markers" [style.grid-template-columns]="'repeat('+ state.totalLaps + ',1fr)'">
-            @for (marker of state.pitStopLapMarkers; track $index) 
-            {
-            <span class="lap-marker" [style.grid-column]="marker + '/' + (marker + 1)"> {{ marker }} </span>   
-            }
-        </div>
+
+        @for (marker of state.pitStopLapMarkers; track $index) 
+        {
+        <span class="lap-marker" 
+            [style.grid-row]="state.cars.length + 1"
+            [style.grid-column]="(marker + 1) + '/' + (marker + 2)"> 
+            {{ marker }} 
+        </span>   
+        }
+
     </div>
 
 </div>

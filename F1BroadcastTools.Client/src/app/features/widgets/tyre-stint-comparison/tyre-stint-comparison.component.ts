@@ -14,6 +14,16 @@ export class TyreStintComparisonComponent extends WidgetBaseComponent<TyreStintC
 	private restService = inject(RestService);
 
 	state = signal<TyreStintComparison | null>(null);
+	doesLapHavePitStop = computed(() => {
+		let totalLaps: boolean[] = [];
+		let state = this.state();
+		if (!state) return totalLaps;
+
+		for (let i = 0; i < state.totalLaps; i++) {
+			totalLaps.push(!!state.pitStopLapMarkers.find(lap => lap === i + 1));
+		}
+		return totalLaps;
+	});
 	GameYear = GameYear;
 
 	ngOnInit(): void {

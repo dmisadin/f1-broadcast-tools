@@ -12,24 +12,15 @@
 .car-stints {
     position: relative;
     flex-grow: 1;
-}
-
-.car {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    bottom: 0;
 
     display: grid;
-}
+    grid-template-columns: 1fr;
 
-.drivers {
-    display: flex;
-    flex-direction: column;
+    border-right: dashed 1px white;
 }
 
 .driver {
-    height: 2em;
+    padding-right: 1em;
 }
 
 .stints {
@@ -66,19 +57,13 @@
     width: 1.5em;
 }
 
-.pit-stop-lap-markers {
-    position: absolute;
-    bottom: -1.5em;
-    right: -0.5em;
-
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    width: 100%;
-    
+.lap-marker {
+    position: relative;
+    right: -0.5ch;
     text-align: right;
 }
 
-.lap-marker:first-child {
+.lap-marker:first-of-type {
     text-align: left;
-    right: 0.5em;
+    left: -0.25em;
 }
