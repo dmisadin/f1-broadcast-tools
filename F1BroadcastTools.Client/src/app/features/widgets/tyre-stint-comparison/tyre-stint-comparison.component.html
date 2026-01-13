@@ -4,7 +4,7 @@
 {
 <div class="tyre-stint-comparison">
     <div class="car-stints"
-        [style.grid-template-rows]="'repeat(' + state.cars.length + ',1fr) 1em'"
+        [style.grid-template-rows]="'repeat(' + state.cars.length + ',3em) 1em'"
         [style.grid-template-columns]="'auto repeat(' + state.totalLaps + ',1fr)'">
 
         @for (car of state.cars; track car.driver.vehicleIdx; let carIndex = $index)
@@ -18,7 +18,7 @@
             {
             @let teamColor = car.driver.teamDetails?.primaryColor;
             <div class="stint" 
-                [style.background]="'linear-gradient(to bottom, '+ teamColor +'55 0%, ' + teamColor +'00 100%)'"
+                [style.background]="'linear-gradient(to bottom, '+ teamColor +'55 0%, ' + teamColor +'00 4em)'"
                 [style.grid-column]="(stint.startLap + 1) + '/' + 'span ' + stint.duration"
                 [style.grid-row]="(carIndex + 1) + '/' + (state.cars.length + 1)">
                 <div class="stint-bar" [class.loader]="!stint.endLap" [style.background-color]="stint.tyreColor">

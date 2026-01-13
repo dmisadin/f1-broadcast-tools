@@ -4,9 +4,6 @@
     background: rgba(0, 0, 0, 0.9);
     position: relative;
     padding: 2em;
-
-    display: flex;
-    gap: 2em;
 }
 
 .car-stints {
@@ -16,12 +13,12 @@
     display: grid;
     grid-template-columns: 1fr;
 
-    border-right: dashed 1px white;
+    border-right: dashed 1px rgba(255, 255, 255, 0.5);
 }
 
 .driver {
     max-height: 1em;
-    padding-right: 1em;
+    padding-right: 1.5em;
 
     display: grid;
     grid-template-columns: 2em auto;
@@ -56,12 +53,12 @@
 }
 
 .tyre {
-    position: relative;
+    position: absolute;
     z-index: 2;
-    left: -0.75em;
-    top: -1.35em;
-    height: 1.5em;
-    width: 1.5em;
+    left: -1em;
+    top: -0.5em;
+    height: 2em;
+    width: 2em;
 }
 
 .lap-marker {
