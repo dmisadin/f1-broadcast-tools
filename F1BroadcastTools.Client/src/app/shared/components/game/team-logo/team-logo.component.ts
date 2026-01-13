@@ -1,4 +1,4 @@
-import { Component, input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { GameYear, Team } from '../../../models/Enumerations';
 import { F123TeamLogoComponent } from "../f1-23/f1-23-team-logo/f1-23-team-logo.component";
 import { F125TeamLogoComponent } from '../f1-25/f1-25-team-logo/f1-25-team-logo.component';
@@ -13,7 +13,7 @@ import { F125TeamLogoComponent } from '../f1-25/f1-25-team-logo/f1-25-team-logo.
 export class TeamLogoComponent {
     team = input<Team>();
     color = input<string>();
-    game = input<GameYear>(GameYear.F123);
+    game = input<GameYear | undefined>(GameYear.F125);
 
     GameYear = GameYear;
 }
