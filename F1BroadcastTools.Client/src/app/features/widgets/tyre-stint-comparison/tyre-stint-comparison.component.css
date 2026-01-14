@@ -1,0 +1,106 @@
+.tyre-stint-comparison {
+    width: 80em;
+    height: fit-content;
+    background: rgba(0, 0, 0, 0.9);
+    position: relative;
+    padding: 2em;
+}
+
+.car-stints {
+    position: relative;
+    flex-grow: 1;
+
+    display: grid;
+    grid-template-columns: 1fr;
+
+    border-right: dashed 1px rgba(255, 255, 255, 0.5);
+}
+
+.driver {
+    max-height: 1em;
+    padding-right: 1.5em;
+
+    display: grid;
+    grid-template-columns: 2em auto;
+    grid-template-rows: 1em;
+    gap: .5em;
+    align-items: center;
+}
+
+.stints {
+    background: rgba(152, 152, 255, 0);
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    gap: 2px;
+    border-left: dashed 1px white;
+    border-right: dashed 1px white;
+}
+
+.stint {
+    position: relative;
+    height: 100%;
+    border-left: dashed 1px white;
+    border-right: dashed 1px white;
+}
+
+.stint-bar {
+    width: 100%;
+    background: blueviolet;
+    color: black;
+    text-align: center;
+}
+
+.tyre {
+    position: absolute;
+    z-index: 2;
+    left: -1em;
+    top: -0.5em;
+    height: 2em;
+    width: 2em;
+}
+
+.lap-marker {
+    position: relative;
+    right: -0.5ch;
+    text-align: right;
+}
+
+.lap-marker:first-of-type {
+    text-align: left;
+    left: -0.25em;
+}
+
+.loader {
+    --loader-opacity: 0.1;
+
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, var(--loader-opacity)) 25%, 
+                                    transparent 25%, 
+                                    transparent 50%, 
+                                    rgba(0, 0, 0, var(--loader-opacity)) 50%, 
+                                    rgba(0, 0, 0, var(--loader-opacity)) 75%, 
+                                    transparent 75%, 
+                                    transparent);
+    background-size: 1em 1em;
+    box-sizing: border-box;
+    animation: barStripe 1s linear infinite;
+}
+
+@keyframes barStripe {
+    0% {
+        background-position: -1em 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.stint-duration {
+    position: relative;
+    z-index: 2;
+}

@@ -61,5 +61,51 @@ namespace F1GameDataParser.State
         {
             return State?.FirstOrDefault(l => l.Value.CarPosition == position).Key;
         }
+
+        public List<LapDetails>? GetModelAndFollowingCarModel(int vehicleIdx)
+        {
+            if (State == null || !State.ContainsKey(vehicleIdx))
+                return null;
+
+            var driverLapData = State.GetValueOrDefault(vehicleIdx);
+
+            if (driverLapData == null)
+                return null;
+
+            var carPosition = driverLapData.CarPosition;
+            var result = new List<LapDetails> { driverLapData };
+            var followingDriverLapData = GetModelAtPosition(carPosition + 1);
+
+            if (followingDriverLapData != null)
+                result.Add(followingDriverLapData);
+
+            return result;
+        }
+
+        public List<int>? GetCarAndFollowingCarVehicleIdx(int vehicleIdx)
+        {
+            if (State == null || !State.ContainsKey(vehicleIdx))
+                return null;
+
+            var driverLapData = State.GetValueOrDefault(vehicleIdx);
+
+            if (driverLapData == null)
+                return null;
+
+            var carPosition = driverLapData.CarPosition;
+            var result = new List<int> { vehicleIdx };
+            var followingVehicleIdx = GetVehicleIdxAtPosition(carPosition + 1);
+
+            if (followingVehicleIdx != null)
+                result.Add(followingVehicleIdx.Value);
+
+            return result;
+        }
+
+        public byte GetLeadingLapNumber()
+        {
+            var firstPlaceDriver = GetModelAtPosition(1);
+            return firstPlaceDriver?.CurrentLapNum ?? 0;
+        }
     }
 }

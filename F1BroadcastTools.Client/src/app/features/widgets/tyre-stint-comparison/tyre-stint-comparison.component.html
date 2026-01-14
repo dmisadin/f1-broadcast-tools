@@ -1,0 +1,44 @@
+@let state = this.state();
+
+@if (state != null) 
+{
+<div class="tyre-stint-comparison">
+    <div class="car-stints"
+        [style.grid-template-rows]="'repeat(' + state.cars.length + ',3em) 1em'"
+        [style.grid-template-columns]="'auto repeat(' + state.totalLaps + ',1fr)'">
+
+        @for (car of state.cars; track car.driver.vehicleIdx; let carIndex = $index)
+        {
+            <div class="driver" [style.grid-column]="1"> 
+                <team-logo [team]="car.driver.teamDetails?.id" [game]="car.driver.teamDetails?.gameYear"></team-logo>
+                {{ car.driver.name }} 
+            </div>
+
+            @for (stint of car.tyreStints; track $index) 
+            {
+            @let teamColor = car.driver.teamDetails?.primaryColor;
+            <div class="stint" 
+                [style.background]="'linear-gradient(to bottom, '+ teamColor +'55 0%, ' + teamColor +'00 4em)'"
+                [style.grid-column]="(stint.startLap + 1) + '/' + 'span ' + stint.duration"
+                [style.grid-row]="(carIndex + 1) + '/' + (state.cars.length + 1)">
+                <div class="stint-bar" [class.loader]="!stint.endLap" [style.background-color]="stint.tyreColor">
+                    {{ stint.duration }}
+                </div>
+                <img [src]="'/images/icons/tyres/' + stint.tyreCompound + '.svg'" [alt]="stint.tyreCompound" class="tyre">
+            </div>
+            }
+        }
+
+        @for (marker of state.pitStopLapMarkers; track $index) 
+        {
+        <span class="lap-marker" 
+            [style.grid-row]="state.cars.length + 1"
+            [style.grid-column]="(marker + 1) + '/' + (marker + 2)"> 
+            {{ marker }} 
+        </span>   
+        }
+
+    </div>
+
+</div>
+}

@@ -3,19 +3,18 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
 import { GameYear } from '../../../shared/models/Enumerations';
 import { RestService } from '../../../core/services/rest.service';
 import { DriverStateService } from '../../../shared/services/states/driver-state.service';
-import { SpeedTrapLeaderboardModel } from '../../../shared/models/speed-trap-leaderboard.model';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { CommonModule } from '@angular/common';
 import { LookupDto } from '../../../shared/models/common';
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterModule } from "@angular/router";
 
 @Component({
-	selector: 'speed-trap-leaderboard-form',
-	imports: [CommonModule, ReactiveFormsModule, NgSelectComponent, RouterLink],
-	templateUrl: './speed-trap-leaderboard-form.component.html',
-	styleUrl: './speed-trap-leaderboard-form.component.css'
+	selector: 'tyre-stint-comparison-form',
+	imports: [CommonModule, ReactiveFormsModule, NgSelectComponent, RouterLink, RouterModule],
+	templateUrl: './tyre-stint-comparison-form.component.html',
+	styleUrl: './tyre-stint-comparison-form.component.css'
 })
-export class SpeedTrapLeaderboardFormComponent implements OnInit {
+export class TyreStintComparisonFormComponent implements OnInit {
 	form: FormGroup;
 	isLoading = signal(false);
 	drivers = computed(() => Object.entries(this.driverState.driversSignal()).map(([k, v]) => ({
@@ -25,11 +24,11 @@ export class SpeedTrapLeaderboardFormComponent implements OnInit {
 		gameYear: v.teamDetails?.gameYear
 	})));
 	GameYear = GameYear;
-	constructor(
-		private restService: RestService,
+
+	constructor (private restService: RestService,
 		private formBuilder: FormBuilder,
-		private driverState: DriverStateService
-	) {	}
+		private driverState: DriverStateService) 
+	{ }
 
 	ngOnInit(): void {
 		this.form = this.formBuilder.group({
@@ -37,19 +36,9 @@ export class SpeedTrapLeaderboardFormComponent implements OnInit {
 		});
 
 		this.isLoading.set(true);
-		this.restService.get<SpeedTrapLeaderboardModel | null>("/widget-state/get-speed-trap-leaderboard-model")
+		this.restService.get<LookupDto[]>("/widget-state/get-tyre-stint-comparison-lookup")
 			.subscribe({
-				next: res => {
-					if (!res?.selectedVehicles) return;
-
-					const selectedLookups = res.selectedVehicles.map(idx => (
-						{
-							id: idx,
-							label: this.drivers().find(d => Number(d.id) == idx)?.label || ""
-						}));
-
-					this.form.setValue({ selectedVehicles: selectedLookups });
-				},
+				next: res => this.form.setValue({ selectedVehicles: res }),
 				error: () => this.isLoading.set(false),
 				complete: () => this.isLoading.set(false)
 			});
@@ -59,7 +48,7 @@ export class SpeedTrapLeaderboardFormComponent implements OnInit {
 		const selectedVehicles = this.form.value.selectedVehicles.map((lookup: LookupDto) => Number(lookup.id));
 
 		this.isLoading.set(true);
-		this.restService.post("/widget-state/update-speed-trap-leaderboard", { selectedVehicles: selectedVehicles }).subscribe(() => {
+		this.restService.post("/widget-state/update-tyre-stint-comparison", selectedVehicles ).subscribe(() => {
 			this.isLoading.set(false);
 		});
 	}

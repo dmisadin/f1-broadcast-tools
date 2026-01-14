@@ -5,7 +5,7 @@ namespace F1GameDataParser.GameProfiles.F1Common.Constants
     public record TrackDetails(Track Id, string Name, int minX, int maxX, int minZ, int maxZ, int? rotation = null);
     public static class Tracks
     {
-        // Should move to DB with primary key (GameYear, TrackId)
+        // Should move to DB with primary key (GameYear, TrackId), add "Venue" for better support with multiple track layouts
         // Or make instance per game, like Teams
         public static readonly Dictionary<Track, TrackDetails> AllTracks = new Dictionary<Track, TrackDetails>
         {

@@ -1,6 +1,8 @@
-<h3 modal-header id="product-modal-title">Sector timing comparison</h3>
-
 <form class="select-overlay-form" (ngSubmit)="onFormSubmit()" [formGroup]="form">
+    <h3 modal-header id="product-modal-title">
+        <a routerLink="/widgets/sector-timing-comparison">Sector Timing Comparison</a>
+    </h3>
+
     <section>
         <label for="driver-select">Select driver</label>
         <ng-select class="driver-select" name="driver-select" id="driver-select"

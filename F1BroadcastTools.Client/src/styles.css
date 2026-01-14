@@ -22,7 +22,7 @@ body {
     color: var(--color-text);
 }
 
-body:has(timing-tower, stopwatch-list, minimap, halo-hud, stopwatch-spectated, weather-forecast) {
+body:has(timing-tower, stopwatch-list, minimap, halo-hud, stopwatch-spectated, weather-forecast, tyre-stint-comparison) {
     background-color: transparent;
 }
 

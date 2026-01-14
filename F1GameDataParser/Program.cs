@@ -53,6 +53,7 @@ builder.Services.AddSingleton<DriversOnFlyingLapState>();
 builder.Services.AddSingleton<FastestSectorTimeState>();
 builder.Services.AddSingleton<SectorTimingComparisonState>();
 builder.Services.AddSingleton<SpeedTrapLeaderboardState>();
+builder.Services.AddSingleton<TyreStintComparisonState>();
 
 builder.Services.AddTransient<TimingTowerFactory>();
 builder.Services.AddTransient<MinimapFactory>();
@@ -62,6 +63,7 @@ builder.Services.AddTransient<WeatherForecastFactory>();
 builder.Services.AddTransient<SectorTimingComparisonFactory>();
 builder.Services.AddTransient<SpeedDifferenceFactory>();
 builder.Services.AddTransient<SpeedTrapLeaderboardFactory>();
+builder.Services.AddTransient<TyreStintComparisonFactory>();
 builder.Services.AddTransient<DriverOverrideService>(); 
 builder.Services.AddTransient<DriverDetailService>();
 

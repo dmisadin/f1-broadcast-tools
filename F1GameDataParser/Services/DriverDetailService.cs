@@ -1,4 +1,5 @@
-﻿using F1GameDataParser.Enums;
+﻿using F1GameDataParser.Database.Dtos;
+using F1GameDataParser.Enums;
 using F1GameDataParser.GameProfiles.F1Common.Utility;
 using F1GameDataParser.State;
 using F1GameDataParser.ViewModels;
@@ -33,6 +34,26 @@ namespace F1GameDataParser.Services
                                     TeamDetails = GameSpecifics.GetTeamDetails(gameYear, driver.TeamId),
                                     Name = driverOverrideState.GetModel(index)?.Player?.Name ?? driver.Name ?? $"Driver #{driver.RaceNumber}",
                                 });
+        }
+
+        public List<LookupDto> GetDriverLookupDto(IEnumerable<int> vehicleIdxs)
+        {
+            return vehicleIdxs.Select(v => new LookupDto
+            {
+                Id = v,
+                Label = GetDriverName(v),
+            }).ToList();
+        }
+
+        public string GetDriverName(int vehicleIdx)
+        {
+            var driverName = driverOverrideState.GetModel(vehicleIdx)?.Player.Name;
+            if (driverName != null)
+                return driverName;
+
+            var participant = participantsState?.State?.ParticipantList?.ElementAtOrDefault(vehicleIdx);
+
+            return participant?.Name ?? $"Driver #{participant?.RaceNumber}";
         }
     }
 }
