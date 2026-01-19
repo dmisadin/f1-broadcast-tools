@@ -13,7 +13,9 @@ namespace F1GameDataParser.GameProfiles.F123.ModelFactories
             {
                 Header = HeaderExpressionCompiled.Invoke(packet.header),
                 NumCars = packet.numCars,
-                Details = packet.classificationDetails.Select(result => new FinalClassificationDetails
+                Details = packet.classificationDetails
+                    .Take(packet.numCars)
+                    .Select(result => new FinalClassificationDetails
                     {
                         Position = result.position,
                         NumLaps = result.numLaps,
