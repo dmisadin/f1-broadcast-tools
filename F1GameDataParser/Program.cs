@@ -40,6 +40,7 @@ builder.Services.AddSingleton<LapState>();
 builder.Services.AddSingleton<SessionHistoryState>();
 builder.Services.AddSingleton<CarDamageState>();
 builder.Services.AddSingleton<LobbyInfoState>();
+builder.Services.AddSingleton<FinalClassificationState>();
 
 builder.Services.AddSingleton<DriverDetailsBroadcastService>();
 

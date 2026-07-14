@@ -2,7 +2,7 @@
 
 namespace F1GameDataParser.Models.FinalClassification
 {
-    public class FinalClassificationDetails
+    public class FinalClassificationDetails : MergeableBase<FinalClassificationDetails>
     {
         public byte Position { get; set; }
         public byte NumLaps { get; set; }
